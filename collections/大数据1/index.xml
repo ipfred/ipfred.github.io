@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>大数据1 - 合集 | Fred的知识库</title>
+    <link>https://ipfred.github.io/collections/%E5%A4%A7%E6%95%B0%E6%8D%AE1/</link>
+    <description>大数据1 - 合集 | Fred的知识库</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Sat, 20 Apr 2024 20:14:22 &#43;0800</lastBuildDate><atom:link href="https://ipfred.github.io/collections/%E5%A4%A7%E6%95%B0%E6%8D%AE1/" rel="self" type="application/rss+xml" /><item>
+  <title>spark简单介绍</title>
+  <link>https://ipfred.github.io/bigdata/spark/spark%E5%85%A5%E9%97%A8/</link>
+  <pubDate>Sat, 20 Apr 2024 20:14:22 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>https://ipfred.github.io/bigdata/spark/spark%E5%85%A5%E9%97%A8/</guid>
+  <description><![CDATA[<h2 id="apache-spark" class="heading-element">
+  <a href="#apache-spark" class="heading-mark"></a>1 Apache Spark</h2><ul>
+<li>A Unified engine for large-scale data analytics
+Apache Spark is a unified analytics engine for large-scale data processing. It provides high-level APIs in Java, Scala, Python and R, and an optimized engine that supports general execution graphs. It also supports a rich set of higher-level tools including Spark SQL for SQL and structured data processing, pandas API on Spark for pandas workloads, MLlib for machine learning, GraphX for graph processing, and Structured Streaming for incremental computation and stream processing.</li>
+</ul>
+<h2 id="downloading" class="heading-element">
+  <a href="#downloading" class="heading-mark"></a>2 Downloading</h2><p>Get Spark from the downloads page of the project website. This documentation is for Spark version 3.5.1. Spark uses Hadoop’s client libraries for HDFS and YARN. Downloads are pre-packaged for a handful of popular Hadoop versions. Users can also download a “Hadoop free” binary and run Spark with any Hadoop version by augmenting Spark’s classpath. Scala and Java users can include Spark in their projects using its Maven coordinates and Python users can install Spark from PyPI.</p>
+<p>If you’d like to build Spark from source, visit Building Spark.</p>
+]]></description>
+</item>
+</channel>
+</rss>

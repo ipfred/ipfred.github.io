@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>大数据 on Fred的知识库</title>
+    <link>https://ipfred.github.io/bigdata/</link>
+    <description>Recent content in 大数据 on Fred的知识库</description>
+    <generator>Hugo 0.125.1</generator>
+    <language>zh-CN</language>
+    <managingEditor>330446875@qq.com (Fred)</managingEditor>
+    <webMaster>330446875@qq.com (Fred)</webMaster>
+    <copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright>
+    <atom:link href="https://ipfred.github.io/bigdata/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HDFS文件读写过程</title>
+      <link>https://ipfred.github.io/bigdata/hadoop/a9bc224/</link>
+      <pubDate>Wed, 24 Apr 2024 10:22:48 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/bigdata/hadoop/a9bc224/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>hadoop命令行的使用</title>
+      <link>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Tue, 23 Apr 2024 22:01:01 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <description>1 HDFS 的命令行使用如果没有配置 hadoop 的环境变量，则在 hadoop 的安装目录下的bin目录中执行以下命令，如已配置 hadoop 环境变量，则可在任意目录下执行 help 1 2 格式: hdfs dfs -help 操作命令 作用: 查看某一个操作命令的参数信息 ls 1 2 格式：hdfs dfs -ls URI 作用：类似于Linux的ls命令，显示文件列表 lsr 1 2 格式 : hdfs dfs -lsr URI 作用 : 在整个目录下递</description>
+    </item>
+    <item>
+      <title>Hadoop概览</title>
+      <link>https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</link>
+      <pubDate>Tue, 23 Apr 2024 20:01:01 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</guid>
+      <description>HDFS HDFS概述 Hadoop 分布式系统框架中，首要的基础功能就是文件系统，在 Hadoop 中使用 FileSystem 这个抽象类来表示我们的文件系统，这个抽象类下面有很多子实现类，究竟使用哪一种，需要看我们具体的实现类，在我们实际工作中，用到的最多的就是HDFS(分布式文件系统)以及LocalFileSystem(本地文件系统)了。 在现代的企</description>
+    </item>
+    <item>
+      <title>spark简单介绍</title>
+      <link>https://ipfred.github.io/bigdata/spark/spark%E5%85%A5%E9%97%A8/</link>
+      <pubDate>Sat, 20 Apr 2024 20:14:22 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/bigdata/spark/spark%E5%85%A5%E9%97%A8/</guid>
+      <description>1 Apache Spark A Unified engine for large-scale data analytics Apache Spark is a unified analytics engine for large-scale data processing. It provides high-level APIs in Java, Scala, Python and R, and an optimized engine that supports general execution graphs. It also supports a rich set of higher-level tools including Spark SQL for SQL and structured data processing, pandas API on Spark for pandas workloads, MLlib for machine learning, GraphX for graph processing, and Structured Streaming for incremental computation and stream processing. 2 DownloadingGet Spark from the downloads page of the project website. This documentation is for Spark version 3.5.1. Spark uses Hadoop’s client libraries for HDFS and YARN. Downloads are pre-packaged for a handful of popular Hadoop versions. Users can also download a “Hadoop free” binary and run Spark with any Hadoop</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java第一篇文章 on Fred的知识库</title>
+    <link>https://ipfred.github.io/lang/java/</link>
+    <description>Recent content in java第一篇文章 on Fred的知识库</description>
+    <generator>Hugo 0.125.1</generator>
+    <language>zh-CN</language>
+    <managingEditor>330446875@qq.com (Fred)</managingEditor>
+    <webMaster>330446875@qq.com (Fred)</webMaster>
+    <copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright>
+    <lastBuildDate></lastBuildDate>
+    <atom:link href="https://ipfred.github.io/lang/java/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

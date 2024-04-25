@@ -1,0 +1,552 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Hadoop - 标签 | Fred的知识库</title>
+    <link>https://ipfred.github.io/tags/hadoop/</link>
+    <description>Hadoop - 标签 | Fred的知识库</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Wed, 24 Apr 2024 10:22:48 &#43;0800</lastBuildDate><atom:link href="https://ipfred.github.io/tags/hadoop/" rel="self" type="application/rss+xml" /><item>
+  <title>HDFS文件读写过程</title>
+  <link>https://ipfred.github.io/bigdata/hadoop/a9bc224/</link>
+  <pubDate>Wed, 24 Apr 2024 10:22:48 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>https://ipfred.github.io/bigdata/hadoop/a9bc224/</guid>
+  <description><![CDATA[<blockquote>
+<p>HDFS</p>
+</blockquote>
+<h2 id="文件的写入过程" class="heading-element">
+  <a href="#%e6%96%87%e4%bb%b6%e7%9a%84%e5%86%99%e5%85%a5%e8%bf%87%e7%a8%8b" class="heading-mark"></a>1 文件的写入过程</h2><p>HDFS把文件的数据划分成若干个块(Block)， 每个Block存放在一组 DataNode上，Namenode负责维护文件&ndash;&gt;Block(命令空间映射)和Block&ndash;&gt;Datanode(数据块映射)</p>
+<p><a class="lightgallery" href="https://files.catbox.moe/8pqx8k.png?size=large" data-thumbnail="https://files.catbox.moe/8pqx8k.png?size=small" data-sub-html="<h2>8pqx8k.png</h2>"><img loading="lazy" src="https://files.catbox.moe/8pqx8k.png" alt="8pqx8k.png" srcset="https://files.catbox.moe/8pqx8k.png?size=small, https://files.catbox.moe/8pqx8k.png?size=medium 1.5x, https://files.catbox.moe/8pqx8k.png?size=large 2x" data-title="8pqx8k.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>写入流程</p>
+<ol>
+<li>Client发起文件上传请求，通过RPC与NameNode建立通讯，NameNode检查目标文件是否已存在，父目录是否存在，返回是否可以上传</li>
+<li>Client请求确定第一个block 应该传输到哪些Datanode服务器上</li>
+<li>NameNode根据配置文件指定的备份数量以及机架感知原理进行文件分配，返回可用的 DataNode地址，如：A，B，C</li>
+</ol>
+<blockquote>
+<p>备份数量：默认在HDFS上存放三份，本地一份、同机架内其他节点一份、不同机架节点一份</p>
+</blockquote>
+<ol start="4">
+<li>
+<p>Client 请求 3 台 DataNode 中的一台 A 上传数据（本质上是一个 RPC 调用，建立 pipeline ），A 收到请求会继续调用 B，然后 B 调用 C，将整个 pipeline 建立完成， 后逐级返回 client；</p>
+</li>
+<li>
+<p><strong>Client 开始往 A 上传第一个 block（先从磁盘读取数据放到一个本地内存缓存），以 packet 为单位（默认64K），A 收到一个 packet 就会传给 B，B 传给 C</strong>。A 每传一个 packet 会放入一个应答队列等待应答；</p>
+</li>
+<li>
+<p>数据被分割成一个个 packet 数据包在 pipeline 上依次传输，在 pipeline 反方向上， 逐个发送 ack（命令正确应答），最终由 pipeline 中第一个 DataNode 节点 A 将 pipelineack 发送给 Client；</p>
+</li>
+<li>
+<p>当一个 block 传输完成之后，Client 再次请求 NameNode 上传第二个 block，重复步骤 2；</p>
+</li>
+</ol>
+<h2 id="hdfs文件读取过程" class="heading-element">
+  <a href="#hdfs%e6%96%87%e4%bb%b6%e8%af%bb%e5%8f%96%e8%bf%87%e7%a8%8b" class="heading-mark"></a>2 HDFS文件读取过程</h2><p><a class="lightgallery" href="https://files.catbox.moe/sfaz8j.png?size=large" data-thumbnail="https://files.catbox.moe/sfaz8j.png?size=small" data-sub-html="<h2>sfaz8j.png</h2>"><img loading="lazy" src="https://files.catbox.moe/sfaz8j.png" alt="sfaz8j.png" srcset="https://files.catbox.moe/sfaz8j.png?size=small, https://files.catbox.moe/sfaz8j.png?size=medium 1.5x, https://files.catbox.moe/sfaz8j.png?size=large 2x" data-title="sfaz8j.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<ol>
+<li>
+<p>Client远程调用请求NameNode，获取文件块位置列表</p>
+</li>
+<li>
+<p>NameNode会视情况返回文件的部分或者全部block列表；对于每个block，NameNode返回含副本的所有DataNode 地址；计算传输最快最优的DataNode</p>
+</li>
+</ol>
+<blockquote>
+<p>返回的DataNode地址，会按照集群拓扑结构计算客户端的距离，然后进行排序，排序两个规则：网络拓扑结构中距离 Client 近的排靠前；心跳机制中超时汇报的 DN 状态为 STALE，这样的排靠后；</p>
+</blockquote>
+<ol start="3">
+<li>
+<p>Client 选取排序靠前的 DataNode建立输入流，如果客户端本身就是DataNode，那么将从本地直接获取数据(短路读取特性)；</p>
+</li>
+<li>
+<p>在选定的DataNode上读取该Block的数据</p>
+</li>
+<li>
+<p>当读完列表的 block 后，若文件读取还没有结束，客户端会继续向NameNode 获取下一批的 block 列表；</p>
+</li>
+<li>
+<p>读取完一个 block 都会进行 checksum 验证，如果读取 DataNode 时出现错误，客户端会通知 NameNode，然后再从下一个拥有该 block 副本的DataNode 继续读。</p>
+</li>
+<li>
+<p><strong>read 方法是并行的读取 block 信息，不是一块一块的读取</strong>；NameNode 只是返回Client请求包含块的DataNode地址，并不是返回请求块的数据；</p>
+</li>
+<li>
+<p>最终读取来所有的 block 会<strong>合并</strong>成一个完整的最终文件。</p>
+</li>
+</ol>
+<blockquote>
+<p>总结：串行写入，数据包先发给节点A，然后节点A发送给B，B在给C
+并行读取，并行读取block所在的节点，最后合并</p>
+</blockquote>]]></description>
+</item>
+<item>
+  <title>hadoop命令行的使用</title>
+  <link>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+  <pubDate>Tue, 23 Apr 2024 22:01:01 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+  <description><![CDATA[<h2 id="hdfs-的命令行使用" class="heading-element">
+  <a href="#hdfs-%e7%9a%84%e5%91%bd%e4%bb%a4%e8%a1%8c%e4%bd%bf%e7%94%a8" class="heading-mark"></a>1 HDFS 的命令行使用</h2><p>如果没有配置 hadoop 的环境变量，则在 hadoop 的安装目录下的bin目录中执行以下命令，如已配置 hadoop 环境变量，则可在任意目录下执行</p>
+<ul>
+<li>help</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式:  hdfs dfs -help 操作命令
+</span></span><span class="line"><span class="cl">作用: 查看某一个操作命令的参数信息</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>ls</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式：hdfs dfs -ls  URI
+</span></span><span class="line"><span class="cl">作用：类似于Linux的ls命令，显示文件列表</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>lsr</li>
+</ul>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式  :   hdfs  dfs -lsr URI
+</span></span><span class="line"><span class="cl">作用  : 在整个目录下递归执行ls, 与UNIX中的ls-R类似</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>mkdir</li>
+</ul>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式 ： hdfs  dfs  -mkdir <span class="o">[</span>-p<span class="o">]</span> &lt;paths&gt;
+</span></span><span class="line"><span class="cl">作用 :   以&lt;paths&gt;中的URI作为参数，创建目录。使用-p参数可以递归创建目录</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>put</li>
+</ul>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式   ： hdfs dfs -put &lt;localsrc &gt;  ... &lt;dst&gt;
+</span></span><span class="line"><span class="cl">作用 ：  将单个的源文件src或者多个源文件srcs从本地文件系统拷贝到目标文件系统中（&lt;dst&gt;对应的路径）。也可以从标准输入中读取输入，写入目标文件系统中
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">hdfs dfs -put  /rooot/bigdata.txt  /dir1</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>moveFromLocal</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式： hdfs  dfs -moveFromLocal  &lt;localsrc&gt;   &lt;dst&gt;
+</span></span><span class="line"><span class="cl">作用:  和put命令类似，但是源文件localsrc拷贝之后自身被删除
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">hdfs  dfs -moveFromLocal  /root/bigdata.txt  /</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>copyFromLocal</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式:  hdfs dfs -copyFromLocal &lt;localsrc&gt; ... &lt;dst&gt;
+</span></span><span class="line"><span class="cl">作用: 从本地文件系统中拷贝文件到hdfs路径去</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>appendToFile</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式: hdfs dfs -appendToFile &lt;localsrc&gt; ... &lt;dst&gt;
+</span></span><span class="line"><span class="cl">作用: 追加一个或者多个文件到hdfs指定文件中.也可以从命令行读取输入.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> hdfs dfs -appendToFile  a.xml b.xml  /big.xml</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>moveToLocal</li>
+</ul>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">在 hadoop 2.6.4 版本测试还未未实现此方法
+</span></span><span class="line"><span class="cl">格式：hadoop  dfs  -moveToLocal <span class="o">[</span>-crc<span class="o">]</span> &lt;src&gt; &lt;dst&gt;
+</span></span><span class="line"><span class="cl">作用：将本地文件剪切到 HDFS</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>get</li>
+</ul>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式   hdfs dfs  -get <span class="o">[</span>-ignorecrc <span class="o">]</span>  <span class="o">[</span>-crc<span class="o">]</span>  &lt;src&gt; &lt;localdst&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">作用：将文件拷贝到本地文件系统。 CRC 校验失败的文件通过-ignorecrc选项拷贝。 文件和CRC校验可以通过-CRC选项拷贝
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">hdfs dfs  -get   /bigdata.txt  /export/servers</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>getmerge</li>
+</ul>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式: hdfs dfs -getmerge &lt;src&gt; &lt;localdst&gt;
+</span></span><span class="line"><span class="cl">作用: 合并下载多个文件，比如hdfs的目录 /aaa/下有多个文件:log.1, log.2,log.3,...</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>copyToLocal</li>
+</ul>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式:  hdfs dfs -copyToLocal &lt;src&gt; ... &lt;localdst&gt;
+</span></span><span class="line"><span class="cl">作用:  从hdfs拷贝到本地</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>mv</li>
+</ul>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式  ： hdfs  dfs -mv URI   &lt;dest&gt;
+</span></span><span class="line"><span class="cl">作用： 将hdfs上的文件从原路径移动到目标路径（移动之后文件删除），该命令不能跨文件系统
+</span></span><span class="line"><span class="cl">hdfs  dfs  -mv  /dir1/bigdata.txt   /dir2</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>rm</li>
+</ul>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式： hdfs dfs -rm <span class="o">[</span>-r<span class="o">]</span> 【-skipTrash】 URI 【URI 。。。】
+</span></span><span class="line"><span class="cl">作用： 删除参数指定的文件，参数可以有多个。  此命令只删除文件和非空目录。
+</span></span><span class="line"><span class="cl">如果指定-skipTrash选项，那么在回收站可用的情况下，该选项将跳过回收站而直接删除文件；
+</span></span><span class="line"><span class="cl">否则，在回收站可用时，在HDFS Shell 中执行此命令，会将文件暂时放到回收站中。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">hdfs  dfs  -rm  -r  /dir1</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>cp</li>
+</ul>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式: hdfs  dfs  -cp URI <span class="o">[</span>URI ...<span class="o">]</span> &lt;dest&gt;
+</span></span><span class="line"><span class="cl">作用： 将文件拷贝到目标路径中。如果&lt;dest&gt;  为目录的话，可以将多个文件拷贝到该目录下。
+</span></span><span class="line"><span class="cl">-f
+</span></span><span class="line"><span class="cl">选项将覆盖目标，如果它已经存在。
+</span></span><span class="line"><span class="cl">-p
+</span></span><span class="line"><span class="cl">选项将保留文件属性（时间戳、所有权、许可、ACL、XAttr）。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">hdfs dfs -cp /dir1/a.txt  /dir2/bigdata.txt</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>cat</li>
+</ul>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hdfs dfs  -cat  URI <span class="o">[</span>uri  ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">作用：将参数所指示的文件内容输出到stdout
+</span></span><span class="line"><span class="cl">hdfs dfs  -cat /bigdata.txt</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>tail</li>
+</ul>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式: hdfs dfs -tail path
+</span></span><span class="line"><span class="cl">作用: 显示一个文件的末尾</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>text</li>
+</ul>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式:hdfs dfs -text path
+</span></span><span class="line"><span class="cl">作用: 以字符形式打印一个文件的内容</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>chmod</li>
+</ul>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式:hdfs  dfs  -chmod  <span class="o">[</span>-R<span class="o">]</span>  URI<span class="o">[</span>URI  ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">作用：改变文件权限。如果使用  -R 选项，则对整个目录有效递归执行。使用这一命令的用户必须是文件的所属用户，或者超级用户。
+</span></span><span class="line"><span class="cl">hdfs dfs -chmod -R <span class="m">777</span> /bigdata.txt</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>chown</li>
+</ul>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式:  hdfs  dfs  -chmod  <span class="o">[</span>-R<span class="o">]</span>  URI<span class="o">[</span>URI ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">作用：  改变文件的所属用户和用户组。如果使用  -R 选项，则对整个目录有效递归执行。使用这一命令的用户必须是文件的所属用户，或者超级用户。
+</span></span><span class="line"><span class="cl">hdfs  dfs  -chown  -R hadoop:hadoop  /bigdata.txt</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>df</li>
+</ul>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式: hdfs dfs  -df  -h  path
+</span></span><span class="line"><span class="cl">作用: 统计文件系统的可用空间信息</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>du</li>
+</ul>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式: hdfs dfs -du -s -h path
+</span></span><span class="line"><span class="cl">作用: 统计文件夹的大小信息</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>count</li>
+</ul>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式: hdfs dfs -count path
+</span></span><span class="line"><span class="cl">作用: 统计一个指定目录下的文件节点数量</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>setrep</li>
+<li>expunge (慎用)</li>
+</ul>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">格式:  hdfs dfs -setrep num filePath
+</span></span><span class="line"><span class="cl">作用: 设置hdfs中文件的副本数量
+</span></span><span class="line"><span class="cl">注意: 即使设置的超过了datanode的数量,副本的数量也最多只能和datanode的数量是一致的</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="hdfs的高级使用命令" class="heading-element">
+  <a href="#hdfs%e7%9a%84%e9%ab%98%e7%ba%a7%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4" class="heading-mark"></a>2 hdfs的高级使用命令</h2><h3 id="hdfs文件限额配置" class="heading-element">
+  <a href="#hdfs%e6%96%87%e4%bb%b6%e9%99%90%e9%a2%9d%e9%85%8d%e7%bd%ae" class="heading-mark"></a>2.1 HDFS文件限额配置</h3><p>在多人共用HDFS的环境下，配置设置非常重要。特别是在 Hadoop 处理大量资料的环境，如果没有配额管理，很容易把所有的空间用完造成别人无法存取。HDFS 的配额设定是针对目录而不是针对账号，可以让每个账号仅操作某一个目录，然后对目录设置配置。</p>
+<p>HDFS 文件的限额配置允许我们以文件个数，或者文件大小来限制我们在某个目录下上传的文件数量或者文件内容总量，以便达到我们类似百度网盘网盘等限制每个用户允许上传的最大的文件的量。</p>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"> hdfs dfs -count -q -h /user/root/dir1  <span class="c1">#查看配额信息</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="数量限额" class="heading-element">
+  <a href="#%e6%95%b0%e9%87%8f%e9%99%90%e9%a2%9d" class="heading-mark"></a>2.1.1 数量限额</h4><div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hdfs dfs  -mkdir -p /user/root/dir    <span class="c1">#创建hdfs文件夹</span>
+</span></span><span class="line"><span class="cl">hdfs dfsadmin -setQuota <span class="m">2</span>  dir      <span class="c1"># 给该文件夹下面设置最多上传两个文件，发现只能上传一个文件</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">hdfs dfsadmin -clrQuota /user/root/dir  <span class="c1"># 清除文件数量限制</span>
+</span></span><span class="line"><span class="cl">  </span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="空间大小限额" class="heading-element">
+  <a href="#%e7%a9%ba%e9%97%b4%e5%a4%a7%e5%b0%8f%e9%99%90%e9%a2%9d" class="heading-mark"></a>2.1.2 空间大小限额</h4><p>在设置空间配额时，设置的空间至少是 block_size * 3 大小</p>
+<div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hdfs dfsadmin -setSpaceQuota 4k /user/root/dir   <span class="c1"># 限制空间大小4KB</span>
+</span></span><span class="line"><span class="cl">hdfs dfs -put  /root/a.txt  /user/root/dir
+</span></span><span class="line"><span class="cl"><span class="c1"># 生成任意大小的文件</span>
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>1.txt  <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">2</span>     <span class="c1">#生成2M的文件</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 清除空间配额限制</span>
+</span></span><span class="line"><span class="cl">hdfs dfsadmin -clrSpaceQuota /user/root/dir</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="hdfs-的安全模式" class="heading-element">
+  <a href="#hdfs-%e7%9a%84%e5%ae%89%e5%85%a8%e6%a8%a1%e5%bc%8f" class="heading-mark"></a>2.2 HDFS 的安全模式</h3><p>安全模式是hadoop的一种保护机制，用于保证集群中的数据块的安全性。当集群启动的时候，会首先进入安全模式。当系统处于安全模式时会检查数据块的完整性。</p>
+<p>假设我们设置的副本数（即参数dfs.replication）是3，那么在datanode上就应该有3个副本存在，假设只存在2个副本，那么比例就是2/3=0.666。hdfs默认的副本率0.999。我们的副本率0.666明显小于0.999，因此系统会自动的复制副本到其他dataNode，使得副本率不小于0.999。如果系统中有5个副本，超过我们设定的3个副本，那么系统也会删除多于的2个副本。</p>
+<p>在安全模式状态下，文件系统只接受读数据请求，而不接受删除、修改等变更请求。在，当整个系统达到安全标准时，HDFS自动离开安全模式。30s</p>
+<p>安全模式操作命令</p>
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hdfs  dfsadmin  -safemode  get <span class="c1">#查看安全模式状态</span>
+</span></span><span class="line"><span class="cl">hdfs  dfsadmin  -safemode  enter <span class="c1">#进入安全模式</span>
+</span></span><span class="line"><span class="cl">hdfs  dfsadmin  -safemode  leave <span class="c1">#离开安全模式</span></span></span></code></pre></td></tr></table>
+</div>
+</div>]]></description>
+</item>
+<item>
+  <title>Hadoop概览</title>
+  <link>https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</link>
+  <pubDate>Tue, 23 Apr 2024 20:01:01 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</guid>
+  <description><![CDATA[<h1 id="hdfs" class="heading-element">
+  <a href="#hdfs" class="heading-mark"></a>HDFS</h1><ol>
+<li>HDFS概述</li>
+</ol>
+<p>Hadoop 分布式系统框架中，首要的基础功能就是文件系统，在 Hadoop 中使用 FileSystem 这个抽象类来表示我们的文件系统，这个抽象类下面有很多子实现类，究竟使用哪一种，需要看我们具体的实现类，在我们实际工作中，用到的最多的就是HDFS(分布式文件系统)以及LocalFileSystem(本地文件系统)了。</p>
+<p>在现代的企业环境中，单机容量往往无法存储大量数据，需要跨机器存储。统一管理分布在集群上的文件系统称为分布式文件系统。</p>
+<p>HDFS（Hadoop  Distributed  File  System）是 Hadoop 项目的一个子项目。是 Hadoop 的核心组件之一，  Hadoop 非常适于存储大型数据 (比如 TB 和 PB)，其就是使用 HDFS 作为存储系统. HDFS 使用多台计算机存储文件，并且提供统一的访问接口，像是访问一个普通文件系统一样使用分布式文件系统。</p>
+<p><a class="lightgallery" href="https://files.catbox.moe/6l0xa2.png?size=large" data-thumbnail="https://files.catbox.moe/6l0xa2.png?size=small" data-sub-html="<h2>6l0xa2.png</h2>"><img loading="lazy" src="https://files.catbox.moe/6l0xa2.png" alt="6l0xa2.png" srcset="https://files.catbox.moe/6l0xa2.png?size=small, https://files.catbox.moe/6l0xa2.png?size=medium 1.5x, https://files.catbox.moe/6l0xa2.png?size=large 2x" data-title="6l0xa2.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<ol start="2">
+<li>HDFS架构</li>
+</ol>
+<p><a class="lightgallery" href="https://files.catbox.moe/7srz72.png?size=large" data-thumbnail="https://files.catbox.moe/7srz72.png?size=small" data-sub-html="<h2>7srz72.png</h2>"><img loading="lazy" src="https://files.catbox.moe/7srz72.png" alt="7srz72.png" srcset="https://files.catbox.moe/7srz72.png?size=small, https://files.catbox.moe/7srz72.png?size=medium 1.5x, https://files.catbox.moe/7srz72.png?size=large 2x" data-title="7srz72.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>HDFS是一个主/从（Mater/Slave）体系结构，由三部分组成： NameNode 和 DataNode 以及 SecondaryNamenode：</p>
+<p>● NameNode 负责管理整个文件系统的元数据，以及每一个路径（文件）所对应的数据块信息。<br>
+● DataNode 负责管理用户的文件数据块，每一个数据块都可以在多个 DataNode 上存储多个副本，默认为3个。<br>
+● Secondary NameNode 用来监控 HDFS 状态的辅助后台程序，每隔一段时间获取 HDFS 元数据的快照。最主要作用是辅助 NameNode 管理元数据信息。</p>
+<p><a class="lightgallery" href="https://files.catbox.moe/76lm4z.png?size=large" data-thumbnail="https://files.catbox.moe/76lm4z.png?size=small" data-sub-html="<h2>76lm4z.png</h2>"><img loading="lazy" src="https://files.catbox.moe/76lm4z.png" alt="76lm4z.png" srcset="https://files.catbox.moe/76lm4z.png?size=small, https://files.catbox.moe/76lm4z.png?size=medium 1.5x, https://files.catbox.moe/76lm4z.png?size=large 2x" data-title="76lm4z.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<ol start="3">
+<li>HDFS的特性</li>
+</ol>
+<p>首先，它是一个文件系统，用于存储文件，通过统一的命名空间目录树来定位文件；</p>
+<p>其次，它是分布式的，由很多服务器联合起来实现其功能，集群中的服务器有各自的角色。</p>
+<ol>
+<li>master/slave 架构（主从架构）</li>
+</ol>
+<p>HDFS 采用 master/slave 架构。一般一个 HDFS 集群是有一个 Namenode 和一定数目的 Datanode 组成。Namenode 是 HDFS 集群主节点，Datanode 是 HDFS 集群从节点，两种角色各司其职，共同协调完成分布式的文件存储服务。</p>
+<ol start="2">
+<li>分块存储(Block)</li>
+</ol>
+<p>HDFS 中的文件在物理上是分块存储（block）的，块的大小可以通过配置参数来规定，默认大小在 hadoop2.x 版本中是 128M。</p>
+<ol start="3">
+<li>名字空间（NameSpace）</li>
+</ol>
+<p>HDFS 支持传统的层次型文件组织结构。用户或者应用程序可以创建目录，然后将文件保存在这些目录里。文件系统名字空间的层次结构和大多数现有的文件系统类似：用户可以创建、删除、移动或重命名文件。 Namenode 负责维护文件系统的名字空间，任何对文件系统名字空间或属性的修改都将被 Namenode 记录下来。 HDFS 会给客户端提供一个统一的抽象目录树，客户端通过路径来访问文件，形如：hdfs://namenode:port/dir-a/dir-b/dir-c/file.data。</p>
+<ol start="4">
+<li>NameNode 元数据管理</li>
+</ol>
+<p>我们把目录结构及文件分块位置信息叫做元数据。NameNode 负责维护整个 HDFS 文件系统的目录树结构，以及每一个文件所对应的 block 块信息（block 的 id，及所在的 DataNode 服务器）。</p>
+<ol start="5">
+<li>DataNode 数据存储</li>
+</ol>
+<p>文件的各个 block 的具体存储管理由 DataNode 节点承担。每一个 block 都可以在多个 DataNode 上。DataNode 需要定时向 NameNode 汇报自己持有的 block 信息。 存储多个副本（副本数量也可以通过参数设置 dfs.replication，默认是 3）</p>
+<ol start="6">
+<li>副本机制</li>
+</ol>
+<p>为了容错，文件的所有 block 都会有副本。每个文件的 block 大小和副本系数都是可配置的。应用程序可以指定某个文件的副本数目。副本系数可以在文件创建的时候指定，也可以在之后改变。</p>
+<ol start="7">
+<li>一次写入，多次读出</li>
+</ol>
+<p>HDFS 是设计成适应一次写入，多次读出的场景，且不支持文件的修改。 正因为如此，HDFS 适合用来做大数据分析的底层存储服务，并不适合用来做网盘等应用，因为修改不方便，延迟大，网络开销大，成本太高。</p>
+]]></description>
+</item>
+</channel>
+</rss>

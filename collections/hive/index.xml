@@ -1,0 +1,227 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Hive - 合集 | Fred的知识库</title>
+    <link>https://ipfred.github.io/collections/hive/</link>
+    <description>Hive - 合集 | Fred的知识库</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Wed, 24 Apr 2024 16:22:08 &#43;0800</lastBuildDate><atom:link href="https://ipfred.github.io/collections/hive/" rel="self" type="application/rss+xml" /><item>
+  <title>hive常见的命令</title>
+  <link>https://ipfred.github.io/bigdata/hive/20240424162208/</link>
+  <pubDate>Wed, 24 Apr 2024 16:22:08 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>https://ipfred.github.io/bigdata/hive/20240424162208/</guid>
+  <description><![CDATA[<p><a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual"target="_blank" rel="external nofollow noopener noreferrer">Hive官方操作手册<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<h2 id="hive特性" class="heading-element">
+  <a href="#hive%e7%89%b9%e6%80%a7" class="heading-mark"></a>1 Hive特性</h2><ol>
+<li>hive基于Hadoop，将结构化数据映射为一张数据库表，提供类SQL查询功能</li>
+<li>Hive<strong>元数据存储</strong>,通常存储在关系形数据库中，Hive中的元数据包括(表的名称，列，分区，是否为外部表等属性，数据所在的路径)</li>
+<li>Hive支持MapReduce、Tez和Spark 三种计算引擎。</li>
+<li><strong>数据格式</strong>。数据格式用户定义，根据三个属性：列分隔符（通常为空格、”\t”、”\x001″）、行分隔符（”\n”）以及读取文件数据的方法（Hive 中默认有三个文件格式 TextFile，SequenceFile 以及 RCFile）</li>
+<li><strong>数据更新</strong>。不支持对数据的更新，使用更新可以借助Impala引擎+kudu数据格式</li>
+<li><strong>索引</strong>。有hive版本支持建立索引，但是各种问题，不建议使用。</li>
+<li>Hive中包含的<strong>数据模型</strong>，DB、Table，External Table，Partition，Bucket
+<ul>
+<li>db：在hdfs中表现为<code>hive.metastore.warehouse.dir</code>目录下一个文件夹。</li>
+<li>table：在hdfs中表现所属db目录下一个文件夹。</li>
+<li>external table：与table类似，不过其数据存放位置可以在任意指定路径。</li>
+<li>partition：在hdfs中表现为table目录下的子目录。</li>
+<li>bucket：在hdfs中表现为同一个表目录下根据hash散列之后的多个文件。</li>
+</ul>
+</li>
+</ol>
+<h2 id="hive表类型" class="heading-element">
+  <a href="#hive%e8%a1%a8%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>2 Hive表类型</h2><h3 id="hive数据类型" class="heading-element">
+  <a href="#hive%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>2.1 hive数据类型</h3><ul>
+<li>Hive的基本数据类型有：<code>TINYINT，SAMLLINT，INT，BIGINT，BOOLEAN，FLOAT，DOUBLE，STRING，TIMESTAMP(V0.8.0+)和BINARY(V0.8.0+)</code>。</li>
+<li>Hive的集合类型有：<code>STRUCT，MAP和ARRAY</code>。</li>
+<li>Hive表：内部表、外部表、分区表和桶表。</li>
+<li>表的元数据保存传统的数据库的表中，<strong>当前hive只支持Derby和MySQL数据库</strong>。</li>
+</ul>
+<h3 id="hive内部表" class="heading-element">
+  <a href="#hive%e5%86%85%e9%83%a8%e8%a1%a8" class="heading-mark"></a>2.2 Hive内部表</h3><p>Hive中的内部表和传统数据库中的表在概念上是类似的，Hive的每个表都有自己的存储目录，除了外部表外，所有的表数据都存放在配置在<code>hive-site.xml</code>文件的<code>${hive.metastore.warehouse.dir}/table_name</code>目录下。</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 创建内部表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">students</span><span class="p">(</span><span class="n">user_no</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span><span class="n">name</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="n">sex</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">         </span><span class="n">grade</span><span class="w"> </span><span class="n">STRING</span><span class="w"> </span><span class="n">COMMOT</span><span class="w"> </span><span class="s1">&#39;班级&#39;</span><span class="err">）</span><span class="n">COMMONT</span><span class="w"> </span><span class="s1">&#39;学生表&#39;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ROW</span><span class="w"> </span><span class="n">FORMAT</span><span class="w"> </span><span class="n">DELIMITED</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FIELDS</span><span class="w"> </span><span class="n">TERMINATED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">STORE</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TEXTFILE</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="hive外部表" class="heading-element">
+  <a href="#hive%e5%a4%96%e9%83%a8%e8%a1%a8" class="heading-mark"></a>2.3 Hive外部表</h3><p>被external修饰的为外部表（external table），外部表指向已经存在在Hadoop HDFS上的数据，除了在删除外部表时只删除元数据而不会删除表数据外，其他和内部表很像</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 创建外部表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">students</span><span class="p">(</span><span class="n">user_no</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span><span class="n">name</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="n">sex</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">         </span><span class="k">class</span><span class="w"> </span><span class="n">STRING</span><span class="w"> </span><span class="n">COMMOT</span><span class="w"> </span><span class="s1">&#39;班级&#39;</span><span class="err">）</span><span class="n">COMMONT</span><span class="w"> </span><span class="s1">&#39;学生表&#39;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ROW</span><span class="w"> </span><span class="n">FORMAT</span><span class="w"> </span><span class="n">DELIMITED</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FIELDS</span><span class="w"> </span><span class="n">TERMINATED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">STORE</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SEQUENCEFILE</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LOCATION</span><span class="w"> </span><span class="s1">&#39;/usr/test/data/students.txt&#39;</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="hive分区表" class="heading-element">
+  <a href="#hive%e5%88%86%e5%8c%ba%e8%a1%a8" class="heading-mark"></a>2.4 Hive分区表</h3><p>分区表的每一个分区都对应数据库中相应分区列的一个索引，分区表中的每一个分区对应一个目录文件，即同一个分区的数据存放一个目录下面，所以分区表如果很大，指定分区会速度快很多</p>
+<p>比如说，分区表partitinTable有包含nation(国家)、ds(日期)和city(城市)3个分区，其中nation = china，ds = 20130506，city = Shanghai则对应HDFS上的目录为：
+<code>/datawarehouse/partitinTable/nation=china/city=Shanghai/ds=20130506/</code>。</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 创建分区表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">students</span><span class="p">(</span><span class="n">user_no</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span><span class="n">name</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="n">sex</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">         </span><span class="k">class</span><span class="w"> </span><span class="n">STRING</span><span class="w"> </span><span class="n">COMMOT</span><span class="w"> </span><span class="s1">&#39;班级&#39;</span><span class="err">）</span><span class="n">COMMONT</span><span class="w"> </span><span class="s1">&#39;学生表&#39;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">PARTITIONED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">(</span><span class="n">ds</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="n">country</span><span class="w"> </span><span class="n">STRING</span><span class="p">)</span><span class="w">  </span><span class="c1">-- 分区的列不属于建表的字段中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">ROW</span><span class="w"> </span><span class="n">FORMAT</span><span class="w"> </span><span class="n">DELIMITED</span><span class="w">  </span><span class="c1">--分隔符
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">FIELDS</span><span class="w"> </span><span class="n">TERMINATED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w">  </span><span class="c1">-- 结束换行符
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">STORE</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SEQUENCEFILE</span><span class="w"> </span><span class="c1">-- 数据存储格式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="hive分桶表" class="heading-element">
+  <a href="#hive%e5%88%86%e6%a1%b6%e8%a1%a8" class="heading-mark"></a>2.5 Hive分桶表</h3><p>对指定列进行HASH，根据hash值进行切分数据，不同hash结果的数据写到每个桶对应的文件目录中</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 创建分桶表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">students</span><span class="p">(</span><span class="n">user_no</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span><span class="n">name</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="n">sex</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">         </span><span class="k">class</span><span class="w"> </span><span class="n">STRING</span><span class="w"> </span><span class="n">COMMOT</span><span class="w"> </span><span class="s1">&#39;班级&#39;</span><span class="p">,</span><span class="n">score</span><span class="w"> </span><span class="nb">SMALLINT</span><span class="w"> </span><span class="n">COMMOT</span><span class="w"> </span><span class="s1">&#39;总分&#39;</span><span class="err">）</span><span class="n">COMMONT</span><span class="w"> </span><span class="s1">&#39;学生表&#39;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">PARTITIONED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">(</span><span class="n">ds</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="n">country</span><span class="w"> </span><span class="n">STRING</span><span class="p">)</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">CLUSTERED</span><span class="w"> </span><span class="k">BY</span><span class="p">(</span><span class="n">user_no</span><span class="p">)</span><span class="w"> </span><span class="n">SORTED</span><span class="w"> </span><span class="k">BY</span><span class="p">(</span><span class="n">score</span><span class="p">)</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="n">BUCKETS</span><span class="w">  </span><span class="c1">-- 分桶
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">ROW</span><span class="w"> </span><span class="n">FORMAT</span><span class="w"> </span><span class="n">DELIMITED</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FIELDS</span><span class="w"> </span><span class="n">TERMINATED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">STORE</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SEQUENCEFILE</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="hive视图" class="heading-element">
+  <a href="#hive%e8%a7%86%e5%9b%be" class="heading-mark"></a>2.6 Hive视图</h3><p>逻辑数据结构，将查询结果作为视图，简化查询操作</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">employee_skills</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> </span><span class="k">AS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">skills_score</span><span class="p">[</span><span class="s1">&#39;DB&#39;</span><span class="p">]</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DB</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">skills_score</span><span class="p">[</span><span class="s1">&#39;Perl&#39;</span><span class="p">]</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Perl</span><span class="p">,</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">skills_score</span><span class="p">[</span><span class="s1">&#39;Python&#39;</span><span class="p">]</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Python</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">skills_score</span><span class="p">[</span><span class="s1">&#39;Sales&#39;</span><span class="p">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Sales</span><span class="p">,</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">skills_score</span><span class="p">[</span><span class="s1">&#39;HR&#39;</span><span class="p">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">HR</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">employee</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="总结" class="heading-element">
+  <a href="#%e6%80%bb%e7%bb%93" class="heading-mark"></a>2.7 总结</h3><p>表的创建官方标准
+<a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual&#43;DDL#LanguageManualDDL-CreateTable"target="_blank" rel="external nofollow noopener noreferrer">LanguageManual DDL -创建表的语法结构<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="k">EXTERNAL</span><span class="p">]</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="p">[</span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="k">table_name</span><span class="w">    </span><span class="c1">-- (Note: TEMPORARY available in Hive 0.14.0 and later)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">  </span><span class="p">[(</span><span class="n">col_name</span><span class="w"> </span><span class="n">data_type</span><span class="w"> </span><span class="p">[</span><span class="n">column_constraint_specification</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="k">COMMENT</span><span class="w"> </span><span class="n">col_comment</span><span class="p">],</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">[</span><span class="n">constraint_specification</span><span class="p">])]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">[</span><span class="k">COMMENT</span><span class="w"> </span><span class="n">table_comment</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">[</span><span class="n">PARTITIONED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">(</span><span class="n">col_name</span><span class="w"> </span><span class="n">data_type</span><span class="w"> </span><span class="p">[</span><span class="k">COMMENT</span><span class="w"> </span><span class="n">col_comment</span><span class="p">],</span><span class="w"> </span><span class="p">...)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">[</span><span class="n">CLUSTERED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span><span class="w"> </span><span class="n">col_name</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w"> </span><span class="p">[</span><span class="n">SORTED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">(</span><span class="n">col_name</span><span class="w"> </span><span class="p">[</span><span class="k">ASC</span><span class="o">|</span><span class="k">DESC</span><span class="p">],</span><span class="w"> </span><span class="p">...)]</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">num_buckets</span><span class="w"> </span><span class="n">BUCKETS</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">[</span><span class="n">SKEWED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span><span class="w"> </span><span class="n">col_name</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w">                  </span><span class="c1">-- (Note: Available in Hive 0.10.0 and later)]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">     </span><span class="k">ON</span><span class="w"> </span><span class="p">((</span><span class="n">col_value</span><span class="p">,</span><span class="w"> </span><span class="n">col_value</span><span class="p">,</span><span class="w"> </span><span class="p">...),</span><span class="w"> </span><span class="p">(</span><span class="n">col_value</span><span class="p">,</span><span class="w"> </span><span class="n">col_value</span><span class="p">,</span><span class="w"> </span><span class="p">...),</span><span class="w"> </span><span class="p">...)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">     </span><span class="p">[</span><span class="n">STORED</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DIRECTORIES</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">[</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="p">[</span><span class="k">ROW</span><span class="w"> </span><span class="n">FORMAT</span><span class="w"> </span><span class="n">row_format</span><span class="p">]</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="p">[</span><span class="n">STORED</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">file_format</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">STORED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;storage.handler.class.name&#39;</span><span class="w"> </span><span class="p">[</span><span class="k">WITH</span><span class="w"> </span><span class="n">SERDEPROPERTIES</span><span class="w"> </span><span class="p">(...)]</span><span class="w">  </span><span class="c1">-- (Note: Available in Hive 0.6.0 and later)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">  </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">[</span><span class="k">LOCATION</span><span class="w"> </span><span class="n">hdfs_path</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">[</span><span class="n">TBLPROPERTIES</span><span class="w"> </span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="n">property_value</span><span class="p">,</span><span class="w"> </span><span class="p">...)]</span><span class="w">   </span><span class="c1">-- (Note: Available in Hive 0.6.0 and later)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">  </span><span class="p">[</span><span class="k">AS</span><span class="w"> </span><span class="n">select_statement</span><span class="p">];</span><span class="w">   </span><span class="c1">-- (Note: Available in Hive 0.5.0 and later; not supported for external tables)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 用另外一个表的结构来创建
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="k">EXTERNAL</span><span class="p">]</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="p">[</span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="k">table_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LIKE</span><span class="w"> </span><span class="n">existing_table_or_view_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="k">LOCATION</span><span class="w"> </span><span class="n">hdfs_path</span><span class="p">];</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>删除表</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="p">[</span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="p">]</span><span class="w"> </span><span class="k">table_name</span><span class="w"> </span><span class="p">[</span><span class="n">PURGE</span><span class="p">];</span><span class="w">     </span><span class="c1">-- (Note: PURGE available in Hive 0.14.0 and later)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>清空表</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">TRUNCATE</span><span class="w"> </span><span class="p">[</span><span class="k">TABLE</span><span class="p">]</span><span class="w"> </span><span class="k">table_name</span><span class="w"> </span><span class="p">[</span><span class="n">PARTITION</span><span class="w"> </span><span class="n">partition_spec</span><span class="p">];</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">partition_spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">partition_column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partition_col_value</span><span class="p">,</span><span class="w"> </span><span class="n">partition_column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partition_col_value</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span></span></span></code></pre></td></tr></table>
+</div>
+</div>]]></description>
+</item>
+</channel>
+</rss>
