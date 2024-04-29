@@ -2,11 +2,17 @@
 
 ## HDFS 的命令行使用
 
-  
+[Hadoop 命令行官方doc](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html)
 
-如果没有配置 hadoop 的环境变量，则在 hadoop 的安装目录下的bin目录中执行以下命令，如已配置 hadoop 环境变量，则可在任意目录下执行
+`hadoop fs`: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等
+`hdfs dfs`: 只能操作HDFS文件系统。
+```shell
+# 下面两种效果是一样的
+hdfs dfs -ls /user/hive
+hadoop fs -ls /user/hive/
+```
 
-
+&gt; 如果操作HDFS文件系统，推荐使用 hdfs dfs,如果需要操作其他系统文件，使用hadoop fs命令
 
 - help
 ```shell

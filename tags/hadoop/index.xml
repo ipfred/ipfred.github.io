@@ -84,11 +84,27 @@
   <author>Fred</author>
   <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
   <description><![CDATA[<h2 id="hdfs-的命令行使用" class="heading-element">
-  <a href="#hdfs-%e7%9a%84%e5%91%bd%e4%bb%a4%e8%a1%8c%e4%bd%bf%e7%94%a8" class="heading-mark"></a>1 HDFS 的命令行使用</h2><p>如果没有配置 hadoop 的环境变量，则在 hadoop 的安装目录下的bin目录中执行以下命令，如已配置 hadoop 环境变量，则可在任意目录下执行</p>
+  <a href="#hdfs-%e7%9a%84%e5%91%bd%e4%bb%a4%e8%a1%8c%e4%bd%bf%e7%94%a8" class="heading-mark"></a>1 HDFS 的命令行使用</h2><p><a href="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html"target="_blank" rel="external nofollow noopener noreferrer">Hadoop 命令行官方doc<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<p><code>hadoop fs</code>: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等
+<code>hdfs dfs</code>: 只能操作HDFS文件系统。</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 下面两种效果是一样的</span>
+</span></span><span class="line"><span class="cl">hdfs dfs -ls /user/hive
+</span></span><span class="line"><span class="cl">hadoop fs -ls /user/hive/</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>如果操作HDFS文件系统，推荐使用 hdfs dfs,如果需要操作其他系统文件，使用hadoop fs命令</p>
+</blockquote>
 <ul>
 <li>help</li>
 </ul>
-<div class="highlight" id="id-1"><div class="chroma">
+<div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -100,7 +116,7 @@
 </div><ul>
 <li>ls</li>
 </ul>
-<div class="highlight" id="id-2"><div class="chroma">
+<div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -112,7 +128,7 @@
 </div><ul>
 <li>lsr</li>
 </ul>
-<div class="highlight" id="id-3"><div class="chroma">
+<div class="highlight" id="id-4"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -124,7 +140,7 @@
 </div><ul>
 <li>mkdir</li>
 </ul>
-<div class="highlight" id="id-4"><div class="chroma">
+<div class="highlight" id="id-5"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -136,7 +152,7 @@
 </div><ul>
 <li>put</li>
 </ul>
-<div class="highlight" id="id-5"><div class="chroma">
+<div class="highlight" id="id-6"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -152,7 +168,7 @@
 </div><ul>
 <li>moveFromLocal</li>
 </ul>
-<div class="highlight" id="id-6"><div class="chroma">
+<div class="highlight" id="id-7"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -168,7 +184,7 @@
 </div><ul>
 <li>copyFromLocal</li>
 </ul>
-<div class="highlight" id="id-7"><div class="chroma">
+<div class="highlight" id="id-8"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -180,7 +196,7 @@
 </div><ul>
 <li>appendToFile</li>
 </ul>
-<div class="highlight" id="id-8"><div class="chroma">
+<div class="highlight" id="id-9"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -196,7 +212,7 @@
 </div><ul>
 <li>moveToLocal</li>
 </ul>
-<div class="highlight" id="id-9"><div class="chroma">
+<div class="highlight" id="id-10"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -210,7 +226,7 @@
 </div><ul>
 <li>get</li>
 </ul>
-<div class="highlight" id="id-10"><div class="chroma">
+<div class="highlight" id="id-11"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -228,7 +244,7 @@
 </div><ul>
 <li>getmerge</li>
 </ul>
-<div class="highlight" id="id-11"><div class="chroma">
+<div class="highlight" id="id-12"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -240,7 +256,7 @@
 </div><ul>
 <li>copyToLocal</li>
 </ul>
-<div class="highlight" id="id-12"><div class="chroma">
+<div class="highlight" id="id-13"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -252,7 +268,7 @@
 </div><ul>
 <li>mv</li>
 </ul>
-<div class="highlight" id="id-13"><div class="chroma">
+<div class="highlight" id="id-14"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -266,7 +282,7 @@
 </div><ul>
 <li>rm</li>
 </ul>
-<div class="highlight" id="id-14"><div class="chroma">
+<div class="highlight" id="id-15"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -286,7 +302,7 @@
 </div><ul>
 <li>cp</li>
 </ul>
-<div class="highlight" id="id-15"><div class="chroma">
+<div class="highlight" id="id-16"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -310,7 +326,7 @@
 </div><ul>
 <li>cat</li>
 </ul>
-<div class="highlight" id="id-16"><div class="chroma">
+<div class="highlight" id="id-17"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -324,7 +340,7 @@
 </div><ul>
 <li>tail</li>
 </ul>
-<div class="highlight" id="id-17"><div class="chroma">
+<div class="highlight" id="id-18"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -336,7 +352,7 @@
 </div><ul>
 <li>text</li>
 </ul>
-<div class="highlight" id="id-18"><div class="chroma">
+<div class="highlight" id="id-19"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -348,7 +364,7 @@
 </div><ul>
 <li>chmod</li>
 </ul>
-<div class="highlight" id="id-19"><div class="chroma">
+<div class="highlight" id="id-20"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -362,7 +378,7 @@
 </div><ul>
 <li>chown</li>
 </ul>
-<div class="highlight" id="id-20"><div class="chroma">
+<div class="highlight" id="id-21"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -376,7 +392,7 @@
 </div><ul>
 <li>df</li>
 </ul>
-<div class="highlight" id="id-21"><div class="chroma">
+<div class="highlight" id="id-22"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -388,7 +404,7 @@
 </div><ul>
 <li>du</li>
 </ul>
-<div class="highlight" id="id-22"><div class="chroma">
+<div class="highlight" id="id-23"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -400,7 +416,7 @@
 </div><ul>
 <li>count</li>
 </ul>
-<div class="highlight" id="id-23"><div class="chroma">
+<div class="highlight" id="id-24"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -413,7 +429,7 @@
 <li>setrep</li>
 <li>expunge (慎用)</li>
 </ul>
-<div class="highlight" id="id-24"><div class="chroma">
+<div class="highlight" id="id-25"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -428,7 +444,7 @@
   <a href="#hdfs%e7%9a%84%e9%ab%98%e7%ba%a7%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4" class="heading-mark"></a>2 hdfs的高级使用命令</h2><h3 id="hdfs文件限额配置" class="heading-element">
   <a href="#hdfs%e6%96%87%e4%bb%b6%e9%99%90%e9%a2%9d%e9%85%8d%e7%bd%ae" class="heading-mark"></a>2.1 HDFS文件限额配置</h3><p>在多人共用HDFS的环境下，配置设置非常重要。特别是在 Hadoop 处理大量资料的环境，如果没有配额管理，很容易把所有的空间用完造成别人无法存取。HDFS 的配额设定是针对目录而不是针对账号，可以让每个账号仅操作某一个目录，然后对目录设置配置。</p>
 <p>HDFS 文件的限额配置允许我们以文件个数，或者文件大小来限制我们在某个目录下上传的文件数量或者文件内容总量，以便达到我们类似百度网盘网盘等限制每个用户允许上传的最大的文件的量。</p>
-<div class="highlight" id="id-25"><div class="chroma">
+<div class="highlight" id="id-26"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -436,7 +452,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"> hdfs dfs -count -q -h /user/root/dir1  <span class="c1">#查看配额信息</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="数量限额" class="heading-element">
-  <a href="#%e6%95%b0%e9%87%8f%e9%99%90%e9%a2%9d" class="heading-mark"></a>2.1.1 数量限额</h4><div class="highlight" id="id-26"><div class="chroma">
+  <a href="#%e6%95%b0%e9%87%8f%e9%99%90%e9%a2%9d" class="heading-mark"></a>2.1.1 数量限额</h4><div class="highlight" id="id-27"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -453,7 +469,7 @@
 </div>
 </div><h4 id="空间大小限额" class="heading-element">
   <a href="#%e7%a9%ba%e9%97%b4%e5%a4%a7%e5%b0%8f%e9%99%90%e9%a2%9d" class="heading-mark"></a>2.1.2 空间大小限额</h4><p>在设置空间配额时，设置的空间至少是 block_size * 3 大小</p>
-<div class="highlight" id="id-27"><div class="chroma">
+<div class="highlight" id="id-28"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -477,7 +493,7 @@
 <p>假设我们设置的副本数（即参数dfs.replication）是3，那么在datanode上就应该有3个副本存在，假设只存在2个副本，那么比例就是2/3=0.666。hdfs默认的副本率0.999。我们的副本率0.666明显小于0.999，因此系统会自动的复制副本到其他dataNode，使得副本率不小于0.999。如果系统中有5个副本，超过我们设定的3个副本，那么系统也会删除多于的2个副本。</p>
 <p>在安全模式状态下，文件系统只接受读数据请求，而不接受删除、修改等变更请求。在，当整个系统达到安全标准时，HDFS自动离开安全模式。30s</p>
 <p>安全模式操作命令</p>
-<div class="highlight" id="id-28"><div class="chroma">
+<div class="highlight" id="id-29"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2

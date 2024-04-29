@@ -1,9 +1,11 @@
 # Fred的知识库
 
-共计 7 篇文章
+共计 9 篇文章
 
 ## 2024
 
+- 04-26 [Java核心基础](https://ipfred.github.io/lang/java/20240426133928/ "2024-04-26 13:39:28")
+- 04-26 [Java开发工具和前言](https://ipfred.github.io/lang/java/20240426111354/ "2024-04-26 11:13:54")
 - 04-24 [hive常见的命令](https://ipfred.github.io/bigdata/hive/20240424162208/ "2024-04-24 16:22:08")
 - 04-24 [HDFS文件读写过程](https://ipfred.github.io/bigdata/hadoop/a9bc224/ "2024-04-24 10:22:48")
 - 04-23 [hadoop命令行的使用](https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/ "2024-04-23 22:01:01")

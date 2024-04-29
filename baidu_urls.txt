@@ -1,3 +1,5 @@
+https://ipfred.github.io/lang/java/20240426133928/
+https://ipfred.github.io/lang/java/20240426111354/
 https://ipfred.github.io/web/
 https://ipfred.github.io/bigdata/hive/20240424162208/
 https://ipfred.github.io/bigdata/hadoop/a9bc224/

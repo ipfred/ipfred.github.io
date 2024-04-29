@@ -7,27 +7,27 @@
     <meta name="robots" content="noodp" />
     <title>hadoop命令行的使用 | Fred的知识库</title><meta name="author" content="Fred">
 <meta name="author-link" content="https://github.com/ipfred">
-<meta name="description" content="1 HDFS 的命令行使用如果没有配置 hadoop 的环境变量，则在 hadoop 的安装目录下的bin目录中执行以下命令，如已配置 hadoop 环境变量，则可在任意目录下执行 help 1 2 格式: hdfs dfs -help 操作命令 作用: 查看某一个操作命令的参数信息 ls 1 2 格式：hdfs dfs -ls URI 作用：类似于Linux的ls命令，显示文件列表 lsr 1 2 格式 : hdfs dfs -lsr URI 作用 : 在整个目录下递" /><meta name="keywords" content='Hadoop' />
+<meta name="description" content="1 HDFS 的命令行使用Hadoop 命令行官方doc hadoop fs: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等 hdfs dfs: 只能操作HDFS文件系统。 1 2 3 # 下面两种效果是一样的 hdfs dfs -ls /user/hive hadoop fs -ls /user/hive/ 如果操作HDFS文件系统，推荐使用 hdfs dfs,如果需要操作其他系统文件，使用hadoop fs命令 help 1 2 格" /><meta name="keywords" content='Hadoop' />
   <meta itemprop="name" content="hadoop命令行的使用">
-  <meta itemprop="description" content="1 HDFS 的命令行使用如果没有配置 hadoop 的环境变量，则在 hadoop 的安装目录下的bin目录中执行以下命令，如已配置 hadoop 环境变量，则可在任意目录下执行 help 1 2 格式: hdfs dfs -help 操作命令 作用: 查看某一个操作命令的参数信息 ls 1 2 格式：hdfs dfs -ls URI 作用：类似于Linux的ls命令，显示文件列表 lsr 1 2 格式 : hdfs dfs -lsr URI 作用 : 在整个目录下递">
+  <meta itemprop="description" content="1 HDFS 的命令行使用Hadoop 命令行官方doc hadoop fs: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等 hdfs dfs: 只能操作HDFS文件系统。 1 2 3 # 下面两种效果是一样的 hdfs dfs -ls /user/hive hadoop fs -ls /user/hive/ 如果操作HDFS文件系统，推荐使用 hdfs dfs,如果需要操作其他系统文件，使用hadoop fs命令 help 1 2 格">
   <meta itemprop="datePublished" content="2024-04-23T22:01:01+08:00">
-  <meta itemprop="dateModified" content="2024-04-25T22:26:28+08:00">
-  <meta itemprop="wordCount" content="2229">
+  <meta itemprop="dateModified" content="2024-04-26T09:57:44+08:00">
+  <meta itemprop="wordCount" content="2311">
   <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
   <meta itemprop="keywords" content="Hadoop"><meta property="og:url" content="https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/">
   <meta property="og:site_name" content="Fred的知识库">
   <meta property="og:title" content="hadoop命令行的使用">
-  <meta property="og:description" content="1 HDFS 的命令行使用如果没有配置 hadoop 的环境变量，则在 hadoop 的安装目录下的bin目录中执行以下命令，如已配置 hadoop 环境变量，则可在任意目录下执行 help 1 2 格式: hdfs dfs -help 操作命令 作用: 查看某一个操作命令的参数信息 ls 1 2 格式：hdfs dfs -ls URI 作用：类似于Linux的ls命令，显示文件列表 lsr 1 2 格式 : hdfs dfs -lsr URI 作用 : 在整个目录下递">
+  <meta property="og:description" content="1 HDFS 的命令行使用Hadoop 命令行官方doc hadoop fs: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等 hdfs dfs: 只能操作HDFS文件系统。 1 2 3 # 下面两种效果是一样的 hdfs dfs -ls /user/hive hadoop fs -ls /user/hive/ 如果操作HDFS文件系统，推荐使用 hdfs dfs,如果需要操作其他系统文件，使用hadoop fs命令 help 1 2 格">
   <meta property="og:locale" content="zh-CN">
   <meta property="og:type" content="article">
   <meta property="article:section" content="bigdata">
     <meta property="article:published_time" content="2024-04-23T22:01:01+08:00">
-    <meta property="article:modified_time" content="2024-04-25T22:26:28+08:00">
+    <meta property="article:modified_time" content="2024-04-26T09:57:44+08:00">
     <meta property="article:tag" content="Hadoop">
     <meta property="og:image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta name="twitter:title" content="hadoop命令行的使用">
-<meta name="twitter:description" content="1 HDFS 的命令行使用如果没有配置 hadoop 的环境变量，则在 hadoop 的安装目录下的bin目录中执行以下命令，如已配置 hadoop 环境变量，则可在任意目录下执行 help 1 2 格式: hdfs dfs -help 操作命令 作用: 查看某一个操作命令的参数信息 ls 1 2 格式：hdfs dfs -ls URI 作用：类似于Linux的ls命令，显示文件列表 lsr 1 2 格式 : hdfs dfs -lsr URI 作用 : 在整个目录下递">
+<meta name="twitter:description" content="1 HDFS 的命令行使用Hadoop 命令行官方doc hadoop fs: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等 hdfs dfs: 只能操作HDFS文件系统。 1 2 3 # 下面两种效果是一样的 hdfs dfs -ls /user/hive hadoop fs -ls /user/hive/ 如果操作HDFS文件系统，推荐使用 hdfs dfs,如果需要操作其他系统文件，使用hadoop fs命令 help 1 2 格">
 <meta name="application-name" content="FredKnow">
 <meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -42,8 +42,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/ipfred.github.io\/bigdata\/hadoop\/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8\/"
-    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","keywords": "Hadoop","wordcount":  2229 ,
-    "url": "https:\/\/ipfred.github.io\/bigdata\/hadoop\/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8\/","datePublished": "2024-04-23T22:01:01+08:00","dateModified": "2024-04-25T22:26:28+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","keywords": "Hadoop","wordcount":  2311 ,
+    "url": "https:\/\/ipfred.github.io\/bigdata\/hadoop\/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8\/","datePublished": "2024-04-23T22:01:01+08:00","dateModified": "2024-04-26T09:57:44+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
       "@type": "Organization",
       "name": "ipFred","logo": "https:\/\/ipfred.github.io\/images\/avatar.jpg"},"author": {
         "@type": "Person",
@@ -93,7 +93,7 @@
                       >
                         <a
                           class="menu-link"
-                          href="/java/"
+                          href="/lang/java/"
                           
                           
                         ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
@@ -102,7 +102,7 @@
                       >
                         <a
                           class="menu-link"
-                          href="/python/"
+                          href="/lang/python/"
                           
                           
                         ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
@@ -199,7 +199,7 @@
                       >
                         <a
                           class="menu-link"
-                          href="/java/"
+                          href="/lang/java/"
                           
                           
                         ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
@@ -208,7 +208,7 @@
                       >
                         <a
                           class="menu-link"
-                          href="/python/"
+                          href="/lang/python/"
                           
                           
                         ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
@@ -251,7 +251,7 @@
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>hadoop命令行的使用</span>
       </h1></div><div class="post-meta">
       <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
-    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/project/" class="post-category" title="分类 - 作品集"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 作品集</a> 和 <a href="/collections/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-collection" title="合集 - 大数据"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> 大数据</a></span></div><div class="post-meta-line"><span title="发布于 2024-04-23 22:01:01"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-04-23">2024-04-23</time></span>&nbsp;<span title="更新于 2024-04-25 22:26:28"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-04-25">2024-04-25</time></span>&nbsp;<span title="2229 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="hadoop命令行的使用">
+    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/project/" class="post-category" title="分类 - 作品集"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 作品集</a> 和 <a href="/collections/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-collection" title="合集 - 大数据"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> 大数据</a></span></div><div class="post-meta-line"><span title="发布于 2024-04-23 22:01:01"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-04-23">2024-04-23</time></span>&nbsp;<span title="更新于 2024-04-26 09:57:44"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-04-26">2024-04-26</time></span>&nbsp;<span title="2311 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="hadoop命令行的使用">
               <i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
             </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
@@ -276,11 +276,27 @@
   </ol>
 </nav></div>
       </div><div class="content" id="content" data-end-flag="（本文完）"><h2 id="hdfs-的命令行使用" class="heading-element">
-  <a href="#hdfs-%e7%9a%84%e5%91%bd%e4%bb%a4%e8%a1%8c%e4%bd%bf%e7%94%a8" class="heading-mark"></a>1 HDFS 的命令行使用</h2><p>如果没有配置 hadoop 的环境变量，则在 hadoop 的安装目录下的bin目录中执行以下命令，如已配置 hadoop 环境变量，则可在任意目录下执行</p>
+  <a href="#hdfs-%e7%9a%84%e5%91%bd%e4%bb%a4%e8%a1%8c%e4%bd%bf%e7%94%a8" class="heading-mark"></a>1 HDFS 的命令行使用</h2><p><a href="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html"target="_blank" rel="external nofollow noopener noreferrer">Hadoop 命令行官方doc<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<p><code>hadoop fs</code>: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等
+<code>hdfs dfs</code>: 只能操作HDFS文件系统。</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 下面两种效果是一样的</span>
+</span></span><span class="line"><span class="cl">hdfs dfs -ls /user/hive
+</span></span><span class="line"><span class="cl">hadoop fs -ls /user/hive/</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>如果操作HDFS文件系统，推荐使用 hdfs dfs,如果需要操作其他系统文件，使用hadoop fs命令</p>
+</blockquote>
 <ul>
 <li>help</li>
 </ul>
-<div class="highlight" id="id-1"><div class="chroma">
+<div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -292,7 +308,7 @@
 </div><ul>
 <li>ls</li>
 </ul>
-<div class="highlight" id="id-2"><div class="chroma">
+<div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -304,7 +320,7 @@
 </div><ul>
 <li>lsr</li>
 </ul>
-<div class="highlight" id="id-3"><div class="chroma">
+<div class="highlight" id="id-4"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -316,7 +332,7 @@
 </div><ul>
 <li>mkdir</li>
 </ul>
-<div class="highlight" id="id-4"><div class="chroma">
+<div class="highlight" id="id-5"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -328,7 +344,7 @@
 </div><ul>
 <li>put</li>
 </ul>
-<div class="highlight" id="id-5"><div class="chroma">
+<div class="highlight" id="id-6"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -344,7 +360,7 @@
 </div><ul>
 <li>moveFromLocal</li>
 </ul>
-<div class="highlight" id="id-6"><div class="chroma">
+<div class="highlight" id="id-7"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -360,7 +376,7 @@
 </div><ul>
 <li>copyFromLocal</li>
 </ul>
-<div class="highlight" id="id-7"><div class="chroma">
+<div class="highlight" id="id-8"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -372,7 +388,7 @@
 </div><ul>
 <li>appendToFile</li>
 </ul>
-<div class="highlight" id="id-8"><div class="chroma">
+<div class="highlight" id="id-9"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -388,7 +404,7 @@
 </div><ul>
 <li>moveToLocal</li>
 </ul>
-<div class="highlight" id="id-9"><div class="chroma">
+<div class="highlight" id="id-10"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -402,7 +418,7 @@
 </div><ul>
 <li>get</li>
 </ul>
-<div class="highlight" id="id-10"><div class="chroma">
+<div class="highlight" id="id-11"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -420,7 +436,7 @@
 </div><ul>
 <li>getmerge</li>
 </ul>
-<div class="highlight" id="id-11"><div class="chroma">
+<div class="highlight" id="id-12"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -432,7 +448,7 @@
 </div><ul>
 <li>copyToLocal</li>
 </ul>
-<div class="highlight" id="id-12"><div class="chroma">
+<div class="highlight" id="id-13"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -444,7 +460,7 @@
 </div><ul>
 <li>mv</li>
 </ul>
-<div class="highlight" id="id-13"><div class="chroma">
+<div class="highlight" id="id-14"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -458,7 +474,7 @@
 </div><ul>
 <li>rm</li>
 </ul>
-<div class="highlight" id="id-14"><div class="chroma">
+<div class="highlight" id="id-15"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -478,7 +494,7 @@
 </div><ul>
 <li>cp</li>
 </ul>
-<div class="highlight" id="id-15"><div class="chroma">
+<div class="highlight" id="id-16"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -502,7 +518,7 @@
 </div><ul>
 <li>cat</li>
 </ul>
-<div class="highlight" id="id-16"><div class="chroma">
+<div class="highlight" id="id-17"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -516,7 +532,7 @@
 </div><ul>
 <li>tail</li>
 </ul>
-<div class="highlight" id="id-17"><div class="chroma">
+<div class="highlight" id="id-18"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -528,7 +544,7 @@
 </div><ul>
 <li>text</li>
 </ul>
-<div class="highlight" id="id-18"><div class="chroma">
+<div class="highlight" id="id-19"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -540,7 +556,7 @@
 </div><ul>
 <li>chmod</li>
 </ul>
-<div class="highlight" id="id-19"><div class="chroma">
+<div class="highlight" id="id-20"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -554,7 +570,7 @@
 </div><ul>
 <li>chown</li>
 </ul>
-<div class="highlight" id="id-20"><div class="chroma">
+<div class="highlight" id="id-21"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -568,7 +584,7 @@
 </div><ul>
 <li>df</li>
 </ul>
-<div class="highlight" id="id-21"><div class="chroma">
+<div class="highlight" id="id-22"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -580,7 +596,7 @@
 </div><ul>
 <li>du</li>
 </ul>
-<div class="highlight" id="id-22"><div class="chroma">
+<div class="highlight" id="id-23"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -592,7 +608,7 @@
 </div><ul>
 <li>count</li>
 </ul>
-<div class="highlight" id="id-23"><div class="chroma">
+<div class="highlight" id="id-24"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -605,7 +621,7 @@
 <li>setrep</li>
 <li>expunge (慎用)</li>
 </ul>
-<div class="highlight" id="id-24"><div class="chroma">
+<div class="highlight" id="id-25"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -620,7 +636,7 @@
   <a href="#hdfs%e7%9a%84%e9%ab%98%e7%ba%a7%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4" class="heading-mark"></a>2 hdfs的高级使用命令</h2><h3 id="hdfs文件限额配置" class="heading-element">
   <a href="#hdfs%e6%96%87%e4%bb%b6%e9%99%90%e9%a2%9d%e9%85%8d%e7%bd%ae" class="heading-mark"></a>2.1 HDFS文件限额配置</h3><p>在多人共用HDFS的环境下，配置设置非常重要。特别是在 Hadoop 处理大量资料的环境，如果没有配额管理，很容易把所有的空间用完造成别人无法存取。HDFS 的配额设定是针对目录而不是针对账号，可以让每个账号仅操作某一个目录，然后对目录设置配置。</p>
 <p>HDFS 文件的限额配置允许我们以文件个数，或者文件大小来限制我们在某个目录下上传的文件数量或者文件内容总量，以便达到我们类似百度网盘网盘等限制每个用户允许上传的最大的文件的量。</p>
-<div class="highlight" id="id-25"><div class="chroma">
+<div class="highlight" id="id-26"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -628,7 +644,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"> hdfs dfs -count -q -h /user/root/dir1  <span class="c1">#查看配额信息</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="数量限额" class="heading-element">
-  <a href="#%e6%95%b0%e9%87%8f%e9%99%90%e9%a2%9d" class="heading-mark"></a>2.1.1 数量限额</h4><div class="highlight" id="id-26"><div class="chroma">
+  <a href="#%e6%95%b0%e9%87%8f%e9%99%90%e9%a2%9d" class="heading-mark"></a>2.1.1 数量限额</h4><div class="highlight" id="id-27"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -645,7 +661,7 @@
 </div>
 </div><h4 id="空间大小限额" class="heading-element">
   <a href="#%e7%a9%ba%e9%97%b4%e5%a4%a7%e5%b0%8f%e9%99%90%e9%a2%9d" class="heading-mark"></a>2.1.2 空间大小限额</h4><p>在设置空间配额时，设置的空间至少是 block_size * 3 大小</p>
-<div class="highlight" id="id-27"><div class="chroma">
+<div class="highlight" id="id-28"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -669,7 +685,7 @@
 <p>假设我们设置的副本数（即参数dfs.replication）是3，那么在datanode上就应该有3个副本存在，假设只存在2个副本，那么比例就是2/3=0.666。hdfs默认的副本率0.999。我们的副本率0.666明显小于0.999，因此系统会自动的复制副本到其他dataNode，使得副本率不小于0.999。如果系统中有5个副本，超过我们设定的3个副本，那么系统也会删除多于的2个副本。</p>
 <p>在安全模式状态下，文件系统只接受读数据请求，而不接受删除、修改等变更请求。在，当整个系统达到安全标准时，HDFS自动离开安全模式。30s</p>
 <p>安全模式操作命令</p>
-<div class="highlight" id="id-28"><div class="chroma">
+<div class="highlight" id="id-29"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -700,9 +716,9 @@
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2024-04-25 22:26:28">更新于 2024-04-25&nbsp;</span>
+        <span title="更新于 2024-04-26 09:57:44">更新于 2024-04-26&nbsp;</span>
       </div></div><div class="post-info-line">
-        <div class="post-info-md"><span><a href="/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span><span><a href="https://github.com/ipfred/ipfred.github.io/blob/main/content/bigdata/hadoop/hadoop%e5%91%bd%e4%bb%a4%e8%a1%8c%e7%9a%84%e4%bd%bf%e7%94%a8.md?plain=1" title="查看源码"target="_blank" rel="external nofollow noopener noreferrer" class="link-to-source">查看源码</a></span></div>
+        <div class="post-info-md"><span><a href="/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span><span><a href="https://github.com/ipfred/ipfred.github.io/blob/main/content/bigdata%5chadoop%5chadoop%e5%91%bd%e4%bb%a4%e8%a1%8c%e7%9a%84%e4%bd%bf%e7%94%a8.md?plain=1" title="查看源码"target="_blank" rel="external nofollow noopener noreferrer" class="link-to-source">查看源码</a></span></div>
         <div class="post-info-share">
           <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/" data-title="hadoop命令行的使用"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
   <a href="javascript:void(0);" title="分享到 百度" data-sharer="baidu" data-url="https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/" data-title="hadoop命令行的使用"><i data-svg-src="https://unpkg.com/simple-icons@9.19.0/icons/baidu.svg" aria-hidden="true"></i></a>
@@ -747,7 +763,7 @@
 
   <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
       <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
-    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.1"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
         </div><div class="footer-line copyright order-1" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
             <span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">
               <a href="https://github.com/ipfred"target="_blank" rel="external nofollow noopener noreferrer">Fred</a></span></div><div class="footer-line statistics order-first"></div><div class="footer-line visitor">
