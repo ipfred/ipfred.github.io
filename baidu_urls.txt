@@ -1,3 +1,6 @@
+https://ipfred.github.io/lang/docker/20240511160713/
+https://ipfred.github.io/lang/docker/20240510103849/
+https://ipfred.github.io/posts/20240428183407/
 https://ipfred.github.io/lang/java/20240426133928/
 https://ipfred.github.io/lang/java/20240426111354/
 https://ipfred.github.io/web/

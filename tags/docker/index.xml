@@ -1,0 +1,449 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>docker - 标签 | Fred的知识库</title>
+    <link>https://ipfred.github.io/tags/docker/</link>
+    <description>docker - 标签 | Fred的知识库</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Fri, 10 May 2024 10:38:49 &#43;0800</lastBuildDate><atom:link href="https://ipfred.github.io/tags/docker/" rel="self" type="application/rss+xml" /><item>
+  <title>docker使用常用命令</title>
+  <link>https://ipfred.github.io/lang/docker/20240510103849/</link>
+  <pubDate>Fri, 10 May 2024 10:38:49 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>https://ipfred.github.io/lang/docker/20240510103849/</guid>
+  <description><![CDATA[<h3 id="docker命令官方文档" class="heading-element">
+  <a href="#docker%e5%91%bd%e4%bb%a4%e5%ae%98%e6%96%b9%e6%96%87%e6%a1%a3" class="heading-mark"></a>docker命令官方文档</h3><p><a href="https://docs.docker.com/reference/cli/docker/"target="_blank" rel="external nofollow noopener noreferrer">docker | Docker Docs<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<h3 id="代理配置" class="heading-element">
+  <a href="#%e4%bb%a3%e7%90%86%e9%85%8d%e7%bd%ae" class="heading-mark"></a>代理配置</h3><p>/etc/docker/daemon.json 文件写入下面内容(文件不存在新建)</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;registry-mirrors&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;https://hub-mirror.c.163.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;https://mirror.baidubce.com&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>重启docker服务</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo systemctl daemon-reload
+</span></span><span class="line"><span class="cl">sudo systemctl restart docker
+</span></span><span class="line"><span class="cl">sudo service docker stop
+</span></span><span class="line"><span class="cl">sudo service docker start</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="docker基础命令" class="heading-element">
+  <a href="#docker%e5%9f%ba%e7%a1%80%e5%91%bd%e4%bb%a4" class="heading-mark"></a>docker基础命令</h2><h3 id="增" class="heading-element">
+  <a href="#%e5%a2%9e" class="heading-mark"></a>增</h3><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker pull 镜像文件名 
+</span></span><span class="line"><span class="cl"><span class="c1">#下载docker镜像</span>
+</span></span><span class="line"><span class="cl">docker  run  hello-world   <span class="c1">#运行镜像文件,生成docker容器实例,docker run命令,会自动下载不存在的镜像</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#容器是随时创建,随时删除的,轻量级,每次docker run 都会生成新的容器记录 </span>
+</span></span><span class="line"><span class="cl"><span class="c1">#docker容器进程,如果没有在后台运行的话,就会立即挂掉,  (容器中必须有正在工作的进程)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#运行一个活着的容器进程</span>
+</span></span><span class="line"><span class="cl">docker run -d centos /bin/sh -c <span class="s2">&#34;while true;do echo &#39;你个糟老头子,不听课,坏得很&#39;; sleep 1;done&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">#运行镜像  </span>
+</span></span><span class="line"><span class="cl">	-d  后台运行的意思
+</span></span><span class="line"><span class="cl">	 centos  指的是镜像文件名  
+</span></span><span class="line"><span class="cl">	/bin/sh  要在这个容器内运行的命令,指定的解释器 shell解释器 
+</span></span><span class="line"><span class="cl">	-c  指定一段shell代码 
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl"><span class="c1">#进入容器空间内的命令 </span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it 容器id  /bin/bash  <span class="c1">#进入容器空间内 </span>
+</span></span><span class="line"><span class="cl">	-i 交互式命令操作
+</span></span><span class="line"><span class="cl">	-t 开启一个新的终端
+</span></span><span class="line"><span class="cl">    <span class="nb">exit</span> 退出虚拟容器
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl"><span class="c1">#运行一个ubuntu容器</span>
+</span></span><span class="line"><span class="cl">docker run -it ubuntu  </span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="删" class="heading-element">
+  <a href="#%e5%88%a0" class="heading-mark"></a>删</h3><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker rmi  镜像名字/镜像id   <span class="c1">#删除镜像文件 </span>
+</span></span><span class="line"><span class="cl">docker rm  容器id/容器进程名字   <span class="c1">#删除容器记录</span>
+</span></span><span class="line"><span class="cl">docker rmi -f  <span class="c1">#强制删除镜像文件  </span>
+</span></span><span class="line"><span class="cl">docker  rm  <span class="sb">`</span>docker ps -aq<span class="sb">`</span>   <span class="c1">#批量删除容器记录,只能删除挂掉的容器记录 </span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="改" class="heading-element">
+  <a href="#%e6%94%b9" class="heading-mark"></a>改</h3><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">#docker容器进程的启停命令</span>
+</span></span><span class="line"><span class="cl">docker start  容器id 
+</span></span><span class="line"><span class="cl">docker stop  容器id  </span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查" class="heading-element">
+  <a href="#%e6%9f%a5" class="heading-mark"></a>查</h3><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker search  镜像文件名字   <span class="c1">#搜索镜像文件</span>
+</span></span><span class="line"><span class="cl">docker images  <span class="c1">#列出当前所有的镜像文件 </span>
+</span></span><span class="line"><span class="cl">docker ps   <span class="c1">#列出当前记录正在运行的容器进程 </span>
+</span></span><span class="line"><span class="cl">docker ps -a  <span class="c1">#列出所有的容器进程,以及挂掉的  </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker logs 容器id  <span class="c1">#查看容器内的日志信息 </span>
+</span></span><span class="line"><span class="cl">docker logs -f  容器id   <span class="c1">#检测容器内的日志 </span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="容器镜像" class="heading-element">
+  <a href="#%e5%ae%b9%e5%99%a8%e9%95%9c%e5%83%8f" class="heading-mark"></a>容器镜像</h3><h4 id="提交自己开发的dokcer镜像文件" class="heading-element">
+  <a href="#%e6%8f%90%e4%ba%a4%e8%87%aa%e5%b7%b1%e5%bc%80%e5%8f%91%e7%9a%84dokcer%e9%95%9c%e5%83%8f%e6%96%87%e4%bb%b6" class="heading-mark"></a>提交自己开发的dokcer镜像文件</h4><ol>
+<li>docker run -it centos /bin/bash #进入一个纯净的centos容器空间内,此时是最小化安装的系统,没有vim 没有py3</li>
+<li>在容器空间内 yum install vim ,然后退出容器</li>
+<li>提交容器为新的镜像文件</li>
+</ol>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">#  docker commit 容器进程id    镜像文件的名字 </span>
+</span></span><span class="line"><span class="cl">docker commit <span class="m">419</span>  s21docker-centos-vim </span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>导出docker镜像</li>
+</ol>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker save 镜像文件名  &gt; /opt/s21-centos-vim.tar.gz  </span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>导入镜像文件</li>
+</ol>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker load &lt;  同事给你发的镜像文件</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="6">
+<li>推送镜像只dockerhub</li>
+</ol>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 仓库管理 创建dockerhub账号:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改镜像之后保存镜像: </span>
+</span></span><span class="line"><span class="cl">docker commit b573392cad1a mysql:5.7
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改镜像标签: </span>
+</span></span><span class="line"><span class="cl">docker tag mysql:5.7 bigox/mysql:5.7
+</span></span><span class="line"><span class="cl"><span class="c1"># 登录docker: </span>
+</span></span><span class="line"><span class="cl">docker login
+</span></span><span class="line"><span class="cl"><span class="c1"># 推送镜像:</span>
+</span></span><span class="line"><span class="cl">docker push bigox/mysql:5.7</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="常用docker命令" class="heading-element">
+  <a href="#%e5%b8%b8%e7%94%a8docker%e5%91%bd%e4%bb%a4" class="heading-mark"></a>常用docker命令</h3><p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h4 id="docker容器信息" class="heading-element">
+  <a href="#docker%e5%ae%b9%e5%99%a8%e4%bf%a1%e6%81%af" class="heading-mark"></a>docker容器信息</h4><div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">##查看docker容器版本</span>
+</span></span><span class="line"><span class="cl">docker version
+</span></span><span class="line"><span class="cl"><span class="c1">##查看docker容器信息</span>
+</span></span><span class="line"><span class="cl">docker info
+</span></span><span class="line"><span class="cl"><span class="c1">##查看docker容器帮助 记不住docker命令可以经常使用docker --help查看</span>
+</span></span><span class="line"><span class="cl">docker --help</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="镜像的操作" class="heading-element">
+  <a href="#%e9%95%9c%e5%83%8f%e7%9a%84%e6%93%8d%e4%bd%9c" class="heading-mark"></a>镜像的操作</h4><blockquote>
+<p>对镜像的操作，可使用镜像名、镜像长ID或短ID</p>
+</blockquote>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">### 镜像查看</span>
+</span></span><span class="line"><span class="cl">docker image list
+</span></span><span class="line"><span class="cl"><span class="c1">##只显示镜像ID</span>
+</span></span><span class="line"><span class="cl">docker images -q
+</span></span><span class="line"><span class="cl"><span class="c1">##含中间映像层</span>
+</span></span><span class="line"><span class="cl">docker images -qa   
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">### 镜像搜索</span>
+</span></span><span class="line"><span class="cl">docker search mysql
+</span></span><span class="line"><span class="cl"><span class="c1"># 镜像下载</span>
+</span></span><span class="line"><span class="cl">docker pull redis
+</span></span><span class="line"><span class="cl"><span class="c1"># 下载仓库里的所有redis镜像</span>
+</span></span><span class="line"><span class="cl">docker pull -a redis
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 镜像删除</span>
+</span></span><span class="line"><span class="cl">docker rmi redis
+</span></span><span class="line"><span class="cl">docker rmi -f redis
+</span></span><span class="line"><span class="cl"><span class="c1"># 删除多个镜像</span>
+</span></span><span class="line"><span class="cl">docker rmi -f redis tomcat nginx
+</span></span><span class="line"><span class="cl"><span class="c1"># 删除本地多个镜像</span>
+</span></span><span class="line"><span class="cl">docker rmi -f <span class="k">$(</span>docker images -q<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 构建镜像</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##（1）编写dockerfile</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /docker/dockerfile
+</span></span><span class="line"><span class="cl">vim mycentos
+</span></span><span class="line"><span class="cl"><span class="c1">##（2）构建docker镜像</span>
+</span></span><span class="line"><span class="cl">docker build -f /docker/dockerfile/mycentos -t mycentos:1.1</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="容器操作" class="heading-element">
+  <a href="#%e5%ae%b9%e5%99%a8%e6%93%8d%e4%bd%9c" class="heading-mark"></a>容器操作</h3><div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 容器启动</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##新建并启动容器，参数：-i  以交互模式运行容器；-t  为容器重新分配一个伪输入终端；--name  为容器指定一个名称</span>
+</span></span><span class="line"><span class="cl">docker run -i -t --name mycentos
+</span></span><span class="line"><span class="cl"><span class="c1">##后台启动容器，参数：-d  已守护方式启动容器</span>
+</span></span><span class="line"><span class="cl">docker run -d mycentos
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看容器</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##查看正在运行的容器</span>
+</span></span><span class="line"><span class="cl">docker ps
+</span></span><span class="line"><span class="cl"><span class="c1">##查看正在运行的容器的ID</span>
+</span></span><span class="line"><span class="cl">docker ps -q
+</span></span><span class="line"><span class="cl"><span class="c1">##查看正在运行+历史运行过的容器</span>
+</span></span><span class="line"><span class="cl">docker ps -a
+</span></span><span class="line"><span class="cl"><span class="c1">##显示运行容器总文件大小</span>
+</span></span><span class="line"><span class="cl">docker ps -s
+</span></span><span class="line"><span class="cl"><span class="c1">##显示最近创建容器</span>
+</span></span><span class="line"><span class="cl">docker ps -l
+</span></span><span class="line"><span class="cl"><span class="c1">##显示最近创建的3个容器</span>
+</span></span><span class="line"><span class="cl">docker ps -n <span class="m">3</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##不截断输出</span>
+</span></span><span class="line"><span class="cl">docker ps --no-trunc 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 容器进程</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##列出redis容器中运行进程</span>
+</span></span><span class="line"><span class="cl">docker top redis
+</span></span><span class="line"><span class="cl"><span class="c1">##查看所有运行容器的进程信息</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> i in  <span class="sb">`</span>docker ps <span class="p">|</span>grep Up<span class="p">|</span>awk <span class="s1">&#39;{print $1}&#39;</span><span class="sb">`</span><span class="p">;</span><span class="k">do</span> <span class="nb">echo</span> <span class="se">\ </span><span class="o">&amp;&amp;</span>docker top <span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 容器日志</span>
+</span></span><span class="line"><span class="cl">docker logs rabitmq
+</span></span><span class="line"><span class="cl"><span class="c1">##查看redis容器日志，参数：-f  跟踪日志输出；-t   显示时间戳；--tail  仅列出最新N条容器日志；</span>
+</span></span><span class="line"><span class="cl">docker logs -f -t --tail<span class="o">=</span><span class="m">20</span> redis
+</span></span><span class="line"><span class="cl"><span class="c1">##查看容器redis从2019年05月21日后的最新10条日志。</span>
+</span></span><span class="line"><span class="cl">docker logs --since<span class="o">=</span><span class="s2">&#34;2019-05-21&#34;</span> --tail<span class="o">=</span><span class="m">10</span> redis
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 容器的进入和退出</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##使用run方式在创建时进入</span>
+</span></span><span class="line"><span class="cl">docker run -it centos /bin/bash
+</span></span><span class="line"><span class="cl"><span class="c1">##关闭容器并退出</span>
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">##直接进入centos 容器启动命令的终端，不会启动新进程，多个attach连接共享容器屏幕，参数：--sig-proxy=false  确保CTRL-D或CTRL-C不会关闭容器</span>
+</span></span><span class="line"><span class="cl">docker attach --sig-proxy<span class="o">=</span><span class="nb">false</span> centos 
+</span></span><span class="line"><span class="cl"><span class="c1">##在 centos 容器中打开新的交互模式终端，可以启动新进程，参数：-i  即使没有附加也保持STDIN 打开；-t  分配一个伪终端</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -i -t  centos /bin/bash
+</span></span><span class="line"><span class="cl"><span class="c1">##以交互模式在容器中执行命令，结果返回到当前终端屏幕</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -i -t centos ls -l /tmp
+</span></span><span class="line"><span class="cl"><span class="c1">##以分离模式在容器中执行命令，程序后台运行，结果不会反馈到当前终端</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -d centos  touch cache.txt 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 容器的停止和删除</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##停止一个运行中的容器</span>
+</span></span><span class="line"><span class="cl">docker stop redis
+</span></span><span class="line"><span class="cl"><span class="c1">##杀掉一个运行中的容器</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">kill</span> redis
+</span></span><span class="line"><span class="cl"><span class="c1">##删除一个已停止的容器</span>
+</span></span><span class="line"><span class="cl">docker rm redis
+</span></span><span class="line"><span class="cl"><span class="c1">##删除一个运行中的容器</span>
+</span></span><span class="line"><span class="cl">docker rm -f redis
+</span></span><span class="line"><span class="cl"><span class="c1">##删除多个容器</span>
+</span></span><span class="line"><span class="cl">docker rm -f <span class="k">$(</span>docker ps -a -q<span class="k">)</span>
+</span></span><span class="line"><span class="cl">docker ps -a -q <span class="p">|</span> xargs docker rm
+</span></span><span class="line"><span class="cl"><span class="c1">## -l 移除容器间的网络连接，连接名为 db</span>
+</span></span><span class="line"><span class="cl">docker rm -l db 
+</span></span><span class="line"><span class="cl"><span class="c1">## -v 删除容器，并删除容器挂载的数据卷</span>
+</span></span><span class="line"><span class="cl">docker rm -v redis
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 容器和主机间的数据拷贝</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##将rabbitmq容器中的文件copy至本地路径</span>
+</span></span><span class="line"><span class="cl">docker cp rabbitmq:/<span class="o">[</span>container_path<span class="o">]</span> <span class="o">[</span>local_path<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##将主机文件copy至rabbitmq容器</span>
+</span></span><span class="line"><span class="cl">docker cp <span class="o">[</span>local_path<span class="o">]</span> rabbitmq:/<span class="o">[</span>container_path<span class="o">]</span>/
+</span></span><span class="line"><span class="cl"><span class="c1">##将主机文件copy至rabbitmq容器，目录重命名为[container_path]（注意与非重命名copy的区别）</span>
+</span></span><span class="line"><span class="cl">docker cp <span class="o">[</span>local_path<span class="o">]</span> rabbitmq:/<span class="o">[</span>container_path<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div>]]></description>
+</item>
+</channel>
+</rss>

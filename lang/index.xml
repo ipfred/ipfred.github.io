@@ -9,7 +9,21 @@
     <managingEditor>330446875@qq.com (Fred)</managingEditor>
     <webMaster>330446875@qq.com (Fred)</webMaster>
     <copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright>
-    <lastBuildDate></lastBuildDate>
+    <lastBuildDate>Mon, 13 May 2024 14:47:00 +0800</lastBuildDate>
     <atom:link href="https://ipfred.github.io/lang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一文搞懂Kerberos</title>
+      <link>https://ipfred.github.io/lang/docker/20240511160713/</link>
+      <pubDate>Sat, 11 May 2024 16:07:13 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/docker/20240511160713/</guid>
+      <description>Kerberos 是一种身份认证协议，被广泛运用在大数据生态中，甚至可以说是大数据身份认证的事实标准。本文将详细说明 Kerberos 原理。 二、Kerberos 是什么？Kerberos 一词来源于古希腊神话中的 Cerberus —— 守护地狱之门的三头犬。 一句话来说，Kerberos是一种基于加密Ticket的身份认证协议。 主要有三部分组成： Key Distribution Center (</description>
+    </item>
+    <item>
+      <title>docker使用常用命令</title>
+      <link>https://ipfred.github.io/lang/docker/20240510103849/</link>
+      <pubDate>Fri, 10 May 2024 10:38:49 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/docker/20240510103849/</guid>
+      <description>docker命令官方文档docker | Docker Docs 代理配置/etc/docker/daemon.json 文件写入下面内容(文件不存在新建) 1 2 3 4 5 6 { &amp;#34;registry-mirrors&amp;#34;: [ &amp;#34;https://hub-mirror.c.163.com&amp;#34;, &amp;#34;https://mirror.baidubce.com&amp;#34; ] } 重启docker服务 1 2 3 4 sudo systemctl daemon-reload sudo systemctl restart docker sudo service docker stop sudo service docker start docker基础命令 增 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 docker pull 镜像文件名 #下载</description>
+    </item>
   </channel>
 </rss>

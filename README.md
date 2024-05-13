@@ -1,9 +1,12 @@
 # Fred的知识库
 
-共计 9 篇文章
+共计 12 篇文章
 
 ## 2024
 
+- 05-11 [一文搞懂Kerberos](https://ipfred.github.io/lang/docker/20240511160713/ "2024-05-11 16:07:13")
+- 05-10 [docker使用常用命令](https://ipfred.github.io/lang/docker/20240510103849/ "2024-05-10 10:38:49")
+- 04-28 [Vim使用技巧大全](https://ipfred.github.io/posts/20240428183407/ "2024-04-28 18:34:07")
 - 04-26 [Java核心基础](https://ipfred.github.io/lang/java/20240426133928/ "2024-04-26 13:39:28")
 - 04-26 [Java开发工具和前言](https://ipfred.github.io/lang/java/20240426111354/ "2024-04-26 11:13:54")
 - 04-24 [hive常见的命令](https://ipfred.github.io/bigdata/hive/20240424162208/ "2024-04-24 16:22:08")
