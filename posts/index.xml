@@ -59,7 +59,7 @@ c0 删除到行首并修改</p>
   <author>Fred</author>
   <guid>https://ipfred.github.io/posts/my-first-post/</guid>
   <description><![CDATA[<h2 id="introduction" class="heading-element">
-  <a href="#introduction" class="heading-mark"></a>Introduction</h2><p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
+  <a href="#introduction" class="heading-mark"></a>1 Introduction</h2><p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
 <p>Visit the <a href="https://gohugo.io"target="_blank" rel="external nofollow noopener noreferrer">Hugo<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a> website!</p>
 ]]></description>
 </item>
@@ -94,7 +94,7 @@ c0 删除到行首并修改</p>
   <author>Fred</author>
   <guid>https://ipfred.github.io/posts/my-first-post/</guid>
   <description><![CDATA[<h2 id="introduction" class="heading-element">
-  <a href="#introduction" class="heading-mark"></a>Introduction</h2><p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
+  <a href="#introduction" class="heading-mark"></a>1 Introduction</h2><p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
 <p>Visit the <a href="https://gohugo.io"target="_blank" rel="external nofollow noopener noreferrer">Hugo<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a> website!</p>
 ]]></description>
 </item>

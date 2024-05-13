@@ -325,9 +325,9 @@
 </span></span><span class="line"><span class="cl">docker push bigox/mysql:5.7</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="常用docker命令" class="heading-element">
-  <a href="#%e5%b8%b8%e7%94%a8docker%e5%91%bd%e4%bb%a4" class="heading-mark"></a>常用docker命令</h3><p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+  <a href="#%e5%b8%b8%e7%94%a8docker%e5%91%bd%e4%bb%a4" class="heading-mark"></a>常用docker命令</h3><p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20240513142833.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
 <h4 id="docker容器信息" class="heading-element">
-  <a href="#docker%e5%ae%b9%e5%99%a8%e4%bf%a1%e6%81%af" class="heading-mark"></a>docker容器信息</h4><div class="highlight" id="id-11"><div class="chroma">
+  <a href="#docker%e5%ae%b9%e5%99%a8%e4%bf%a1%e6%81%af" class="heading-mark"></a>0.0.1 docker容器信息</h4><div class="highlight" id="id-1"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -345,10 +345,10 @@
 </span></span><span class="line"><span class="cl">docker --help</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="镜像的操作" class="heading-element">
-  <a href="#%e9%95%9c%e5%83%8f%e7%9a%84%e6%93%8d%e4%bd%9c" class="heading-mark"></a>镜像的操作</h4><blockquote>
+  <a href="#%e9%95%9c%e5%83%8f%e7%9a%84%e6%93%8d%e4%bd%9c" class="heading-mark"></a>0.0.2 镜像的操作</h4><blockquote>
 <p>对镜像的操作，可使用镜像名、镜像长ID或短ID</p>
 </blockquote>
-<div class="highlight" id="id-12"><div class="chroma">
+<div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -410,7 +410,7 @@
 </span></span><span class="line"><span class="cl">docker build -f /docker/dockerfile/mycentos -t mycentos:1.1</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="容器操作" class="heading-element">
-  <a href="#%e5%ae%b9%e5%99%a8%e6%93%8d%e4%bd%9c" class="heading-mark"></a>容器操作</h3><div class="highlight" id="id-13"><div class="chroma">
+  <a href="#%e5%ae%b9%e5%99%a8%e6%93%8d%e4%bd%9c" class="heading-mark"></a>0.1 容器操作</h3><div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -746,7 +746,7 @@ c0 删除到行首并修改</p>
 <li><code>final</code> 用于声明不可被继承的类 <code>final class FinalClass{}</code>;声明不可被重写的方法 <code>final void finalMethod() {}</code>;声明不可被修改的变量 <code>final int constantValue = 10;</code></li>
 <li><code>static</code>表名具有静态属性。</li>
 </ul>
-<div class="highlight" id="id-5"><div class="chroma">
+<div class="highlight" id="id-1"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -808,7 +808,7 @@ c0 删除到行首并修改</p>
 </li>
 </ul>
 <h2 id="23-标识符" class="heading-element">
-  <a href="#23-%e6%a0%87%e8%af%86%e7%ac%a6" class="heading-mark"></a>2.3 标识符</h2><p>标识符就是用来给类，接口，方法，变量，包等其名字的规则</p>
+  <a href="#23-%e6%a0%87%e8%af%86%e7%ac%a6" class="heading-mark"></a>1 2.3 标识符</h2><p>标识符就是用来给类，接口，方法，变量，包等其名字的规则</p>
 <ul>
 <li><code>类、接口</code> : 大驼峰命名法,第一个单词大写的是类\接口 <code>HelloWorld, VariableDemo</code></li>
 <li><code>变量, 方法</code>: 小驼峰命名法 第一个单词小写的是方法和变量 <code>zhangSanAge, studentName</code></li>
@@ -816,7 +816,7 @@ c0 删除到行首并修改</p>
 <li><code>包</code>：所有字母全部都小写 <code>com.baidu</code></li>
 </ul>
 <h2 id="24-数据类型" class="heading-element">
-  <a href="#24-%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>2.4 数据类型</h2><p>Java是强类型语言，每一个数据都给出了明确的数据类型</p>
+  <a href="#24-%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>2 2.4 数据类型</h2><p>Java是强类型语言，每一个数据都给出了明确的数据类型</p>
 <ul>
 <li>
 <p>基本数据类型(简称: 基本类型)</p>
@@ -839,7 +839,7 @@ c0 删除到行首并修改</p>
 </ul>
 </li>
 </ul>
-<div class="highlight" id="id-6"><div class="chroma">
+<div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -863,7 +863,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="25-常量" class="heading-element">
-  <a href="#25-%e5%b8%b8%e9%87%8f" class="heading-mark"></a>2.5 常量</h2><ul>
+  <a href="#25-%e5%b8%b8%e9%87%8f" class="heading-mark"></a>3 2.5 常量</h2><ul>
 <li>整数常量 <code>1</code></li>
 <li>小数常量 <code>3.14</code></li>
 <li>字符常量 <code>A</code> <code>B</code> <code>20</code>(20不是字符，是有两个字符组合成的)</li>
@@ -872,7 +872,7 @@ c0 删除到行首并修改</p>
 <li>空常量 <code>null</code></li>
 </ul>
 <h2 id="26-变量" class="heading-element">
-  <a href="#26-%e5%8f%98%e9%87%8f" class="heading-mark"></a>2.6 变量</h2><ul>
+  <a href="#26-%e5%8f%98%e9%87%8f" class="heading-mark"></a>4 2.6 变量</h2><ul>
 <li>在程序执行过程中，值可以在某个范围内发生改变的量叫变量</li>
 <li>变量要有明确的数据类型</li>
 <li>声明方式
@@ -882,7 +882,7 @@ c0 删除到行首并修改</p>
 </ul>
 </li>
 </ul>
-<div class="highlight" id="id-7"><div class="chroma">
+<div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -974,15 +974,15 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="27-运算符" class="heading-element">
-  <a href="#27-%e8%bf%90%e7%ae%97%e7%ac%a6" class="heading-mark"></a>2.7 运算符</h2><h3 id="271分类" class="heading-element">
-  <a href="#271%e5%88%86%e7%b1%bb" class="heading-mark"></a>2.7.1分类</h3><ul>
+  <a href="#27-%e8%bf%90%e7%ae%97%e7%ac%a6" class="heading-mark"></a>5 2.7 运算符</h2><h3 id="271分类" class="heading-element">
+  <a href="#271%e5%88%86%e7%b1%bb" class="heading-mark"></a>5.1 2.7.1分类</h3><ul>
 <li>
 <p>算术运算符</p>
 <ul>
 <li>+, -, *, /, %, ++, &ndash;</li>
 <li>变量前++ ：变量a自己加1，将加1后的结果赋值给b <code>b=++a</code></li>
 </ul>
-<div class="highlight" id="id-8"><div class="chroma">
+<div class="highlight" id="id-4"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1002,7 +1002,7 @@ c0 删除到行首并修改</p>
 </div><ul>
 <li>变量后++ ：变量a先把自己的值1，赋值给变量b</li>
 </ul>
-<div class="highlight" id="id-9"><div class="chroma">
+<div class="highlight" id="id-5"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1040,7 +1040,7 @@ c0 删除到行首并修改</p>
 <li>!(逻辑非),</li>
 <li>^(逻辑异或) 异同的意思, 相同为false, 不同为true.</li>
 </ul>
-<div class="highlight" id="id-10"><div class="chroma">
+<div class="highlight" id="id-6"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1094,7 +1094,7 @@ c0 删除到行首并修改</p>
 <li>(关系表达式) ? 表达式1：表达式2；</li>
 <li>true执行1表达式，false执行2表达式</li>
 </ul>
-<div class="highlight" id="id-11"><div class="chroma">
+<div class="highlight" id="id-7"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1122,14 +1122,14 @@ c0 删除到行首并修改</p>
 </div></li>
 </ul>
 <h2 id="28-流程控制" class="heading-element">
-  <a href="#28-%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6" class="heading-mark"></a>2.8 流程控制</h2><h3 id="281-分支结构" class="heading-element">
-  <a href="#281-%e5%88%86%e6%94%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>2.8.1 分支结构</h3><p>如果我们想某些代码是在满足条件的情况下, 才能被执行, 此时就需要用到选择结构了, 选择结构也叫分支结构, 主要分为以下两种:</p>
+  <a href="#28-%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6" class="heading-mark"></a>6 2.8 流程控制</h2><h3 id="281-分支结构" class="heading-element">
+  <a href="#281-%e5%88%86%e6%94%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>6.1 2.8.1 分支结构</h3><p>如果我们想某些代码是在满足条件的情况下, 才能被执行, 此时就需要用到选择结构了, 选择结构也叫分支结构, 主要分为以下两种:</p>
 <ul>
 <li>if语句, 主要用于<code>范围的判断</code></li>
 <li>switch.case语句, 主要用于<code>固定值</code>的判断.</li>
 </ul>
 <p>if分支</p>
-<div class="highlight" id="id-12"><div class="chroma">
+<div class="highlight" id="id-8"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1161,7 +1161,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>switch分支</p>
-<div class="highlight" id="id-13"><div class="chroma">
+<div class="highlight" id="id-9"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1235,7 +1235,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>switch 分支 case穿透，在switch语句中，如果case的后面不写break，将出现case穿透现象，也就是不会在判断下一个case的值，直接向后运行，直到遇到break，或者整体switch结束。</p>
-<div class="highlight" id="id-14"><div class="chroma">
+<div class="highlight" id="id-10"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1311,8 +1311,8 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="282-循环结构" class="heading-element">
-  <a href="#282-%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>2.8.2 循环结构</h3><p>for循环</p>
-<div class="highlight" id="id-15"><div class="chroma">
+  <a href="#282-%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>6.2 2.8.2 循环结构</h3><p>for循环</p>
+<div class="highlight" id="id-11"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1324,7 +1324,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>for循环求1-100之前偶数和</p>
-<div class="highlight" id="id-16"><div class="chroma">
+<div class="highlight" id="id-12"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1362,7 +1362,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>while循环</p>
-<div class="highlight" id="id-17"><div class="chroma">
+<div class="highlight" id="id-13"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1378,7 +1378,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>例子</p>
-<div class="highlight" id="id-18"><div class="chroma">
+<div class="highlight" id="id-14"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1408,7 +1408,7 @@ c0 删除到行首并修改</p>
 <li><code>do {} while(true)</code></li>
 </ul>
 <p>循环跳转: <code>break continue</code></p>
-<div class="highlight" id="id-19"><div class="chroma">
+<div class="highlight" id="id-15"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1442,7 +1442,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>嵌套循环打印99乘法表</p>
-<div class="highlight" id="id-20"><div class="chroma">
+<div class="highlight" id="id-16"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2392,7 +2392,7 @@ c0 删除到行首并修改</p>
   <author>Fred</author>
   <guid>https://ipfred.github.io/posts/my-first-post/</guid>
   <description><![CDATA[<h2 id="introduction" class="heading-element">
-  <a href="#introduction" class="heading-mark"></a>Introduction</h2><p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
+  <a href="#introduction" class="heading-mark"></a>1 Introduction</h2><p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
 <p>Visit the <a href="https://gohugo.io"target="_blank" rel="external nofollow noopener noreferrer">Hugo<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a> website!</p>
 ]]></description>
 </item>
