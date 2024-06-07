@@ -1,3 +1,4 @@
+https://ipfred.github.io/bigdata/hadoop/20240606150541/
 https://ipfred.github.io/lang/docker/20240511160713/
 https://ipfred.github.io/lang/docker/20240510103849/
 https://ipfred.github.io/posts/20240428183407/

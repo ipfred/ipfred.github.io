@@ -1,0 +1,1025 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>sqoop - 标签 | Fred的知识库</title>
+    <link>https://ipfred.github.io/tags/sqoop/</link>
+    <description>sqoop - 标签 | Fred的知识库</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Thu, 06 Jun 2024 15:05:41 &#43;0800</lastBuildDate><atom:link href="https://ipfred.github.io/tags/sqoop/" rel="self" type="application/rss+xml" /><item>
+  <title>sqoop使用文档</title>
+  <link>https://ipfred.github.io/bigdata/hadoop/20240606150541/</link>
+  <pubDate>Thu, 06 Jun 2024 15:05:41 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>https://ipfred.github.io/bigdata/hadoop/20240606150541/</guid>
+  <description><![CDATA[<h2 id="sqoop介绍" class="heading-element">
+  <a href="#sqoop%e4%bb%8b%e7%bb%8d" class="heading-mark"></a>sqoop介绍</h2><blockquote>
+<p>Sqoop 是一个设计用于在 Hadoop 和关系数据库或大型机之间传输数据的工具。您可以使用 Sqoop 将数据从关系数据库管理系统 (RDBMS)（例如 MySQL 或 Oracle）或大型机导入 Hadoop 分布式文件系统 (HDFS)，在 Hadoop MapReduce 中转换数据，然后将数据导出回 RDBMS 。</p>
+</blockquote>
+<p>Hadoop生态包括： HDFS，Hive，Hbase等
+RDBMS体系包括：Mysql、Oracle、DB2等</p>
+<p>sqoop是一些工具的集合, 使用的语法如下</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sqoop tool-name <span class="o">[</span>tool-arguments<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="命令工具" class="heading-element">
+  <a href="#%e5%91%bd%e4%bb%a4%e5%b7%a5%e5%85%b7" class="heading-mark"></a>命令工具</h2><p>可用的命令工具如下
+可以使用 &ndash;help 查看命令工具的使用方法
+<code>sqoop import --help</code> <code>sqoop help import</code></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用描述</th>
+<th>使用方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>codegen</code></td>
+<td>生成与数据库记录交互的代码</td>
+<td><code>sqoop codegen --connect &lt;连接字符串&gt; --table &lt;表名&gt;</code></td>
+</tr>
+<tr>
+<td><code>create-hive-table</code></td>
+<td>将表定义导入到 Hive 中</td>
+<td><code>sqoop create-hive-table --connect &lt;连接字符串&gt; --table &lt;表名&gt;</code></td>
+</tr>
+<tr>
+<td><code>eval</code></td>
+<td>执行 SQL 语句并显示结果</td>
+<td><code>sqoop eval --connect &lt;连接字符串&gt; --query &lt;SQL 语句&gt;</code></td>
+</tr>
+<tr>
+<td><strong><code>export</code></strong></td>
+<td><strong>将 HDFS 目录导出到数据库表</strong></td>
+<td><code>sqoop export --connect &lt;连接字符串&gt; --table &lt;表名&gt; --export-dir &lt;HDFS 目录&gt;</code></td>
+</tr>
+<tr>
+<td><code>help</code></td>
+<td>列出可用命令</td>
+<td><code>sqoop help</code></td>
+</tr>
+<tr>
+<td><strong><code>import</code></strong></td>
+<td><strong>将数据库表导入到 HDFS</strong></td>
+<td><code>sqoop import --connect &lt;连接字符串&gt; --table &lt;表名&gt;</code></td>
+</tr>
+<tr>
+<td><code>import-all-tables</code></td>
+<td>将数据库中的所有表导入到 HDFS</td>
+<td><code>sqoop import-all-tables --connect &lt;连接字符串&gt;</code></td>
+</tr>
+<tr>
+<td><code>import-mainframe</code></td>
+<td>将主机服务器上的数据集导入到 HDFS</td>
+<td><code>sqoop import-mainframe --connect &lt;连接字符串&gt; --dataset &lt;数据集&gt;</code></td>
+</tr>
+<tr>
+<td><code>job</code></td>
+<td>使用已保存的作业</td>
+<td><code>sqoop job --create &lt;作业名&gt; --import --connect &lt;连接字符串&gt; --table &lt;表名&gt;</code></td>
+</tr>
+<tr>
+<td><code>list-databases</code></td>
+<td>列出服务器上的可用数据库</td>
+<td><code>sqoop list-databases --connect &lt;连接字符串&gt;</code></td>
+</tr>
+<tr>
+<td><code>list-tables</code></td>
+<td>列出数据库中的可用表</td>
+<td><code>sqoop list-tables --connect &lt;连接字符串&gt;</code></td>
+</tr>
+<tr>
+<td><code>merge</code></td>
+<td>合并增量导入的结果</td>
+<td><code>sqoop merge --new-data &lt;新数据目录&gt; --onto &lt;旧数据目录&gt;</code></td>
+</tr>
+<tr>
+<td><code>metastore</code></td>
+<td>运行独立的 Sqoop 元数据存储服务</td>
+<td><code>sqoop metastore</code></td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>显示版本信息</td>
+<td><code>sqoop version</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="import" class="heading-element">
+  <a href="#import" class="heading-mark"></a>import</h2><blockquote>
+<p>功能 将关系型数据表导入到HDFS中，可以设置存储格式为Avro 或者 SequenceFiles</p>
+</blockquote>
+<p><code>sqoop import --help</code> 查看该命令工具的用法</p>
+<p>参数可以按功能来分组，包括：Common参数、Hive参数、Import control 参数、HBase 参数、HCatalog 参数、Accumulo 参数、</p>
+<h3 id="common参数" class="heading-element">
+  <a href="#common%e5%8f%82%e6%95%b0" class="heading-mark"></a>common参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Argument</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--connect &lt;jdbc-uri&gt;</code></td>
+<td style="text-align:left">Specify JDBC connect string</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--connection-manager &lt;class-name&gt;</code></td>
+<td style="text-align:left">Specify connection manager class to use</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--driver &lt;class-name&gt;</code></td>
+<td style="text-align:left">Manually specify JDBC driver class to use</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--hadoop-mapred-home &lt;dir&gt;</code></td>
+<td style="text-align:left">Override $HADOOP_MAPRED_HOME</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--help</code></td>
+<td style="text-align:left">Print usage instructions</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--password-file</code></td>
+<td style="text-align:left">Set path for a file containing the authentication password</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-P</code></td>
+<td style="text-align:left">Read password from console</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--password &lt;password&gt;</code></td>
+<td style="text-align:left">Set authentication password</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--username &lt;username&gt;</code></td>
+<td style="text-align:left">Set authentication username</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--verbose</code></td>
+<td style="text-align:left">Print more information while working</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--connection-param-file &lt;filename&gt;</code></td>
+<td style="text-align:left">Optional properties file that provides connection parameters</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--relaxed-isolation</code></td>
+<td style="text-align:left">Set connection transaction isolation to read uncommitted for the mappers.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="验证参数" class="heading-element">
+  <a href="#%e9%aa%8c%e8%af%81%e5%8f%82%e6%95%b0" class="heading-mark"></a>验证参数</h3><p>可以验证同步之后的表的数据量是否一致</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--validate</code></td>
+<td style="text-align:left">启用复制数据的验证，仅支持单表复制。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--validator &lt;class-name&gt;</code></td>
+<td style="text-align:left">指定要使用的验证器类。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--validation-threshold &lt;class-name&gt;</code></td>
+<td style="text-align:left">指定要使用的验证阈值类。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--validation-failurehandler &lt;class-name&gt;</code></td>
+<td style="text-align:left">指定要使用的验证失败处理程序类。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="import-control-参数" class="heading-element">
+  <a href="#import-control-%e5%8f%82%e6%95%b0" class="heading-mark"></a>import control 参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--append</code></td>
+<td style="text-align:left">将数据附加到 HDFS 中的现有数据集</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--as-avrodatafile</code></td>
+<td style="text-align:left">将数据导入 Avro 数据文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--as-sequencefile</code></td>
+<td style="text-align:left">将数据导入 SequenceFiles</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--as-textfile</code></td>
+<td style="text-align:left">以纯文本形式导入数据（默认）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--as-parquetfile</code></td>
+<td style="text-align:left">将数据导入 Parquet 文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--boundary-query &lt;statement&gt;</code></td>
+<td style="text-align:left">用于创建分割的边界查询</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--columns &lt;col,col,col…&gt;</code></td>
+<td style="text-align:left">从表中导入的列</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--delete-target-dir</code></td>
+<td style="text-align:left">如果存在则删除导入目标目录</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--direct</code></td>
+<td style="text-align:left">如果数据库存在，则使用直接连接器</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--fetch-size &lt;n&gt;</code></td>
+<td style="text-align:left">一次从数据库读取的条目数。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--inline-lob-limit &lt;n&gt;</code></td>
+<td style="text-align:left">设置内联 LOB 的最大大小</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-m,--num-mappers &lt;n&gt;</code></td>
+<td style="text-align:left">使用_n个_map任务并行导入</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-e,--query &lt;statement&gt;</code></td>
+<td style="text-align:left">导入的结果_<code>statement</code>_。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--split-by &lt;column-name&gt;</code></td>
+<td style="text-align:left">用于分割工作单元的表格列。不能与 <code>--autoreset-to-one-mapper</code>选项一起使用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--split-limit &lt;n&gt;</code></td>
+<td style="text-align:left">每个分割大小的上限。这仅适用于整数和日期列。对于日期或时间戳字段，以秒为单位计算。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--autoreset-to-one-mapper</code></td>
+<td style="text-align:left">如果表没有主键且未提供拆分列，则导入应使用一个映射器。不能与 <code>--split-by &lt;col&gt;</code>选项一起使用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--table &lt;table-name&gt;</code></td>
+<td style="text-align:left">表格阅读</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--target-dir &lt;dir&gt;</code></td>
+<td style="text-align:left">HDFS 目标目录</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--temporary-rootdir &lt;dir&gt;</code></td>
+<td style="text-align:left">导入期间创建的临时文件的 HDFS 目录（覆盖默认的“_sqoop”）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--warehouse-dir &lt;dir&gt;</code></td>
+<td style="text-align:left">表目标的 HDFS 父级</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--where &lt;where clause&gt;</code></td>
+<td style="text-align:left">导入期间使用的 WHERE 子句</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-z,--compress</code></td>
+<td style="text-align:left">启用压缩</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--compression-codec &lt;c&gt;</code></td>
+<td style="text-align:left">使用 Hadoop 编解码器（默认 gzip），parquet格式需要加这个配置</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--null-string &lt;null-string&gt;</code></td>
+<td style="text-align:left">为字符串列写入空值的字符串</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--null-non-string &lt;null-string&gt;</code></td>
+<td style="text-align:left">对于非字符串列，要写入空值的字符串</td>
+</tr>
+</tbody>
+</table>
+<h3 id="增量导入参数" class="heading-element">
+  <a href="#%e5%a2%9e%e9%87%8f%e5%af%bc%e5%85%a5%e5%8f%82%e6%95%b0" class="heading-mark"></a>增量导入参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--check-column (col)</code></td>
+<td style="text-align:left">指定在确定要导入哪些行时要检查的列。（该列不应为 CHAR/NCHAR/VARCHAR/VARNCHAR/LONGVARCHAR/LONGNVARCHAR 类型）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--incremental (mode)</code></td>
+<td style="text-align:left">指定 Sqoop 如何确定哪些行是新行。include和 的<code>mode</code> 合法 值。 <code>append``lastmodified</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--last-value (value)</code></td>
+<td style="text-align:left">指定上次导入的检查列的最大值。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输出行格式化参数写入到hdfs中的行数据" class="heading-element">
+  <a href="#%e8%be%93%e5%87%ba%e8%a1%8c%e6%a0%bc%e5%bc%8f%e5%8c%96%e5%8f%82%e6%95%b0%e5%86%99%e5%85%a5%e5%88%b0hdfs%e4%b8%ad%e7%9a%84%e8%a1%8c%e6%95%b0%e6%8d%ae" class="heading-mark"></a>输出行格式化参数，写入到hdfs中的行数据</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--enclosed-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置必填字段括字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--escaped-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置转义字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--fields-terminated-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置字段分隔符，hive默认分隔符 是‘\001’, 如果行数据以，分割，需设置这个</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--lines-terminated-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置行尾字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--mysql-delimiters</code></td>
+<td style="text-align:left">使用 MySQL 的默认分隔符集：字段：<code>,</code> 行：<code>\n</code> 转义符：<code>\</code> 可选封闭符：<code>'</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--optionally-enclosed-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置字段包围字符</td>
+</tr>
+</tbody>
+</table>
+<p>支持的转义字符</p>
+<ul>
+<li><code>\b</code> (backspace)</li>
+<li><code>\n</code> (newline)</li>
+<li><code>\r</code> (carriage return)</li>
+<li><code>\t</code> (tab)</li>
+<li><code>\&quot;</code> (double-quote)</li>
+<li><code>\\'</code> (single-quote)</li>
+<li><code>\\</code> (backslash)</li>
+<li><code>\0</code> (NUL)</li>
+</ul>
+<h3 id="输入解析参数" class="heading-element">
+  <a href="#%e8%be%93%e5%85%a5%e8%a7%a3%e6%9e%90%e5%8f%82%e6%95%b0" class="heading-mark"></a>输入解析参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--input-enclosed-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置必填字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--input-escaped-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置输入转义字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--input-fields-terminated-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置输入字段分隔符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--input-lines-terminated-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置输入行尾字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--input-optionally-enclosed-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置字段包围字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="hive参数常用" class="heading-element">
+  <a href="#hive%e5%8f%82%e6%95%b0%e5%b8%b8%e7%94%a8" class="heading-mark"></a>hive参数(常用)</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--hive-home &lt;dir&gt;</code></td>
+<td style="text-align:left">覆盖<code>$HIVE_HOME</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--hive-import</code></td>
+<td style="text-align:left">将表导入 Hive（如果未设置分隔符，则使用 Hive 的默认分隔符。）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--hive-overwrite</code></td>
+<td style="text-align:left">覆盖 Hive 表中的现有数据。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--create-hive-table</code></td>
+<td style="text-align:left">true,目标表存在会报错，默认 false。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--hive-table &lt;table-name&gt;</code></td>
+<td style="text-align:left">设置导入到 Hive 时使用的表名。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--hive-drop-import-delims</code></td>
+<td style="text-align:left">导入到 Hive 时从字符串字段中 删除_\n_、<em>\r_和</em>\01 。_</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--hive-delims-replacement</code></td>
+<td style="text-align:left">导入 Hive 时，将字符串字段中的 <em>\n</em>、<em>\r_和</em>\01_ 替换为用户定义的字符串。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--hive-partition-key</code></td>
+<td style="text-align:left">要进行分区的 Hive 字段的名称</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--hive-partition-value &lt;v&gt;</code></td>
+<td style="text-align:left">在此作业中，作为导入到 Hive 中的分区键的字符串值。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--map-column-hive &lt;map&gt;</code></td>
+<td style="text-align:left">覆盖配置列从 SQL 类型到 Hive 类型的默认映射。如果在此参数中指定逗号，请使用 URL 编码的键和值，例如，使用 DECIMAL(1%2C%201) 而不是 DECIMAL(1, 1)。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="hbase-参数" class="heading-element">
+  <a href="#hbase-%e5%8f%82%e6%95%b0" class="heading-mark"></a>HBase 参数</h3><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">--column-family &lt;family&gt;    设置导入的目标列族
+</span></span><span class="line"><span class="cl">--hbase-create-table    如果指定，则创建缺失的 HBase 表
+</span></span><span class="line"><span class="cl">--hbase-row-key &lt;col&gt;   指定使用哪个输入列作为行键
+</span></span><span class="line"><span class="cl">	如果输入表包含复合
+</span></span><span class="line"><span class="cl">	则 &lt;col&gt; 必须采用
+</span></span><span class="line"><span class="cl">	逗号分隔的复合键列表
+</span></span><span class="line"><span class="cl">	属性
+</span></span><span class="line"><span class="cl">--hbase-table &lt;table-name&gt;  指定要用作目标的 HBase表（而不是 HDFS）
+</span></span><span class="line"><span class="cl">--hbase-bulkload    启用批量加载</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="使用例子" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8%e4%be%8b%e5%ad%90" class="heading-mark"></a>使用例子</h3><h4 id="mysql数据导入到hivetxt格式--分区表" class="heading-element">
+  <a href="#mysql%e6%95%b0%e6%8d%ae%e5%af%bc%e5%85%a5%e5%88%b0hivetxt%e6%a0%bc%e5%bc%8f--%e5%88%86%e5%8c%ba%e8%a1%a8" class="heading-mark"></a>mysql数据导入到hive，txt格式  分区表</h4><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sqoop import --connect jdbc:mysql://192.168.8.1:3306/<span class="o">{</span>mysql_db<span class="o">}</span>?tinyInt1isBit<span class="o">=</span><span class="nb">false</span> <span class="se">\ </span>
+</span></span><span class="line"><span class="cl">--username user001 <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--password passwd001 <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--query <span class="s2">&#34;{query}&#34;</span> <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--fields-terminated-by <span class="s1">&#39;,&#39;</span> <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--hive-drop-import-delims <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--null-string <span class="s1">&#39;\\\\N&#39;</span>   <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--null-non-string <span class="s1">&#39;\\\\N&#39;</span>  <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--lines-terminated-by <span class="s2">&#34;\\n&#34;</span> <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--hive-overwrite <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--hive-import <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--target-dir /tmp/<span class="o">{</span>hive_table<span class="o">}</span> <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--delete-target-dir <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl"><span class="c1"># 分区相关</span>
+</span></span><span class="line"><span class="cl">--hive-partition-key <span class="o">{</span>partition_key<span class="o">}</span> <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--hive-partition-value <span class="o">{</span>partition_value<span class="o">}</span> <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--hive-database <span class="o">{</span>hive_db<span class="o">}</span> <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--hive-table <span class="o">{</span>hive_table<span class="o">}</span> <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">--split-by <span class="s1">&#39;{split}&#39;</span> <span class="se">\ </span> 
+</span></span><span class="line"><span class="cl">-m <span class="o">{</span>m<span class="o">}</span> <span class="err">\</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="mysql导入到hiveparquet格式" class="heading-element">
+  <a href="#mysql%e5%af%bc%e5%85%a5%e5%88%b0hiveparquet%e6%a0%bc%e5%bc%8f" class="heading-mark"></a>mysql导入到hive，parquet格式</h4><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sqoop import -D mapred.job.name<span class="o">=</span>ETL-<span class="si">${</span><span class="nv">table_name</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --connect jdbc:mysql://192.168.8.61:3306/CN_Proj_DB?tinyInt1isBit<span class="o">=</span><span class="nb">false</span>  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --username user001 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --password  passwd001 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --query <span class="s2">&#34;select * from </span><span class="si">${</span><span class="nv">table_name</span><span class="si">}</span><span class="s2"> where 1=1 and \$CONDITIONS&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --fields-terminated-by <span class="s1">&#39;\001&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --hive-drop-import-delims <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --delete-target-dir  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --null-string <span class="s1">&#39;\\N&#39;</span>   <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --null-non-string <span class="s1">&#39;\\N&#39;</span>  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --lines-terminated-by <span class="s2">&#34;\n&#34;</span>  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --target-dir /yyq_test/<span class="si">${</span><span class="nv">table_name</span><span class="si">}</span>  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --hive-import <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --hive-database bigworktest <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --hive-table <span class="si">${</span><span class="nv">table_name</span><span class="si">}</span>  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --split-by id <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -m <span class="m">3</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> <span class="c1"># 压缩格式 parquet文件</span>
+</span></span><span class="line"><span class="cl"> --compress <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --compression-codec org.apache.hadoop.io.compress.SnappyCodec <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --hive-overwrite <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --as-parquetfile</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="mysql导入到hdfs文件" class="heading-element">
+  <a href="#mysql%e5%af%bc%e5%85%a5%e5%88%b0hdfs%e6%96%87%e4%bb%b6" class="heading-mark"></a>mysql导入到hdfs文件</h4><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sqoop import <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--connect jdbc:mysql://192.168.109.1:3306/userdb <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--username root <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--password root <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--delete-target-dir <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--fields-terminated-by <span class="s1">&#39;\t&#39;</span>  <span class="c1"># 分隔符</span>
+</span></span><span class="line"><span class="cl">--target-dir /sqoopresult <span class="se">\ </span> <span class="c1"># 导入的hdfs目录</span>
+</span></span><span class="line"><span class="cl">--table emp 
+</span></span><span class="line"><span class="cl">--m <span class="m">1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="mysql增量导入" class="heading-element">
+  <a href="#mysql%e5%a2%9e%e9%87%8f%e5%af%bc%e5%85%a5" class="heading-mark"></a>mysql增量导入</h4><p>append模式</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sqoop import <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--connect jdbc:mysql://192.168.109.1:3306/userdb <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--username root  --password root <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--table emp --m <span class="m">1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--target-dir /appendresult <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--incremental append <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--check-column id <span class="se">\ </span> <span class="c1"># 主键</span>
+</span></span><span class="line"><span class="cl">--last-value  <span class="m">1205</span>  <span class="c1"># 追加的id</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Lastmodified模式 按照时间戳字段</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sqoop import <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--connect jdbc:mysql://192.168.109.1:3306/userdb <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--username root <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--password root <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--table customertest <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--target-dir /lastmodifiedresult <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--check-column last_mod <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--incremental lastmodified <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--last-value <span class="s2">&#34;2019-09-03 22:59:45&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--m <span class="m">1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="c1"># --merge-key id 修改旧的，新增新的</span>
+</span></span><span class="line"><span class="cl">--append</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="import-all-tables" class="heading-element">
+  <a href="#import-all-tables" class="heading-mark"></a>import-all-tables</h2><blockquote>
+<p>将一组表从关系型数据库导入到HDFS中</p>
+</blockquote>
+<p>语法</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sqoop import-all-tables <span class="o">(</span>generic-args<span class="o">)</span> <span class="o">(</span>import-args<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>每个组的参数参考官方文档</p>
+<p><a href="https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html#_literal_sqoop_import_all_tables_literal"target="_blank" rel="external nofollow noopener noreferrer">Sqoop User Guide (v1.4.7) (apache.org)<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<h2 id="export" class="heading-element">
+  <a href="#export" class="heading-mark"></a>export</h2><blockquote>
+<p>HDFS数据 到 RDBMS</p>
+</blockquote>
+<p>语法</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sqoop <span class="nb">export</span> <span class="o">(</span>generic-args<span class="o">)</span> <span class="o">(</span>export-args<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="common参数-1" class="heading-element">
+  <a href="#common%e5%8f%82%e6%95%b0-1" class="heading-mark"></a>common参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">争论</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--connect &lt;jdbc-uri&gt;</code></td>
+<td style="text-align:left">指定 JDBC 连接字符串</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--connection-manager &lt;class-name&gt;</code></td>
+<td style="text-align:left">指定要使用的连接管理器类</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--driver &lt;class-name&gt;</code></td>
+<td style="text-align:left">手动指定要使用的 JDBC 驱动程序类</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--hadoop-mapred-home &lt;dir&gt;</code></td>
+<td style="text-align:left">覆盖 $HADOOP_MAPRED_HOME</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--help</code></td>
+<td style="text-align:left">打印使用说明</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--password-file</code></td>
+<td style="text-align:left">设置包含身份验证密码的文件路径</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-P</code></td>
+<td style="text-align:left">从控制台读取密码</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--password &lt;password&gt;</code></td>
+<td style="text-align:left">设置认证密码</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--username &lt;username&gt;</code></td>
+<td style="text-align:left">设置认证用户名</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--verbose</code></td>
+<td style="text-align:left">工作时打印更多信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--connection-param-file &lt;filename&gt;</code></td>
+<td style="text-align:left">提供连接参数的可选属性文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--relaxed-isolation</code></td>
+<td style="text-align:left">将连接事务隔离设置为映射器读取未提交。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="验证参数-1" class="heading-element">
+  <a href="#%e9%aa%8c%e8%af%81%e5%8f%82%e6%95%b0-1" class="heading-mark"></a>验证参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--validate</code></td>
+<td style="text-align:left">启用复制数据的验证，仅支持单表复制。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--validator &lt;class-name&gt;</code></td>
+<td style="text-align:left">指定要使用的验证器类。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--validation-threshold &lt;class-name&gt;</code></td>
+<td style="text-align:left">指定要使用的验证阈值类。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--validation-failurehandler &lt;class-name&gt;</code></td>
+<td style="text-align:left">指定要使用的验证失败处理程序类。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="导出控制参数" class="heading-element">
+  <a href="#%e5%af%bc%e5%87%ba%e6%8e%a7%e5%88%b6%e5%8f%82%e6%95%b0" class="heading-mark"></a>导出控制参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--columns &lt;col,col,col…&gt;</code></td>
+<td style="text-align:left">要导出到表的列</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--direct</code></td>
+<td style="text-align:left">使用直接导出快速路径</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--export-dir &lt;dir&gt;</code></td>
+<td style="text-align:left">导出的 HDFS 源路径</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-m,--num-mappers &lt;n&gt;</code></td>
+<td style="text-align:left">使用_n个_map任务并行导出</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--table &lt;table-name&gt;</code></td>
+<td style="text-align:left">要填充的表格</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--call &lt;stored-proc-name&gt;</code></td>
+<td style="text-align:left">要调用的存储过程</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--update-key &lt;col-name&gt;</code></td>
+<td style="text-align:left">用于更新的锚点列。如果有多个列，请使用逗号分隔的列表。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--update-mode &lt;mode&gt;</code></td>
+<td style="text-align:left">指定当数据库中发现具有不匹配键的新行时如何执行更新。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>updateonly</code>（默认）和 <code>allowinsert</code>。不存在会插入数据</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--input-null-string &lt;null-string&gt;</code></td>
+<td style="text-align:left">对于字符串列，将被解释为空的字符串</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--input-null-non-string &lt;null-string&gt;</code></td>
+<td style="text-align:left">对于非字符串列，将被解释为空的字符串</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--staging-table &lt;staging-table-name&gt;</code></td>
+<td style="text-align:left">数据在插入目标表之前将暂存于其中的表。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--clear-staging-table</code></td>
+<td style="text-align:left">指示可以删除暂存表中的所有数据。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--batch</code></td>
+<td style="text-align:left">使用批处理模式执行底层语句。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输入解析参数-1" class="heading-element">
+  <a href="#%e8%be%93%e5%85%a5%e8%a7%a3%e6%9e%90%e5%8f%82%e6%95%b0-1" class="heading-mark"></a>输入解析参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">争论</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--input-enclosed-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置必填字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--input-escaped-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置输入转义字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--input-fields-terminated-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置输入字段分隔符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--input-lines-terminated-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置输入行尾字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--input-optionally-enclosed-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置字段包围字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输出行格式化参数" class="heading-element">
+  <a href="#%e8%be%93%e5%87%ba%e8%a1%8c%e6%a0%bc%e5%bc%8f%e5%8c%96%e5%8f%82%e6%95%b0" class="heading-mark"></a>输出行格式化参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">争论</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--enclosed-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置必填字段括字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--escaped-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置转义字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--fields-terminated-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置字段分隔符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--lines-terminated-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置行尾字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--mysql-delimiters</code></td>
+<td style="text-align:left">使用 MySQL 的默认分隔符集：字段：<code>,</code> 行：<code>\n</code> 转义符：<code>\</code> 可选封闭符：<code>'</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--optionally-enclosed-by &lt;char&gt;</code></td>
+<td style="text-align:left">设置字段包围字符</td>
+</tr>
+</tbody>
+</table>
+<p>Sqoop 会自动生成代码来解析和解释包含要导出回数据库的数据的文件记录。如果这些文件是使用非默认分隔符创建的（逗号分隔的字段和换行符分隔的记录），则应再次指定相同的分隔符，以便 Sqoop 可以解析您的文件。</p>
+<h3 id="代码生成参数" class="heading-element">
+  <a href="#%e4%bb%a3%e7%a0%81%e7%94%9f%e6%88%90%e5%8f%82%e6%95%b0" class="heading-mark"></a>代码生成参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">争论</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--bindir &lt;dir&gt;</code></td>
+<td style="text-align:left">编译对象的输出目录</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--class-name &lt;name&gt;</code></td>
+<td style="text-align:left">设置生成的类名。这将覆盖 <code>--package-name</code>。与 结合使用时 <code>--jar-file</code>，设置输入类。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--jar-file &lt;file&gt;</code></td>
+<td style="text-align:left">禁用代码生成；使用指定的 jar</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--outdir &lt;dir&gt;</code></td>
+<td style="text-align:left">生成代码的输出目录</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--package-name &lt;name&gt;</code></td>
+<td style="text-align:left">将自动生成的类放入此包中</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--map-column-java &lt;m&gt;</code></td>
+<td style="text-align:left">覆盖配置列的从 SQL 类型到 Java 类型的默认映射。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="使用例子-1" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8%e4%be%8b%e5%ad%90-1" class="heading-mark"></a>使用例子</h3><h4 id="hdfs导出到mysql" class="heading-element">
+  <a href="#hdfs%e5%af%bc%e5%87%ba%e5%88%b0mysql" class="heading-mark"></a>HDFS导出到MySQL</h4><div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sqoop <span class="nb">export</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--connect jdbc:mysql://192.168.109.1:3306/userdb <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--username root <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--password root <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--table employee <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--export-dir /emp/emp_data</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="更新导出" class="heading-element">
+  <a href="#%e6%9b%b4%e6%96%b0%e5%af%bc%e5%87%ba" class="heading-mark"></a>更新导出</h4><p>只更新操作</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sqoop <span class="nb">export</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--connect jdbc:mysql://192.168.109.1:3306/userdb <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--username root --password root <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--table updateonly <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--export-dir /updateonly_2/ <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="c1"># 更新导出</span>
+</span></span><span class="line"><span class="cl">--update-key id <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--update-mode updateonly  <span class="c1"># 只更新操作</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>更新插入模式</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sqoop <span class="nb">export</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--connect jdbc:mysql://192.168.8.108:3306/ipv6_locate?serverTimezone<span class="o">=</span>Asia/Shanghai<span class="se">\&amp;</span><span class="nv">useUnicode</span><span class="o">=</span>true<span class="se">\&amp;</span><span class="nv">characterEncoding</span><span class="o">=</span>utf8<span class="se">\&amp;</span><span class="nv">autoReconnect</span><span class="o">=</span>true<span class="se">\&amp;</span><span class="nv">failOverReadOnly</span><span class="o">=</span><span class="nb">false</span> <span class="se">\ </span><span class="c1"># 有时候可能会出现中文乱码问题，需要添加编码集</span>
+</span></span><span class="line"><span class="cl">--username root <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--password passwd01 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--table mall_rpt_ip_with_scene <span class="se">\ </span> <span class="c1"># 目标mysql中的表名</span>
+</span></span><span class="line"><span class="cl">--update-key <span class="s2">&#34;id&#34;</span> <span class="se">\ </span>  <span class="c1"># 指定目标表的主键</span>
+</span></span><span class="line"><span class="cl">--update-mode allowinsert <span class="se">\ </span> <span class="c1"># 指定目标表的更新模式</span>
+</span></span><span class="line"><span class="cl">--input-null-string <span class="s1">&#39;\\N&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--input-null-non-string <span class="s1">&#39;\\N&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--input-fields-terminated-by <span class="s1">&#39;\001&#39;</span> <span class="se">\	</span><span class="c1"># hive中字段间的分隔符</span>
+</span></span><span class="line"><span class="cl">--input-lines-terminated-by <span class="s2">&#34;\n&#34;</span> <span class="se">\	</span>	<span class="c1"># hive中行与行之间的分隔符	</span>
+</span></span><span class="line"><span class="cl">--export-dir hdfs://cdh1.host.com:8020/user/hive/warehouse/wsp_test.db/mall_rpt_ip_with_scene <span class="se">\ </span> <span class="c1"># hive表存放的位置</span>
+</span></span><span class="line"><span class="cl">--m <span class="m">1</span>  <span class="c1"># 并行度 </span></span></span></code></pre></td></tr></table>
+</div>
+</div>]]></description>
+</item>
+</channel>
+</rss>

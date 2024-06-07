@@ -1,9 +1,10 @@
 # Fred的知识库
 
-共计 12 篇文章
+共计 13 篇文章
 
 ## 2024
 
+- 06-06 [sqoop使用文档](https://ipfred.github.io/bigdata/hadoop/20240606150541/ "2024-06-06 15:05:41")
 - 05-11 [一文搞懂Kerberos](https://ipfred.github.io/lang/docker/20240511160713/ "2024-05-11 16:07:13")
 - 05-10 [docker使用常用命令](https://ipfred.github.io/lang/docker/20240510103849/ "2024-05-10 10:38:49")
 - 04-28 [Vim使用技巧大全](https://ipfred.github.io/posts/20240428183407/ "2024-04-28 18:34:07")

@@ -11,6 +11,13 @@
     <copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright>
     <atom:link href="https://ipfred.github.io/bigdata/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>sqoop使用文档</title>
+      <link>https://ipfred.github.io/bigdata/hadoop/20240606150541/</link>
+      <pubDate>Thu, 06 Jun 2024 15:05:41 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/bigdata/hadoop/20240606150541/</guid>
+      <description>sqoop介绍 Sqoop 是一个设计用于在 Hadoop 和关系数据库或大型机之间传输数据的工具。您可以使用 Sqoop 将数据从关系数据库管理系统 (RDBMS)（例如 MySQL 或 Oracle）或大型机导入 Hadoop 分布式文件系统 (HDFS)，在 Hadoop MapReduce 中转换数据，然后将数据导出回 RDBMS 。 Hadoop生态包括： HDFS，Hive，Hbase等 RDBMS体系包</description>
+    </item>
+    <item>
       <title>HDFS文件读写过程</title>
       <link>https://ipfred.github.io/bigdata/hadoop/a9bc224/</link>
       <pubDate>Wed, 24 Apr 2024 10:22:48 +0800</pubDate><author>330446875@qq.com (Fred)</author>
