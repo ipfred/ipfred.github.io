@@ -10,5 +10,5 @@ python第一篇文章扽扽
 ---
 
 > 作者:   
-> URL: https://ipfred.github.io/lang/python/second/  
+> URL: http://localhost:1313/lang/python/second/  
 

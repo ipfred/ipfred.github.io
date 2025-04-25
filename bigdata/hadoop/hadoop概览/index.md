@@ -71,5 +71,5 @@ HDFS 是设计成适应一次写入，多次读出的场景，且不支持文件
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/  
+> URL: http://localhost:1313/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/  
 

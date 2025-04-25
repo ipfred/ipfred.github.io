@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>docker - 标签 | Fred的知识库</title>
-    <link>https://ipfred.github.io/tags/docker/</link>
+    <link>http://localhost:1313/tags/docker/</link>
     <description>docker - 标签 | Fred的知识库</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
-      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Fri, 10 May 2024 10:38:49 &#43;0800</lastBuildDate><atom:link href="https://ipfred.github.io/tags/docker/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Fri, 10 May 2024 10:38:49 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/docker/" rel="self" type="application/rss+xml" /><item>
   <title>docker使用常用命令</title>
-  <link>https://ipfred.github.io/lang/docker/20240510103849/</link>
+  <link>http://localhost:1313/lang/docker/20240510103849/</link>
   <pubDate>Fri, 10 May 2024 10:38:49 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/lang/docker/20240510103849/</guid>
+  <guid>http://localhost:1313/lang/docker/20240510103849/</guid>
   <description><![CDATA[<h3 id="docker命令官方文档" class="heading-element">
   <a href="#docker%e5%91%bd%e4%bb%a4%e5%ae%98%e6%96%b9%e6%96%87%e6%a1%a3" class="heading-mark"></a>docker命令官方文档</h3><p><a href="https://docs.docker.com/reference/cli/docker/"target="_blank" rel="external nofollow noopener noreferrer">docker | Docker Docs<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
 <h3 id="代理配置" class="heading-element">

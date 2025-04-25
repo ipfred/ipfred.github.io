@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java相关 on Fred的知识库</title>
-    <link>https://ipfred.github.io/lang/java/</link>
+    <link>http://localhost:1313/lang/java/</link>
     <description>Recent content in Java相关 on Fred的知识库</description>
     <generator>Hugo 0.125.2</generator>
     <language>zh-CN</language>
@@ -10,20 +10,20 @@
     <webMaster>330446875@qq.com (Fred)</webMaster>
     <copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright>
     <lastBuildDate>Tue, 30 Apr 2024 09:00:38 +0800</lastBuildDate>
-    <atom:link href="https://ipfred.github.io/lang/java/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/lang/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Java核心基础</title>
-      <link>https://ipfred.github.io/lang/java/20240426133928/</link>
+      <link>http://localhost:1313/lang/java/20240426133928/</link>
       <pubDate>Fri, 26 Apr 2024 13:39:28 +0800</pubDate><author>330446875@qq.com (Fred)</author>
-      <guid>https://ipfred.github.io/lang/java/20240426133928/</guid>
+      <guid>http://localhost:1313/lang/java/20240426133928/</guid>
       <description>2 Java核心基础 我想和自己说：学习是反复的过程，学习新知识的时候要仔仔细细阅读，错过一个关键词，可能对知识就会有偏差的理解。如果现在没有心情，收藏起来，后面用到的时候再仔细看。希望有帮助。 2.0 基本概念先了解 类 类是Java中的基本编程单元，用于描述对象的属性和行为。通过实例化类，可以创建对象 类是封装了</description>
     </item>
     <item>
       <title>Java开发工具和前言</title>
-      <link>https://ipfred.github.io/lang/java/20240426111354/</link>
+      <link>http://localhost:1313/lang/java/20240426111354/</link>
       <pubDate>Fri, 26 Apr 2024 11:13:54 +0800</pubDate><author>330446875@qq.com (Fred)</author>
-      <guid>https://ipfred.github.io/lang/java/20240426111354/</guid>
-      <description>前言：以初学着的身份，准备在该平台整理点最近学习的知识，方便后续查看相关的技术点，有兴趣的可以一块交流学习。目标用最少的文字，理解最多的知识。不说废话，字字珠玑。 1 1.1 简介 强类型语言、开源、跨平台、多态、多线程、面向对象 完善的异常处理机制，大数据必备的语言 1995年出生，父亲 詹姆斯·高斯林(James</description>
+      <guid>http://localhost:1313/lang/java/20240426111354/</guid>
+      <description>前言：以初学着的身份，准备在该平台整理点最近学习的知识，方便后续查看相关的技术点，有兴趣的可以一块交流学习。目标用最少的文字，理解最多的知识。不说废话，字字珠玑。 1.1 简介 强类型语言、开源、跨平台、多态、多线程、面向对象 完善的异常处理机制，大数据必备的语言 1995年出生，父亲 詹姆斯·高斯林(James G</description>
     </item>
   </channel>
 </rss>

@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>所有文章 | Fred的知识库</title>
-    <link>https://ipfred.github.io/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>所有文章 | Fred的知识库</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
-      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Sun, 28 Apr 2024 18:34:07 &#43;0800</lastBuildDate><atom:link href="https://ipfred.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Sun, 28 Apr 2024 18:34:07 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/posts/" rel="self" type="application/rss+xml" /><item>
   <title>Vim使用技巧大全</title>
-  <link>https://ipfred.github.io/posts/20240428183407/</link>
+  <link>http://localhost:1313/posts/20240428183407/</link>
   <pubDate>Sun, 28 Apr 2024 18:34:07 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/posts/20240428183407/</guid>
+  <guid>http://localhost:1313/posts/20240428183407/</guid>
   <description><![CDATA[<p>0 行首
 $ 行尾
 i 当前游标插入
@@ -30,38 +30,38 @@ c0 删除到行首并修改</p>
 </item>
 <item>
   <title>My First Post</title>
-  <link>https://ipfred.github.io/posts/my-first-post/</link>
+  <link>http://localhost:1313/posts/my-first-post/</link>
   <pubDate>Sat, 20 Apr 2024 16:51:10 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/posts/my-first-post/</guid>
+  <guid>http://localhost:1313/posts/my-first-post/</guid>
   <description><![CDATA[<h2 id="introduction" class="heading-element">
-  <a href="#introduction" class="heading-mark"></a>1 Introduction</h2><p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
+  <a href="#introduction" class="heading-mark"></a>Introduction</h2><p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
 <p>Visit the <a href="https://gohugo.io"target="_blank" rel="external nofollow noopener noreferrer">Hugo<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a> website!</p>
 ]]></description>
 </item>
 <item>
   <title>我的第二篇文章</title>
-  <link>https://ipfred.github.io/posts/second_post/</link>
+  <link>http://localhost:1313/posts/second_post/</link>
   <pubDate>Tue, 20 Feb 2024 20:14:22 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/posts/second_post/</guid>
+  <guid>http://localhost:1313/posts/second_post/</guid>
   <description><![CDATA[<h2 id="常用数据库的读写方式" class="heading-element">
-  <a href="#%e5%b8%b8%e7%94%a8%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e8%af%bb%e5%86%99%e6%96%b9%e5%bc%8f" class="heading-mark"></a>1 常用数据库的读写方式</h2><p>A blog (a truncation of &ldquo;weblog&rdquo;) is an informational website published on the World Wide Web consisting of discrete, often informal diary-style text entries (posts). Posts are typically displayed in reverse chronological order so that the most recent post appears first, at the top of the web page. Until 2009, blogs were usually the work of a single individual,[citation needed] occasionally of a small group, and often covered a single subject or topic. In the 2010s, &ldquo;multi-author blogs&rdquo; (MABs) emerged, featuring the writing of multiple authors and sometimes professionally edited. MABs from newspapers, other media outlets, universities, think tanks, advocacy groups, and similar institutions account for an increasing quantity of blog traffic. The rise of Twitter and other &ldquo;microblogging&rdquo; systems helps integrate MABs and single-author blogs into the news media. Blog can also be used as a verb, meaning to maintain or add content to a blog.</p>
+  <a href="#%e5%b8%b8%e7%94%a8%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e8%af%bb%e5%86%99%e6%96%b9%e5%bc%8f" class="heading-mark"></a>常用数据库的读写方式</h2><p>A blog (a truncation of &ldquo;weblog&rdquo;) is an informational website published on the World Wide Web consisting of discrete, often informal diary-style text entries (posts). Posts are typically displayed in reverse chronological order so that the most recent post appears first, at the top of the web page. Until 2009, blogs were usually the work of a single individual,[citation needed] occasionally of a small group, and often covered a single subject or topic. In the 2010s, &ldquo;multi-author blogs&rdquo; (MABs) emerged, featuring the writing of multiple authors and sometimes professionally edited. MABs from newspapers, other media outlets, universities, think tanks, advocacy groups, and similar institutions account for an increasing quantity of blog traffic. The rise of Twitter and other &ldquo;microblogging&rdquo; systems helps integrate MABs and single-author blogs into the news media. Blog can also be used as a verb, meaning to maintain or add content to a blog.</p>
 <h2 id="标题二" class="heading-element">
-  <a href="#%e6%a0%87%e9%a2%98%e4%ba%8c" class="heading-mark"></a>2 标题二</h2><h2 id="标题三" class="heading-element">
-  <a href="#%e6%a0%87%e9%a2%98%e4%b8%89" class="heading-mark"></a>3 标题三</h2>]]></description>
+  <a href="#%e6%a0%87%e9%a2%98%e4%ba%8c" class="heading-mark"></a>标题二</h2><h2 id="标题三" class="heading-element">
+  <a href="#%e6%a0%87%e9%a2%98%e4%b8%89" class="heading-mark"></a>标题三</h2>]]></description>
 </item>
 <item>
   <title>我的第一篇文章</title>
-  <link>https://ipfred.github.io/posts/first_post/</link>
+  <link>http://localhost:1313/posts/first_post/</link>
   <pubDate>Mon, 20 Feb 2023 20:14:22 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/posts/first_post/</guid>
+  <guid>http://localhost:1313/posts/first_post/</guid>
   <description><![CDATA[<h2 id="常用数据库的读写方式" class="heading-element">
-  <a href="#%e5%b8%b8%e7%94%a8%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e8%af%bb%e5%86%99%e6%96%b9%e5%bc%8f" class="heading-mark"></a>1 常用数据库的读写方式</h2><p>A blog (a truncation of &ldquo;weblog&rdquo;) is an informational website published on the World Wide Web consisting of discrete, often informal diary-style text entries (posts). Posts are typically displayed in reverse chronological order so that the most recent post appears first, at the top of the web page. Until 2009, blogs were usually the work of a single individual,[citation needed] occasionally of a small group, and often covered a single subject or topic. In the 2010s, &ldquo;multi-author blogs&rdquo; (MABs) emerged, featuring the writing of multiple authors and sometimes professionally edited. MABs from newspapers, other media outlets, universities, think tanks, advocacy groups, and similar institutions account for an increasing quantity of blog traffic. The rise of Twitter and other &ldquo;microblogging&rdquo; systems helps integrate MABs and single-author blogs into the news media. Blog can also be used as a verb, meaning to maintain or add content to a blog.</p>
+  <a href="#%e5%b8%b8%e7%94%a8%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e8%af%bb%e5%86%99%e6%96%b9%e5%bc%8f" class="heading-mark"></a>常用数据库的读写方式</h2><p>A blog (a truncation of &ldquo;weblog&rdquo;) is an informational website published on the World Wide Web consisting of discrete, often informal diary-style text entries (posts). Posts are typically displayed in reverse chronological order so that the most recent post appears first, at the top of the web page. Until 2009, blogs were usually the work of a single individual,[citation needed] occasionally of a small group, and often covered a single subject or topic. In the 2010s, &ldquo;multi-author blogs&rdquo; (MABs) emerged, featuring the writing of multiple authors and sometimes professionally edited. MABs from newspapers, other media outlets, universities, think tanks, advocacy groups, and similar institutions account for an increasing quantity of blog traffic. The rise of Twitter and other &ldquo;microblogging&rdquo; systems helps integrate MABs and single-author blogs into the news media. Blog can also be used as a verb, meaning to maintain or add content to a blog.</p>
 <h2 id="标题二" class="heading-element">
-  <a href="#%e6%a0%87%e9%a2%98%e4%ba%8c" class="heading-mark"></a>2 标题二</h2><h2 id="标题三" class="heading-element">
-  <a href="#%e6%a0%87%e9%a2%98%e4%b8%89" class="heading-mark"></a>3 标题三</h2>]]></description>
+  <a href="#%e6%a0%87%e9%a2%98%e4%ba%8c" class="heading-mark"></a>标题二</h2><h2 id="标题三" class="heading-element">
+  <a href="#%e6%a0%87%e9%a2%98%e4%b8%89" class="heading-mark"></a>标题三</h2>]]></description>
 </item>
 </channel>
 </rss>

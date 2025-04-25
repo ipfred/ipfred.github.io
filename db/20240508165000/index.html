@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>软考知识点 | Fred的知识库</title><meta name="author" content="Fred">
+<meta name="author-link" content="https://github.com/ipfred">
+<meta name="description" content="[TOC] 嵌入式SQL嵌入式SQL中通过主变量实现主语言和SQL语言间进行参数传递； SQL语句的执行状态通过sqlca，传递给主语言来进行流程控制； 对于返回结果为多条记录的sql语句，通过游标来由主语言逐条处理。 执行类型分析和检查：分析程序的类型系统，并检查程序是否违反类型规则(程序中变量和表达式的类型)，" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
+  <meta itemprop="name" content="软考知识点">
+  <meta itemprop="description" content="[TOC] 嵌入式SQL嵌入式SQL中通过主变量实现主语言和SQL语言间进行参数传递； SQL语句的执行状态通过sqlca，传递给主语言来进行流程控制； 对于返回结果为多条记录的sql语句，通过游标来由主语言逐条处理。 执行类型分析和检查：分析程序的类型系统，并检查程序是否违反类型规则(程序中变量和表达式的类型)，">
+  <meta itemprop="datePublished" content="2024-05-08T16:50:00+08:00">
+  <meta itemprop="dateModified" content="2024-06-07T09:58:55+08:00">
+  <meta itemprop="wordCount" content="4258">
+  <meta itemprop="image" content="http://localhost:1313/images/apple-devices-preview.webp"><meta property="og:url" content="http://localhost:1313/db/20240508165000/">
+  <meta property="og:site_name" content="Fred的知识库">
+  <meta property="og:title" content="软考知识点">
+  <meta property="og:description" content="[TOC] 嵌入式SQL嵌入式SQL中通过主变量实现主语言和SQL语言间进行参数传递； SQL语句的执行状态通过sqlca，传递给主语言来进行流程控制； 对于返回结果为多条记录的sql语句，通过游标来由主语言逐条处理。 执行类型分析和检查：分析程序的类型系统，并检查程序是否违反类型规则(程序中变量和表达式的类型)，">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="db">
+    <meta property="article:published_time" content="2024-05-08T16:50:00+08:00">
+    <meta property="article:modified_time" content="2024-06-07T09:58:55+08:00">
+    <meta property="og:image" content="http://localhost:1313/images/apple-devices-preview.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:1313/images/apple-devices-preview.webp"><meta name="twitter:title" content="软考知识点">
+<meta name="twitter:description" content="[TOC] 嵌入式SQL嵌入式SQL中通过主变量实现主语言和SQL语言间进行参数传递； SQL语句的执行状态通过sqlca，传递给主语言来进行流程控制； 对于返回结果为多条记录的sql语句，通过游标来由主语言逐条处理。 执行类型分析和检查：分析程序的类型系统，并检查程序是否违反类型规则(程序中变量和表达式的类型)，">
+<meta name="application-name" content="FredKnow">
+<meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/db/20240508165000/" /><link rel="prev" href="http://localhost:1313/posts/20240428183407/" /><link rel="next" href="http://localhost:1313/lang/docker/20240510103849/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "软考知识点",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/db\/20240508165000\/"
+    },"image": ["http:\/\/localhost:1313\/apple-touch-icon.png"],"genre": "posts","wordcount":  4258 ,
+    "url": "http:\/\/localhost:1313\/db\/20240508165000\/","datePublished": "2024-05-08T16:50:00+08:00","dateModified": "2024-06-07T09:58:55+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+      "@type": "Organization",
+      "name": "ipFred","logo": "http:\/\/localhost:1313\/images\/avatar.jpg"},"author": {
+        "@type": "Person",
+        "name": "Fred"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper" data-github-corner="right">
+    <div class="header-title">
+      <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="Fred的知识库" data-title="Fred的知识库" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-desktop" class="typeit header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li class="menu-item has-children">
+              <a
+                class="menu-link"
+                href="/lang/"
+                
+                
+              ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/web/"
+                
+                
+              ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="https://files.catbox.moe/mtzx1g.png" data-title="https://files.catbox.moe/mtzx1g.png" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-mobile" class="typeit header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li
+              class="menu-item"
+            ><span class="nested-item">
+                  <a
+                    class="menu-link"
+                    href="/lang/"
+                    
+                    
+                  ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/web/"
+                  
+                  
+                ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><nav aria-label="breadcrumb" class="breadcrumb-container sticky">
+    <ol class="breadcrumb"><li class="breadcrumb-item"><a href="/db/" title="dbs">dbs</a></li><li class="breadcrumb-item active" aria-current="page">软考知识点</li>
+    </ol>
+  </nav><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>软考知识点</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+    Fred</a></span></div><div class="post-meta-line"><span title="发布于 2024-05-08 16:50:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-05-08">2024-05-08</time></span>&nbsp;<span title="更新于 2024-06-07 09:58:55"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-06-07">2024-06-07</time></span>&nbsp;<span title="4258 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#嵌入式sql">嵌入式SQL</a>
+      <ol>
+        <li><a href="#虚拟内存">虚拟内存</a></li>
+        <li><a href="#进程管理">进程管理</a></li>
+        <li><a href="#数据结和算法">数据结和算法</a>
+          <ol>
+            <li><a href="#二叉树">二叉树</a></li>
+            <li><a href="#排序">排序</a></li>
+          </ol>
+        </li>
+        <li><a href="#数据库">数据库</a>
+          <ol>
+            <li><a href="#数据库设计">数据库设计</a></li>
+          </ol>
+        </li>
+        <li><a href="#关系泛式">关系泛式</a>
+          <ol>
+            <li><a href="#几种泛式">几种泛式</a></li>
+            <li><a href="#关系代数">关系代数</a></li>
+            <li><a href="#关系元组演算">关系元组演算</a></li>
+          </ol>
+        </li>
+        <li><a href="#分布式系统">分布式系统</a></li>
+        <li><a href="#信息安全">信息安全</a></li>
+        <li><a href="#项目管理">项目管理</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+      </div><div class="content" id="content" data-end-flag="（本文完）"><p>[TOC]</p>
+<h2 id="嵌入式sql" class="heading-element">
+  <a href="#%e5%b5%8c%e5%85%a5%e5%bc%8fsql" class="heading-mark"></a>嵌入式SQL</h2><p>嵌入式SQL中通过主变量实现主语言和SQL语言间进行参数传递；
+SQL语句的执行状态通过sqlca，传递给主语言来进行流程控制；
+对于返回结果为多条记录的sql语句，通过游标来由主语言逐条处理。</p>
+<p>执行类型分析和检查：分析程序的类型系统，并检查程序是否违反类型规则(程序中变量和表达式的类型)，</p>
+<p>编译的过程：</p>
+<ul>
+<li>词法分析，将源代码分解为由单词组成的符号流的过程。</li>
+<li>语法分析，语法分析，根据语法规则检查符号流的正确性，并生成语法树的过程</li>
+<li>语义分析，检查程序的语义是否正确，并进行类型检查，是否符合语言规范</li>
+<li>中间代码生成，根据语法树生成中间代码的过程，中间代码是一种抽象的机器代码与目标机器无关。</li>
+</ul>
+<p>DFA能识别什么？
+![[asserts/Pasted image 20240515104903.png]]</p>
+<p>主存主要采用动态随机存储器DRAM
+Cache采用静态随机存储器SRAM
+EEPROM是电擦除可编程的只读存储器</p>
+<p>![[asserts/Pasted image 20240515105946.png]]</p>
+<p>入侵检测技术
+海明码
+系统页面大小为</p>
+<h3 id="虚拟内存" class="heading-element">
+  <a href="#%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98" class="heading-mark"></a>虚拟内存</h3><p>逻辑地址为 0001110100010110
+逻辑地址内存分两部分：虚拟页号+页内偏移</p>
+<ul>
+<li>虚拟页号：虚拟页号逻辑地址的最高位部分</li>
+<li>页内偏移：逻辑地址的低位部分,<br>
+先根据页大小计算 页内地址长度需要多少位来表示
+页大小为4K 4*2^10=2^12    低12位为页内偏移，页内地址 剩下的为页号
+![[asserts/Pasted image 20240522125000.png]]</li>
+</ul>
+<h3 id="进程管理" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86" class="heading-mark"></a>进程管理</h3><h3 id="数据结和算法" class="heading-element">
+  <a href="#%e6%95%b0%e6%8d%ae%e7%bb%93%e5%92%8c%e7%ae%97%e6%b3%95" class="heading-mark"></a>数据结和算法</h3><ul>
+<li>广义表的长度：广义表中原子或子表的数量，
+<ul>
+<li>广义表 {{a,b,c}} 中只有一个子表 {a,b,c}，因此它的长度为 1。</li>
+<li>{a,{b,c,d}} 中，它包含一个原子和一个子表，因此该广义表的长度为 2</li>
+</ul>
+</li>
+<li>广义表的深度：观察表中所包含括号的层数间接得到
+<ul>
+<li>广义表 {{1,2},{3,{4,5}}} 中，子表 {1,2} 和 {3,{4,5}} 位于同层，此广义表中包含 3 层括号，因此深度为 3。</li>
+</ul>
+</li>
+</ul>
+<h4 id="二叉树" class="heading-element">
+  <a href="#%e4%ba%8c%e5%8f%89%e6%a0%91" class="heading-mark"></a>二叉树</h4><ul>
+<li>堆： 通常是完全二叉树
+<ul>
+<li>最大堆：父节点的值比子节点要大</li>
+<li>最小堆：父节点的值比子节点小
+总结点 = 度为0 + 度为1 + 度为2(叶子节点-1)
+叶子节点度为0</li>
+</ul>
+</li>
+</ul>
+<p>在二叉树中，总结点的数量等于度为0的结点数加度为1的结点数加度为2的结点数。已知二叉树中有70个叶子结点和80个度为1的结点，由于叶子结点的度数为0，度为2的结点数等于叶子结点数减1，即个。</p>
+<h4 id="排序" class="heading-element">
+  <a href="#%e6%8e%92%e5%ba%8f" class="heading-mark"></a>排序</h4><p>![[asserts/Pasted image 20240522134301.png]]</p>
+<h3 id="数据库" class="heading-element">
+  <a href="#%e6%95%b0%e6%8d%ae%e5%ba%93" class="heading-mark"></a>数据库</h3><h4 id="数据库设计" class="heading-element">
+  <a href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e8%ae%be%e8%ae%a1" class="heading-mark"></a>数据库设计</h4><p>![[asserts/Pasted image 20240522141345.png]]
+模式：数据库的逻辑结构和数据组织方式
+外模式：数据库系统的最外层，用户与数据库系统交互的接口，不同的用户或应用程序可以有不同的外模式。
+内模式：数据库系统的最内层，描述了数据在物理介质上的存储结构和存取方法</p>
+<ul>
+<li>数据在磁盘上的存储结构</li>
+<li>存储记录的格式和排列</li>
+<li>索引，数据压缩等技术
+数据的独立性：
+<ul>
+<li>物理独立性：数据库的内模式发生改变时，数据的逻辑结构不变</li>
+<li>数据独立性：外模式和模式之间的映射
+数据的独立性是由DBMS的二级映像功能来保证的。数据的独立性包括数据的物理独立性和数据的逻辑独立性。数据的物理独立性是指当数据库的内模式发生改变时，数据的逻辑结构不变。为了保证应用程序能够正确执行，需要通过修改概念模式/内模式之间的映像。数据的逻辑独立性是指用户的应用程序与数据库的逻辑结构是相互独立的。数据的逻辑结构发生变化后，用户程序也可以不修改。但是，为了保证应用程序能够正确执行，需要修改外模式/概念模式之间的映像。</li>
+</ul>
+</li>
+</ul>
+<h3 id="关系泛式" class="heading-element">
+  <a href="#%e5%85%b3%e7%b3%bb%e6%b3%9b%e5%bc%8f" class="heading-mark"></a>关系泛式</h3><h4 id="几种泛式" class="heading-element">
+  <a href="#%e5%87%a0%e7%a7%8d%e6%b3%9b%e5%bc%8f" class="heading-mark"></a>几种泛式</h4><table>
+<thead>
+<tr>
+<th>泛式</th>
+<th>概念</th>
+<th>判断方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1NF</td>
+<td>每一个属性都是不可分割的原子值</td>
+<td>每一个字段仅包含一个值<br>每一列都是原子的，不能包含子表或数组</td>
+</tr>
+<tr>
+<td>2NF</td>
+<td>每一个非主属性完全依赖于主键(消除部分依赖)</td>
+<td>- 满足1NF<br>- 非主属性完全依赖与整个主键，而不是主键的一部分<br>- 若存在部分依赖(某些非主属性依赖主键的一部分) 分解为更小的表</td>
+</tr>
+<tr>
+<td>3NF</td>
+<td>不存在非主属性对候选码的传递依赖</td>
+<td>满足2NF<br>没有非主属性通过另一个非主属性，间接依赖主键<br>存在传递依赖，则需要将其分解我更小的表</td>
+</tr>
+<tr>
+<td>BCNF</td>
+<td>没有传递依赖和部分依赖，</td>
+<td>每一个属性（或属性组合）若能决定其他属性，则该属性（或属性组合）是候选键</td>
+</tr>
+<tr>
+<td>4NF</td>
+<td>没有多值依赖</td>
+<td>满足3NF<br>确保关系中没有多值依赖（即一个属性集的值集合与另一个属性集的值集合相互独立）</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>1NF</strong>：消除重复组，确保每个属性值是原子的。</li>
+<li><strong>2NF</strong>：在1NF的基础上，消除部分依赖，确保每个非主属性完全依赖于主键。</li>
+<li><strong>3NF</strong>：在2NF的基础上，消除传递依赖，确保每个非主属性直接依赖于主键。</li>
+<li><strong>BCNF</strong>：在3NF的基础上，消除非候选键的决定因素，确保每个决定因素都是候选键。</li>
+<li><strong>4NF</strong>：在BCNF的基础上，消除多值依赖，确保没有多值依赖。</li>
+</ol>
+<h4 id="关系代数" class="heading-element">
+  <a href="#%e5%85%b3%e7%b3%bb%e4%bb%a3%e6%95%b0" class="heading-mark"></a>关系代数</h4><ol>
+<li><strong>选择（Selection, σ）</strong>：从关系中选出满足特定条件的元组。
+<ul>
+<li>记号：σ<sub>条件</sub>(关系)</li>
+<li>示例：σ<sub>age &gt; 30</sub>(Employees)</li>
+</ul>
+</li>
+<li><strong>投影（Projection, π）</strong>：从关系中选出特定的属性列，去除重复的元组。
+<ul>
+<li>记号：π<sub>属性列表</sub>(关系)</li>
+<li>示例：π<sub>name, age</sub>(Employees)</li>
+</ul>
+</li>
+<li><strong>并（Union, ∪）</strong>：合并两个关系，包含所有在两个关系中的元组，去除重复。
+<ul>
+<li>记号：R ∪ S</li>
+</ul>
+</li>
+<li><strong>差（Difference, −）</strong>：获取属于第一个关系但不属于第二个关系的元组。
+<ul>
+<li>记号：R − S</li>
+</ul>
+</li>
+<li><strong>笛卡尔积（Cartesian Product, ×）</strong>：将两个关系中的每一个元组合并形成一个新的元组。
+<ul>
+<li>记号：R × S</li>
+</ul>
+</li>
+<li><strong>连接（Join, ⨝）</strong>：根据特定条件将两个关系中的元组合并形成一个新的元组。
+<ul>
+<li>记号：R ⨝<sub>条件</sub> S</li>
+</ul>
+</li>
+<li><strong>自然连接（Natural Join, ⨝）</strong>：在两个关系中查找相同属性名的列，并自动进行连接。
+<ul>
+<li>记号：R ⨝ S</li>
+</ul>
+</li>
+<li><strong>除（Division, ÷）</strong>：在关系中查找那些在另一个关系中的所有元组都有匹配的元组。
+<ul>
+<li>记号：R ÷ S</li>
+</ul>
+</li>
+</ol>
+<h4 id="关系元组演算" class="heading-element">
+  <a href="#%e5%85%b3%e7%b3%bb%e5%85%83%e7%bb%84%e6%bc%94%e7%ae%97" class="heading-mark"></a>关系元组演算</h4><p>常用的查询语言：域关系演算 元祖关系演算，关系代数
+公式和符号的意思：</p>
+<ul>
+<li><strong>元组变量</strong>表示关系中的元组 如<code>T ∈ R</code>表示元组<code>T</code>属于关系<code>R</code>，<code>T.A = T.B</code>表示元组<code>T</code>的属性<code>A</code>等于属性<code>B</code>。</li>
+<li>逻辑运算符 ∧(和)、∨或、¬ 非</li>
+<li><strong>绑定变量</strong> 在公式中被量词绑定的变量  比如，<code>∃T (T ∈ R ∧ T.A = 5)</code>中，<code>T</code>是绑定变量。</li>
+<li>示例</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 查询年龄大于30的员工的名称和年龄</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span> <span class="n">T</span> <span class="o">|</span> <span class="n">T</span> <span class="err">∈</span> <span class="n">Employee</span> <span class="err">∧</span> <span class="n">T</span><span class="o">.</span><span class="n">Age</span> <span class="o">&gt;</span> <span class="mi">30</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">**</span><span class="n">查询工资高于50000的员工的名字</span><span class="o">**</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span> <span class="n">T</span><span class="o">.</span><span class="n">Name</span> <span class="o">|</span> <span class="err">∃</span><span class="n">T</span> <span class="p">(</span><span class="n">T</span> <span class="err">∈</span> <span class="n">Employee</span> <span class="err">∧</span> <span class="n">T</span><span class="o">.</span><span class="n">Salary</span> <span class="o">&gt;</span> <span class="mi">50000</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># </span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>域关系演算</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="err">一个关系</span><span class="o">`</span><span class="n">Employee</span><span class="p">(</span><span class="n">EID</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">Age</span><span class="p">,</span><span class="w"> </span><span class="n">Salary</span><span class="p">)</span><span class="o">`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 查询年龄大于30的员工的名称和年龄
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="err">{</span><span class="w"> </span><span class="o">&lt;</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="o">&gt;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="err">∃</span><span class="n">e</span><span class="w"> </span><span class="err">∃</span><span class="n">s</span><span class="w"> </span><span class="p">(</span><span class="n">Employee</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="err">∧</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="err">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="分布式系统" class="heading-element">
+  <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e7%b3%bb%e7%bb%9f" class="heading-mark"></a>分布式系统</h3><p>CAP分布式系统的基本原理代表三个关键属性：一致性（Consistency）、可用性（Availability）和分区容忍性（Partition Tolerance）</p>
+<p>五个答题考点：</p>
+<ul>
+<li>数据库概念结构设计</li>
+<li>关系理论 泛式和主键候选键 函数依赖 三泛式 四泛式 泛式分解</li>
+<li>SQL相关</li>
+<li>事务的概念、锁死、并发</li>
+<li>数据备份和故障恢复 数据库日志文件</li>
+</ul>
+<h3 id="信息安全" class="heading-element">
+  <a href="#%e4%bf%a1%e6%81%af%e5%ae%89%e5%85%a8" class="heading-mark"></a>信息安全</h3><ul>
+<li>主动攻击
+<ul>
+<li>攻击者干扰系统或网络的正常运行，通过修改、破坏或伪造数据，获取未授权的访问权限或恶意操作</li>
+<li>拒绝服务攻击 DDOS DOS: 攻击者通过发送大量请求，消耗系统资源，使系统无法正常提供服务</li>
+<li>中间人攻击MITM:</li>
+<li>sql注入</li>
+<li>钓鱼攻击</li>
+</ul>
+</li>
+<li>被动攻击
+<ul>
+<li>不干扰系统的正常运行，隐蔽性，无破坏性，信息收集</li>
+<li>流量分析，窃听，被动扫描
+中国自主研发的3G通信标准是 TD-SCDMA</li>
+</ul>
+</li>
+</ul>
+<p>宏病毒一般感染 doc 为扩展名的文件</p>
+<p>数字信封技术：</p>
+<ul>
+<li>生成对称密钥</li>
+<li>数据加密</li>
+<li>对称密钥加密</li>
+<li>传输加密数据和加密密钥</li>
+<li>对称密钥解密</li>
+<li>数据解密
+计算机病毒：
+<ul>
+<li>文件型病毒 感染可执行文件</li>
+<li>引导型病毒 影响软盘或硬盘的引导扇区</li>
+<li>目录型病毒 修改硬盘上的所有文件的地址</li>
+<li>宏病毒 使用某些程序创建出来的文本文档，数据库，电子表格等文件
+防火墙的工作层次：</li>
+</ul>
+</li>
+<li>工作层次高，效率低，安全性高</li>
+<li>受保护程度：从高到低 内网 DMZ 外网</li>
+</ul>
+<h3 id="项目管理" class="heading-element">
+  <a href="#%e9%a1%b9%e7%9b%ae%e7%ae%a1%e7%90%86" class="heading-mark"></a>项目管理</h3><p>无主程序员组：适合开发小型项目 创新型项目， 确定性比较小的项目
+ISO软件质量模型：
+软件质量的6大特性：功能性、可靠性、易用性、效率、维护性、可移植性<br>
+软件质量的27个子特性：<br>
+功能性：适合性、准确性、互操作性、安全性、功能性的依从性<br>
+可靠性：成熟性、容错性、可恢复性、可靠性的依从性<br>
+易用性：易理解、易学习、易操作、吸引性、可使用性的依从性<br>
+效率：时间特性、资源特性、效率的依从性<br>
+维护性：易分析性、稳定性、易变更性、易测试性、可维护性的依从性<br>
+可移植性：适应性、易安装型、遵循性易替换性、可移植性的依从性</p>
+<p>RUP：统一软件开发过程</p>
+<ul>
+<li>角色、活动、制品和工作流4种重要的模型元素
+统一过程模型：</li>
+<li>关键特点：迭代和增量开发 基于用例的需求驱动 架构驱动 风险驱动</li>
+<li>阶段
+<ul>
+<li>初始阶段</li>
+<li>细化阶段</li>
+<li>构建阶段</li>
+<li>移交阶段</li>
+</ul>
+</li>
+</ul>
+<p>传统工程模型：</p>
+<ul>
+<li><strong>瀑布模型</strong>是最早出现的过程模型，它将软件生存周期的各项活动规定为按固定顺序而连接的若干阶段工作，形如瀑布流水，最终得到软件产品，主要的阶段包括需求分析、系统设计、详细设计、编码、单元测试、集成测试、系统测试、系统提交等。</li>
+<li>v模型是对瀑布模型的一种改进模型，由于其模型构图形似字母v，所以又称为软件测试的V模型。V模型中，<strong>增加了测试环节的回溯验证</strong>，一般情况下，单元测试所对应的是详细设计环节；集成测试对应概要设计环节；系统测试对应需求分析环节；验收测试对应用户原始需求。</li>
+<li><strong>原型化模型</strong>:。原型化模型首先是建造一个快速原型，在充分了解和确认后，在原型基础上开发出用户满意的产品。</li>
+<li>螺旋模型是一种<strong>演化软件开发过程模型</strong>，它兼顾了快速原型的迭代的特征以及瀑布模型的系统化与严格监控。螺旋模型最大的特点在于引入了<strong>其他模型不具备的风险分析</strong>，使软件在无法排除重大风险时有机会停止，以减小损失。同时，在每个迭代阶段构建原型是螺旋模型用以减小风险的途径。</li>
+<li>增量模型：把软件产品作为一系列的增量构建来设计，编码，集成和测试，可以在增量开发过程中逐步理解需求</li>
+</ul>
+<p>软件设计：</p>
+<ul>
+<li>概要设计阶段</li>
+<li>详细设计阶段
+结构化设计方法：</li>
+<li>概要设计阶段：软件体系结构的设计，数据设计和接口设计</li>
+<li>详细设计阶段：数据结构和算法的设计
+面相对象的设计方法：</li>
+<li>概要设计阶段：体系结构设计，初步的类设计、数据设计，结构设计</li>
+<li>详细设计阶段：构件设计</li>
+</ul>
+<p>数据流图：</p>
+<ul>
+<li>建模的时候应遵循自顶向下，从抽象到具体的建模思想。</li>
+<li>描述数据的处理流程</li>
+<li>底层数据流图描述了系统的输入输出</li>
+<li>加工描述了数据流的转换</li>
+</ul>
+<p>软件工程方法：进行软件开发，涉及到<strong>方法、工具和过程</strong>等要素。
+项目风险：风险的优先级根据<strong>风险暴露</strong> 指标来表示，=风险影响(当风险发生时造成的损失) * 风险概率(风险发生的可能性)</p>
+<ul>
+<li>项目风险：预算，进度，人员资源以及客户相关的问题</li>
+<li>技术风险：设计，实现，对接，测试和维护未提</li>
+<li>业务风险：建立一个无人想要的优秀产品风险，失去预算，人员承诺的风险</li>
+<li>商业风险：市场风险，策略风险，管理风险和预算风险</li>
+</ul>
+<p>UML图： 统一建模语言</p>
+<ul>
+<li>用例图 描述系统的功能需求以及系统与外部用户之间的交互</li>
+<li>类图 描述系统中的类及其属性、方法和类之间的关系</li>
+<li>对象图：描述系统在某一时刻的对象实例及其关系</li>
+<li>序列图：描述对象之间的交互顺序，强调时间顺序</li>
+<li>活动图：类似于流程图</li>
+<li>状态图：描述对象状态变化以及时间如何导致状态的转换</li>
+<li>组件图：描述系统 的物理组件以及相互关系</li>
+<li>部署图：描述系统在物理硬件上的部署结构
+<a href="https://boardmix.cn/article/uml-diagram-styles/"target="_blank" rel="external nofollow noopener noreferrer">干货！14种uml图类型及示例 (boardmix.cn)<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></li>
+</ul>
+</div><div class="post-reward">
+    <div class="comment">Buy me a coffee~</div>
+    <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
+    <label class="reward-button" for="fi-reward">赞赏</label>
+    <div class="reward-ways" data-mode="fixed"><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 支付宝" data-title="Fred 支付宝" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>支付宝</span>
+          </div><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 微信" data-title="Fred 微信" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>微信</span>
+          </div></div>
+  </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-06-07 09:58:55">更新于 2024-06-07&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/db/20240508165000/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span><span><a href="https://github.com/ipfred/ipfred.github.io/blob/main/content/db%5c%e8%bd%af%e8%80%83%e7%9f%a5%e8%af%86%e7%82%b9.md?plain=1" title="查看源码"target="_blank" rel="external nofollow noopener noreferrer" class="link-to-source">查看源码</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/db/20240508165000/" data-title="软考知识点"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 百度" data-sharer="baidu" data-url="http://localhost:1313/db/20240508165000/" data-title="软考知识点"><i data-svg-src="/lib/simple-icons/icons/baidu.min.svg" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/20240428183407/" class="post-nav-item" rel="prev" title="Vim使用技巧大全"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Vim使用技巧大全</a>
+      <a href="/lang/docker/20240510103849/" class="post-nav-item" rel="next" title="docker使用常用命令">docker使用常用命令<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright order-1" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/ipfred"target="_blank" rel="external nofollow noopener noreferrer">Fred</a></span></div><div class="footer-line statistics order-first"></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><a href="https://github.com/ipfred" title="View source on GitHub"target="_blank" rel="external nofollow" class="github-corner right d-none-mobile"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/pace/themes/green/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script src="/lib/instant-page/instantpage.min.js" async defer type="module"></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/typeit/index.umd.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":30},"comment":{"enable":false},"data":{"typeit-header-subtitle-desktop":"一个只记录精华知识的平台","typeit-header-subtitle-mobile":"一个只记录精华知识的平台"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"algoliaAppID":"TZCN6HKD92","algoliaIndex":"index","algoliaSearchKey":"663832297fb162d0169b237d56275fe2","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-subtitle-desktop":["typeit-header-subtitle-desktop"],"typeit-header-subtitle-mobile":["typeit-header-subtitle-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

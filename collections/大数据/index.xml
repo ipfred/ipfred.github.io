@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>大数据 - 合集 | Fred的知识库</title>
-    <link>https://ipfred.github.io/collections/%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
+    <link>http://localhost:1313/collections/%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
     <description>大数据 - 合集 | Fred的知识库</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
-      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Wed, 24 Apr 2024 10:22:48 &#43;0800</lastBuildDate><atom:link href="https://ipfred.github.io/collections/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Wed, 24 Apr 2024 10:22:48 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/collections/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="self" type="application/rss+xml" /><item>
   <title>HDFS文件读写过程</title>
-  <link>https://ipfred.github.io/bigdata/hadoop/a9bc224/</link>
+  <link>http://localhost:1313/bigdata/hadoop/a9bc224/</link>
   <pubDate>Wed, 24 Apr 2024 10:22:48 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/bigdata/hadoop/a9bc224/</guid>
+  <guid>http://localhost:1313/bigdata/hadoop/a9bc224/</guid>
   <description><![CDATA[<blockquote>
 <p>HDFS</p>
 </blockquote>
@@ -79,10 +79,10 @@
 </item>
 <item>
   <title>hadoop命令行的使用</title>
-  <link>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+  <link>http://localhost:1313/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
   <pubDate>Tue, 23 Apr 2024 22:01:01 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+  <guid>http://localhost:1313/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
   <description><![CDATA[<h2 id="hdfs-的命令行使用" class="heading-element">
   <a href="#hdfs-%e7%9a%84%e5%91%bd%e4%bb%a4%e8%a1%8c%e4%bd%bf%e7%94%a8" class="heading-mark"></a>1 HDFS 的命令行使用</h2><p><a href="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html"target="_blank" rel="external nofollow noopener noreferrer">Hadoop 命令行官方doc<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
 <p><code>hadoop fs</code>: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等
@@ -508,10 +508,10 @@
 </item>
 <item>
   <title>Hadoop概览</title>
-  <link>https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</link>
+  <link>http://localhost:1313/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</link>
   <pubDate>Tue, 23 Apr 2024 20:01:01 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</guid>
+  <guid>http://localhost:1313/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</guid>
   <description><![CDATA[<h1 id="hdfs" class="heading-element">
   <a href="#hdfs" class="heading-mark"></a>HDFS</h1><ol>
 <li>HDFS概述</li>

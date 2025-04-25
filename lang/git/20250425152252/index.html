@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>多平台GitHub配置代理 | Fred的知识库</title><meta name="author" content="Fred">
+<meta name="author-link" content="https://github.com/ipfred">
+<meta name="description" content="本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 前言：本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 git 配置代理 windows 设置代理 http || https协议 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 //设置全局代理 git config --global https.proxy http://127.0.0.1:7897 git config --global https.proxy https://127.0.0.1:7897 // socks git config --global http.proxy socks5://127.0.0.1:7897 git config --global https.proxy" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
+  <meta itemprop="name" content="多平台GitHub配置代理">
+  <meta itemprop="description" content="本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 前言：本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 git 配置代理 windows 设置代理 http || https协议 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 //设置全局代理 git config --global https.proxy http://127.0.0.1:7897 git config --global https.proxy https://127.0.0.1:7897 // socks git config --global http.proxy socks5://127.0.0.1:7897 git config --global https.proxy">
+  <meta itemprop="datePublished" content="2025-04-25T15:22:44+08:00">
+  <meta itemprop="dateModified" content="2025-04-25T15:25:29+08:00">
+  <meta itemprop="wordCount" content="1072">
+  <meta itemprop="image" content="http://localhost:1313/images/apple-devices-preview.webp">
+  <meta itemprop="keywords" content="github"><meta property="og:url" content="http://localhost:1313/lang/git/20250425152252/">
+  <meta property="og:site_name" content="Fred的知识库">
+  <meta property="og:title" content="多平台GitHub配置代理">
+  <meta property="og:description" content="本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 前言：本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 git 配置代理 windows 设置代理 http || https协议 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 //设置全局代理 git config --global https.proxy http://127.0.0.1:7897 git config --global https.proxy https://127.0.0.1:7897 // socks git config --global http.proxy socks5://127.0.0.1:7897 git config --global https.proxy">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="lang">
+    <meta property="article:published_time" content="2025-04-25T15:22:44+08:00">
+    <meta property="article:modified_time" content="2025-04-25T15:25:29+08:00">
+    <meta property="og:image" content="http://localhost:1313/images/apple-devices-preview.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:1313/images/apple-devices-preview.webp"><meta name="twitter:title" content="多平台GitHub配置代理">
+<meta name="twitter:description" content="本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 前言：本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 git 配置代理 windows 设置代理 http || https协议 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 //设置全局代理 git config --global https.proxy http://127.0.0.1:7897 git config --global https.proxy https://127.0.0.1:7897 // socks git config --global http.proxy socks5://127.0.0.1:7897 git config --global https.proxy">
+<meta name="application-name" content="FredKnow">
+<meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/lang/git/20250425152252/" /><link rel="prev" href="http://localhost:1313/bigdata/hadoop/20240606150541/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "多平台GitHub配置代理",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/lang\/git\/20250425152252\/"
+    },"image": ["http:\/\/localhost:1313\/apple-touch-icon.png"],"genre": "posts","wordcount":  1072 ,
+    "url": "http:\/\/localhost:1313\/lang\/git\/20250425152252\/","datePublished": "2025-04-25T15:22:44+08:00","dateModified": "2025-04-25T15:25:29+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+      "@type": "Organization",
+      "name": "ipFred","logo": "http:\/\/localhost:1313\/images\/avatar.jpg"},"author": {
+        "@type": "Person",
+        "name": "Fred"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper" data-github-corner="right">
+    <div class="header-title">
+      <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="Fred的知识库" data-title="Fred的知识库" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-desktop" class="typeit header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li class="menu-item has-children">
+              <a
+                class="menu-link"
+                href="/lang/"
+                
+                
+              ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/web/"
+                
+                
+              ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="https://files.catbox.moe/mtzx1g.png" data-title="https://files.catbox.moe/mtzx1g.png" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-mobile" class="typeit header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li
+              class="menu-item"
+            ><span class="nested-item">
+                  <a
+                    class="menu-link"
+                    href="/lang/"
+                    
+                    
+                  ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/web/"
+                  
+                  
+                ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><nav aria-label="breadcrumb" class="breadcrumb-container sticky">
+    <ol class="breadcrumb"><li class="breadcrumb-item"><a href="/lang/" title="langs">langs</a></li><li class="breadcrumb-item active" aria-current="page">多平台GitHub配置代理</li>
+    </ol>
+  </nav><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>多平台GitHub配置代理</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/github/" class="post-category" title="分类 - github"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> github</a></span></div><div class="post-meta-line"><span title="发布于 2025-04-25 15:22:44"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-04-25">2025-04-25</time></span>&nbsp;<span title="更新于 2025-04-25 15:25:29"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-04-25">2025-04-25</time></span>&nbsp;<span title="1072 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#windows-设置代理">windows 设置代理</a>
+      <ol>
+        <li><a href="#http--https协议">http || https协议</a></li>
+        <li><a href="#ssh协议">SSH协议</a></li>
+      </ol>
+    </li>
+    <li><a href="#wsl2设置代理">WSL2设置代理</a></li>
+    <li><a href="#git-push失败或者卡住不动问题">git push失败或者卡住不动问题</a></li>
+    <li><a href="#修改配置文件的方式">修改配置文件的方式</a></li>
+  </ol>
+</nav></div>
+      </div><div class="content" id="content" data-end-flag="（本文完）"><p><strong>本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理</strong></p>
+<blockquote>
+<p>前言：本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理</p>
+</blockquote>
+<h1 id="git-配置代理" class="heading-element">
+  <a href="#git-%e9%85%8d%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>git 配置代理</h1><h2 id="windows-设置代理" class="heading-element">
+  <a href="#windows-%e8%ae%be%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>windows 设置代理</h2><h3 id="http--https协议" class="heading-element">
+  <a href="#http--https%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>http || https协议</h3><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">//设置全局代理
+</span></span><span class="line"><span class="cl">git config --global https.proxy http://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">git config --global https.proxy https://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">// socks
+</span></span><span class="line"><span class="cl">git config --global http.proxy socks5://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">git config --global https.proxy socks5://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">//只对github.com使用代理，其他仓库不走代理
+</span></span><span class="line"><span class="cl">git config --global http.https://github.com.proxy socks5://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">git config --global https.https://github.com.proxy socks5://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">//取消github代理
+</span></span><span class="line"><span class="cl">git config --global --unset http.https://github.com.proxy
+</span></span><span class="line"><span class="cl">git config --global --unset https.https://github.com.proxy
+</span></span><span class="line"><span class="cl">//取消全局代理
+</span></span><span class="line"><span class="cl">git config --global --unset http.proxy
+</span></span><span class="line"><span class="cl">git config --global --unset https.proxy</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="ssh协议" class="heading-element">
+  <a href="#ssh%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>SSH协议</h3><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">//对于使用git@协议的，可以配置socks5代理
+</span></span><span class="line"><span class="cl">//在~/.ssh/config 文件后面添加几行，没有可以新建一个
+</span></span><span class="line"><span class="cl">//socks5
+</span></span><span class="line"><span class="cl">Host github.com
+</span></span><span class="line"><span class="cl">User git
+</span></span><span class="line"><span class="cl">ProxyCommand connect -S 127.0.0.1:7897 %h %p
+</span></span><span class="line"><span class="cl">//http <span class="o">||</span> https
+</span></span><span class="line"><span class="cl">Host github.com
+</span></span><span class="line"><span class="cl">User git
+</span></span><span class="line"><span class="cl">ProxyCommand connect -H 127.0.0.1:7897 %h %p</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="wsl2设置代理" class="heading-element">
+  <a href="#wsl2%e8%ae%be%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>WSL2设置代理</h2><p>在 Ubuntu 子系统中，通过 <strong>cat /etc/resolv.conf</strong> 查看 DNS 服务器 IP</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /etc/resolv.conf
+</span></span><span class="line"><span class="cl"><span class="c1"># This file was automatically generated by WSL. To stop automatic generation of this file, add the following entry to /etc/wsl.conf:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># [network]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># generateResolvConf = false</span>
+</span></span><span class="line"><span class="cl">nameserver 172.23.64.1</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其实上面地址就是windows下面这个ip地址</p>
+<p><strong>win11-&gt;设置-&gt;网络和Internet-&gt;高级网络设置-&gt;硬件和连接属性</strong></p>
+<p>名称：vEthernet (WSL)</p>
+<p>ipv4地址：172.23.64.1/20</p>
+<p>我们要为WSL配置ssh代理和http代理</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">touch ~/.ssh/config
+</span></span><span class="line"><span class="cl">vim ~/.ssh/config
+</span></span><span class="line"><span class="cl">Host github.com
+</span></span><span class="line"><span class="cl">    HostName github.com
+</span></span><span class="line"><span class="cl">    User git
+</span></span><span class="line"><span class="cl">    <span class="c1"># 走 socks5 代理</span>
+</span></span><span class="line"><span class="cl">    ProxyCommand nc -v -x 172.28.32.1:7897 %h %p</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用下面命令检查ssh代理配置是否成功</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -T github.com
+</span></span><span class="line"><span class="cl">Connection to github.com <span class="m">22</span> port <span class="o">[</span>tcp/ssh<span class="o">]</span> succeeded!
+</span></span><span class="line"><span class="cl">Hi wq-zhijun! You<span class="err">&#39;</span>ve successfully authenticated, but GitHub does not provide shell access.</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以将上面ip地址配置代理写入到.bashrc文件中，这样就可以自己用户开机永久生效，</p>
+<p><strong>另外apt要单独在/etc/apt/apt.conf设置代理</strong></p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">u_host</span><span class="o">=</span><span class="sb">`</span>cat /etc/resolv.conf<span class="p">|</span>grep nameserver<span class="p">|</span>awk <span class="s1">&#39;{print $2}&#39;</span><span class="sb">`</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;/.*ProxyCommand*/c\     ProxyCommand nc -v -x </span><span class="nv">$u_host</span><span class="s2">:7897 %h %p&#34;</span> ~/.ssh/config
+</span></span><span class="line"><span class="cl">proxy <span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">export</span> <span class="nv">ALL_PROXY</span><span class="o">=</span><span class="s2">&#34;http://</span><span class="nv">$u_host</span><span class="s2">:7897&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">export</span> <span class="nv">all_proxy</span><span class="o">=</span><span class="s2">&#34;http://</span><span class="nv">$u_host</span><span class="s2">:7897&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">export</span> <span class="o">{</span>http,https,ftp<span class="o">}</span><span class="nv">_proxy</span><span class="o">=</span><span class="nv">$ALL_PROXY</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">export</span> <span class="o">{</span>HTTP,HTTPS,FTP<span class="o">}</span><span class="nv">_PROXY</span><span class="o">=</span><span class="nv">$ALL_PROXY</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> -e <span class="s2">&#34;Acquire::http::Proxy \&#34;http://</span><span class="nv">$u_host</span><span class="s2">:7897\&#34;;&#34;</span> <span class="p">|</span> sudo tee -a /etc/apt/apt.conf &gt; /dev/null
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> -e <span class="s2">&#34;Acquire::https::Proxy \&#34;http://</span><span class="nv">$u_host</span><span class="s2">:7897\&#34;;&#34;</span> <span class="p">|</span> sudo tee -a /etc/apt/apt.conf &gt; /dev/null
+</span></span><span class="line"><span class="cl">    curl ip.gs
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">proxy <span class="c1"># default call</span>
+</span></span><span class="line"><span class="cl">proxy noproxy <span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">unset</span> ALL_PROXY
+</span></span><span class="line"><span class="cl">    <span class="nb">unset</span> all_proxy
+</span></span><span class="line"><span class="cl">    sudo sed -i -e <span class="s1">&#39;/Acquire::http::Proxy/d&#39;</span> /etc/apt/apt.conf
+</span></span><span class="line"><span class="cl">    sudo sed -i -e <span class="s1">&#39;/Acquire::https::Proxy/d&#39;</span> /etc/apt/apt.conf
+</span></span><span class="line"><span class="cl">    curl ip.gs
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>7897端口</strong> 是clash for windows端口，另外将 <strong>Allow LAN</strong> 打开。</p>
+<p>还需要将防火墙打开</p>
+<p>win+r 输入 control到如下目录</p>
+<p><strong>控制面板\系统和安全\Windows Defender 防火墙</strong></p>
+<p>放行clash*</p>
+<h2 id="git-push失败或者卡住不动问题" class="heading-element">
+  <a href="#git-push%e5%a4%b1%e8%b4%a5%e6%88%96%e8%80%85%e5%8d%a1%e4%bd%8f%e4%b8%8d%e5%8a%a8%e9%97%ae%e9%a2%98" class="heading-mark"></a>git push失败或者卡住不动问题</h2><p>原因是有的节点22端口被服务端封锁了，要么改服务端端口要么改自己本地更换443端口（~/.ssh/config)</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 可以先使用如下测试下</span>
+</span></span><span class="line"><span class="cl">ssh -T -p <span class="m">443</span> git@ssh.github.com
+</span></span><span class="line"><span class="cl"><span class="c1"># Hi USERNAME! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 更换端口后再测试下</span>
+</span></span><span class="line"><span class="cl">ssh -T git@github.com
+</span></span><span class="line"><span class="cl"><span class="c1"># Hi USERNAME! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># .ssh目录的config文件添加如下内容</span>
+</span></span><span class="line"><span class="cl">vim ~/.ssh/config
+</span></span><span class="line"><span class="cl">Host github.com
+</span></span><span class="line"><span class="cl">    HostName github.com
+</span></span><span class="line"><span class="cl">    User git
+</span></span><span class="line"><span class="cl">    <span class="c1"># set socks5 proxy</span>
+</span></span><span class="line"><span class="cl">    ProxyCommand nc -v -x 172.23.64.1:7897 %h %p</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="修改配置文件的方式" class="heading-element">
+  <a href="#%e4%bf%ae%e6%94%b9%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e7%9a%84%e6%96%b9%e5%bc%8f" class="heading-mark"></a>修改配置文件的方式</h2><ul>
+<li>windows系统的配置 文件在 <code>C:\Users\admin\.gitconfig</code>
+配置文件如下</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[http &#34;https://github.com&#34;]</span>
+</span></span><span class="line"><span class="cl">	<span class="na">proxy</span> <span class="o">=</span> <span class="s">http://127.0.0.1:7897</span>
+</span></span><span class="line"><span class="cl"><span class="k">[https &#34;https://github.com&#34;]</span>
+</span></span><span class="line"><span class="cl">	<span class="na">proxy</span> <span class="o">=</span> <span class="s">https://127.0.0.1:7897</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-reward">
+    <div class="comment">Buy me a coffee~</div>
+    <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
+    <label class="reward-button" for="fi-reward">赞赏</label>
+    <div class="reward-ways" data-mode="fixed"><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 支付宝" data-title="Fred 支付宝" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>支付宝</span>
+          </div><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 微信" data-title="Fred 微信" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>微信</span>
+          </div></div>
+  </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-04-25 15:25:29">更新于 2025-04-25&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/lang/git/20250425152252/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span><span><a href="https://github.com/ipfred/ipfred.github.io/blob/main/content/lang%5cgit%5cgit%e5%ae%9e%e7%94%a8%e9%85%8d%e7%bd%ae.md?plain=1" title="查看源码"target="_blank" rel="external nofollow noopener noreferrer" class="link-to-source">查看源码</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/lang/git/20250425152252/" data-title="多平台GitHub配置代理"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 百度" data-sharer="baidu" data-url="http://localhost:1313/lang/git/20250425152252/" data-title="多平台GitHub配置代理"><i data-svg-src="/lib/simple-icons/icons/baidu.min.svg" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/bigdata/hadoop/20240606150541/" class="post-nav-item" rel="prev" title="sqoop使用文档"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>sqoop使用文档</a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright order-1" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/ipfred"target="_blank" rel="external nofollow noopener noreferrer">Fred</a></span></div><div class="footer-line statistics order-first"></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><a href="https://github.com/ipfred" title="View source on GitHub"target="_blank" rel="external nofollow" class="github-corner right d-none-mobile"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/pace/themes/green/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script src="/lib/instant-page/instantpage.min.js" async defer type="module"></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/typeit/index.umd.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":30},"comment":{"enable":false},"data":{"typeit-header-subtitle-desktop":"一个只记录精华知识的平台","typeit-header-subtitle-mobile":"一个只记录精华知识的平台"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"algoliaAppID":"TZCN6HKD92","algoliaIndex":"index","algoliaSearchKey":"663832297fb162d0169b237d56275fe2","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-subtitle-desktop":["typeit-header-subtitle-desktop"],"typeit-header-subtitle-mobile":["typeit-header-subtitle-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

@@ -1,17 +1,247 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Fred的知识库</title>
-    <link>https://ipfred.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Fred&#39;s Note：探索、分享、记录自己在工作生活学习到一些东西。</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
-      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Thu, 06 Jun 2024 15:05:41 &#43;0800</lastBuildDate>
-      <atom:link href="https://ipfred.github.io/index.xml" rel="self" type="application/rss+xml" />
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Fri, 25 Apr 2025 15:22:44 &#43;0800</lastBuildDate>
+      <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
+  <title>多平台GitHub配置代理</title>
+  <link>http://localhost:1313/lang/git/20250425152252/</link>
+  <pubDate>Fri, 25 Apr 2025 15:22:44 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>http://localhost:1313/lang/git/20250425152252/</guid>
+  <description><![CDATA[<p><strong>本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理</strong></p>
+<blockquote>
+<p>前言：本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理</p>
+</blockquote>
+<h1 id="git-配置代理" class="heading-element">
+  <a href="#git-%e9%85%8d%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>git 配置代理</h1><h2 id="windows-设置代理" class="heading-element">
+  <a href="#windows-%e8%ae%be%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>windows 设置代理</h2><h3 id="http--https协议" class="heading-element">
+  <a href="#http--https%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>http || https协议</h3><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">//设置全局代理
+</span></span><span class="line"><span class="cl">git config --global https.proxy http://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">git config --global https.proxy https://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">// socks
+</span></span><span class="line"><span class="cl">git config --global http.proxy socks5://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">git config --global https.proxy socks5://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">//只对github.com使用代理，其他仓库不走代理
+</span></span><span class="line"><span class="cl">git config --global http.https://github.com.proxy socks5://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">git config --global https.https://github.com.proxy socks5://127.0.0.1:7897
+</span></span><span class="line"><span class="cl">//取消github代理
+</span></span><span class="line"><span class="cl">git config --global --unset http.https://github.com.proxy
+</span></span><span class="line"><span class="cl">git config --global --unset https.https://github.com.proxy
+</span></span><span class="line"><span class="cl">//取消全局代理
+</span></span><span class="line"><span class="cl">git config --global --unset http.proxy
+</span></span><span class="line"><span class="cl">git config --global --unset https.proxy</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="ssh协议" class="heading-element">
+  <a href="#ssh%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>SSH协议</h3><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">//对于使用git@协议的，可以配置socks5代理
+</span></span><span class="line"><span class="cl">//在~/.ssh/config 文件后面添加几行，没有可以新建一个
+</span></span><span class="line"><span class="cl">//socks5
+</span></span><span class="line"><span class="cl">Host github.com
+</span></span><span class="line"><span class="cl">User git
+</span></span><span class="line"><span class="cl">ProxyCommand connect -S 127.0.0.1:7897 %h %p
+</span></span><span class="line"><span class="cl">//http <span class="o">||</span> https
+</span></span><span class="line"><span class="cl">Host github.com
+</span></span><span class="line"><span class="cl">User git
+</span></span><span class="line"><span class="cl">ProxyCommand connect -H 127.0.0.1:7897 %h %p</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="wsl2设置代理" class="heading-element">
+  <a href="#wsl2%e8%ae%be%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>WSL2设置代理</h2><p>在 Ubuntu 子系统中，通过 <strong>cat /etc/resolv.conf</strong> 查看 DNS 服务器 IP</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /etc/resolv.conf
+</span></span><span class="line"><span class="cl"><span class="c1"># This file was automatically generated by WSL. To stop automatic generation of this file, add the following entry to /etc/wsl.conf:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># [network]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># generateResolvConf = false</span>
+</span></span><span class="line"><span class="cl">nameserver 172.23.64.1</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其实上面地址就是windows下面这个ip地址</p>
+<p><strong>win11-&gt;设置-&gt;网络和Internet-&gt;高级网络设置-&gt;硬件和连接属性</strong></p>
+<p>名称：vEthernet (WSL)</p>
+<p>ipv4地址：172.23.64.1/20</p>
+<p>我们要为WSL配置ssh代理和http代理</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">touch ~/.ssh/config
+</span></span><span class="line"><span class="cl">vim ~/.ssh/config
+</span></span><span class="line"><span class="cl">Host github.com
+</span></span><span class="line"><span class="cl">    HostName github.com
+</span></span><span class="line"><span class="cl">    User git
+</span></span><span class="line"><span class="cl">    <span class="c1"># 走 socks5 代理</span>
+</span></span><span class="line"><span class="cl">    ProxyCommand nc -v -x 172.28.32.1:7897 %h %p</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用下面命令检查ssh代理配置是否成功</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -T github.com
+</span></span><span class="line"><span class="cl">Connection to github.com <span class="m">22</span> port <span class="o">[</span>tcp/ssh<span class="o">]</span> succeeded!
+</span></span><span class="line"><span class="cl">Hi wq-zhijun! You<span class="err">&#39;</span>ve successfully authenticated, but GitHub does not provide shell access.</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以将上面ip地址配置代理写入到.bashrc文件中，这样就可以自己用户开机永久生效，</p>
+<p><strong>另外apt要单独在/etc/apt/apt.conf设置代理</strong></p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">u_host</span><span class="o">=</span><span class="sb">`</span>cat /etc/resolv.conf<span class="p">|</span>grep nameserver<span class="p">|</span>awk <span class="s1">&#39;{print $2}&#39;</span><span class="sb">`</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;/.*ProxyCommand*/c\     ProxyCommand nc -v -x </span><span class="nv">$u_host</span><span class="s2">:7897 %h %p&#34;</span> ~/.ssh/config
+</span></span><span class="line"><span class="cl">proxy <span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">export</span> <span class="nv">ALL_PROXY</span><span class="o">=</span><span class="s2">&#34;http://</span><span class="nv">$u_host</span><span class="s2">:7897&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">export</span> <span class="nv">all_proxy</span><span class="o">=</span><span class="s2">&#34;http://</span><span class="nv">$u_host</span><span class="s2">:7897&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">export</span> <span class="o">{</span>http,https,ftp<span class="o">}</span><span class="nv">_proxy</span><span class="o">=</span><span class="nv">$ALL_PROXY</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">export</span> <span class="o">{</span>HTTP,HTTPS,FTP<span class="o">}</span><span class="nv">_PROXY</span><span class="o">=</span><span class="nv">$ALL_PROXY</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> -e <span class="s2">&#34;Acquire::http::Proxy \&#34;http://</span><span class="nv">$u_host</span><span class="s2">:7897\&#34;;&#34;</span> <span class="p">|</span> sudo tee -a /etc/apt/apt.conf &gt; /dev/null
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> -e <span class="s2">&#34;Acquire::https::Proxy \&#34;http://</span><span class="nv">$u_host</span><span class="s2">:7897\&#34;;&#34;</span> <span class="p">|</span> sudo tee -a /etc/apt/apt.conf &gt; /dev/null
+</span></span><span class="line"><span class="cl">    curl ip.gs
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">proxy <span class="c1"># default call</span>
+</span></span><span class="line"><span class="cl">proxy noproxy <span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">unset</span> ALL_PROXY
+</span></span><span class="line"><span class="cl">    <span class="nb">unset</span> all_proxy
+</span></span><span class="line"><span class="cl">    sudo sed -i -e <span class="s1">&#39;/Acquire::http::Proxy/d&#39;</span> /etc/apt/apt.conf
+</span></span><span class="line"><span class="cl">    sudo sed -i -e <span class="s1">&#39;/Acquire::https::Proxy/d&#39;</span> /etc/apt/apt.conf
+</span></span><span class="line"><span class="cl">    curl ip.gs
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>7897端口</strong> 是clash for windows端口，另外将 <strong>Allow LAN</strong> 打开。</p>
+<p>还需要将防火墙打开</p>
+<p>win+r 输入 control到如下目录</p>
+<p><strong>控制面板\系统和安全\Windows Defender 防火墙</strong></p>
+<p>放行clash*</p>
+<h2 id="git-push失败或者卡住不动问题" class="heading-element">
+  <a href="#git-push%e5%a4%b1%e8%b4%a5%e6%88%96%e8%80%85%e5%8d%a1%e4%bd%8f%e4%b8%8d%e5%8a%a8%e9%97%ae%e9%a2%98" class="heading-mark"></a>git push失败或者卡住不动问题</h2><p>原因是有的节点22端口被服务端封锁了，要么改服务端端口要么改自己本地更换443端口（~/.ssh/config)</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 可以先使用如下测试下</span>
+</span></span><span class="line"><span class="cl">ssh -T -p <span class="m">443</span> git@ssh.github.com
+</span></span><span class="line"><span class="cl"><span class="c1"># Hi USERNAME! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 更换端口后再测试下</span>
+</span></span><span class="line"><span class="cl">ssh -T git@github.com
+</span></span><span class="line"><span class="cl"><span class="c1"># Hi USERNAME! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># .ssh目录的config文件添加如下内容</span>
+</span></span><span class="line"><span class="cl">vim ~/.ssh/config
+</span></span><span class="line"><span class="cl">Host github.com
+</span></span><span class="line"><span class="cl">    HostName github.com
+</span></span><span class="line"><span class="cl">    User git
+</span></span><span class="line"><span class="cl">    <span class="c1"># set socks5 proxy</span>
+</span></span><span class="line"><span class="cl">    ProxyCommand nc -v -x 172.23.64.1:7897 %h %p</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="修改配置文件的方式" class="heading-element">
+  <a href="#%e4%bf%ae%e6%94%b9%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e7%9a%84%e6%96%b9%e5%bc%8f" class="heading-mark"></a>修改配置文件的方式</h2><ul>
+<li>windows系统的配置 文件在 <code>C:\Users\admin\.gitconfig</code>
+配置文件如下</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[http &#34;https://github.com&#34;]</span>
+</span></span><span class="line"><span class="cl">	<span class="na">proxy</span> <span class="o">=</span> <span class="s">http://127.0.0.1:7897</span>
+</span></span><span class="line"><span class="cl"><span class="k">[https &#34;https://github.com&#34;]</span>
+</span></span><span class="line"><span class="cl">	<span class="na">proxy</span> <span class="o">=</span> <span class="s">https://127.0.0.1:7897</span></span></span></code></pre></td></tr></table>
+</div>
+</div>]]></description>
+</item>
+<item>
   <title>sqoop使用文档</title>
-  <link>https://ipfred.github.io/bigdata/hadoop/20240606150541/</link>
+  <link>http://localhost:1313/bigdata/hadoop/20240606150541/</link>
   <pubDate>Thu, 06 Jun 2024 15:05:41 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/bigdata/hadoop/20240606150541/</guid>
+  <guid>http://localhost:1313/bigdata/hadoop/20240606150541/</guid>
   <description><![CDATA[<h2 id="sqoop介绍" class="heading-element">
   <a href="#sqoop%e4%bb%8b%e7%bb%8d" class="heading-mark"></a>sqoop介绍</h2><blockquote>
 <p>Sqoop 是一个设计用于在 Hadoop 和关系数据库或大型机之间传输数据的工具。您可以使用 Sqoop 将数据从关系数据库管理系统 (RDBMS)（例如 MySQL 或 Oracle）或大型机导入 Hadoop 分布式文件系统 (HDFS)，在 Hadoop MapReduce 中转换数据，然后将数据导出回 RDBMS 。</p>
@@ -1025,10 +1255,10 @@ RDBMS体系包括：Mysql、Oracle、DB2等</p>
 </item>
 <item>
   <title>一文搞懂Kerberos</title>
-  <link>https://ipfred.github.io/lang/docker/20240511160713/</link>
+  <link>http://localhost:1313/lang/docker/20240511160713/</link>
   <pubDate>Sat, 11 May 2024 16:07:13 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/lang/docker/20240511160713/</guid>
+  <guid>http://localhost:1313/lang/docker/20240511160713/</guid>
   <description><![CDATA[<p><strong>Kerberos 是一种身份认证协议，被广泛运用在大数据生态中，甚至可以说是大数据身份认证的事实标准。本文将详细说明 Kerberos 原理。</strong></p>
 <h2 id="二kerberos-是什么" class="heading-element">
   <a href="#%e4%ba%8ckerberos-%e6%98%af%e4%bb%80%e4%b9%88" class="heading-mark"></a>二、Kerberos 是什么？</h2><p>Kerberos 一词来源于古希腊神话中的 Cerberus —— 守护地狱之门的三头犬。
@@ -1143,10 +1373,10 @@ RDBMS体系包括：Mysql、Oracle、DB2等</p>
 </item>
 <item>
   <title>docker使用常用命令</title>
-  <link>https://ipfred.github.io/lang/docker/20240510103849/</link>
+  <link>http://localhost:1313/lang/docker/20240510103849/</link>
   <pubDate>Fri, 10 May 2024 10:38:49 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/lang/docker/20240510103849/</guid>
+  <guid>http://localhost:1313/lang/docker/20240510103849/</guid>
   <description><![CDATA[<h3 id="docker命令官方文档" class="heading-element">
   <a href="#docker%e5%91%bd%e4%bb%a4%e5%ae%98%e6%96%b9%e6%96%87%e6%a1%a3" class="heading-mark"></a>docker命令官方文档</h3><p><a href="https://docs.docker.com/reference/cli/docker/"target="_blank" rel="external nofollow noopener noreferrer">docker | Docker Docs<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
 <h3 id="代理配置" class="heading-element">
@@ -1583,11 +1813,347 @@ RDBMS体系包括：Mysql、Oracle、DB2等</p>
 </div>]]></description>
 </item>
 <item>
+  <title>软考知识点</title>
+  <link>http://localhost:1313/db/20240508165000/</link>
+  <pubDate>Wed, 08 May 2024 16:50:00 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>http://localhost:1313/db/20240508165000/</guid>
+  <description><![CDATA[<p>[TOC]</p>
+<h2 id="嵌入式sql" class="heading-element">
+  <a href="#%e5%b5%8c%e5%85%a5%e5%bc%8fsql" class="heading-mark"></a>嵌入式SQL</h2><p>嵌入式SQL中通过主变量实现主语言和SQL语言间进行参数传递；
+SQL语句的执行状态通过sqlca，传递给主语言来进行流程控制；
+对于返回结果为多条记录的sql语句，通过游标来由主语言逐条处理。</p>
+<p>执行类型分析和检查：分析程序的类型系统，并检查程序是否违反类型规则(程序中变量和表达式的类型)，</p>
+<p>编译的过程：</p>
+<ul>
+<li>词法分析，将源代码分解为由单词组成的符号流的过程。</li>
+<li>语法分析，语法分析，根据语法规则检查符号流的正确性，并生成语法树的过程</li>
+<li>语义分析，检查程序的语义是否正确，并进行类型检查，是否符合语言规范</li>
+<li>中间代码生成，根据语法树生成中间代码的过程，中间代码是一种抽象的机器代码与目标机器无关。</li>
+</ul>
+<p>DFA能识别什么？
+![[asserts/Pasted image 20240515104903.png]]</p>
+<p>主存主要采用动态随机存储器DRAM
+Cache采用静态随机存储器SRAM
+EEPROM是电擦除可编程的只读存储器</p>
+<p>![[asserts/Pasted image 20240515105946.png]]</p>
+<p>入侵检测技术
+海明码
+系统页面大小为</p>
+<h3 id="虚拟内存" class="heading-element">
+  <a href="#%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98" class="heading-mark"></a>虚拟内存</h3><p>逻辑地址为 0001110100010110
+逻辑地址内存分两部分：虚拟页号+页内偏移</p>
+<ul>
+<li>虚拟页号：虚拟页号逻辑地址的最高位部分</li>
+<li>页内偏移：逻辑地址的低位部分,<br>
+先根据页大小计算 页内地址长度需要多少位来表示
+页大小为4K 4*2^10=2^12    低12位为页内偏移，页内地址 剩下的为页号
+![[asserts/Pasted image 20240522125000.png]]</li>
+</ul>
+<h3 id="进程管理" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86" class="heading-mark"></a>进程管理</h3><h3 id="数据结和算法" class="heading-element">
+  <a href="#%e6%95%b0%e6%8d%ae%e7%bb%93%e5%92%8c%e7%ae%97%e6%b3%95" class="heading-mark"></a>数据结和算法</h3><ul>
+<li>广义表的长度：广义表中原子或子表的数量，
+<ul>
+<li>广义表 {{a,b,c}} 中只有一个子表 {a,b,c}，因此它的长度为 1。</li>
+<li>{a,{b,c,d}} 中，它包含一个原子和一个子表，因此该广义表的长度为 2</li>
+</ul>
+</li>
+<li>广义表的深度：观察表中所包含括号的层数间接得到
+<ul>
+<li>广义表 {{1,2},{3,{4,5}}} 中，子表 {1,2} 和 {3,{4,5}} 位于同层，此广义表中包含 3 层括号，因此深度为 3。</li>
+</ul>
+</li>
+</ul>
+<h4 id="二叉树" class="heading-element">
+  <a href="#%e4%ba%8c%e5%8f%89%e6%a0%91" class="heading-mark"></a>二叉树</h4><ul>
+<li>堆： 通常是完全二叉树
+<ul>
+<li>最大堆：父节点的值比子节点要大</li>
+<li>最小堆：父节点的值比子节点小
+总结点 = 度为0 + 度为1 + 度为2(叶子节点-1)
+叶子节点度为0</li>
+</ul>
+</li>
+</ul>
+<p>在二叉树中，总结点的数量等于度为0的结点数加度为1的结点数加度为2的结点数。已知二叉树中有70个叶子结点和80个度为1的结点，由于叶子结点的度数为0，度为2的结点数等于叶子结点数减1，即个。</p>
+<h4 id="排序" class="heading-element">
+  <a href="#%e6%8e%92%e5%ba%8f" class="heading-mark"></a>排序</h4><p>![[asserts/Pasted image 20240522134301.png]]</p>
+<h3 id="数据库" class="heading-element">
+  <a href="#%e6%95%b0%e6%8d%ae%e5%ba%93" class="heading-mark"></a>数据库</h3><h4 id="数据库设计" class="heading-element">
+  <a href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e8%ae%be%e8%ae%a1" class="heading-mark"></a>数据库设计</h4><p>![[asserts/Pasted image 20240522141345.png]]
+模式：数据库的逻辑结构和数据组织方式
+外模式：数据库系统的最外层，用户与数据库系统交互的接口，不同的用户或应用程序可以有不同的外模式。
+内模式：数据库系统的最内层，描述了数据在物理介质上的存储结构和存取方法</p>
+<ul>
+<li>数据在磁盘上的存储结构</li>
+<li>存储记录的格式和排列</li>
+<li>索引，数据压缩等技术
+数据的独立性：
+<ul>
+<li>物理独立性：数据库的内模式发生改变时，数据的逻辑结构不变</li>
+<li>数据独立性：外模式和模式之间的映射
+数据的独立性是由DBMS的二级映像功能来保证的。数据的独立性包括数据的物理独立性和数据的逻辑独立性。数据的物理独立性是指当数据库的内模式发生改变时，数据的逻辑结构不变。为了保证应用程序能够正确执行，需要通过修改概念模式/内模式之间的映像。数据的逻辑独立性是指用户的应用程序与数据库的逻辑结构是相互独立的。数据的逻辑结构发生变化后，用户程序也可以不修改。但是，为了保证应用程序能够正确执行，需要修改外模式/概念模式之间的映像。</li>
+</ul>
+</li>
+</ul>
+<h3 id="关系泛式" class="heading-element">
+  <a href="#%e5%85%b3%e7%b3%bb%e6%b3%9b%e5%bc%8f" class="heading-mark"></a>关系泛式</h3><h4 id="几种泛式" class="heading-element">
+  <a href="#%e5%87%a0%e7%a7%8d%e6%b3%9b%e5%bc%8f" class="heading-mark"></a>几种泛式</h4><table>
+<thead>
+<tr>
+<th>泛式</th>
+<th>概念</th>
+<th>判断方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1NF</td>
+<td>每一个属性都是不可分割的原子值</td>
+<td>每一个字段仅包含一个值<br>每一列都是原子的，不能包含子表或数组</td>
+</tr>
+<tr>
+<td>2NF</td>
+<td>每一个非主属性完全依赖于主键(消除部分依赖)</td>
+<td>- 满足1NF<br>- 非主属性完全依赖与整个主键，而不是主键的一部分<br>- 若存在部分依赖(某些非主属性依赖主键的一部分) 分解为更小的表</td>
+</tr>
+<tr>
+<td>3NF</td>
+<td>不存在非主属性对候选码的传递依赖</td>
+<td>满足2NF<br>没有非主属性通过另一个非主属性，间接依赖主键<br>存在传递依赖，则需要将其分解我更小的表</td>
+</tr>
+<tr>
+<td>BCNF</td>
+<td>没有传递依赖和部分依赖，</td>
+<td>每一个属性（或属性组合）若能决定其他属性，则该属性（或属性组合）是候选键</td>
+</tr>
+<tr>
+<td>4NF</td>
+<td>没有多值依赖</td>
+<td>满足3NF<br>确保关系中没有多值依赖（即一个属性集的值集合与另一个属性集的值集合相互独立）</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>1NF</strong>：消除重复组，确保每个属性值是原子的。</li>
+<li><strong>2NF</strong>：在1NF的基础上，消除部分依赖，确保每个非主属性完全依赖于主键。</li>
+<li><strong>3NF</strong>：在2NF的基础上，消除传递依赖，确保每个非主属性直接依赖于主键。</li>
+<li><strong>BCNF</strong>：在3NF的基础上，消除非候选键的决定因素，确保每个决定因素都是候选键。</li>
+<li><strong>4NF</strong>：在BCNF的基础上，消除多值依赖，确保没有多值依赖。</li>
+</ol>
+<h4 id="关系代数" class="heading-element">
+  <a href="#%e5%85%b3%e7%b3%bb%e4%bb%a3%e6%95%b0" class="heading-mark"></a>关系代数</h4><ol>
+<li><strong>选择（Selection, σ）</strong>：从关系中选出满足特定条件的元组。
+<ul>
+<li>记号：σ<sub>条件</sub>(关系)</li>
+<li>示例：σ<sub>age &gt; 30</sub>(Employees)</li>
+</ul>
+</li>
+<li><strong>投影（Projection, π）</strong>：从关系中选出特定的属性列，去除重复的元组。
+<ul>
+<li>记号：π<sub>属性列表</sub>(关系)</li>
+<li>示例：π<sub>name, age</sub>(Employees)</li>
+</ul>
+</li>
+<li><strong>并（Union, ∪）</strong>：合并两个关系，包含所有在两个关系中的元组，去除重复。
+<ul>
+<li>记号：R ∪ S</li>
+</ul>
+</li>
+<li><strong>差（Difference, −）</strong>：获取属于第一个关系但不属于第二个关系的元组。
+<ul>
+<li>记号：R − S</li>
+</ul>
+</li>
+<li><strong>笛卡尔积（Cartesian Product, ×）</strong>：将两个关系中的每一个元组合并形成一个新的元组。
+<ul>
+<li>记号：R × S</li>
+</ul>
+</li>
+<li><strong>连接（Join, ⨝）</strong>：根据特定条件将两个关系中的元组合并形成一个新的元组。
+<ul>
+<li>记号：R ⨝<sub>条件</sub> S</li>
+</ul>
+</li>
+<li><strong>自然连接（Natural Join, ⨝）</strong>：在两个关系中查找相同属性名的列，并自动进行连接。
+<ul>
+<li>记号：R ⨝ S</li>
+</ul>
+</li>
+<li><strong>除（Division, ÷）</strong>：在关系中查找那些在另一个关系中的所有元组都有匹配的元组。
+<ul>
+<li>记号：R ÷ S</li>
+</ul>
+</li>
+</ol>
+<h4 id="关系元组演算" class="heading-element">
+  <a href="#%e5%85%b3%e7%b3%bb%e5%85%83%e7%bb%84%e6%bc%94%e7%ae%97" class="heading-mark"></a>关系元组演算</h4><p>常用的查询语言：域关系演算 元祖关系演算，关系代数
+公式和符号的意思：</p>
+<ul>
+<li><strong>元组变量</strong>表示关系中的元组 如<code>T ∈ R</code>表示元组<code>T</code>属于关系<code>R</code>，<code>T.A = T.B</code>表示元组<code>T</code>的属性<code>A</code>等于属性<code>B</code>。</li>
+<li>逻辑运算符 ∧(和)、∨或、¬ 非</li>
+<li><strong>绑定变量</strong> 在公式中被量词绑定的变量  比如，<code>∃T (T ∈ R ∧ T.A = 5)</code>中，<code>T</code>是绑定变量。</li>
+<li>示例</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 查询年龄大于30的员工的名称和年龄</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span> <span class="n">T</span> <span class="o">|</span> <span class="n">T</span> <span class="err">∈</span> <span class="n">Employee</span> <span class="err">∧</span> <span class="n">T</span><span class="o">.</span><span class="n">Age</span> <span class="o">&gt;</span> <span class="mi">30</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">**</span><span class="n">查询工资高于50000的员工的名字</span><span class="o">**</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span> <span class="n">T</span><span class="o">.</span><span class="n">Name</span> <span class="o">|</span> <span class="err">∃</span><span class="n">T</span> <span class="p">(</span><span class="n">T</span> <span class="err">∈</span> <span class="n">Employee</span> <span class="err">∧</span> <span class="n">T</span><span class="o">.</span><span class="n">Salary</span> <span class="o">&gt;</span> <span class="mi">50000</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># </span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>域关系演算</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="err">一个关系</span><span class="o">`</span><span class="n">Employee</span><span class="p">(</span><span class="n">EID</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">Age</span><span class="p">,</span><span class="w"> </span><span class="n">Salary</span><span class="p">)</span><span class="o">`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 查询年龄大于30的员工的名称和年龄
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="err">{</span><span class="w"> </span><span class="o">&lt;</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="o">&gt;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="err">∃</span><span class="n">e</span><span class="w"> </span><span class="err">∃</span><span class="n">s</span><span class="w"> </span><span class="p">(</span><span class="n">Employee</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="err">∧</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="err">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="分布式系统" class="heading-element">
+  <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e7%b3%bb%e7%bb%9f" class="heading-mark"></a>分布式系统</h3><p>CAP分布式系统的基本原理代表三个关键属性：一致性（Consistency）、可用性（Availability）和分区容忍性（Partition Tolerance）</p>
+<p>五个答题考点：</p>
+<ul>
+<li>数据库概念结构设计</li>
+<li>关系理论 泛式和主键候选键 函数依赖 三泛式 四泛式 泛式分解</li>
+<li>SQL相关</li>
+<li>事务的概念、锁死、并发</li>
+<li>数据备份和故障恢复 数据库日志文件</li>
+</ul>
+<h3 id="信息安全" class="heading-element">
+  <a href="#%e4%bf%a1%e6%81%af%e5%ae%89%e5%85%a8" class="heading-mark"></a>信息安全</h3><ul>
+<li>主动攻击
+<ul>
+<li>攻击者干扰系统或网络的正常运行，通过修改、破坏或伪造数据，获取未授权的访问权限或恶意操作</li>
+<li>拒绝服务攻击 DDOS DOS: 攻击者通过发送大量请求，消耗系统资源，使系统无法正常提供服务</li>
+<li>中间人攻击MITM:</li>
+<li>sql注入</li>
+<li>钓鱼攻击</li>
+</ul>
+</li>
+<li>被动攻击
+<ul>
+<li>不干扰系统的正常运行，隐蔽性，无破坏性，信息收集</li>
+<li>流量分析，窃听，被动扫描
+中国自主研发的3G通信标准是 TD-SCDMA</li>
+</ul>
+</li>
+</ul>
+<p>宏病毒一般感染 doc 为扩展名的文件</p>
+<p>数字信封技术：</p>
+<ul>
+<li>生成对称密钥</li>
+<li>数据加密</li>
+<li>对称密钥加密</li>
+<li>传输加密数据和加密密钥</li>
+<li>对称密钥解密</li>
+<li>数据解密
+计算机病毒：
+<ul>
+<li>文件型病毒 感染可执行文件</li>
+<li>引导型病毒 影响软盘或硬盘的引导扇区</li>
+<li>目录型病毒 修改硬盘上的所有文件的地址</li>
+<li>宏病毒 使用某些程序创建出来的文本文档，数据库，电子表格等文件
+防火墙的工作层次：</li>
+</ul>
+</li>
+<li>工作层次高，效率低，安全性高</li>
+<li>受保护程度：从高到低 内网 DMZ 外网</li>
+</ul>
+<h3 id="项目管理" class="heading-element">
+  <a href="#%e9%a1%b9%e7%9b%ae%e7%ae%a1%e7%90%86" class="heading-mark"></a>项目管理</h3><p>无主程序员组：适合开发小型项目 创新型项目， 确定性比较小的项目
+ISO软件质量模型：
+软件质量的6大特性：功能性、可靠性、易用性、效率、维护性、可移植性<br>
+软件质量的27个子特性：<br>
+功能性：适合性、准确性、互操作性、安全性、功能性的依从性<br>
+可靠性：成熟性、容错性、可恢复性、可靠性的依从性<br>
+易用性：易理解、易学习、易操作、吸引性、可使用性的依从性<br>
+效率：时间特性、资源特性、效率的依从性<br>
+维护性：易分析性、稳定性、易变更性、易测试性、可维护性的依从性<br>
+可移植性：适应性、易安装型、遵循性易替换性、可移植性的依从性</p>
+<p>RUP：统一软件开发过程</p>
+<ul>
+<li>角色、活动、制品和工作流4种重要的模型元素
+统一过程模型：</li>
+<li>关键特点：迭代和增量开发 基于用例的需求驱动 架构驱动 风险驱动</li>
+<li>阶段
+<ul>
+<li>初始阶段</li>
+<li>细化阶段</li>
+<li>构建阶段</li>
+<li>移交阶段</li>
+</ul>
+</li>
+</ul>
+<p>传统工程模型：</p>
+<ul>
+<li><strong>瀑布模型</strong>是最早出现的过程模型，它将软件生存周期的各项活动规定为按固定顺序而连接的若干阶段工作，形如瀑布流水，最终得到软件产品，主要的阶段包括需求分析、系统设计、详细设计、编码、单元测试、集成测试、系统测试、系统提交等。</li>
+<li>v模型是对瀑布模型的一种改进模型，由于其模型构图形似字母v，所以又称为软件测试的V模型。V模型中，<strong>增加了测试环节的回溯验证</strong>，一般情况下，单元测试所对应的是详细设计环节；集成测试对应概要设计环节；系统测试对应需求分析环节；验收测试对应用户原始需求。</li>
+<li><strong>原型化模型</strong>:。原型化模型首先是建造一个快速原型，在充分了解和确认后，在原型基础上开发出用户满意的产品。</li>
+<li>螺旋模型是一种<strong>演化软件开发过程模型</strong>，它兼顾了快速原型的迭代的特征以及瀑布模型的系统化与严格监控。螺旋模型最大的特点在于引入了<strong>其他模型不具备的风险分析</strong>，使软件在无法排除重大风险时有机会停止，以减小损失。同时，在每个迭代阶段构建原型是螺旋模型用以减小风险的途径。</li>
+<li>增量模型：把软件产品作为一系列的增量构建来设计，编码，集成和测试，可以在增量开发过程中逐步理解需求</li>
+</ul>
+<p>软件设计：</p>
+<ul>
+<li>概要设计阶段</li>
+<li>详细设计阶段
+结构化设计方法：</li>
+<li>概要设计阶段：软件体系结构的设计，数据设计和接口设计</li>
+<li>详细设计阶段：数据结构和算法的设计
+面相对象的设计方法：</li>
+<li>概要设计阶段：体系结构设计，初步的类设计、数据设计，结构设计</li>
+<li>详细设计阶段：构件设计</li>
+</ul>
+<p>数据流图：</p>
+<ul>
+<li>建模的时候应遵循自顶向下，从抽象到具体的建模思想。</li>
+<li>描述数据的处理流程</li>
+<li>底层数据流图描述了系统的输入输出</li>
+<li>加工描述了数据流的转换</li>
+</ul>
+<p>软件工程方法：进行软件开发，涉及到<strong>方法、工具和过程</strong>等要素。
+项目风险：风险的优先级根据<strong>风险暴露</strong> 指标来表示，=风险影响(当风险发生时造成的损失) * 风险概率(风险发生的可能性)</p>
+<ul>
+<li>项目风险：预算，进度，人员资源以及客户相关的问题</li>
+<li>技术风险：设计，实现，对接，测试和维护未提</li>
+<li>业务风险：建立一个无人想要的优秀产品风险，失去预算，人员承诺的风险</li>
+<li>商业风险：市场风险，策略风险，管理风险和预算风险</li>
+</ul>
+<p>UML图： 统一建模语言</p>
+<ul>
+<li>用例图 描述系统的功能需求以及系统与外部用户之间的交互</li>
+<li>类图 描述系统中的类及其属性、方法和类之间的关系</li>
+<li>对象图：描述系统在某一时刻的对象实例及其关系</li>
+<li>序列图：描述对象之间的交互顺序，强调时间顺序</li>
+<li>活动图：类似于流程图</li>
+<li>状态图：描述对象状态变化以及时间如何导致状态的转换</li>
+<li>组件图：描述系统 的物理组件以及相互关系</li>
+<li>部署图：描述系统在物理硬件上的部署结构
+<a href="https://boardmix.cn/article/uml-diagram-styles/"target="_blank" rel="external nofollow noopener noreferrer">干货！14种uml图类型及示例 (boardmix.cn)<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></li>
+</ul>
+]]></description>
+</item>
+<item>
   <title>Vim使用技巧大全</title>
-  <link>https://ipfred.github.io/posts/20240428183407/</link>
+  <link>http://localhost:1313/posts/20240428183407/</link>
   <pubDate>Sun, 28 Apr 2024 18:34:07 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/posts/20240428183407/</guid>
+  <guid>http://localhost:1313/posts/20240428183407/</guid>
   <description><![CDATA[<p>0 行首
 $ 行尾
 i 当前游标插入
@@ -1608,10 +2174,10 @@ c0 删除到行首并修改</p>
 </item>
 <item>
   <title>Java核心基础</title>
-  <link>https://ipfred.github.io/lang/java/20240426133928/</link>
+  <link>http://localhost:1313/lang/java/20240426133928/</link>
   <pubDate>Fri, 26 Apr 2024 13:39:28 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/lang/java/20240426133928/</guid>
+  <guid>http://localhost:1313/lang/java/20240426133928/</guid>
   <description><![CDATA[<h1 id="2-java核心基础" class="heading-element">
   <a href="#2-java%e6%a0%b8%e5%bf%83%e5%9f%ba%e7%a1%80" class="heading-mark"></a>2 Java核心基础</h1><blockquote>
 <p>我想和自己说：学习是反复的过程，学习新知识的时候要仔仔细细阅读，错过一个关键词，可能对知识就会有偏差的理解。如果现在没有心情，收藏起来，后面用到的时候再仔细看。希望有帮助。</p>
@@ -2178,7 +2744,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>switch分支</p>
-<div class="highlight" id="id-1"><div class="chroma">
+<div class="highlight" id="id-13"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2252,7 +2818,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>switch 分支 case穿透，在switch语句中，如果case的后面不写break，将出现case穿透现象，也就是不会在判断下一个case的值，直接向后运行，直到遇到break，或者整体switch结束。</p>
-<div class="highlight" id="id-2"><div class="chroma">
+<div class="highlight" id="id-14"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2328,8 +2894,8 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="282-循环结构" class="heading-element">
-  <a href="#282-%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>0.1 2.8.2 循环结构</h3><p>for循环</p>
-<div class="highlight" id="id-3"><div class="chroma">
+  <a href="#282-%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>2.8.2 循环结构</h3><p>for循环</p>
+<div class="highlight" id="id-15"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2341,7 +2907,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>for循环求1-100之前偶数和</p>
-<div class="highlight" id="id-4"><div class="chroma">
+<div class="highlight" id="id-16"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2379,7 +2945,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>while循环</p>
-<div class="highlight" id="id-5"><div class="chroma">
+<div class="highlight" id="id-17"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2395,7 +2961,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>例子</p>
-<div class="highlight" id="id-6"><div class="chroma">
+<div class="highlight" id="id-18"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2425,7 +2991,7 @@ c0 删除到行首并修改</p>
 <li><code>do {} while(true)</code></li>
 </ul>
 <p>循环跳转: <code>break continue</code></p>
-<div class="highlight" id="id-7"><div class="chroma">
+<div class="highlight" id="id-19"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2459,7 +3025,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>嵌套循环打印99乘法表</p>
-<div class="highlight" id="id-8"><div class="chroma">
+<div class="highlight" id="id-20"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2490,15 +3056,15 @@ c0 删除到行首并修改</p>
 </item>
 <item>
   <title>Java开发工具和前言</title>
-  <link>https://ipfred.github.io/lang/java/20240426111354/</link>
+  <link>http://localhost:1313/lang/java/20240426111354/</link>
   <pubDate>Fri, 26 Apr 2024 11:13:54 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/lang/java/20240426111354/</guid>
+  <guid>http://localhost:1313/lang/java/20240426111354/</guid>
   <description><![CDATA[<blockquote>
 <p>前言：以初学着的身份，准备在该平台整理点最近学习的知识，方便后续查看相关的技术点，有兴趣的可以一块交流学习。目标用最少的文字，理解最多的知识。不说废话，字字珠玑。</p>
 </blockquote>
 <h2 id="11-简介" class="heading-element">
-  <a href="#11-%e7%ae%80%e4%bb%8b" class="heading-mark"></a>1 1.1 简介</h2><ul>
+  <a href="#11-%e7%ae%80%e4%bb%8b" class="heading-mark"></a>1.1 简介</h2><ul>
 <li>强类型语言、开源、跨平台、多态、多线程、面向对象</li>
 <li>完善的异常处理机制，大数据必备的语言</li>
 <li>1995年出生，父亲 詹姆斯·高斯林(James Gosling)，2009年被Sun公司收购</li>
@@ -2511,7 +3077,7 @@ c0 删除到行首并修改</p>
 </li>
 </ul>
 <h2 id="12-java环境搭建" class="heading-element">
-  <a href="#12-java%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba" class="heading-mark"></a>2 1.2 Java环境搭建</h2><ul>
+  <a href="#12-java%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba" class="heading-mark"></a>1.2 Java环境搭建</h2><ul>
 <li>
 <p>JDK和JRE区别</p>
 <ul>
@@ -2530,14 +3096,14 @@ c0 删除到行首并修改</p>
 <li>lib: 存放类库文件</li>
 <li>src.zip: 存放源代码的</li>
 </ul>
-<p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a>对比这图片看能不能理解每个文件啥意思，不能理解，好好看看上面的介绍</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/9d1b56c3518c4b8db6d074c71b574aa5.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>对比这图片看能不能理解每个文件啥意思，不能理解，好好看看上面的介绍</p>
 <blockquote>
 <p>怎么安装和配置path，不同的系统自己动手搜搜吧</p>
 </blockquote>
 </li>
 </ul>
 <h2 id="13-程序的开发步骤" class="heading-element">
-  <a href="#13-%e7%a8%8b%e5%ba%8f%e7%9a%84%e5%bc%80%e5%8f%91%e6%ad%a5%e9%aa%a4" class="heading-mark"></a>3 1.3 程序的开发步骤</h2><p>Java这种静态语言的的开发步骤一般分为</p>
+  <a href="#13-%e7%a8%8b%e5%ba%8f%e7%9a%84%e5%bc%80%e5%8f%91%e6%ad%a5%e9%aa%a4" class="heading-mark"></a>1.3 程序的开发步骤</h2><p>Java这种静态语言的的开发步骤一般分为</p>
 <ul>
 <li><code>编写</code>：编写源代码，在后缀名为.java的源文件中编写，用idea开发工具</li>
 <li><code>编译</code>:把源代码，编译成计算机能看懂的文件. <code>javacv执行</code>生成.class文件</li>
@@ -2545,56 +3111,56 @@ c0 删除到行首并修改</p>
 </ul>
 <p>直接整idea开发工具，来个hello world的例子</p>
 <h2 id="14-idea开发工具" class="heading-element">
-  <a href="#14-idea%e5%bc%80%e5%8f%91%e5%b7%a5%e5%85%b7" class="heading-mark"></a>4 1.4 idea开发工具</h2><ul>
+  <a href="#14-idea%e5%bc%80%e5%8f%91%e5%b7%a5%e5%85%b7" class="heading-mark"></a>1.4 idea开发工具</h2><ul>
 <li>idea 下载地址 <a href="https://www.jetbrains.com/idea/"target="_blank" rel="external nofollow noopener noreferrer">https://www.jetbrains.com/idea/<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></li>
 <li>激活方式 小程序 <code>码叔资源</code> 上找个激活码激活，或淘宝上买一个激活码</li>
 <li>下载好后一路next安装，建议安装路径放D盘，软件是真大</li>
 </ul>
 <h2 id="15用idea开发一个helloworld" class="heading-element">
-  <a href="#15%e7%94%a8idea%e5%bc%80%e5%8f%91%e4%b8%80%e4%b8%aahelloworld" class="heading-mark"></a>5 1.5用idea开发一个helloworld</h2><ul>
+  <a href="#15%e7%94%a8idea%e5%bc%80%e5%8f%91%e4%b8%80%e4%b8%aahelloworld" class="heading-mark"></a>1.5用idea开发一个helloworld</h2><ul>
 <li>
 <p>新建一个空项目
-<a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a>
+<img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/4b98b6567b30487fb8a16303f0411966.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
 效果如下
-<a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a>
+<img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/66175214d14a44fa919110a0cf17d192.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
 我这一个空文件夹，怎么和Java关联起来呢，要和JDK关联上，才能用<code>写Java代码</code>是吧</p>
 </li>
 <li>
 <p>打开刚刚新建的项目 有个 <code>项目结构</code>这个东西后面用到的挺多，配置</p>
-<p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/25652e557cac41d3b1725d6cf19b8b68.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
 重点讲讲 project modules libraries的区别</p>
 <ul>
 <li>
 <p><code>项目</code>：可以执行你刚刚创建那个空项目的名称，SDK(用Java还是什么开发),编译器输出路径</p>
 </li>
 <li>
-<p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/a53c22d423a84a7995a6701ae5bf583e.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
 </li>
 <li>
 <p><code>模块</code>：我们新建一个day01的模块，后面可以在这个项目下新增day02 day03的模块，你也可以每天建一个Java项目。</p>
 </li>
 <li>
-<p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/1c9697beee63422d9b9acb10c80f527d.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
 </li>
 <li>
 <p>建完之后项目下新增了一个day01的模块，可以在该模块下写代码了(真不容易)
-<a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/09f85e9e011d4523a9f43de411039575.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/d4fe2d7e6a6541048d680f4651b4e91a.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
 </li>
 <li>
 <p><code>删除模块</code> 删除模块只是这个项目中看不到该模块了，在文件夹中还是存在的</p>
 </li>
 <li>
-<p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/3d36a3df545e4c0eaac1feb28d8b497a.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
 </li>
 <li>
 <p><code>依赖库</code> ：我这个项目想用第三方的包，咋个办，在这导入就行了，例如连接MySQL的包
-<a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/085dd54b42154714b595f972f66eb177.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
 </li>
 </ul>
 </li>
 <li>
 <p>搞了这么久，idea上写代码试下吧,day01模块下 src目录下新建一个 Java源代码文件,输入下面的代码
-<a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/442cd31c4ccf497ca6450a921ebb490e.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/c9b96a220abd441aa0e4577f4bf7f651.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
 </li>
 </ul>
 <div class="highlight" id="id-1"><div class="chroma">
@@ -2619,16 +3185,16 @@ c0 删除到行首并修改</p>
 <ul>
 <li>运行代码初体验,直接右键run(idea会先编译，然后执行)，终端中会打印出helloworld</li>
 </ul>
-<p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a>
-<a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/dd626b911aa443948910d535babc55c9.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+<img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/0d94c8d79feb4c4bb33c71d8a027df8e.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
 ]]></description>
 </item>
 <item>
   <title>hive常见的命令</title>
-  <link>https://ipfred.github.io/bigdata/hive/20240424162208/</link>
+  <link>http://localhost:1313/bigdata/hive/20240424162208/</link>
   <pubDate>Wed, 24 Apr 2024 16:22:08 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/bigdata/hive/20240424162208/</guid>
+  <guid>http://localhost:1313/bigdata/hive/20240424162208/</guid>
   <description><![CDATA[<p><a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual"target="_blank" rel="external nofollow noopener noreferrer">Hive官方操作手册<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
 <h2 id="hive特性" class="heading-element">
   <a href="#hive%e7%89%b9%e6%80%a7" class="heading-mark"></a>1 Hive特性</h2><ol>
@@ -2844,10 +3410,10 @@ c0 删除到行首并修改</p>
 </item>
 <item>
   <title>HDFS文件读写过程</title>
-  <link>https://ipfred.github.io/bigdata/hadoop/a9bc224/</link>
+  <link>http://localhost:1313/bigdata/hadoop/a9bc224/</link>
   <pubDate>Wed, 24 Apr 2024 10:22:48 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/bigdata/hadoop/a9bc224/</guid>
+  <guid>http://localhost:1313/bigdata/hadoop/a9bc224/</guid>
   <description><![CDATA[<blockquote>
 <p>HDFS</p>
 </blockquote>
@@ -2917,10 +3483,10 @@ c0 删除到行首并修改</p>
 </item>
 <item>
   <title>hadoop命令行的使用</title>
-  <link>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+  <link>http://localhost:1313/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
   <pubDate>Tue, 23 Apr 2024 22:01:01 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+  <guid>http://localhost:1313/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
   <description><![CDATA[<h2 id="hdfs-的命令行使用" class="heading-element">
   <a href="#hdfs-%e7%9a%84%e5%91%bd%e4%bb%a4%e8%a1%8c%e4%bd%bf%e7%94%a8" class="heading-mark"></a>1 HDFS 的命令行使用</h2><p><a href="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html"target="_blank" rel="external nofollow noopener noreferrer">Hadoop 命令行官方doc<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
 <p><code>hadoop fs</code>: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等
@@ -3346,10 +3912,10 @@ c0 删除到行首并修改</p>
 </item>
 <item>
   <title>Hadoop概览</title>
-  <link>https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</link>
+  <link>http://localhost:1313/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</link>
   <pubDate>Tue, 23 Apr 2024 20:01:01 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</guid>
+  <guid>http://localhost:1313/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</guid>
   <description><![CDATA[<h1 id="hdfs" class="heading-element">
   <a href="#hdfs" class="heading-mark"></a>HDFS</h1><ol>
 <li>HDFS概述</li>
@@ -3404,38 +3970,38 @@ c0 删除到行首并修改</p>
 </item>
 <item>
   <title>My First Post</title>
-  <link>https://ipfred.github.io/posts/my-first-post/</link>
+  <link>http://localhost:1313/posts/my-first-post/</link>
   <pubDate>Sat, 20 Apr 2024 16:51:10 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/posts/my-first-post/</guid>
+  <guid>http://localhost:1313/posts/my-first-post/</guid>
   <description><![CDATA[<h2 id="introduction" class="heading-element">
-  <a href="#introduction" class="heading-mark"></a>1 Introduction</h2><p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
+  <a href="#introduction" class="heading-mark"></a>Introduction</h2><p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
 <p>Visit the <a href="https://gohugo.io"target="_blank" rel="external nofollow noopener noreferrer">Hugo<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a> website!</p>
 ]]></description>
 </item>
 <item>
   <title>我的第二篇文章</title>
-  <link>https://ipfred.github.io/posts/second_post/</link>
+  <link>http://localhost:1313/posts/second_post/</link>
   <pubDate>Tue, 20 Feb 2024 20:14:22 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/posts/second_post/</guid>
+  <guid>http://localhost:1313/posts/second_post/</guid>
   <description><![CDATA[<h2 id="常用数据库的读写方式" class="heading-element">
-  <a href="#%e5%b8%b8%e7%94%a8%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e8%af%bb%e5%86%99%e6%96%b9%e5%bc%8f" class="heading-mark"></a>1 常用数据库的读写方式</h2><p>A blog (a truncation of &ldquo;weblog&rdquo;) is an informational website published on the World Wide Web consisting of discrete, often informal diary-style text entries (posts). Posts are typically displayed in reverse chronological order so that the most recent post appears first, at the top of the web page. Until 2009, blogs were usually the work of a single individual,[citation needed] occasionally of a small group, and often covered a single subject or topic. In the 2010s, &ldquo;multi-author blogs&rdquo; (MABs) emerged, featuring the writing of multiple authors and sometimes professionally edited. MABs from newspapers, other media outlets, universities, think tanks, advocacy groups, and similar institutions account for an increasing quantity of blog traffic. The rise of Twitter and other &ldquo;microblogging&rdquo; systems helps integrate MABs and single-author blogs into the news media. Blog can also be used as a verb, meaning to maintain or add content to a blog.</p>
+  <a href="#%e5%b8%b8%e7%94%a8%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e8%af%bb%e5%86%99%e6%96%b9%e5%bc%8f" class="heading-mark"></a>常用数据库的读写方式</h2><p>A blog (a truncation of &ldquo;weblog&rdquo;) is an informational website published on the World Wide Web consisting of discrete, often informal diary-style text entries (posts). Posts are typically displayed in reverse chronological order so that the most recent post appears first, at the top of the web page. Until 2009, blogs were usually the work of a single individual,[citation needed] occasionally of a small group, and often covered a single subject or topic. In the 2010s, &ldquo;multi-author blogs&rdquo; (MABs) emerged, featuring the writing of multiple authors and sometimes professionally edited. MABs from newspapers, other media outlets, universities, think tanks, advocacy groups, and similar institutions account for an increasing quantity of blog traffic. The rise of Twitter and other &ldquo;microblogging&rdquo; systems helps integrate MABs and single-author blogs into the news media. Blog can also be used as a verb, meaning to maintain or add content to a blog.</p>
 <h2 id="标题二" class="heading-element">
-  <a href="#%e6%a0%87%e9%a2%98%e4%ba%8c" class="heading-mark"></a>2 标题二</h2><h2 id="标题三" class="heading-element">
-  <a href="#%e6%a0%87%e9%a2%98%e4%b8%89" class="heading-mark"></a>3 标题三</h2>]]></description>
+  <a href="#%e6%a0%87%e9%a2%98%e4%ba%8c" class="heading-mark"></a>标题二</h2><h2 id="标题三" class="heading-element">
+  <a href="#%e6%a0%87%e9%a2%98%e4%b8%89" class="heading-mark"></a>标题三</h2>]]></description>
 </item>
 <item>
   <title>我的第一篇文章</title>
-  <link>https://ipfred.github.io/posts/first_post/</link>
+  <link>http://localhost:1313/posts/first_post/</link>
   <pubDate>Mon, 20 Feb 2023 20:14:22 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>https://ipfred.github.io/posts/first_post/</guid>
+  <guid>http://localhost:1313/posts/first_post/</guid>
   <description><![CDATA[<h2 id="常用数据库的读写方式" class="heading-element">
-  <a href="#%e5%b8%b8%e7%94%a8%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e8%af%bb%e5%86%99%e6%96%b9%e5%bc%8f" class="heading-mark"></a>1 常用数据库的读写方式</h2><p>A blog (a truncation of &ldquo;weblog&rdquo;) is an informational website published on the World Wide Web consisting of discrete, often informal diary-style text entries (posts). Posts are typically displayed in reverse chronological order so that the most recent post appears first, at the top of the web page. Until 2009, blogs were usually the work of a single individual,[citation needed] occasionally of a small group, and often covered a single subject or topic. In the 2010s, &ldquo;multi-author blogs&rdquo; (MABs) emerged, featuring the writing of multiple authors and sometimes professionally edited. MABs from newspapers, other media outlets, universities, think tanks, advocacy groups, and similar institutions account for an increasing quantity of blog traffic. The rise of Twitter and other &ldquo;microblogging&rdquo; systems helps integrate MABs and single-author blogs into the news media. Blog can also be used as a verb, meaning to maintain or add content to a blog.</p>
+  <a href="#%e5%b8%b8%e7%94%a8%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e8%af%bb%e5%86%99%e6%96%b9%e5%bc%8f" class="heading-mark"></a>常用数据库的读写方式</h2><p>A blog (a truncation of &ldquo;weblog&rdquo;) is an informational website published on the World Wide Web consisting of discrete, often informal diary-style text entries (posts). Posts are typically displayed in reverse chronological order so that the most recent post appears first, at the top of the web page. Until 2009, blogs were usually the work of a single individual,[citation needed] occasionally of a small group, and often covered a single subject or topic. In the 2010s, &ldquo;multi-author blogs&rdquo; (MABs) emerged, featuring the writing of multiple authors and sometimes professionally edited. MABs from newspapers, other media outlets, universities, think tanks, advocacy groups, and similar institutions account for an increasing quantity of blog traffic. The rise of Twitter and other &ldquo;microblogging&rdquo; systems helps integrate MABs and single-author blogs into the news media. Blog can also be used as a verb, meaning to maintain or add content to a blog.</p>
 <h2 id="标题二" class="heading-element">
-  <a href="#%e6%a0%87%e9%a2%98%e4%ba%8c" class="heading-mark"></a>2 标题二</h2><h2 id="标题三" class="heading-element">
-  <a href="#%e6%a0%87%e9%a2%98%e4%b8%89" class="heading-mark"></a>3 标题三</h2>]]></description>
+  <a href="#%e6%a0%87%e9%a2%98%e4%ba%8c" class="heading-mark"></a>标题二</h2><h2 id="标题三" class="heading-element">
+  <a href="#%e6%a0%87%e9%a2%98%e4%b8%89" class="heading-mark"></a>标题三</h2>]]></description>
 </item>
 </channel>
 </rss>

@@ -1,5 +1,6 @@
 # sqoop使用文档
 
+
 ## sqoop介绍
 
 &gt;Sqoop 是一个设计用于在 Hadoop 和关系数据库或大型机之间传输数据的工具。您可以使用 Sqoop 将数据从关系数据库管理系统 (RDBMS)（例如 MySQL 或 Oracle）或大型机导入 Hadoop 分布式文件系统 (HDFS)，在 Hadoop MapReduce 中转换数据，然后将数据导出回 RDBMS 。
@@ -414,5 +415,5 @@ sqoop export \
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: https://ipfred.github.io/bigdata/hadoop/20240606150541/  
+> URL: http://localhost:1313/bigdata/hadoop/20240606150541/  
 

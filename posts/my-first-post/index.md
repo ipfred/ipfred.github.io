@@ -10,5 +10,5 @@ Visit the [Hugo](https://gohugo.io) website!
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: https://ipfred.github.io/posts/my-first-post/  
+> URL: http://localhost:1313/posts/my-first-post/  
 
