@@ -251,5 +251,5 @@ docker cp [local_path] rabbitmq:/[container_path]
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/lang/docker/20240510103849/  
+> URL: https://ipfred.github.io/lang/docker/20240510103849/  
 

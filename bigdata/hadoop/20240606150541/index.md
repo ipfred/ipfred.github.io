@@ -415,5 +415,5 @@ sqoop export \
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/bigdata/hadoop/20240606150541/  
+> URL: https://ipfred.github.io/bigdata/hadoop/20240606150541/  
 

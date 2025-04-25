@@ -89,5 +89,5 @@ public class HelloWorld {
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/lang/java/20240426111354/  
+> URL: https://ipfred.github.io/lang/java/20240426111354/  
 

@@ -155,5 +155,5 @@ Host github.com
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/lang/git/20250425152252/  
+> URL: https://ipfred.github.io/lang/git/20250425152252/  
 

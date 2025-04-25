@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>大数据 - 分类 | Fred的知识库</title>
-    <link>http://localhost:1313/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
+    <link>https://ipfred.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
     <description>大数据 - 分类 | Fred的知识库</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
-      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Sat, 11 May 2024 16:07:13 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Sat, 11 May 2024 16:07:13 &#43;0800</lastBuildDate><atom:link href="https://ipfred.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="self" type="application/rss+xml" /><item>
   <title>一文搞懂Kerberos</title>
-  <link>http://localhost:1313/lang/docker/20240511160713/</link>
+  <link>https://ipfred.github.io/lang/docker/20240511160713/</link>
   <pubDate>Sat, 11 May 2024 16:07:13 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>http://localhost:1313/lang/docker/20240511160713/</guid>
+  <guid>https://ipfred.github.io/lang/docker/20240511160713/</guid>
   <description><![CDATA[<p><strong>Kerberos 是一种身份认证协议，被广泛运用在大数据生态中，甚至可以说是大数据身份认证的事实标准。本文将详细说明 Kerberos 原理。</strong></p>
 <h2 id="二kerberos-是什么" class="heading-element">
   <a href="#%e4%ba%8ckerberos-%e6%98%af%e4%bb%80%e4%b9%88" class="heading-mark"></a>二、Kerberos 是什么？</h2><p>Kerberos 一词来源于古希腊神话中的 Cerberus —— 守护地狱之门的三头犬。

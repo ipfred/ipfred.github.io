@@ -2,47 +2,47 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>大数据 on Fred的知识库</title>
-    <link>http://localhost:1313/bigdata/</link>
+    <link>https://ipfred.github.io/bigdata/</link>
     <description>Recent content in 大数据 on Fred的知识库</description>
     <generator>Hugo 0.125.2</generator>
     <language>zh-CN</language>
     <managingEditor>330446875@qq.com (Fred)</managingEditor>
     <webMaster>330446875@qq.com (Fred)</webMaster>
     <copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright>
-    <atom:link href="http://localhost:1313/bigdata/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://ipfred.github.io/bigdata/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>sqoop使用文档</title>
-      <link>http://localhost:1313/bigdata/hadoop/20240606150541/</link>
+      <link>https://ipfred.github.io/bigdata/hadoop/20240606150541/</link>
       <pubDate>Thu, 06 Jun 2024 15:05:41 +0800</pubDate><author>330446875@qq.com (Fred)</author>
-      <guid>http://localhost:1313/bigdata/hadoop/20240606150541/</guid>
+      <guid>https://ipfred.github.io/bigdata/hadoop/20240606150541/</guid>
       <description>sqoop介绍 Sqoop 是一个设计用于在 Hadoop 和关系数据库或大型机之间传输数据的工具。您可以使用 Sqoop 将数据从关系数据库管理系统 (RDBMS)（例如 MySQL 或 Oracle）或大型机导入 Hadoop 分布式文件系统 (HDFS)，在 Hadoop MapReduce 中转换数据，然后将数据导出回 RDBMS 。 Hadoop生态包括： HDFS，Hive，Hbase等 RDBMS体系包</description>
     </item>
     <item>
       <title>HDFS文件读写过程</title>
-      <link>http://localhost:1313/bigdata/hadoop/a9bc224/</link>
+      <link>https://ipfred.github.io/bigdata/hadoop/a9bc224/</link>
       <pubDate>Wed, 24 Apr 2024 10:22:48 +0800</pubDate><author>330446875@qq.com (Fred)</author>
-      <guid>http://localhost:1313/bigdata/hadoop/a9bc224/</guid>
+      <guid>https://ipfred.github.io/bigdata/hadoop/a9bc224/</guid>
       <description></description>
     </item>
     <item>
       <title>hadoop命令行的使用</title>
-      <link>http://localhost:1313/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <link>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Tue, 23 Apr 2024 22:01:01 +0800</pubDate><author>330446875@qq.com (Fred)</author>
-      <guid>http://localhost:1313/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
       <description>1 HDFS 的命令行使用Hadoop 命令行官方doc hadoop fs: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等 hdfs dfs: 只能操作HDFS文件系统。 1 2 3 # 下面两种效果是一样的 hdfs dfs -ls /user/hive hadoop fs -ls /user/hive/ 如果操作HDFS文件系统，推荐使用 hdfs dfs,如果需要操作其他系统文件，使用hadoop fs命令 help 1 2 格</description>
     </item>
     <item>
       <title>Hadoop概览</title>
-      <link>http://localhost:1313/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</link>
+      <link>https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</link>
       <pubDate>Tue, 23 Apr 2024 20:01:01 +0800</pubDate><author>330446875@qq.com (Fred)</author>
-      <guid>http://localhost:1313/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</guid>
+      <guid>https://ipfred.github.io/bigdata/hadoop/hadoop%E6%A6%82%E8%A7%88/</guid>
       <description>HDFS HDFS概述 Hadoop 分布式系统框架中，首要的基础功能就是文件系统，在 Hadoop 中使用 FileSystem 这个抽象类来表示我们的文件系统，这个抽象类下面有很多子实现类，究竟使用哪一种，需要看我们具体的实现类，在我们实际工作中，用到的最多的就是HDFS(分布式文件系统)以及LocalFileSystem(本地文件系统)了。 在现代的企</description>
     </item>
     <item>
       <title>spark简单介绍</title>
-      <link>http://localhost:1313/bigdata/spark/spark%E5%85%A5%E9%97%A8/</link>
+      <link>https://ipfred.github.io/bigdata/spark/spark%E5%85%A5%E9%97%A8/</link>
       <pubDate>Sat, 20 Apr 2024 20:14:22 +0800</pubDate><author>330446875@qq.com (Fred)</author>
-      <guid>http://localhost:1313/bigdata/spark/spark%E5%85%A5%E9%97%A8/</guid>
+      <guid>https://ipfred.github.io/bigdata/spark/spark%E5%85%A5%E9%97%A8/</guid>
       <description>Configuration - Spark 2.4.8 配置参数 Spark SQL — PySpark官方API手册 Apache Spark A Unified engine for large-scale data analytics Apache Spark is a unified analytics engine for large-scale data processing. It provides high-level APIs in Java, Scala, Python and R, and an optimized engine that supports general execution graphs. It also supports a rich set of higher-level tools including Spark SQL for SQL and structured data processing, pandas API on Spark for pandas workloads, MLlib for machine learning, GraphX for graph processing, and Structured Streaming for incremental computation and stream processing. DownloadingGet Spark from the downloads page of the project website. This documentation is for Spark version 3.5.1. Spark uses Hadoop’s client libraries for HDFS and YARN. Downloads are pre-packaged for a handful of popular Hadoop versions. Users</description>
     </item>
   </channel>

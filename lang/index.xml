@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>langs on Fred的知识库</title>
-    <link>http://localhost:1313/lang/</link>
+    <link>https://ipfred.github.io/lang/</link>
     <description>Recent content in langs on Fred的知识库</description>
     <generator>Hugo 0.125.2</generator>
     <language>zh-CN</language>
@@ -10,26 +10,26 @@
     <webMaster>330446875@qq.com (Fred)</webMaster>
     <copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright>
     <lastBuildDate>Fri, 25 Apr 2025 15:25:29 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/lang/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://ipfred.github.io/lang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>多平台GitHub配置代理</title>
-      <link>http://localhost:1313/lang/git/20250425152252/</link>
+      <link>https://ipfred.github.io/lang/git/20250425152252/</link>
       <pubDate>Fri, 25 Apr 2025 15:22:44 +0800</pubDate><author>330446875@qq.com (Fred)</author>
-      <guid>http://localhost:1313/lang/git/20250425152252/</guid>
+      <guid>https://ipfred.github.io/lang/git/20250425152252/</guid>
       <description>本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 前言：本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 git 配置代理 windows 设置代理 http || https协议 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 //设置全局代理 git config --global https.proxy http://127.0.0.1:7897 git config --global https.proxy https://127.0.0.1:7897 // socks git config --global http.proxy socks5://127.0.0.1:7897 git config --global https.proxy</description>
     </item>
     <item>
       <title>一文搞懂Kerberos</title>
-      <link>http://localhost:1313/lang/docker/20240511160713/</link>
+      <link>https://ipfred.github.io/lang/docker/20240511160713/</link>
       <pubDate>Sat, 11 May 2024 16:07:13 +0800</pubDate><author>330446875@qq.com (Fred)</author>
-      <guid>http://localhost:1313/lang/docker/20240511160713/</guid>
+      <guid>https://ipfred.github.io/lang/docker/20240511160713/</guid>
       <description>Kerberos 是一种身份认证协议，被广泛运用在大数据生态中，甚至可以说是大数据身份认证的事实标准。本文将详细说明 Kerberos 原理。 二、Kerberos 是什么？Kerberos 一词来源于古希腊神话中的 Cerberus —— 守护地狱之门的三头犬。 一句话来说，Kerberos是一种基于加密Ticket的身份认证协议。 主要有三部分组成： Key Distribution Center (</description>
     </item>
     <item>
       <title>docker使用常用命令</title>
-      <link>http://localhost:1313/lang/docker/20240510103849/</link>
+      <link>https://ipfred.github.io/lang/docker/20240510103849/</link>
       <pubDate>Fri, 10 May 2024 10:38:49 +0800</pubDate><author>330446875@qq.com (Fred)</author>
-      <guid>http://localhost:1313/lang/docker/20240510103849/</guid>
+      <guid>https://ipfred.github.io/lang/docker/20240510103849/</guid>
       <description>docker命令官方文档docker | Docker Docs 代理配置/etc/docker/daemon.json 文件写入下面内容(文件不存在新建) 1 2 3 4 5 6 { &amp;#34;registry-mirrors&amp;#34;: [ &amp;#34;https://hub-mirror.c.163.com&amp;#34;, &amp;#34;https://mirror.baidubce.com&amp;#34; ] } 重启docker服务 1 2 3 4 sudo systemctl daemon-reload sudo systemctl restart docker sudo service docker stop sudo service docker start docker基础命令 增 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 docker pull 镜像文件名 #下载</description>
     </item>
   </channel>

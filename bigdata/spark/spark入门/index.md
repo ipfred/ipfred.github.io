@@ -14,5 +14,5 @@ If you’d like to build Spark from source, visit Building Spark.
 ---
 
 > 作者:   
-> URL: http://localhost:1313/bigdata/spark/spark%E5%85%A5%E9%97%A8/  
+> URL: https://ipfred.github.io/bigdata/spark/spark%E5%85%A5%E9%97%A8/  
 

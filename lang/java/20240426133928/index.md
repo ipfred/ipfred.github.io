@@ -462,5 +462,5 @@ public class ForForDemo08 {
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/lang/java/20240426133928/  
+> URL: https://ipfred.github.io/lang/java/20240426133928/  
 

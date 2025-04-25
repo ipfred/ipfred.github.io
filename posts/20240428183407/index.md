@@ -32,5 +32,5 @@ c0 删除到行首并修改
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/posts/20240428183407/  
+> URL: https://ipfred.github.io/posts/20240428183407/  
 

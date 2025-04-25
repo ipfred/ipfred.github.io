@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Hive - 合集 | Fred的知识库</title>
-    <link>http://localhost:1313/collections/hive/</link>
+    <link>https://ipfred.github.io/collections/hive/</link>
     <description>Hive - 合集 | Fred的知识库</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
-      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Wed, 24 Apr 2024 16:22:08 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/collections/hive/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Wed, 24 Apr 2024 16:22:08 &#43;0800</lastBuildDate><atom:link href="https://ipfred.github.io/collections/hive/" rel="self" type="application/rss+xml" /><item>
   <title>hive常见的命令</title>
-  <link>http://localhost:1313/bigdata/hive/20240424162208/</link>
+  <link>https://ipfred.github.io/bigdata/hive/20240424162208/</link>
   <pubDate>Wed, 24 Apr 2024 16:22:08 &#43;0800</pubDate>
   <author>Fred</author>
-  <guid>http://localhost:1313/bigdata/hive/20240424162208/</guid>
+  <guid>https://ipfred.github.io/bigdata/hive/20240424162208/</guid>
   <description><![CDATA[<p><a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual"target="_blank" rel="external nofollow noopener noreferrer">Hive官方操作手册<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
 <h2 id="hive特性" class="heading-element">
   <a href="#hive%e7%89%b9%e6%80%a7" class="heading-mark"></a>1 Hive特性</h2><ol>

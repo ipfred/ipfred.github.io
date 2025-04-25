@@ -218,5 +218,5 @@ hdfs  dfsadmin  -safemode  leave #离开安全模式
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/  
+> URL: https://ipfred.github.io/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/  
 

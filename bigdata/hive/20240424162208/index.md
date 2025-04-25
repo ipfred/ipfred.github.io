@@ -143,5 +143,5 @@ partition_spec:
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/bigdata/hive/20240424162208/  
+> URL: https://ipfred.github.io/bigdata/hive/20240424162208/  
 

@@ -251,5 +251,5 @@ UML图： 统一建模语言
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/db/20240508165000/  
+> URL: https://ipfred.github.io/db/20240508165000/  
 

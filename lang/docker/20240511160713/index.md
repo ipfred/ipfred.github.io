@@ -137,5 +137,5 @@ TGS 解密出所有信息后，将进行身份检查，进行认证：
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/lang/docker/20240511160713/  
+> URL: https://ipfred.github.io/lang/docker/20240511160713/  
 

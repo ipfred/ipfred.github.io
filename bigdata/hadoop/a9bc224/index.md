@@ -54,5 +54,5 @@ HDFS把文件的数据划分成若干个块(Block)， 每个Block存放在一组
 ---
 
 > 作者: [Fred](https://github.com/ipfred)  
-> URL: http://localhost:1313/bigdata/hadoop/a9bc224/  
+> URL: https://ipfred.github.io/bigdata/hadoop/a9bc224/  
 
