@@ -11,8 +11,8 @@
   <meta itemprop="name" content="软考知识点">
   <meta itemprop="description" content="[TOC] 嵌入式SQL嵌入式SQL中通过主变量实现主语言和SQL语言间进行参数传递； SQL语句的执行状态通过sqlca，传递给主语言来进行流程控制； 对于返回结果为多条记录的sql语句，通过游标来由主语言逐条处理。 执行类型分析和检查：分析程序的类型系统，并检查程序是否违反类型规则(程序中变量和表达式的类型)，">
   <meta itemprop="datePublished" content="2024-05-08T16:50:00+08:00">
-  <meta itemprop="dateModified" content="2025-04-25T15:51:52+08:00">
-  <meta itemprop="wordCount" content="4258">
+  <meta itemprop="dateModified" content="2025-04-25T15:55:11+08:00">
+  <meta itemprop="wordCount" content="4226">
   <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta property="og:url" content="https://ipfred.github.io/db/20240508165000/">
   <meta property="og:site_name" content="Fred的知识库">
   <meta property="og:title" content="软考知识点">
@@ -21,7 +21,7 @@
   <meta property="og:type" content="article">
   <meta property="article:section" content="db">
     <meta property="article:published_time" content="2024-05-08T16:50:00+08:00">
-    <meta property="article:modified_time" content="2025-04-25T15:51:52+08:00">
+    <meta property="article:modified_time" content="2025-04-25T15:55:11+08:00">
     <meta property="og:image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta name="twitter:title" content="软考知识点">
@@ -40,8 +40,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/ipfred.github.io\/db\/20240508165000\/"
-    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  4258 ,
-    "url": "https:\/\/ipfred.github.io\/db\/20240508165000\/","datePublished": "2024-05-08T16:50:00+08:00","dateModified": "2025-04-25T15:51:52+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  4226 ,
+    "url": "https:\/\/ipfred.github.io\/db\/20240508165000\/","datePublished": "2024-05-08T16:50:00+08:00","dateModified": "2025-04-25T15:55:11+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
       "@type": "Organization",
       "name": "ipFred","logo": "https:\/\/ipfred.github.io\/images\/avatar.jpg"},"author": {
         "@type": "Person",
@@ -236,7 +236,7 @@
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>软考知识点</span>
       </h1></div><div class="post-meta">
       <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
-    Fred</a></span></div><div class="post-meta-line"><span title="发布于 2024-05-08 16:50:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-05-08">2024-05-08</time></span>&nbsp;<span title="更新于 2025-04-25 15:51:52"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-04-25">2025-04-25</time></span>&nbsp;<span title="4258 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="软考知识点">
+    Fred</a></span></div><div class="post-meta-line"><span title="发布于 2024-05-08 16:50:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-05-08">2024-05-08</time></span>&nbsp;<span title="更新于 2025-04-25 15:55:11"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-04-25">2025-04-25</time></span>&nbsp;<span title="4226 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="软考知识点">
               <i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
             </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
@@ -316,11 +316,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 <li>{a,{b,c,d}} 中，它包含一个原子和一个子表，因此该广义表的长度为 2</li>
 </ul>
 </li>
-<li>广义表的深度：观察表中所包含括号的层数间接得到
-<ul>
-<li>广义表 <code>{{1,2},{3,{4,5}}}</code> 中，子表 {1,2} 和 {3,{4,5}} 位于同层，此广义表中包含 3 层括号，因此深度为 3。</li>
-</ul>
-</li>
+<li>广义表的深度：观察表中所包含括号的层数间接得到</li>
 </ul>
 <h4 id="二叉树" class="heading-element">
   <a href="#%e4%ba%8c%e5%8f%89%e6%a0%91" class="heading-mark"></a>二叉树</h4><ul>
@@ -483,7 +479,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="err">{</span><span class="w"> </span><span class="o">&lt;</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="o">&gt;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="err">∃</span><span class="n">e</span><span class="w"> </span><span class="err">∃</span><span class="n">s</span><span class="w"> </span><span class="p">(</span><span class="n">Employee</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="err">∧</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="err">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="分布式系统" class="heading-element">
-  <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e7%b3%bb%e7%bb%9f" class="heading-mark"></a>分布式系统</h3><p>CAP分布式系统的基本原理代表三个关键属性：一致性（Consistency）、可用性（Availability）和分区容忍性（Partition Tolerance）</p>
+  <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e7%b3%bb%e7%bb%9f" class="heading-mark"></a>0.1 分布式系统</h3><p>CAP分布式系统的基本原理代表三个关键属性：一致性（Consistency）、可用性（Availability）和分区容忍性（Partition Tolerance）</p>
 <p>五个答题考点：</p>
 <ul>
 <li>数据库概念结构设计</li>
@@ -493,7 +489,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 <li>数据备份和故障恢复 数据库日志文件</li>
 </ul>
 <h3 id="信息安全" class="heading-element">
-  <a href="#%e4%bf%a1%e6%81%af%e5%ae%89%e5%85%a8" class="heading-mark"></a>信息安全</h3><ul>
+  <a href="#%e4%bf%a1%e6%81%af%e5%ae%89%e5%85%a8" class="heading-mark"></a>0.2 信息安全</h3><ul>
 <li>主动攻击
 <ul>
 <li>攻击者干扰系统或网络的正常运行，通过修改、破坏或伪造数据，获取未授权的访问权限或恶意操作</li>
@@ -533,7 +529,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 <li>受保护程度：从高到低 内网 DMZ 外网</li>
 </ul>
 <h3 id="项目管理" class="heading-element">
-  <a href="#%e9%a1%b9%e7%9b%ae%e7%ae%a1%e7%90%86" class="heading-mark"></a>项目管理</h3><p>无主程序员组：适合开发小型项目 创新型项目， 确定性比较小的项目
+  <a href="#%e9%a1%b9%e7%9b%ae%e7%ae%a1%e7%90%86" class="heading-mark"></a>0.3 项目管理</h3><p>无主程序员组：适合开发小型项目 创新型项目， 确定性比较小的项目
 ISO软件质量模型：
 软件质量的6大特性：功能性、可靠性、易用性、效率、维护性、可移植性<br>
 软件质量的27个子特性：<br>
@@ -614,7 +610,7 @@ ISO软件质量模型：
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-04-25 15:51:52">更新于 2025-04-25&nbsp;</span>
+        <span title="更新于 2025-04-25 15:55:11">更新于 2025-04-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/db/20240508165000/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span><span><a href="https://github.com/ipfred/ipfred.github.io/blob/main/content/db%5c%e8%bd%af%e8%80%83%e7%9f%a5%e8%af%86%e7%82%b9.md?plain=1" title="查看源码"target="_blank" rel="external nofollow noopener noreferrer" class="link-to-source">查看源码</a></span></div>
         <div class="post-info-share">

@@ -1859,11 +1859,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 <li>{a,{b,c,d}} 中，它包含一个原子和一个子表，因此该广义表的长度为 2</li>
 </ul>
 </li>
-<li>广义表的深度：观察表中所包含括号的层数间接得到
-<ul>
-<li>广义表 <code>{{1,2},{3,{4,5}}}</code> 中，子表 {1,2} 和 {3,{4,5}} 位于同层，此广义表中包含 3 层括号，因此深度为 3。</li>
-</ul>
-</li>
+<li>广义表的深度：观察表中所包含括号的层数间接得到</li>
 </ul>
 <h4 id="二叉树" class="heading-element">
   <a href="#%e4%ba%8c%e5%8f%89%e6%a0%91" class="heading-mark"></a>二叉树</h4><ul>
@@ -2026,7 +2022,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="err">{</span><span class="w"> </span><span class="o">&lt;</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="o">&gt;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="err">∃</span><span class="n">e</span><span class="w"> </span><span class="err">∃</span><span class="n">s</span><span class="w"> </span><span class="p">(</span><span class="n">Employee</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="err">∧</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="err">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="分布式系统" class="heading-element">
-  <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e7%b3%bb%e7%bb%9f" class="heading-mark"></a>分布式系统</h3><p>CAP分布式系统的基本原理代表三个关键属性：一致性（Consistency）、可用性（Availability）和分区容忍性（Partition Tolerance）</p>
+  <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e7%b3%bb%e7%bb%9f" class="heading-mark"></a>0.1 分布式系统</h3><p>CAP分布式系统的基本原理代表三个关键属性：一致性（Consistency）、可用性（Availability）和分区容忍性（Partition Tolerance）</p>
 <p>五个答题考点：</p>
 <ul>
 <li>数据库概念结构设计</li>
@@ -2036,7 +2032,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 <li>数据备份和故障恢复 数据库日志文件</li>
 </ul>
 <h3 id="信息安全" class="heading-element">
-  <a href="#%e4%bf%a1%e6%81%af%e5%ae%89%e5%85%a8" class="heading-mark"></a>信息安全</h3><ul>
+  <a href="#%e4%bf%a1%e6%81%af%e5%ae%89%e5%85%a8" class="heading-mark"></a>0.2 信息安全</h3><ul>
 <li>主动攻击
 <ul>
 <li>攻击者干扰系统或网络的正常运行，通过修改、破坏或伪造数据，获取未授权的访问权限或恶意操作</li>
@@ -2076,7 +2072,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 <li>受保护程度：从高到低 内网 DMZ 外网</li>
 </ul>
 <h3 id="项目管理" class="heading-element">
-  <a href="#%e9%a1%b9%e7%9b%ae%e7%ae%a1%e7%90%86" class="heading-mark"></a>项目管理</h3><p>无主程序员组：适合开发小型项目 创新型项目， 确定性比较小的项目
+  <a href="#%e9%a1%b9%e7%9b%ae%e7%ae%a1%e7%90%86" class="heading-mark"></a>0.3 项目管理</h3><p>无主程序员组：适合开发小型项目 创新型项目， 确定性比较小的项目
 ISO软件质量模型：
 软件质量的6大特性：功能性、可靠性、易用性、效率、维护性、可移植性<br>
 软件质量的27个子特性：<br>
@@ -2585,7 +2581,7 @@ c0 删除到行首并修改</p>
 </div><ul>
 <li>变量后++ ：变量a先把自己的值1，赋值给变量b</li>
 </ul>
-<div class="highlight" id="id-9"><div class="chroma">
+<div class="highlight" id="id-1"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2623,7 +2619,7 @@ c0 删除到行首并修改</p>
 <li>!(逻辑非),</li>
 <li>^(逻辑异或) 异同的意思, 相同为false, 不同为true.</li>
 </ul>
-<div class="highlight" id="id-10"><div class="chroma">
+<div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2677,7 +2673,7 @@ c0 删除到行首并修改</p>
 <li>(关系表达式) ? 表达式1：表达式2；</li>
 <li>true执行1表达式，false执行2表达式</li>
 </ul>
-<div class="highlight" id="id-11"><div class="chroma">
+<div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2705,14 +2701,14 @@ c0 删除到行首并修改</p>
 </div></li>
 </ul>
 <h2 id="28-流程控制" class="heading-element">
-  <a href="#28-%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6" class="heading-mark"></a>2.8 流程控制</h2><h3 id="281-分支结构" class="heading-element">
-  <a href="#281-%e5%88%86%e6%94%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>2.8.1 分支结构</h3><p>如果我们想某些代码是在满足条件的情况下, 才能被执行, 此时就需要用到选择结构了, 选择结构也叫分支结构, 主要分为以下两种:</p>
+  <a href="#28-%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6" class="heading-mark"></a>1 2.8 流程控制</h2><h3 id="281-分支结构" class="heading-element">
+  <a href="#281-%e5%88%86%e6%94%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>1.1 2.8.1 分支结构</h3><p>如果我们想某些代码是在满足条件的情况下, 才能被执行, 此时就需要用到选择结构了, 选择结构也叫分支结构, 主要分为以下两种:</p>
 <ul>
 <li>if语句, 主要用于<code>范围的判断</code></li>
 <li>switch.case语句, 主要用于<code>固定值</code>的判断.</li>
 </ul>
 <p>if分支</p>
-<div class="highlight" id="id-12"><div class="chroma">
+<div class="highlight" id="id-4"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2744,7 +2740,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>switch分支</p>
-<div class="highlight" id="id-13"><div class="chroma">
+<div class="highlight" id="id-5"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2818,7 +2814,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>switch 分支 case穿透，在switch语句中，如果case的后面不写break，将出现case穿透现象，也就是不会在判断下一个case的值，直接向后运行，直到遇到break，或者整体switch结束。</p>
-<div class="highlight" id="id-1"><div class="chroma">
+<div class="highlight" id="id-6"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2894,8 +2890,8 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="282-循环结构" class="heading-element">
-  <a href="#282-%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>0.1 2.8.2 循环结构</h3><p>for循环</p>
-<div class="highlight" id="id-2"><div class="chroma">
+  <a href="#282-%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>1.2 2.8.2 循环结构</h3><p>for循环</p>
+<div class="highlight" id="id-7"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2907,7 +2903,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>for循环求1-100之前偶数和</p>
-<div class="highlight" id="id-3"><div class="chroma">
+<div class="highlight" id="id-8"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2945,7 +2941,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>while循环</p>
-<div class="highlight" id="id-4"><div class="chroma">
+<div class="highlight" id="id-9"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2961,7 +2957,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>例子</p>
-<div class="highlight" id="id-5"><div class="chroma">
+<div class="highlight" id="id-10"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2991,7 +2987,7 @@ c0 删除到行首并修改</p>
 <li><code>do {} while(true)</code></li>
 </ul>
 <p>循环跳转: <code>break continue</code></p>
-<div class="highlight" id="id-6"><div class="chroma">
+<div class="highlight" id="id-11"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -3025,7 +3021,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>嵌套循环打印99乘法表</p>
-<div class="highlight" id="id-7"><div class="chroma">
+<div class="highlight" id="id-12"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
