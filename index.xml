@@ -4,9 +4,190 @@
     <link>https://ipfred.github.io/</link>
     <description>Fred&#39;s Note：探索、分享、记录自己在工作生活学习到一些东西。</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
-      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Fri, 25 Apr 2025 15:22:44 &#43;0800</lastBuildDate>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Sat, 10 May 2025 14:37:46 &#43;0800</lastBuildDate>
       <atom:link href="https://ipfred.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+  <title>go开发环境配置</title>
+  <link>https://ipfred.github.io/lang/go/20250510143746/</link>
+  <pubDate>Sat, 10 May 2025 14:37:46 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>https://ipfred.github.io/lang/go/20250510143746/</guid>
+  <description><![CDATA[<blockquote>
+<p>配置了这么多次go开发环境，每次都踩坑，记录下使用windows系统开发go语言的环境配置，了解go语言的开发环境特点</p>
+</blockquote>
+<p>开发环境：</p>
+<ul>
+<li>VSCode</li>
+<li>go 1.24 多版本管理</li>
+</ul>
+<h2 id="下载安装" class="heading-element">
+  <a href="#%e4%b8%8b%e8%bd%bd%e5%ae%89%e8%a3%85" class="heading-mark"></a>下载安装</h2><ul>
+<li>
+<p>官方下载安装</p>
+</li>
+<li>
+<p>建议安装到 默认路径下面 <code>C:\Program Files\Go</code></p>
+</li>
+<li>
+<p>安装完成后，会发现多了些东西</p>
+</li>
+<li>
+<p>GOPATH : <code>%USERPROFILE%\go</code> 在用户根目录下</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>bin 下面是go的一些插件 用vscode开发的时候 会依赖这些插件
+pkg 下面是各个项目下载的第三方包，都会存到这个路径下</p>
+<ul>
+<li>PATH <code>%USERPROFILE%\go\bin</code></li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ul>
+<li>系统环境变量 PATH <code>C:\Program Files\Go\bin</code>
+这个是下载的go程序的安装路径</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="源配置" class="heading-element">
+  <a href="#%e6%ba%90%e9%85%8d%e7%bd%ae" class="heading-mark"></a>源配置</h2><p>go第三方包的源在国外，下载速度会比较慢，更换为国内源
+推荐使用 <strong>go env</strong> 命令</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 启用 Go Modules 模式</span>
+</span></span><span class="line"><span class="cl">go env -w <span class="nv">GO111MODULE</span><span class="o">=</span>on
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">go env -w <span class="nv">GOPROXY</span><span class="o">=</span>https://goproxy.cn,direct</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>扩展 go env 命令 配置写到哪个地方了</p>
+</blockquote>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$HOME</span>/.config/go/env   <span class="c1"># Linux/macOS</span>
+</span></span><span class="line"><span class="cl">%USERPROFILE%<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\g</span>o<span class="se">\e</span>nv  <span class="c1"># Windows</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="使用vscode开发-go配置" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8vscode%e5%bc%80%e5%8f%91-go%e9%85%8d%e7%bd%ae" class="heading-mark"></a>使用vscode开发 go配置</h2><ol>
+<li>
+<p>插件市场 搜索 安装 go插件
+<img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>安装 工具 <code>ctrl + shift + p</code> 搜索 go install 安装 工具 gopls是必须的</p>
+</li>
+</ol>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+<img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>安装完后插件 也放到了 GOPATH下面</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<blockquote>
+<p>扩展 介绍下这些插件的作用</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>工具名称</th>
+<th>版本信息</th>
+<th>作用描述</th>
+<th>主要用途/使用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gopls</code></td>
+<td><code>latest</code></td>
+<td>Go 语言服务器（Language Server Protocol）</td>
+<td>提供代码补全、跳转定义、重构等编辑器功能，提升编码效率</td>
+</tr>
+<tr>
+<td><code>gotests</code></td>
+<td><code>v1.6.0</code></td>
+<td>自动生成单元测试代码</td>
+<td>快速生成函数或方法的测试框架，提高测试覆盖率</td>
+</tr>
+<tr>
+<td><code>gomodifytags</code></td>
+<td><code>v1.7.0</code></td>
+<td>修改结构体字段标签（如 JSON、XML、SQL 等）</td>
+<td>自动添加、删除或修改结构体中的标签，方便序列化处理</td>
+</tr>
+<tr>
+<td><code>impl</code></td>
+<td><code>v1.4.0</code></td>
+<td>为接口生成实现模板</td>
+<td>快速生成接口的方法骨架，减少手动编写工作量</td>
+</tr>
+<tr>
+<td><code>goplay</code></td>
+<td><code>v1.0.0</code></td>
+<td>类似 Go Playground 的本地代码运行环境</td>
+<td>快速运行小段代码片段，验证逻辑无需创建完整项目</td>
+</tr>
+<tr>
+<td><code>dlv</code></td>
+<td><code>latest</code></td>
+<td>Go 调试工具（Delve）</td>
+<td>设置断点、查看变量、调试程序行为，适合复杂问题排查</td>
+</tr>
+<tr>
+<td><code>staticcheck</code></td>
+<td><code>latest</code></td>
+<td>静态代码分析工具（Linter）</td>
+<td>检查潜在错误、优化代码质量，遵循最佳实践</td>
+</tr>
+</tbody>
+</table>
+<h2 id="多版本管理" class="heading-element">
+  <a href="#%e5%a4%9a%e7%89%88%e6%9c%ac%e7%ae%a1%e7%90%86" class="heading-mark"></a>多版本管理</h2><p>经常会存在一些情况，不同的项目依赖不同的go版本，官方有自己的go 多版本管理方式，挺好用的</p>
+<p><a href="https://go.dev/doc/manage-install"target="_blank" rel="external nofollow noopener noreferrer">官方go多版本管理<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 先安装一个 go1.10.7 的命令</span>
+</span></span><span class="line"><span class="cl">go install golang.org/dl/go1.10.7@latest
+</span></span><span class="line"><span class="cl"><span class="c1"># 再使用这个命令下载 这个版本的go</span>
+</span></span><span class="line"><span class="cl">go1.10.7 download</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>第一步 下载 go1.10.7 命令 放在了 GOPATH bin下面</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ul>
+<li>第二步 使用 go1.10.7 命令下载这个版本的go 存放的位置  当前用户根目录 的 <code>C:\Users\admin\sdk</code> 路径下</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>多版本的go 放到哪个地方了呢？</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>后续用VSCode开发的时候，就可以很好的切换到不同的go版本了</p>
+<p>也可以通过 <strong>go1.10.7 env GOROOT</strong> 命令查看安装到哪个地方了</p>
+<h3 id="vscode-中切换不同版本的go" class="heading-element">
+  <a href="#vscode-%e4%b8%ad%e5%88%87%e6%8d%a2%e4%b8%8d%e5%90%8c%e7%89%88%e6%9c%ac%e7%9a%84go" class="heading-mark"></a>vscode 中切换不同版本的go</h3><p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>选择切换成不同的go版本</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>在左侧项目文件夹 也有 go的一些快捷操作</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="go常用的命令" class="heading-element">
+  <a href="#go%e5%b8%b8%e7%94%a8%e7%9a%84%e5%91%bd%e4%bb%a4" class="heading-mark"></a>go常用的命令</h2><p>别死记了！ 用的不熟练的时候， <strong>go help</strong>看下</p>
+<hr>
+<p>相信了解这些细节之后，安装 配置你都能很清楚了</p>
+]]></description>
+</item>
+<item>
   <title>多平台GitHub配置代理</title>
   <link>https://ipfred.github.io/lang/git/20250425152252/</link>
   <pubDate>Fri, 25 Apr 2025 15:22:44 &#43;0800</pubDate>
@@ -2022,7 +2203,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="err">{</span><span class="w"> </span><span class="o">&lt;</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="o">&gt;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="err">∃</span><span class="n">e</span><span class="w"> </span><span class="err">∃</span><span class="n">s</span><span class="w"> </span><span class="p">(</span><span class="n">Employee</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="err">∧</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="err">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="分布式系统" class="heading-element">
-  <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e7%b3%bb%e7%bb%9f" class="heading-mark"></a>0.1 分布式系统</h3><p>CAP分布式系统的基本原理代表三个关键属性：一致性（Consistency）、可用性（Availability）和分区容忍性（Partition Tolerance）</p>
+  <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e7%b3%bb%e7%bb%9f" class="heading-mark"></a>分布式系统</h3><p>CAP分布式系统的基本原理代表三个关键属性：一致性（Consistency）、可用性（Availability）和分区容忍性（Partition Tolerance）</p>
 <p>五个答题考点：</p>
 <ul>
 <li>数据库概念结构设计</li>
@@ -2032,7 +2213,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 <li>数据备份和故障恢复 数据库日志文件</li>
 </ul>
 <h3 id="信息安全" class="heading-element">
-  <a href="#%e4%bf%a1%e6%81%af%e5%ae%89%e5%85%a8" class="heading-mark"></a>0.2 信息安全</h3><ul>
+  <a href="#%e4%bf%a1%e6%81%af%e5%ae%89%e5%85%a8" class="heading-mark"></a>信息安全</h3><ul>
 <li>主动攻击
 <ul>
 <li>攻击者干扰系统或网络的正常运行，通过修改、破坏或伪造数据，获取未授权的访问权限或恶意操作</li>
@@ -2072,7 +2253,7 @@ EEPROM是电擦除可编程的只读存储器</p>
 <li>受保护程度：从高到低 内网 DMZ 外网</li>
 </ul>
 <h3 id="项目管理" class="heading-element">
-  <a href="#%e9%a1%b9%e7%9b%ae%e7%ae%a1%e7%90%86" class="heading-mark"></a>0.3 项目管理</h3><p>无主程序员组：适合开发小型项目 创新型项目， 确定性比较小的项目
+  <a href="#%e9%a1%b9%e7%9b%ae%e7%ae%a1%e7%90%86" class="heading-mark"></a>项目管理</h3><p>无主程序员组：适合开发小型项目 创新型项目， 确定性比较小的项目
 ISO软件质量模型：
 软件质量的6大特性：功能性、可靠性、易用性、效率、维护性、可移植性<br>
 软件质量的27个子特性：<br>
@@ -2581,7 +2762,7 @@ c0 删除到行首并修改</p>
 </div><ul>
 <li>变量后++ ：变量a先把自己的值1，赋值给变量b</li>
 </ul>
-<div class="highlight" id="id-1"><div class="chroma">
+<div class="highlight" id="id-9"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2619,7 +2800,7 @@ c0 删除到行首并修改</p>
 <li>!(逻辑非),</li>
 <li>^(逻辑异或) 异同的意思, 相同为false, 不同为true.</li>
 </ul>
-<div class="highlight" id="id-2"><div class="chroma">
+<div class="highlight" id="id-10"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2673,7 +2854,7 @@ c0 删除到行首并修改</p>
 <li>(关系表达式) ? 表达式1：表达式2；</li>
 <li>true执行1表达式，false执行2表达式</li>
 </ul>
-<div class="highlight" id="id-3"><div class="chroma">
+<div class="highlight" id="id-11"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2701,14 +2882,14 @@ c0 删除到行首并修改</p>
 </div></li>
 </ul>
 <h2 id="28-流程控制" class="heading-element">
-  <a href="#28-%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6" class="heading-mark"></a>1 2.8 流程控制</h2><h3 id="281-分支结构" class="heading-element">
-  <a href="#281-%e5%88%86%e6%94%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>1.1 2.8.1 分支结构</h3><p>如果我们想某些代码是在满足条件的情况下, 才能被执行, 此时就需要用到选择结构了, 选择结构也叫分支结构, 主要分为以下两种:</p>
+  <a href="#28-%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6" class="heading-mark"></a>2.8 流程控制</h2><h3 id="281-分支结构" class="heading-element">
+  <a href="#281-%e5%88%86%e6%94%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>2.8.1 分支结构</h3><p>如果我们想某些代码是在满足条件的情况下, 才能被执行, 此时就需要用到选择结构了, 选择结构也叫分支结构, 主要分为以下两种:</p>
 <ul>
 <li>if语句, 主要用于<code>范围的判断</code></li>
 <li>switch.case语句, 主要用于<code>固定值</code>的判断.</li>
 </ul>
 <p>if分支</p>
-<div class="highlight" id="id-4"><div class="chroma">
+<div class="highlight" id="id-12"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2740,7 +2921,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>switch分支</p>
-<div class="highlight" id="id-5"><div class="chroma">
+<div class="highlight" id="id-13"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2814,7 +2995,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>switch 分支 case穿透，在switch语句中，如果case的后面不写break，将出现case穿透现象，也就是不会在判断下一个case的值，直接向后运行，直到遇到break，或者整体switch结束。</p>
-<div class="highlight" id="id-6"><div class="chroma">
+<div class="highlight" id="id-14"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2890,8 +3071,8 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="282-循环结构" class="heading-element">
-  <a href="#282-%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>1.2 2.8.2 循环结构</h3><p>for循环</p>
-<div class="highlight" id="id-7"><div class="chroma">
+  <a href="#282-%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84" class="heading-mark"></a>2.8.2 循环结构</h3><p>for循环</p>
+<div class="highlight" id="id-1"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2903,7 +3084,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>for循环求1-100之前偶数和</p>
-<div class="highlight" id="id-8"><div class="chroma">
+<div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2941,7 +3122,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>while循环</p>
-<div class="highlight" id="id-9"><div class="chroma">
+<div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2957,7 +3138,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>例子</p>
-<div class="highlight" id="id-10"><div class="chroma">
+<div class="highlight" id="id-4"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2987,7 +3168,7 @@ c0 删除到行首并修改</p>
 <li><code>do {} while(true)</code></li>
 </ul>
 <p>循环跳转: <code>break continue</code></p>
-<div class="highlight" id="id-11"><div class="chroma">
+<div class="highlight" id="id-5"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -3021,7 +3202,7 @@ c0 删除到行首并修改</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>嵌套循环打印99乘法表</p>
-<div class="highlight" id="id-12"><div class="chroma">
+<div class="highlight" id="id-6"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2

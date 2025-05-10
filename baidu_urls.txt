@@ -1,3 +1,4 @@
+https://ipfred.github.io/lang/go/20250510143746/
 https://ipfred.github.io/lang/git/20250425152252/
 https://ipfred.github.io/bigdata/hadoop/20240606150541/
 https://ipfred.github.io/lang/docker/20240511160713/

@@ -13,7 +13,7 @@
 <meta name="description" content="Fred&#39;s Note：探索、分享、记录自己在工作生活学习到一些东西。" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
   <meta itemprop="name" content="Fred的知识库">
   <meta itemprop="description" content="Fred&#39;s Note：探索、分享、记录自己在工作生活学习到一些东西。">
-  <meta itemprop="dateModified" content="2025-04-25T15:55:11+08:00">
+  <meta itemprop="dateModified" content="2025-05-10T16:13:25+08:00">
   <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta property="og:url" content="https://ipfred.github.io/">
   <meta property="og:site_name" content="Fred的知识库">
   <meta property="og:title" content="Fred的知识库">
@@ -223,6 +223,11 @@
     </a><a href="mailto:330446875@qq.com" title="Email" rel=" me"><i class="fa-regular fa-envelope fa-fw" aria-hidden="true"></i>
     </a><a href="/index.xml" title="RSS"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-solid fa-rss fa-fw" aria-hidden="true"></i>
     </a></div><img loading="lazy" src="https://ghchart.rshah.org/ipfred" alt="Fred&#39;s Github chart" data-title="Fred&#39;s Github chart" class="profile-ghchart" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/bigdata/hadoop/a9bc224/">HDFS文件读写过程</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+    Fred</a></span>&nbsp;<span class="post-publish" title='2024-04-24 10:22:48'>发布于 <time datetime="2024-04-24">2024-04-24</time></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-collection" title="合集 - 大数据"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> 大数据</a></span></div><div class="content"></div><div class="post-footer">
+    <a href="/bigdata/hadoop/a9bc224/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/hadoop/' class="post-tag">Hadoop</a></div></div>
+</article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/bigdata/hadoop/hadoop%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84%E4%BD%BF%E7%94%A8/">hadoop命令行的使用</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
     Fred</a></span>&nbsp;<span class="post-publish" title='2024-04-23 22:01:01'>发布于 <time datetime="2024-04-23">2024-04-23</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/project/" class="post-category" title="分类 - 作品集"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 作品集</a> 和 <a href="/collections/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-collection" title="合集 - 大数据"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> 大数据</a></span></div><div class="content">1 HDFS 的命令行使用Hadoop 命令行官方doc hadoop fs: 使用面最广，可以操作任务文件系统，包括本地文件系统、HDFS、FTP、S3等 hdfs dfs: 只能操作HDFS文件系统。 1 2 3 # 下面两种效果是一样的 hdfs dfs -ls /user/hive hadoop fs -ls /user/hive/ 如果操作HDFS文件系统，推荐使用 hdfs dfs,如果需要操作其他系统文件，使用hadoop fs命令 help 1 2 格</div><div class="post-footer">

@@ -9,8 +9,15 @@
     <managingEditor>330446875@qq.com (Fred)</managingEditor>
     <webMaster>330446875@qq.com (Fred)</webMaster>
     <copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright>
-    <lastBuildDate>Fri, 25 Apr 2025 15:25:29 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 10 May 2025 16:13:25 +0800</lastBuildDate>
     <atom:link href="https://ipfred.github.io/lang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go开发环境配置</title>
+      <link>https://ipfred.github.io/lang/go/20250510143746/</link>
+      <pubDate>Sat, 10 May 2025 14:37:46 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/20250510143746/</guid>
+      <description>配置了这么多次go开发环境，每次都踩坑，记录下使用windows系统开发go语言的环境配置，了解go语言的开发环境特点 开发环境： VSCode go 1.24 多版本管理 下载安装 官方下载安装 建议安装到 默认路径下面 C:\Program Files\Go 安装完成后，会发现多了些东西 GOPATH : %USERPROFILE%\go 在用户根目录下 bin 下面是go的一些插件 用vscode开发的时候 会依赖这些插件 pkg</description>
+    </item>
     <item>
       <title>多平台GitHub配置代理</title>
       <link>https://ipfred.github.io/lang/git/20250425152252/</link>

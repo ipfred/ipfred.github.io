@@ -2,11 +2,13 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
   ><url>
-      <loc>https://ipfred.github.io/categories/</loc><lastmod>2025-04-25T15:25:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-      <loc>https://ipfred.github.io/</loc><lastmod>2025-04-25T15:55:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-      <loc>https://ipfred.github.io/categories/github/</loc><lastmod>2025-04-25T15:25:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-      <loc>https://ipfred.github.io/lang/</loc><lastmod>2025-04-25T15:25:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-      <loc>https://ipfred.github.io/lang/git/20250425152252/</loc><lastmod>2025-04-25T15:25:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/categories/</loc><lastmod>2025-05-10T16:13:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/</loc><lastmod>2025-05-10T16:13:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/categories/go/</loc><lastmod>2025-05-10T16:13:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/20250510143746/</loc><lastmod>2025-05-10T16:13:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/</loc><lastmod>2025-05-10T16:13:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/categories/github/</loc><lastmod>2025-04-25T15:25:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
+      <loc>https://ipfred.github.io/lang/git/20250425152252/</loc><lastmod>2025-04-25T15:25:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
       <loc>https://ipfred.github.io/tags/sqoop/</loc><lastmod>2025-01-07T15:35:22&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/bigdata/hadoop/20240606150541/</loc><lastmod>2025-01-07T15:35:22&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/tags/</loc><lastmod>2025-01-07T15:35:22&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -14,8 +16,8 @@
       <loc>https://ipfred.github.io/lang/docker/20240511160713/</loc><lastmod>2024-05-13T14:46:13&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/tags/docker/</loc><lastmod>2024-05-13T15:35:55&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/lang/docker/20240510103849/</loc><lastmod>2024-05-13T15:35:55&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-      <loc>https://ipfred.github.io/db/</loc><lastmod>2025-04-25T15:55:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-      <loc>https://ipfred.github.io/db/20240508165000/</loc><lastmod>2025-04-25T15:55:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/db/</loc><lastmod>2025-04-25T15:55:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
+      <loc>https://ipfred.github.io/db/20240508165000/</loc><lastmod>2025-04-25T15:55:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
       <loc>https://ipfred.github.io/posts/</loc><lastmod>2024-04-30T09:25:55&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/posts/20240428183407/</loc><lastmod>2024-04-30T09:25:55&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/lang/java/20240426133928/</loc><lastmod>2024-04-30T09:00:37&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
