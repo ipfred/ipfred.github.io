@@ -13,7 +13,7 @@
 <meta name="description" content="Fred&#39;s Note：探索、分享、记录自己在工作生活学习到一些东西。" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
   <meta itemprop="name" content="Fred的知识库">
   <meta itemprop="description" content="Fred&#39;s Note：探索、分享、记录自己在工作生活学习到一些东西。">
-  <meta itemprop="dateModified" content="2025-05-15T18:12:47+08:00">
+  <meta itemprop="dateModified" content="2025-05-15T18:39:25+08:00">
   <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta property="og:url" content="https://ipfred.github.io/">
   <meta property="og:site_name" content="Fred的知识库">
   <meta property="og:title" content="Fred的知识库">
@@ -255,7 +255,7 @@
 </article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/lang/go/go_advanced/20250515180303/">17. go执行外部命令</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
-    Fred</a></span>&nbsp;<span class="post-publish" title='2025-05-15 18:03:03'>发布于 <time datetime="2025-05-15">2025-05-15</time></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/" class="post-collection" title="合集 - go高级"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go高级</a></span></div><div class="content">1 执行外部命令 1.1 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&#34;ls&#34;, &#34;-l&#34;, &#34;/var/log/&#34;) err := cmd.Run() if err != nil { log.Fatalf(&#34;cmd.Run() failed with %s\n&#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取</div><div class="post-footer">
+    Fred</a></span>&nbsp;<span class="post-publish" title='2025-05-15 18:03:03'>发布于 <time datetime="2025-05-15">2025-05-15</time></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/" class="post-collection" title="合集 - go高级"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go高级</a></span></div><div class="content">执行外部命令 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&#34;ls&#34;, &#34;-l&#34;, &#34;/var/log/&#34;) err := cmd.Run() if err != nil { log.Fatalf(&#34;cmd.Run() failed with %s\n&#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取不到</div><div class="post-footer">
     <a href="/lang/go/go_advanced/20250515180303/">阅读全文</a></div>
 </article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/lang/go/go_advanced/20250515180259/">16. Go runtime详解</a>

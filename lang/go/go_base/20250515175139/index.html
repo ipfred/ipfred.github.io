@@ -12,7 +12,7 @@
   <meta itemprop="description" content="Context 在 Go http包的Server中，每一个请求在都有一个对应的 goroutine 去处理。请求处理函数通常会启动额外的 goroutine 用来访问后端服务，比如数据库和RPC服务。用来处理一个请求的 goroutine 通常需要访问一些与请求特定的数据，比如终端用户的身份认证信息、验证相关的token、请求的截止时间。 当一个请求被取消或超时时，所有用来处理">
   <meta itemprop="datePublished" content="2025-05-15T17:51:39+08:00">
   <meta itemprop="dateModified" content="2025-05-15T18:12:16+08:00">
-  <meta itemprop="wordCount" content="4794">
+  <meta itemprop="wordCount" content="4805">
   <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
   <meta itemprop="keywords" content="go基础"><meta property="og:url" content="https://ipfred.github.io/lang/go/go_base/20250515175139/">
   <meta property="og:site_name" content="Fred的知识库">
@@ -41,7 +41,7 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/ipfred.github.io\/lang\/go\/go_base\/20250515175139\/"
-    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  4794 ,
+    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  4805 ,
     "url": "https:\/\/ipfred.github.io\/lang\/go\/go_base\/20250515175139\/","datePublished": "2025-05-15T17:51:39+08:00","dateModified": "2025-05-15T18:12:16+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
       "@type": "Organization",
       "name": "ipFred","logo": "https:\/\/ipfred.github.io\/images\/avatar.jpg"},"author": {
@@ -273,7 +273,7 @@
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>11. Context</span>
       </h1></div><div class="post-meta">
       <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
-    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E5%9F%BA%E7%A1%80/" class="post-collection" title="合集 - go基础"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go基础</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 17:51:39"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:16"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="4794 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 10 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="11. Context">
+    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E5%9F%BA%E7%A1%80/" class="post-collection" title="合集 - go基础"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go基础</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 17:51:39"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:16"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="4805 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 10 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="11. Context">
               <i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
             </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
@@ -326,11 +326,11 @@
 <li>在 Go http包的Server中，每一个请求在都有一个对应的 goroutine 去处理。请求处理函数通常会启动额外的 goroutine 用来访问后端服务，比如数据库和RPC服务。用来处理一个请求的 goroutine 通常需要访问一些与请求特定的数据，比如终端用户的身份认证信息、验证相关的token、请求的截止时间。 当一个请求被取消或超时时，所有用来处理该请求的 goroutine 都应该迅速退出，然后系统才能释放这些 goroutine 占用的资源。</li>
 </ul>
 <h2 id="为什么需要context" class="heading-element">
-  <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81context" class="heading-mark"></a>为什么需要Context</h2><ul>
+  <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81context" class="heading-mark"></a>1 为什么需要Context</h2><ul>
 <li>下面以取消一个goroutine做示例说明为什么需要Context</li>
 </ul>
 <h3 id="1-基本示例" class="heading-element">
-  <a href="#1-%e5%9f%ba%e6%9c%ac%e7%a4%ba%e4%be%8b" class="heading-mark"></a>1. 基本示例</h3><div class="highlight" id="id-1"><div class="chroma">
+  <a href="#1-%e5%9f%ba%e6%9c%ac%e7%a4%ba%e4%be%8b" class="heading-mark"></a>1.1 1. 基本示例</h3><div class="highlight" id="id-1"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -394,7 +394,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="2-全局变量方式" class="heading-element">
-  <a href="#2-%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%e6%96%b9%e5%bc%8f" class="heading-mark"></a>2. 全局变量方式</h3><div class="highlight" id="id-2"><div class="chroma">
+  <a href="#2-%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%e6%96%b9%e5%bc%8f" class="heading-mark"></a>1.2 2. 全局变量方式</h3><div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -470,7 +470,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="3-通道方式" class="heading-element">
-  <a href="#3-%e9%80%9a%e9%81%93%e6%96%b9%e5%bc%8f" class="heading-mark"></a>3. 通道方式</h3><div class="highlight" id="id-3"><div class="chroma">
+  <a href="#3-%e9%80%9a%e9%81%93%e6%96%b9%e5%bc%8f" class="heading-mark"></a>1.3 3. 通道方式</h3><div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -552,7 +552,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="4-官方版的方案" class="heading-element">
-  <a href="#4-%e5%ae%98%e6%96%b9%e7%89%88%e7%9a%84%e6%96%b9%e6%a1%88" class="heading-mark"></a>4. 官方版的方案</h3><div class="highlight" id="id-4"><div class="chroma">
+  <a href="#4-%e5%ae%98%e6%96%b9%e7%89%88%e7%9a%84%e6%96%b9%e6%a1%88" class="heading-mark"></a>1.4 4. 官方版的方案</h3><div class="highlight" id="id-4"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -730,7 +730,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="context初识" class="heading-element">
-  <a href="#context%e5%88%9d%e8%af%86" class="heading-mark"></a>Context初识</h2><ul>
+  <a href="#context%e5%88%9d%e8%af%86" class="heading-mark"></a>2 Context初识</h2><ul>
 <li>
 <p>Go1.7加入了一个新的标准库<code>context</code>，它定义了<code>Context</code>类型，<strong>专门用来简化 对于处理单个请求的多个 goroutine 之间与请求域的数据、取消信号、截止时间等相关操作</strong>，这些操作可能涉及多个 API 调用。</p>
 </li>
@@ -739,7 +739,7 @@
 </li>
 </ul>
 <h2 id="context接口" class="heading-element">
-  <a href="#context%e6%8e%a5%e5%8f%a3" class="heading-mark"></a>Context接口</h2><p><code>context.Context</code>是一个接口，该接口定义了四个需要实现的方法。具体签名如下：</p>
+  <a href="#context%e6%8e%a5%e5%8f%a3" class="heading-mark"></a>3 Context接口</h2><p><code>context.Context</code>是一个接口，该接口定义了四个需要实现的方法。具体签名如下：</p>
 <div class="highlight" id="id-6"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -769,7 +769,7 @@
 <li><code>Value</code>方法会从<code>Context</code>中返回键对应的值，对于同一个上下文来说，多次调用<code>Value</code> 并传入相同的<code>Key</code>会返回相同的结果，该方法仅用于传递跨API和进程间跟请求域的数据；</li>
 </ul>
 <h3 id="1-background和todo" class="heading-element">
-  <a href="#1-background%e5%92%8ctodo" class="heading-mark"></a>1. Background()和TODO()</h3><p>Go内置两个函数：<code>Background()</code>和<code>TODO()</code>，这两个函数分别返回一个实现了<code>Context</code>接口的<code>background</code>和<code>todo</code>。我们代码中最开始都是以这两个内置的上下文对象作为最顶层的<code>partent context</code>，衍生出更多的子上下文对象。</p>
+  <a href="#1-background%e5%92%8ctodo" class="heading-mark"></a>3.1 1. Background()和TODO()</h3><p>Go内置两个函数：<code>Background()</code>和<code>TODO()</code>，这两个函数分别返回一个实现了<code>Context</code>接口的<code>background</code>和<code>todo</code>。我们代码中最开始都是以这两个内置的上下文对象作为最顶层的<code>partent context</code>，衍生出更多的子上下文对象。</p>
 <ul>
 <li>
 <p><code>Background()</code>主要用于main函数、初始化以及测试代码中，作为Context这个树结构的最顶层的Context，也就是根Context。</p>
@@ -782,8 +782,8 @@
 </li>
 </ul>
 <h2 id="with系列函数" class="heading-element">
-  <a href="#with%e7%b3%bb%e5%88%97%e5%87%bd%e6%95%b0" class="heading-mark"></a>With系列函数</h2><h3 id="1-withcancel" class="heading-element">
-  <a href="#1-withcancel" class="heading-mark"></a>1. WithCancel</h3><ul>
+  <a href="#with%e7%b3%bb%e5%88%97%e5%87%bd%e6%95%b0" class="heading-mark"></a>4 With系列函数</h2><h3 id="1-withcancel" class="heading-element">
+  <a href="#1-withcancel" class="heading-mark"></a>4.1 1. WithCancel</h3><ul>
 <li><code>WithCancel</code>的函数签名如下：</li>
 </ul>
 <div class="highlight" id="id-7"><div class="chroma">
@@ -862,7 +862,7 @@
 <li>上面的示例代码中，<code>gen</code>函数在单独的goroutine中生成整数并将它们发送到返回的通道。 gen的调用者在使用生成的整数之后需要取消上下文，以免<code>gen</code>启动的内部goroutine发生泄漏。</li>
 </ul>
 <h3 id="2-withdeadline" class="heading-element">
-  <a href="#2-withdeadline" class="heading-mark"></a>2. WithDeadline</h3><ul>
+  <a href="#2-withdeadline" class="heading-mark"></a>4.2 2. WithDeadline</h3><ul>
 <li><code>WithDeadline</code>的函数签名如下：</li>
 </ul>
 <div class="highlight" id="id-9"><div class="chroma">
@@ -919,10 +919,10 @@
 <li>上面的代码中，定义了一个50毫秒之后过期的deadline，然后我们调用<code>context.WithDeadline(context.Background(), d)</code>得到一个上下文（ctx）和一个取消函数（cancel），然后使用一个select让主程序陷入等待：等待1秒后打印<code>overslept</code>退出或者等待ctx过期后退出。 因为ctx50秒后就过期，所以<code>ctx.Done()</code>会先接收到值，上面的代码会打印ctx.Err()取消原因。</li>
 </ul>
 <h3 id="3-withtimeout" class="heading-element">
-  <a href="#3-withtimeout" class="heading-mark"></a>0.1 3. WithTimeout</h3><ul>
+  <a href="#3-withtimeout" class="heading-mark"></a>4.3 3. WithTimeout</h3><ul>
 <li><code>WithTimeout</code>的函数签名如下：</li>
 </ul>
-<div class="highlight" id="id-1"><div class="chroma">
+<div class="highlight" id="id-11"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -933,7 +933,7 @@
 <ul>
 <li>取消此上下文将释放与其相关的资源，因此代码应该在此上下文中运行的操作完成后立即调用cancel，通常用于数据库或者网络连接的超时控制。具体示例如下：</li>
 </ul>
-<div class="highlight" id="id-2"><div class="chroma">
+<div class="highlight" id="id-12"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1017,10 +1017,10 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="4-withvalue" class="heading-element">
-  <a href="#4-withvalue" class="heading-mark"></a>0.2 4. WithValue</h3><ul>
+  <a href="#4-withvalue" class="heading-mark"></a>4.4 4. WithValue</h3><ul>
 <li><code>WithValue</code>函数能够将请求作用域的数据与 Context 对象建立关系。声明如下：</li>
 </ul>
-<div class="highlight" id="id-3"><div class="chroma">
+<div class="highlight" id="id-13"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -1036,7 +1036,7 @@
 <p>所提供的键必须是可比较的，并且不应该是<code>string</code>类型或任何其他内置类型，以避免使用上下文在包之间发生冲突。<code>WithValue</code>的用户应该为键定义自己的类型。为了避免在分配给interface{}时进行分配，上下文键通常具有具体类型<code>struct{}</code>。或者，导出的上下文关键变量的静态类型应该是指针或接口。</p>
 </li>
 </ul>
-<div class="highlight" id="id-4"><div class="chroma">
+<div class="highlight" id="id-14"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1138,7 +1138,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="使用context的注意事项" class="heading-element">
-  <a href="#%e4%bd%bf%e7%94%a8context%e7%9a%84%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9" class="heading-mark"></a>1 使用Context的注意事项</h2><ul>
+  <a href="#%e4%bd%bf%e7%94%a8context%e7%9a%84%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9" class="heading-mark"></a>5 使用Context的注意事项</h2><ul>
 <li>推荐以参数的方式显示传递Context</li>
 <li>以Context作为参数的函数方法，应该把Context作为第一个参数。</li>
 <li>给一个函数方法传递Context的时候，不要传递nil，如果不知道传递什么，就使用context.TODO()</li>
@@ -1146,9 +1146,9 @@
 <li>Context是线程安全的，可以放心的在多个goroutine中传递</li>
 </ul>
 <h2 id="客户端超时取消示例小爬虫" class="heading-element">
-  <a href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e8%b6%85%e6%97%b6%e5%8f%96%e6%b6%88%e7%a4%ba%e4%be%8b%e5%b0%8f%e7%88%ac%e8%99%ab" class="heading-mark"></a>2 客户端超时取消示例(小爬虫)</h2><p>调用服务端API时如何在客户端实现超时控制？</p>
+  <a href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e8%b6%85%e6%97%b6%e5%8f%96%e6%b6%88%e7%a4%ba%e4%be%8b%e5%b0%8f%e7%88%ac%e8%99%ab" class="heading-mark"></a>6 客户端超时取消示例(小爬虫)</h2><p>调用服务端API时如何在客户端实现超时控制？</p>
 <h3 id="server" class="heading-element">
-  <a href="#server" class="heading-mark"></a>2.1 server</h3><div class="highlight" id="id-5"><div class="chroma">
+  <a href="#server" class="heading-mark"></a>6.1 server</h3><div class="highlight" id="id-15"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1214,7 +1214,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="client" class="heading-element">
-  <a href="#client" class="heading-mark"></a>2.2 client</h3><div class="highlight" id="id-6"><div class="chroma">
+  <a href="#client" class="heading-mark"></a>6.2 client</h3><div class="highlight" id="id-16"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1362,16 +1362,16 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="坑" class="heading-element">
-  <a href="#%e5%9d%91" class="heading-mark"></a>3 坑</h2><h3 id="1-withcancel-1" class="heading-element">
-  <a href="#1-withcancel-1" class="heading-mark"></a>3.1 1. WithCancel</h3><ul>
+  <a href="#%e5%9d%91" class="heading-mark"></a>7 坑</h2><h3 id="1-withcancel-1" class="heading-element">
+  <a href="#1-withcancel-1" class="heading-mark"></a>7.1 1. WithCancel</h3><ul>
 <li>withCancel的使用要非常明确程序什么时候被取消</li>
 <li>由于go大量的官方库、第三方库使用了context，所以调用<code>接收context的函数</code>时要小心，要清楚context在什么时候cancel，什么行为会触发cancel</li>
 </ul>
 <h3 id="2-withvalue" class="heading-element">
-  <a href="#2-withvalue" class="heading-mark"></a>3.2 2. WithValue</h3><ul>
+  <a href="#2-withvalue" class="heading-mark"></a>7.2 2. WithValue</h3><ul>
 <li>
 <p>所提供的键必须是可比较的，并且不应该是<code>string</code>类型或任何其他内置类型，以避免使用上下文在包之间发生冲突。<code>WithValue</code>的用户应该为键定义自己的类型。为了避免在分配给interface{}时进行分配，上下文键通常具有具体类型<code>struct{}</code>。或者，导出的上下文关键变量的静态类型应该是指针或接口。</p>
-<div class="highlight" id="id-7"><div class="chroma">
+<div class="highlight" id="id-17"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1393,10 +1393,10 @@
 </div></li>
 </ul>
 <h3 id="3-context-函数传递是值传递" class="heading-element">
-  <a href="#3-context-%e5%87%bd%e6%95%b0%e4%bc%a0%e9%80%92%e6%98%af%e5%80%bc%e4%bc%a0%e9%80%92" class="heading-mark"></a>3.3 3. context 函数传递是值传递</h3><ul>
+  <a href="#3-context-%e5%87%bd%e6%95%b0%e4%bc%a0%e9%80%92%e6%98%af%e5%80%bc%e4%bc%a0%e9%80%92" class="heading-mark"></a>7.3 3. context 函数传递是值传递</h3><ul>
 <li>
 <p>error demo</p>
-<div class="highlight" id="id-8"><div class="chroma">
+<div class="highlight" id="id-18"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2

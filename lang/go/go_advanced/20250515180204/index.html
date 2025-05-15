@@ -12,7 +12,7 @@
   <meta itemprop="description" content="在项目中我们通常可能会使用database/sql连接MySQL数据库。本文借助使用sqlx实现批量插入数据的例子，介绍了sqlx中可能被你忽视了的sqlx.In和DB.NamedExec方法。 一. 基本操作 1. sqlx介绍 在项目中我们通常可能会使用database/sql连接MySQL数据库。sqlx">
   <meta itemprop="datePublished" content="2025-05-15T18:02:04+08:00">
   <meta itemprop="dateModified" content="2025-05-15T18:12:34+08:00">
-  <meta itemprop="wordCount" content="4155">
+  <meta itemprop="wordCount" content="4159">
   <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
   <meta itemprop="keywords" content="go高级"><meta property="og:url" content="https://ipfred.github.io/lang/go/go_advanced/20250515180204/">
   <meta property="og:site_name" content="Fred的知识库">
@@ -41,7 +41,7 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515180204\/"
-    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  4155 ,
+    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  4159 ,
     "url": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515180204\/","datePublished": "2025-05-15T18:02:04+08:00","dateModified": "2025-05-15T18:12:34+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
       "@type": "Organization",
       "name": "ipFred","logo": "https:\/\/ipfred.github.io\/images\/avatar.jpg"},"author": {
@@ -289,7 +289,7 @@
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>8-2.sqlx的使用</span>
       </h1></div><div class="post-meta">
       <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
-    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/" class="post-collection" title="合集 - go高级"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go高级</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 18:02:04"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:34"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="4155 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="8-2.sqlx的使用">
+    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/" class="post-collection" title="合集 - go高级"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go高级</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 18:02:04"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:34"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="4159 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="8-2.sqlx的使用">
               <i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
             </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
@@ -1300,9 +1300,9 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="15-使用namedexec实现批量插入" class="heading-element">
-  <a href="#15-%e4%bd%bf%e7%94%a8namedexec%e5%ae%9e%e7%8e%b0%e6%89%b9%e9%87%8f%e6%8f%92%e5%85%a5" class="heading-mark"></a>1.5 使用NamedExec实现批量插入</h3><p><strong>注意</strong> ：该功能需1.3.1版本以上，并且1.3.1版本目前还有点问题，sql语句最后不能有空格和<code>;</code></p>
+  <a href="#15-%e4%bd%bf%e7%94%a8namedexec%e5%ae%9e%e7%8e%b0%e6%89%b9%e9%87%8f%e6%8f%92%e5%85%a5" class="heading-mark"></a>0.1 1.5 使用NamedExec实现批量插入</h3><p><strong>注意</strong> ：该功能需1.3.1版本以上，并且1.3.1版本目前还有点问题，sql语句最后不能有空格和<code>;</code></p>
 <p>使用<code>NamedExec</code>实现批量插入的代码如下：</p>
-<div class="highlight" id="id-16"><div class="chroma">
+<div class="highlight" id="id-1"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1350,7 +1350,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>把上面三种方法综合起来试一下：</p>
-<div class="highlight" id="id-17"><div class="chroma">
+<div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1410,10 +1410,10 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="2-sqlxin的查询示例" class="heading-element">
-  <a href="#2-sqlxin%e7%9a%84%e6%9f%a5%e8%af%a2%e7%a4%ba%e4%be%8b" class="heading-mark"></a>2. sqlx.In的查询示例</h2><p>关于<code>sqlx.In</code>这里再补充一个用法，在<code>sqlx</code>查询语句中实现In查询和FIND_IN_SET函数。即实现<code>SELECT * FROM user WHERE id in (3, 2, 1);</code>和<code>SELECT * FROM user WHERE id in (3, 2, 1) ORDER BY FIND_IN_SET(id, '3,2,1');</code>。</p>
+  <a href="#2-sqlxin%e7%9a%84%e6%9f%a5%e8%af%a2%e7%a4%ba%e4%be%8b" class="heading-mark"></a>1 2. sqlx.In的查询示例</h2><p>关于<code>sqlx.In</code>这里再补充一个用法，在<code>sqlx</code>查询语句中实现In查询和FIND_IN_SET函数。即实现<code>SELECT * FROM user WHERE id in (3, 2, 1);</code>和<code>SELECT * FROM user WHERE id in (3, 2, 1) ORDER BY FIND_IN_SET(id, '3,2,1');</code>。</p>
 <h3 id="21-in查询" class="heading-element">
-  <a href="#21-in%e6%9f%a5%e8%af%a2" class="heading-mark"></a>2.1 in查询</h3><p>查询id在给定id集合中的数据。</p>
-<div class="highlight" id="id-18"><div class="chroma">
+  <a href="#21-in%e6%9f%a5%e8%af%a2" class="heading-mark"></a>1.1 2.1 in查询</h3><p>查询id在给定id集合中的数据。</p>
+<div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1487,8 +1487,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="22-in查询和find_in_set函数" class="heading-element">
-  <a href="#22-in%e6%9f%a5%e8%af%a2%e5%92%8cfind_in_set%e5%87%bd%e6%95%b0" class="heading-mark"></a>2.2 in查询和FIND_IN_SET函数</h3><p>查询id在给定id集合的数据并维持给定id集合的顺序。</p>
-<div class="highlight" id="id-19"><div class="chroma">
+  <a href="#22-in%e6%9f%a5%e8%af%a2%e5%92%8cfind_in_set%e5%87%bd%e6%95%b0" class="heading-mark"></a>1.2 2.2 in查询和FIND_IN_SET函数</h3><p>查询id在给定id集合的数据并维持给定id集合的顺序。</p>
+<div class="highlight" id="id-4"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2

@@ -77,7 +77,7 @@ func main() {
     u.name = &#34;张三&#34;
     u.lock.Unlock()
 
-    fmt.Println(u)  //&amp;{{0 0} 张三 0}
+    fmt.Println(u)
 }
 ```
 

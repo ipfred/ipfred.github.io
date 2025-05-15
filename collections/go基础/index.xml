@@ -1755,7 +1755,7 @@
   <author>Fred</author>
   <guid>https://ipfred.github.io/lang/go/go_base/20250515175142/</guid>
   <description><![CDATA[<h2 id="编译函数" class="heading-element">
-  <a href="#%e7%bc%96%e8%af%91%e5%87%bd%e6%95%b0" class="heading-mark"></a>编译函数</h2><blockquote>
+  <a href="#%e7%bc%96%e8%af%91%e5%87%bd%e6%95%b0" class="heading-mark"></a>1 编译函数</h2><blockquote>
 <p>Compile函数或MustCompile函数是将正则表达式进行编译，返回优化的 Regexp 结构体</p>
 </blockquote>
 <ol>
@@ -1763,8 +1763,8 @@
 <li><code>MustCompile</code>: 只返回*Regexp类型</li>
 </ol>
 <h2 id="正则匹配" class="heading-element">
-  <a href="#%e6%ad%a3%e5%88%99%e5%8c%b9%e9%85%8d" class="heading-mark"></a>正则匹配</h2><h3 id="1-matchstring" class="heading-element">
-  <a href="#1-matchstring" class="heading-mark"></a>1. MatchString</h3><blockquote>
+  <a href="#%e6%ad%a3%e5%88%99%e5%8c%b9%e9%85%8d" class="heading-mark"></a>2 正则匹配</h2><h3 id="1-matchstring" class="heading-element">
+  <a href="#1-matchstring" class="heading-mark"></a>2.1 1. MatchString</h3><blockquote>
 <p>返回的<strong>第一个参数是bool类型</strong>即匹配结果，<strong>第二个参数是error类型</strong></p>
 </blockquote>
 <ul>
@@ -1785,7 +1785,7 @@
 </div></li>
 </ul>
 <h3 id="2-findstring" class="heading-element">
-  <a href="#2-findstring" class="heading-mark"></a>2. FindString</h3><blockquote>
+  <a href="#2-findstring" class="heading-mark"></a>2.2 2. FindString</h3><blockquote>
 <p><strong>返回一个字符串</strong>，该字符串具有最左边匹配的文本。如果找不到匹配项，则返回空字符串。</p>
 </blockquote>
 <ul>
@@ -1806,7 +1806,7 @@
 </div></li>
 </ul>
 <h3 id="3-findstringindex" class="heading-element">
-  <a href="#3-findstringindex" class="heading-mark"></a>3. FindStringIndex</h3><blockquote>
+  <a href="#3-findstringindex" class="heading-mark"></a>2.3 3. FindStringIndex</h3><blockquote>
 <p>查找第一个匹配<strong>字符串开始</strong>和<strong>结束位置的索引</strong>，而不是匹配内容</p>
 </blockquote>
 <ul>
@@ -1827,7 +1827,7 @@
 </div></li>
 </ul>
 <h3 id="4-findstringsubmatch" class="heading-element">
-  <a href="#4-findstringsubmatch" class="heading-mark"></a>4. FindStringSubmatch</h3><blockquote>
+  <a href="#4-findstringsubmatch" class="heading-mark"></a>2.4 4. FindStringSubmatch</h3><blockquote>
 <p>查找第一个， 返回完全匹配和局部匹配的字符串</p>
 </blockquote>
 <ul>
@@ -1848,7 +1848,7 @@
 </div></li>
 </ul>
 <h3 id="5-findallstring" class="heading-element">
-  <a href="#5-findallstring" class="heading-mark"></a>5. FindAllString</h3><blockquote>
+  <a href="#5-findallstring" class="heading-mark"></a>2.5 5. FindAllString</h3><blockquote>
 <p>查找字符串中所有符合规则的，可以指定个数</p>
 </blockquote>
 <ul>
@@ -1867,7 +1867,7 @@
 </div></li>
 </ul>
 <h3 id="6-findstringindex" class="heading-element">
-  <a href="#6-findstringindex" class="heading-mark"></a>6. FindStringIndex</h3><blockquote>
+  <a href="#6-findstringindex" class="heading-mark"></a>2.6 6. FindStringIndex</h3><blockquote>
 <p>查找全部 匹配<strong>字符串开始</strong>和<strong>结束位置的索引</strong>，而不是匹配内容</p>
 </blockquote>
 <ul>
@@ -1886,7 +1886,7 @@
 </div></li>
 </ul>
 <h3 id="7-findallstringsubmatch" class="heading-element">
-  <a href="#7-findallstringsubmatch" class="heading-mark"></a>7. FindAllStringSubmatch</h3><blockquote>
+  <a href="#7-findallstringsubmatch" class="heading-mark"></a>2.7 7. FindAllStringSubmatch</h3><blockquote>
 <p>返回全部的 完全匹配和局部匹配的字符串，可以指定个数</p>
 </blockquote>
 <ul>
@@ -1905,7 +1905,7 @@
 </div></li>
 </ul>
 <h3 id="7-replaceallstring" class="heading-element">
-  <a href="#7-replaceallstring" class="heading-mark"></a>7. ReplaceAllString</h3><blockquote>
+  <a href="#7-replaceallstring" class="heading-mark"></a>2.8 7. ReplaceAllString</h3><blockquote>
 <p>将匹配的结果，替换成新输入的结果, 没有匹配到返回原string</p>
 </blockquote>
 <ul>
@@ -1924,7 +1924,7 @@
 </div></li>
 </ul>
 <h3 id="8-replaceallfunc" class="heading-element">
-  <a href="#8-replaceallfunc" class="heading-mark"></a>8. ReplaceAllFunc</h3><ul>
+  <a href="#8-replaceallfunc" class="heading-mark"></a>2.9 8. ReplaceAllFunc</h3><ul>
 <li>
 <p>demo</p>
 <div class="highlight" id="id-9"><div class="chroma">
@@ -1956,11 +1956,11 @@
 <li>在 Go http包的Server中，每一个请求在都有一个对应的 goroutine 去处理。请求处理函数通常会启动额外的 goroutine 用来访问后端服务，比如数据库和RPC服务。用来处理一个请求的 goroutine 通常需要访问一些与请求特定的数据，比如终端用户的身份认证信息、验证相关的token、请求的截止时间。 当一个请求被取消或超时时，所有用来处理该请求的 goroutine 都应该迅速退出，然后系统才能释放这些 goroutine 占用的资源。</li>
 </ul>
 <h2 id="为什么需要context" class="heading-element">
-  <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81context" class="heading-mark"></a>为什么需要Context</h2><ul>
+  <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81context" class="heading-mark"></a>1 为什么需要Context</h2><ul>
 <li>下面以取消一个goroutine做示例说明为什么需要Context</li>
 </ul>
 <h3 id="1-基本示例" class="heading-element">
-  <a href="#1-%e5%9f%ba%e6%9c%ac%e7%a4%ba%e4%be%8b" class="heading-mark"></a>1. 基本示例</h3><div class="highlight" id="id-1"><div class="chroma">
+  <a href="#1-%e5%9f%ba%e6%9c%ac%e7%a4%ba%e4%be%8b" class="heading-mark"></a>1.1 1. 基本示例</h3><div class="highlight" id="id-1"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2024,7 +2024,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="2-全局变量方式" class="heading-element">
-  <a href="#2-%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%e6%96%b9%e5%bc%8f" class="heading-mark"></a>2. 全局变量方式</h3><div class="highlight" id="id-2"><div class="chroma">
+  <a href="#2-%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%e6%96%b9%e5%bc%8f" class="heading-mark"></a>1.2 2. 全局变量方式</h3><div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2100,7 +2100,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="3-通道方式" class="heading-element">
-  <a href="#3-%e9%80%9a%e9%81%93%e6%96%b9%e5%bc%8f" class="heading-mark"></a>3. 通道方式</h3><div class="highlight" id="id-3"><div class="chroma">
+  <a href="#3-%e9%80%9a%e9%81%93%e6%96%b9%e5%bc%8f" class="heading-mark"></a>1.3 3. 通道方式</h3><div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2182,7 +2182,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="4-官方版的方案" class="heading-element">
-  <a href="#4-%e5%ae%98%e6%96%b9%e7%89%88%e7%9a%84%e6%96%b9%e6%a1%88" class="heading-mark"></a>4. 官方版的方案</h3><div class="highlight" id="id-4"><div class="chroma">
+  <a href="#4-%e5%ae%98%e6%96%b9%e7%89%88%e7%9a%84%e6%96%b9%e6%a1%88" class="heading-mark"></a>1.4 4. 官方版的方案</h3><div class="highlight" id="id-4"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2360,7 +2360,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="context初识" class="heading-element">
-  <a href="#context%e5%88%9d%e8%af%86" class="heading-mark"></a>Context初识</h2><ul>
+  <a href="#context%e5%88%9d%e8%af%86" class="heading-mark"></a>2 Context初识</h2><ul>
 <li>
 <p>Go1.7加入了一个新的标准库<code>context</code>，它定义了<code>Context</code>类型，<strong>专门用来简化 对于处理单个请求的多个 goroutine 之间与请求域的数据、取消信号、截止时间等相关操作</strong>，这些操作可能涉及多个 API 调用。</p>
 </li>
@@ -2369,7 +2369,7 @@
 </li>
 </ul>
 <h2 id="context接口" class="heading-element">
-  <a href="#context%e6%8e%a5%e5%8f%a3" class="heading-mark"></a>Context接口</h2><p><code>context.Context</code>是一个接口，该接口定义了四个需要实现的方法。具体签名如下：</p>
+  <a href="#context%e6%8e%a5%e5%8f%a3" class="heading-mark"></a>3 Context接口</h2><p><code>context.Context</code>是一个接口，该接口定义了四个需要实现的方法。具体签名如下：</p>
 <div class="highlight" id="id-6"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -2399,7 +2399,7 @@
 <li><code>Value</code>方法会从<code>Context</code>中返回键对应的值，对于同一个上下文来说，多次调用<code>Value</code> 并传入相同的<code>Key</code>会返回相同的结果，该方法仅用于传递跨API和进程间跟请求域的数据；</li>
 </ul>
 <h3 id="1-background和todo" class="heading-element">
-  <a href="#1-background%e5%92%8ctodo" class="heading-mark"></a>1. Background()和TODO()</h3><p>Go内置两个函数：<code>Background()</code>和<code>TODO()</code>，这两个函数分别返回一个实现了<code>Context</code>接口的<code>background</code>和<code>todo</code>。我们代码中最开始都是以这两个内置的上下文对象作为最顶层的<code>partent context</code>，衍生出更多的子上下文对象。</p>
+  <a href="#1-background%e5%92%8ctodo" class="heading-mark"></a>3.1 1. Background()和TODO()</h3><p>Go内置两个函数：<code>Background()</code>和<code>TODO()</code>，这两个函数分别返回一个实现了<code>Context</code>接口的<code>background</code>和<code>todo</code>。我们代码中最开始都是以这两个内置的上下文对象作为最顶层的<code>partent context</code>，衍生出更多的子上下文对象。</p>
 <ul>
 <li>
 <p><code>Background()</code>主要用于main函数、初始化以及测试代码中，作为Context这个树结构的最顶层的Context，也就是根Context。</p>
@@ -2412,8 +2412,8 @@
 </li>
 </ul>
 <h2 id="with系列函数" class="heading-element">
-  <a href="#with%e7%b3%bb%e5%88%97%e5%87%bd%e6%95%b0" class="heading-mark"></a>With系列函数</h2><h3 id="1-withcancel" class="heading-element">
-  <a href="#1-withcancel" class="heading-mark"></a>1. WithCancel</h3><ul>
+  <a href="#with%e7%b3%bb%e5%88%97%e5%87%bd%e6%95%b0" class="heading-mark"></a>4 With系列函数</h2><h3 id="1-withcancel" class="heading-element">
+  <a href="#1-withcancel" class="heading-mark"></a>4.1 1. WithCancel</h3><ul>
 <li><code>WithCancel</code>的函数签名如下：</li>
 </ul>
 <div class="highlight" id="id-7"><div class="chroma">
@@ -2492,7 +2492,7 @@
 <li>上面的示例代码中，<code>gen</code>函数在单独的goroutine中生成整数并将它们发送到返回的通道。 gen的调用者在使用生成的整数之后需要取消上下文，以免<code>gen</code>启动的内部goroutine发生泄漏。</li>
 </ul>
 <h3 id="2-withdeadline" class="heading-element">
-  <a href="#2-withdeadline" class="heading-mark"></a>2. WithDeadline</h3><ul>
+  <a href="#2-withdeadline" class="heading-mark"></a>4.2 2. WithDeadline</h3><ul>
 <li><code>WithDeadline</code>的函数签名如下：</li>
 </ul>
 <div class="highlight" id="id-9"><div class="chroma">
@@ -2549,10 +2549,10 @@
 <li>上面的代码中，定义了一个50毫秒之后过期的deadline，然后我们调用<code>context.WithDeadline(context.Background(), d)</code>得到一个上下文（ctx）和一个取消函数（cancel），然后使用一个select让主程序陷入等待：等待1秒后打印<code>overslept</code>退出或者等待ctx过期后退出。 因为ctx50秒后就过期，所以<code>ctx.Done()</code>会先接收到值，上面的代码会打印ctx.Err()取消原因。</li>
 </ul>
 <h3 id="3-withtimeout" class="heading-element">
-  <a href="#3-withtimeout" class="heading-mark"></a>0.1 3. WithTimeout</h3><ul>
+  <a href="#3-withtimeout" class="heading-mark"></a>4.3 3. WithTimeout</h3><ul>
 <li><code>WithTimeout</code>的函数签名如下：</li>
 </ul>
-<div class="highlight" id="id-1"><div class="chroma">
+<div class="highlight" id="id-11"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -2563,7 +2563,7 @@
 <ul>
 <li>取消此上下文将释放与其相关的资源，因此代码应该在此上下文中运行的操作完成后立即调用cancel，通常用于数据库或者网络连接的超时控制。具体示例如下：</li>
 </ul>
-<div class="highlight" id="id-2"><div class="chroma">
+<div class="highlight" id="id-12"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2647,10 +2647,10 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="4-withvalue" class="heading-element">
-  <a href="#4-withvalue" class="heading-mark"></a>0.2 4. WithValue</h3><ul>
+  <a href="#4-withvalue" class="heading-mark"></a>4.4 4. WithValue</h3><ul>
 <li><code>WithValue</code>函数能够将请求作用域的数据与 Context 对象建立关系。声明如下：</li>
 </ul>
-<div class="highlight" id="id-3"><div class="chroma">
+<div class="highlight" id="id-13"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -2666,7 +2666,7 @@
 <p>所提供的键必须是可比较的，并且不应该是<code>string</code>类型或任何其他内置类型，以避免使用上下文在包之间发生冲突。<code>WithValue</code>的用户应该为键定义自己的类型。为了避免在分配给interface{}时进行分配，上下文键通常具有具体类型<code>struct{}</code>。或者，导出的上下文关键变量的静态类型应该是指针或接口。</p>
 </li>
 </ul>
-<div class="highlight" id="id-4"><div class="chroma">
+<div class="highlight" id="id-14"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2768,7 +2768,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="使用context的注意事项" class="heading-element">
-  <a href="#%e4%bd%bf%e7%94%a8context%e7%9a%84%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9" class="heading-mark"></a>1 使用Context的注意事项</h2><ul>
+  <a href="#%e4%bd%bf%e7%94%a8context%e7%9a%84%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9" class="heading-mark"></a>5 使用Context的注意事项</h2><ul>
 <li>推荐以参数的方式显示传递Context</li>
 <li>以Context作为参数的函数方法，应该把Context作为第一个参数。</li>
 <li>给一个函数方法传递Context的时候，不要传递nil，如果不知道传递什么，就使用context.TODO()</li>
@@ -2776,9 +2776,9 @@
 <li>Context是线程安全的，可以放心的在多个goroutine中传递</li>
 </ul>
 <h2 id="客户端超时取消示例小爬虫" class="heading-element">
-  <a href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e8%b6%85%e6%97%b6%e5%8f%96%e6%b6%88%e7%a4%ba%e4%be%8b%e5%b0%8f%e7%88%ac%e8%99%ab" class="heading-mark"></a>2 客户端超时取消示例(小爬虫)</h2><p>调用服务端API时如何在客户端实现超时控制？</p>
+  <a href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e8%b6%85%e6%97%b6%e5%8f%96%e6%b6%88%e7%a4%ba%e4%be%8b%e5%b0%8f%e7%88%ac%e8%99%ab" class="heading-mark"></a>6 客户端超时取消示例(小爬虫)</h2><p>调用服务端API时如何在客户端实现超时控制？</p>
 <h3 id="server" class="heading-element">
-  <a href="#server" class="heading-mark"></a>2.1 server</h3><div class="highlight" id="id-5"><div class="chroma">
+  <a href="#server" class="heading-mark"></a>6.1 server</h3><div class="highlight" id="id-15"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2844,7 +2844,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="client" class="heading-element">
-  <a href="#client" class="heading-mark"></a>2.2 client</h3><div class="highlight" id="id-6"><div class="chroma">
+  <a href="#client" class="heading-mark"></a>6.2 client</h3><div class="highlight" id="id-16"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -2992,16 +2992,16 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="坑" class="heading-element">
-  <a href="#%e5%9d%91" class="heading-mark"></a>3 坑</h2><h3 id="1-withcancel-1" class="heading-element">
-  <a href="#1-withcancel-1" class="heading-mark"></a>3.1 1. WithCancel</h3><ul>
+  <a href="#%e5%9d%91" class="heading-mark"></a>7 坑</h2><h3 id="1-withcancel-1" class="heading-element">
+  <a href="#1-withcancel-1" class="heading-mark"></a>7.1 1. WithCancel</h3><ul>
 <li>withCancel的使用要非常明确程序什么时候被取消</li>
 <li>由于go大量的官方库、第三方库使用了context，所以调用<code>接收context的函数</code>时要小心，要清楚context在什么时候cancel，什么行为会触发cancel</li>
 </ul>
 <h3 id="2-withvalue" class="heading-element">
-  <a href="#2-withvalue" class="heading-mark"></a>3.2 2. WithValue</h3><ul>
+  <a href="#2-withvalue" class="heading-mark"></a>7.2 2. WithValue</h3><ul>
 <li>
 <p>所提供的键必须是可比较的，并且不应该是<code>string</code>类型或任何其他内置类型，以避免使用上下文在包之间发生冲突。<code>WithValue</code>的用户应该为键定义自己的类型。为了避免在分配给interface{}时进行分配，上下文键通常具有具体类型<code>struct{}</code>。或者，导出的上下文关键变量的静态类型应该是指针或接口。</p>
-<div class="highlight" id="id-7"><div class="chroma">
+<div class="highlight" id="id-17"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -3023,10 +3023,10 @@
 </div></li>
 </ul>
 <h3 id="3-context-函数传递是值传递" class="heading-element">
-  <a href="#3-context-%e5%87%bd%e6%95%b0%e4%bc%a0%e9%80%92%e6%98%af%e5%80%bc%e4%bc%a0%e9%80%92" class="heading-mark"></a>3.3 3. context 函数传递是值传递</h3><ul>
+  <a href="#3-context-%e5%87%bd%e6%95%b0%e4%bc%a0%e9%80%92%e6%98%af%e5%80%bc%e4%bc%a0%e9%80%92" class="heading-mark"></a>7.3 3. context 函数传递是值传递</h3><ul>
 <li>
 <p>error demo</p>
-<div class="highlight" id="id-8"><div class="chroma">
+<div class="highlight" id="id-18"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -6371,7 +6371,7 @@
   <guid>https://ipfred.github.io/lang/go/go_base/20250515175119/</guid>
   <description><![CDATA[<h1 id="并发基础" class="heading-element">
   <a href="#%e5%b9%b6%e5%8f%91%e5%9f%ba%e7%a1%80" class="heading-mark"></a>并发基础</h1><h2 id="1并发并行" class="heading-element">
-  <a href="#1%e5%b9%b6%e5%8f%91%e5%b9%b6%e8%a1%8c" class="heading-mark"></a>1 1.并发,并行</h2><p><code>并发和并行都可以处理“多任务”，二者的主要区别在于是否是“同时进行”多个的任务。</code></p>
+  <a href="#1%e5%b9%b6%e5%8f%91%e5%b9%b6%e8%a1%8c" class="heading-mark"></a>1.并发,并行</h2><p><code>并发和并行都可以处理“多任务”，二者的主要区别在于是否是“同时进行”多个的任务。</code></p>
 <ul>
 <li>
 <p><strong>并发</strong>:交替做不同事情的能力,<strong>不同的代码块交替执行</strong></p>
@@ -6392,7 +6392,7 @@
 </div></li>
 </ul>
 <h2 id="2同步异步" class="heading-element">
-  <a href="#2%e5%90%8c%e6%ad%a5%e5%bc%82%e6%ad%a5" class="heading-mark"></a>2 2.同步,异步</h2><p><code>同步和异步关注的是--消息通信机制--同步与异步是针对应用程序与内核的交互而言的</code></p>
+  <a href="#2%e5%90%8c%e6%ad%a5%e5%bc%82%e6%ad%a5" class="heading-mark"></a>2.同步,异步</h2><p><code>同步和异步关注的是--消息通信机制--同步与异步是针对应用程序与内核的交互而言的</code></p>
 <ul>
 <li>同步:就是在发出一个<strong>调用</strong>时，在没有得到结果之前，该<strong>调用</strong>就不返回。但是一旦调用返回，就得到返回值了。
 <ul>
@@ -6417,7 +6417,7 @@
 </span></span><span class="line"><span class="cl"><span class="n">异步过程中进程触发IO操作以后</span><span class="err">，</span><span class="n">直接返回</span><span class="err">，</span><span class="n">做自己的事情</span><span class="err">，</span><span class="n">IO交给内核来处理</span><span class="err">，</span><span class="n">完成后内核通知进程IO完成</span><span class="err">。</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="3阻塞非阻塞" class="heading-element">
-  <a href="#3%e9%98%bb%e5%a1%9e%e9%9d%9e%e9%98%bb%e5%a1%9e" class="heading-mark"></a>3 3.阻塞,非阻塞</h2><p><code>同步异步是个操作方式，阻塞非阻塞是线程的一种状态。涉及到CPU线程调度</code></p>
+  <a href="#3%e9%98%bb%e5%a1%9e%e9%9d%9e%e9%98%bb%e5%a1%9e" class="heading-mark"></a>3.阻塞,非阻塞</h2><p><code>同步异步是个操作方式，阻塞非阻塞是线程的一种状态。涉及到CPU线程调度</code></p>
 <ul>
 <li>阻塞:调用结果返回前，线程挂起.</li>
 <li>非阻塞:调用不会阻塞线程，而且立即返回.</li>
@@ -6434,7 +6434,7 @@
 </span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="n">非阻塞</span><span class="err">，</span><span class="n">就是在没有获取调用结果时</span><span class="err">，</span><span class="n">不是一直等待</span><span class="err">，</span><span class="n">线程可以往下执行</span><span class="err">，</span><span class="n">如果是同步的</span><span class="err">，</span><span class="n">通过轮询的方式检查有没有调用结果返回</span><span class="err">，</span><span class="n">如果是异步的</span><span class="err">，</span><span class="n">会通知回调</span><span class="err">。</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="4进程线程协程" class="heading-element">
-  <a href="#4%e8%bf%9b%e7%a8%8b%e7%ba%bf%e7%a8%8b%e5%8d%8f%e7%a8%8b" class="heading-mark"></a>4 4.<strong>进程、线程、协程</strong></h2><ul>
+  <a href="#4%e8%bf%9b%e7%a8%8b%e7%ba%bf%e7%a8%8b%e5%8d%8f%e7%a8%8b" class="heading-mark"></a>4.<strong>进程、线程、协程</strong></h2><ul>
 <li>进程，计算机中资源分配的最小单元。 高计算的时候使用多进程</li>
 <li>线程，计算机中被cpu调度的最小单元。</li>
 <li>协程，又称为“微线程”，与进程、线程不同，进程线程是计算机中真实存在，协程是程序员级别人为创造出来的，本质上通过一个线程实现并发的操作。 io多的时候使用线程</li>
@@ -6515,11 +6515,11 @@
 </li>
 </ul>
 <h2 id="1-runtime包" class="heading-element">
-  <a href="#1-runtime%e5%8c%85" class="heading-mark"></a>1 1. runtime包</h2><ul>
+  <a href="#1-runtime%e5%8c%85" class="heading-mark"></a>1. runtime包</h2><ul>
 <li>runtime包是一个小型的任务调度器, 可以高效的将CPU资源分配给每一个任务</li>
 </ul>
 <h3 id="11-gosched" class="heading-element">
-  <a href="#11-gosched" class="heading-mark"></a>1.1 1.1 Gosched</h3><ul>
+  <a href="#11-gosched" class="heading-mark"></a>1.1 Gosched</h3><ul>
 <li>
 <p>runtime.GOsched() 方法会将当前任务单元放弃处理器, 让其他Go协程运行; 等到其他goroutine结束后就会重启改任务单元;</p>
 </li>
@@ -6543,12 +6543,12 @@
 </li>
 </ul>
 <h3 id="22-goexit" class="heading-element">
-  <a href="#22-goexit" class="heading-mark"></a>1.2 2.2 Goexit</h3><ul>
+  <a href="#22-goexit" class="heading-mark"></a>2.2 Goexit</h3><ul>
 <li>runtime.Goexit() 终止调用他的携程, 但是不会影响其他协程, 并在终止之前会调用defer的函数</li>
 <li>main函数调用此方法main函数结束,程序崩溃</li>
 </ul>
 <h3 id="33-gomaxprocs" class="heading-element">
-  <a href="#33-gomaxprocs" class="heading-mark"></a>1.3 3.3 GOMAXPROCS</h3><ul>
+  <a href="#33-gomaxprocs" class="heading-mark"></a>3.3 GOMAXPROCS</h3><ul>
 <li>
 <p><strong>runtime.GOMAXPROCS(n int)函数 可以设置程序在运行中所使用的CPU函数</strong></p>
 </li>
@@ -6560,7 +6560,7 @@
 </li>
 </ul>
 <h2 id="2-syncwaitgroup" class="heading-element">
-  <a href="#2-syncwaitgroup" class="heading-mark"></a>2 2. Sync.WaitGroup</h2><ul>
+  <a href="#2-syncwaitgroup" class="heading-mark"></a>2. Sync.WaitGroup</h2><ul>
 <li>
 <p>等待goroutine结束</p>
 <div class="highlight" id="id-5"><div class="chroma">
@@ -6645,7 +6645,7 @@
 <li>用于多个goroutine的通信, 内部实现了同步, 保证数据安全</li>
 </ul>
 <h2 id="1-channel类型" class="heading-element">
-  <a href="#1-channel%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>1 1. channel类型</h2><ul>
+  <a href="#1-channel%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>1. channel类型</h2><ul>
 <li>
 <p>创建channal类型</p>
 <ul>
@@ -6707,7 +6707,7 @@
 </li>
 </ul>
 <h2 id="2-缓冲机制" class="heading-element">
-  <a href="#2-%e7%bc%93%e5%86%b2%e6%9c%ba%e5%88%b6" class="heading-mark"></a>2 2. 缓冲机制</h2><ul>
+  <a href="#2-%e7%bc%93%e5%86%b2%e6%9c%ba%e5%88%b6" class="heading-mark"></a>2. 缓冲机制</h2><ul>
 <li>
 <p>通道可以分为有缓冲通道和无缓冲通道;</p>
 </li>
@@ -6770,7 +6770,7 @@
 </li>
 </ul>
 <h2 id="3-close和range" class="heading-element">
-  <a href="#3-close%e5%92%8crange" class="heading-mark"></a>3 3. close和range</h2><ul>
+  <a href="#3-close%e5%92%8crange" class="heading-mark"></a>3. close和range</h2><ul>
 <li>
 <p>当发送者知道没有更多的数据发送时, 让接收者知道没有更多的数据可以接收,可以让接收者停止不必要的等待; 可以通过close和range实现</p>
 </li>
@@ -6827,7 +6827,7 @@
 </div></li>
 </ul>
 <h2 id="4-单向channal" class="heading-element">
-  <a href="#4-%e5%8d%95%e5%90%91channal" class="heading-mark"></a>4 4. 单向channal</h2><ul>
+  <a href="#4-%e5%8d%95%e5%90%91channal" class="heading-mark"></a>4. 单向channal</h2><ul>
 <li>
 <p>channal默认是双向的</p>
 </li>
@@ -6887,7 +6887,7 @@
 </div></li>
 </ul>
 <h2 id="5-select" class="heading-element">
-  <a href="#5-select" class="heading-mark"></a>5 5. select</h2><ul>
+  <a href="#5-select" class="heading-mark"></a>5. select</h2><ul>
 <li>
 <p>Select 关键字监听channal的数据流动,select 的用法和switch非常相似</p>
 </li>
@@ -7022,7 +7022,7 @@
   <author>Fred</author>
   <guid>https://ipfred.github.io/lang/go/go_base/20250515175114/</guid>
   <description><![CDATA[<h2 id="读" class="heading-element">
-  <a href="#%e8%af%bb" class="heading-mark"></a>1 读</h2><div class="highlight" id="id-1"><div class="chroma">
+  <a href="#%e8%af%bb" class="heading-mark"></a>读</h2><div class="highlight" id="id-1"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -7086,7 +7086,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="写" class="heading-element">
-  <a href="#%e5%86%99" class="heading-mark"></a>2 写</h2><div class="highlight" id="id-2"><div class="chroma">
+  <a href="#%e5%86%99" class="heading-mark"></a>写</h2><div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -7138,7 +7138,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="读数据库写入csv" class="heading-element">
-  <a href="#%e8%af%bb%e6%95%b0%e6%8d%ae%e5%ba%93%e5%86%99%e5%85%a5csv" class="heading-mark"></a>3 读数据库写入csv</h2><div class="highlight" id="id-3"><div class="chroma">
+  <a href="#%e8%af%bb%e6%95%b0%e6%8d%ae%e5%ba%93%e5%86%99%e5%85%a5csv" class="heading-mark"></a>读数据库写入csv</h2><div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
