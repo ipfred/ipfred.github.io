@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>1-1. GoPath和GoMod | Fred的知识库</title><meta name="author" content="Fred">
+<meta name="author-link" content="https://github.com/ipfred">
+<meta name="description" content="GOPATH1、为什么要配置GOPATH 配置GOPATH的用意是为了方便项目的部署和构建，以及可以直接使用go get 命令下载第三方的包到自己的项目的src下和相关的执行文件bin目录，和中间文件pkg src ：项目的源代码 pkg ：编译后的生成文件 bin ： 编译后的可执行文件 如果你只是想单独的写个go代码可以不设置GOP" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
+  <meta itemprop="name" content="1-1. GoPath和GoMod">
+  <meta itemprop="description" content="GOPATH1、为什么要配置GOPATH 配置GOPATH的用意是为了方便项目的部署和构建，以及可以直接使用go get 命令下载第三方的包到自己的项目的src下和相关的执行文件bin目录，和中间文件pkg src ：项目的源代码 pkg ：编译后的生成文件 bin ： 编译后的可执行文件 如果你只是想单独的写个go代码可以不设置GOP">
+  <meta itemprop="datePublished" content="2025-05-15T17:44:37+08:00">
+  <meta itemprop="dateModified" content="2025-05-15T18:12:16+08:00">
+  <meta itemprop="wordCount" content="4247">
+  <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
+  <meta itemprop="keywords" content="go基础"><meta property="og:url" content="https://ipfred.github.io/lang/go/go_base/20250515174437/">
+  <meta property="og:site_name" content="Fred的知识库">
+  <meta property="og:title" content="1-1. GoPath和GoMod">
+  <meta property="og:description" content="GOPATH1、为什么要配置GOPATH 配置GOPATH的用意是为了方便项目的部署和构建，以及可以直接使用go get 命令下载第三方的包到自己的项目的src下和相关的执行文件bin目录，和中间文件pkg src ：项目的源代码 pkg ：编译后的生成文件 bin ： 编译后的可执行文件 如果你只是想单独的写个go代码可以不设置GOP">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="lang">
+    <meta property="article:published_time" content="2025-05-15T17:44:37+08:00">
+    <meta property="article:modified_time" content="2025-05-15T18:12:16+08:00">
+    <meta property="og:image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta name="twitter:title" content="1-1. GoPath和GoMod">
+<meta name="twitter:description" content="GOPATH1、为什么要配置GOPATH 配置GOPATH的用意是为了方便项目的部署和构建，以及可以直接使用go get 命令下载第三方的包到自己的项目的src下和相关的执行文件bin目录，和中间文件pkg src ：项目的源代码 pkg ：编译后的生成文件 bin ： 编译后的可执行文件 如果你只是想单独的写个go代码可以不设置GOP">
+<meta name="application-name" content="FredKnow">
+<meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://ipfred.github.io/lang/go/go_base/20250515174437/" /><link rel="prev" href="https://ipfred.github.io/lang/go/go_base/20250515174347/" /><link rel="next" href="https://ipfred.github.io/lang/go/go_base/20250515174450/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css"></noscript><link rel="preload" href="https://unpkg.com/animate.css@4.1.1/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "1-1. GoPath和GoMod",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/ipfred.github.io\/lang\/go\/go_base\/20250515174437\/"
+    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  4247 ,
+    "url": "https:\/\/ipfred.github.io\/lang\/go\/go_base\/20250515174437\/","datePublished": "2025-05-15T17:44:37+08:00","dateModified": "2025-05-15T18:12:16+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+      "@type": "Organization",
+      "name": "ipFred","logo": "https:\/\/ipfred.github.io\/images\/avatar.jpg"},"author": {
+        "@type": "Person",
+        "name": "Fred"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper" data-github-corner="right">
+    <div class="header-title">
+      <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="Fred的知识库" data-title="Fred的知识库" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-desktop" class="typeit header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li class="menu-item has-children">
+              <a
+                class="menu-link"
+                href="/lang/"
+                
+                
+              ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/web/"
+                
+                
+              ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="https://files.catbox.moe/mtzx1g.png" data-title="https://files.catbox.moe/mtzx1g.png" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-mobile" class="typeit header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li
+              class="menu-item"
+            ><span class="nested-item">
+                  <a
+                    class="menu-link"
+                    href="/lang/"
+                    
+                    
+                  ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/web/"
+                  
+                  
+                ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><nav aria-label="breadcrumb" class="breadcrumb-container sticky">
+    <ol class="breadcrumb"><li class="breadcrumb-item"><a href="/lang/" title="langs">langs</a></li><li class="breadcrumb-item active" aria-current="page">1-1. GoPath和GoMod</li>
+    </ol>
+  </nav><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"><div class="details collection-details open">
+      <div class="details-summary collection-summary">
+        <i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i>
+        <span class="collection-name" data-collections="合集">go基础</span>
+        <span class="collection-count">26</span><i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></div>
+      <div class="details-content collection-content">
+        <nav>
+          <ul class="collection-list">
+                <li class="collection-item"><a href="/lang/go/20250510143746/" title="go开发环境配置">go开发环境配置</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515174347/" title="1-0. 环境配置">1-0. 环境配置</a></li><li class="collection-item"><span class="active" title="1-1. GoPath和GoMod">1-1. GoPath和GoMod</span></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515174450/" title="2-1. 变量">2-1. 变量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515174507/" title="2-2. 数据类型">2-2. 数据类型</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515174514/" title="2-3. 运算符">2-3. 运算符</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515174522/" title="2-4. 数据类型相关操作">2-4. 数据类型相关操作</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515174529/" title="2-5. 基础语法">2-5. 基础语法</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515174536/" title="3-0. 函数&amp;复合类型">3-0. 函数&amp;复合类型</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515174541/" title="3-1. go指针">3-1. go指针</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515174546/" title="3-2. 函数">3-2. 函数</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175051/" title="3-3. 数组和切片">3-3. 数组和切片</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175056/" title="4-1. 结构体">4-1. 结构体</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175100/" title="4-2. 接口">4-2. 接口</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175106/" title="4-3. 空结构体">4-3. 空结构体</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175110/" title="5-0. 文件操作">5-0. 文件操作</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175114/" title="5-1. go 操作csv">5-1. go 操作csv</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175119/" title="6-1. 并发与通道">6-1. 并发与通道</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175124/" title="6-2. channel 原理和坑">6-2. channel 原理和坑</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175128/" title="7. 反射">7. 反射</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175131/" title="8. nethttp模块">8. nethttp模块</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175134/" title="9. Socket编程">9. Socket编程</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175137/" title="10. 内置函数&amp;库">10. 内置函数&amp;库</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175139/" title="11. Context">11. Context</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175142/" title="12. 正则表达式">12. 正则表达式</a></li>
+                <li class="collection-item"><a href="/lang/go/go_base/20250515175146/" title="13.go 泛型">13.go 泛型</a></li></ul>
+          <div class="collection-nav-simple"><a href="/lang/go/go_base/20250515174347/" class="collection-nav-item" rel="prev" title="1-0. 环境配置"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i></a><span class="text-secondary">3/26</span><a href="/lang/go/go_base/20250515174450/" class="collection-nav-item" rel="next" title="2-1. 变量"><i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+        </nav>
+      </div>
+    </div></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>1-1. GoPath和GoMod</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E5%9F%BA%E7%A1%80/" class="post-collection" title="合集 - go基础"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go基础</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 17:44:37"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:16"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="4247 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="1-1. GoPath和GoMod">
+              <i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+            </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#简单操作">简单操作</a></li>
+    <li><a href="#go-mod命令">go mod命令</a></li>
+    <li><a href="#使用go-mod管理一个新项目">使用go mod管理一个新项目</a>
+      <ol>
+        <li><a href="#1-初始化项目">1. 初始化项目</a></li>
+        <li><a href="#2-添加依赖">2. 添加依赖</a></li>
+      </ol>
+    </li>
+    <li><a href="#go-get升级">go get升级</a></li>
+    <li><a href="#go-mod发布和使用">go mod发布和使用</a>
+      <ol>
+        <li><a href="#creating-a-module">Creating a Module</a></li>
+        <li><a href="#module-versioning">module versioning</a>
+          <ol>
+            <li><a href="#making-a-release">making a release</a></li>
+          </ol>
+        </li>
+        <li><a href="#use-our-module">use our module</a></li>
+        <li><a href="#making-a-bugfix-release">Making a bugfix release</a>
+          <ol>
+            <li><a href="#updating-modules">Updating modules</a></li>
+            <li><a href="#major-versions">Major versions</a></li>
+          </ol>
+        </li>
+        <li><a href="#updating-to-a-major-version">Updating to a major version</a></li>
+        <li><a href="#vendoring">Vendoring</a></li>
+        <li><a href="#idea下开发go">IDEA下开发GO</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+      </div><div class="content" id="content" data-end-flag="（本文完）"><h1 id="gopath" class="heading-element">
+  <a href="#gopath" class="heading-mark"></a>GOPATH</h1><p>1、为什么要配置GOPATH</p>
+<p>配置GOPATH的用意是为了方便项目的部署和构建，以及可以直接使用go get 命令下载第三方的包到自己的项目的src下和相关的执行文件bin目录，和中间文件pkg</p>
+<p>src ：项目的源代码</p>
+<p>pkg ：编译后的生成文件</p>
+<p>bin ： 编译后的可执行文件</p>
+<p>如果你只是想单独的写个go代码可以不设置GOPATH</p>
+<p>2、结合GoLand来讲解GOPATH</p>
+<p>2.1：使用goland创建一个gose项目，（可以不配置GOPATH）</p>
+<p>* 环境变量中我没有配置</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221641.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221641.png?size=small" data-sub-html="<h2>image-20220706221641642</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221641.png" alt="image-20220706221641642" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221641.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221641.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221641.png?size=large 2x" data-title="image-20220706221641642" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>* 新建gose项目</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113900982.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113900982.png?size=small" data-sub-html="<h2>image-20210228113900982</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113900982.png" alt="image-20210228113900982" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113900982.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113900982.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113900982.png?size=large 2x" data-title="image-20210228113900982" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>问1：index entire GOPATH:如果你选中那么我就把你在环境变量中配置的GOPATH信息加到你的项目中，没必要，点取消吧，我们如果真的需要也可以在项目配置中在进行设置</p>
+<p>* 打开项目的File——&gt;settings</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113940306.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113940306.png?size=small" data-sub-html="<h2>image-20210228113940306</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113940306.png" alt="image-20210228113940306" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113940306.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113940306.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20210228113940306.png?size=large 2x" data-title="image-20210228113940306" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>问2：Global GOPATH</p>
+<p>选则你在环境变量中配置的GOPATH路径</p>
+<p>问3：Project GOPATH</p>
+<p>项目的GOPATH,最好不好设置Global GOPATH,因为那你的项目将会使用到所用配置到GOPATH的文件</p>
+<p>问4：Use GOPATH that`s defined in system environment</p>
+<p>如果选中这个，他将使用系统定义的环境变量，并设置到Global GOPATH</p>
+<p>问5：Index entire GOPATH:</p>
+<p>会将当前项目作为gopath</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221741.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221741.png?size=small" data-sub-html="<h2>image-20220706221741165</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221741.png" alt="image-20220706221741165" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221741.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221741.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221741.png?size=large 2x" data-title="image-20220706221741165" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>* 最终的项目结构，也可以使用</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221733.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221733.png?size=small" data-sub-html="<h2>image-20220706221733621</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221733.png" alt="image-20220706221733621" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221733.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221733.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221733.png?size=large 2x" data-title="image-20220706221733621" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h1 id="go-mod" class="heading-element">
+  <a href="#go-mod" class="heading-mark"></a>go mod</h1><h2 id="简单操作" class="heading-element">
+  <a href="#%e7%ae%80%e5%8d%95%e6%93%8d%e4%bd%9c" class="heading-mark"></a>1 简单操作</h2><ul>
+<li>
+<p>go modules 是 golang 1.11 新加的特性。现在1.12 已经发布了，是时候用起来了。Modules官方定义为：</p>
+<blockquote>
+<p>模块是相关Go包的集合。modules是源代码交换和版本控制的单元。 go命令直接支持使用modules，包括记录和解析对其他模块的依赖性。modules替换旧的基于GOPATH的方法来指定在给定构建中使用哪些源文件。</p>
+</blockquote>
+</li>
+<li>
+<p>设置go mod和go proxy</p>
+</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go env -w <span class="nv">GOBIN</span><span class="o">=</span>/Users/youdi/go/bin
+</span></span><span class="line"><span class="cl">go env -w <span class="nv">GO111MODULE</span><span class="o">=</span>on
+</span></span><span class="line"><span class="cl">go env -w <span class="nv">GOPROXY</span><span class="o">=</span>https://goproxy.cn,direct // 使用七牛云的</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意： go env -w会将配置写到  <code>GOENV=&quot;/Users/youdi/Library/Application Support/go/env&quot;</code></p>
+<p>下面看下我的配置</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"><span class="n">GO111MODULE</span><span class="o">=</span><span class="s">&#34;on&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOARCH</span><span class="o">=</span><span class="s">&#34;amd64&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOBIN</span><span class="o">=</span><span class="s">&#34;/Users/youdi/go/bin&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOCACHE</span><span class="o">=</span><span class="s">&#34;/Users/youdi/Library/Caches/go-build&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOENV</span><span class="o">=</span><span class="s">&#34;/Users/youdi/Library/Application Support/go/env&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOEXE</span><span class="o">=</span><span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOFLAGS</span><span class="o">=</span><span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOHOSTARCH</span><span class="o">=</span><span class="s">&#34;amd64&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOHOSTOS</span><span class="o">=</span><span class="s">&#34;darwin&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOINSECURE</span><span class="o">=</span><span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GONOPROXY</span><span class="o">=</span><span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GONOSUMDB</span><span class="o">=</span><span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOOS</span><span class="o">=</span><span class="s">&#34;darwin&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOPATH</span><span class="o">=</span><span class="s">&#34;/Users/youdi/go&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOPRIVATE</span><span class="o">=</span><span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOPROXY</span><span class="o">=</span><span class="s">&#34;https://goproxy.cn,direct&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOROOT</span><span class="o">=</span><span class="s">&#34;/usr/local/go&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOSUMDB</span><span class="o">=</span><span class="s">&#34;off&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOTMPDIR</span><span class="o">=</span><span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOTOOLDIR</span><span class="o">=</span><span class="s">&#34;/usr/local/go/pkg/tool/darwin_amd64&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GCCGO</span><span class="o">=</span><span class="s">&#34;gccgo&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">AR</span><span class="o">=</span><span class="s">&#34;ar&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CC</span><span class="o">=</span><span class="s">&#34;clang&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CXX</span><span class="o">=</span><span class="s">&#34;clang++&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CGO_ENABLED</span><span class="o">=</span><span class="s">&#34;1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOMOD</span><span class="o">=</span><span class="s">&#34;/dev/null&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CGO_CFLAGS</span><span class="o">=</span><span class="s">&#34;-g -O2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CGO_CPPFLAGS</span><span class="o">=</span><span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CGO_CXXFLAGS</span><span class="o">=</span><span class="s">&#34;-g -O2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CGO_FFLAGS</span><span class="o">=</span><span class="s">&#34;-g -O2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CGO_LDFLAGS</span><span class="o">=</span><span class="s">&#34;-g -O2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">PKG_CONFIG</span><span class="o">=</span><span class="s">&#34;pkg-config&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">GOGCCFLAGS</span><span class="o">=</span><span class="s">&#34;-fPIC -m64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmessage-length=0 -fdebug-prefix-map=/var/folders/8m/v_1j4dgs7rzgqq4p_4_8k_nr0000gn/T/go-build221113671=/tmp/go-build -gno-record-gcc-switches -fno-common&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>我们看一下，我修改的内容</li>
+</ul>
+<p><code>cat /Users/youdi/Library/Application Support/go/env</code></p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">GO111MODULE</span><span class="o">=</span>on
+</span></span><span class="line"><span class="cl"><span class="nv">GOBIN</span><span class="o">=</span>/Users/youdi/go/bin
+</span></span><span class="line"><span class="cl"><span class="nv">GOPROXY</span><span class="o">=</span>https://goproxy.cn,direct
+</span></span><span class="line"><span class="cl"><span class="nv">GOSUMDB</span><span class="o">=</span>offGO111MODULE</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>GO111MODULE 有三个值：off, on和auto（默认值）。
+<ul>
+<li>GO111MODULE=off，go命令行将不会支持module功能，寻找依赖包的方式将会沿用旧版本那种通过vendor目录或者GOPATH模式来查找。</li>
+<li>GO111MODULE=on，go命令行会使用modules，而一点也不会去GOPATH目录下查找。</li>
+<li>GO111MODULE=auto，默认值，go命令行将会根据当前目录来决定是否启用module功能。这种情况下可以分为两种情形：</li>
+</ul>
+</li>
+</ul>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">当前目录在GOPATH</span><span class="o">/</span><span class="nx">src之外且该目录包含go</span><span class="p">.</span><span class="nx">mod文件</span>
+</span></span><span class="line"><span class="cl"><span class="nx">当前文件在包含go</span><span class="p">.</span><span class="nx">mod文件的目录下面</span><span class="err">。</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>当modules功能启用时，依赖包的存放位置变更为$GOPATH/pkg，允许同一个package多个版本并存，且多个项目可以共享缓存的 module</p>
+<p>我们看下目录：</p>
+<p>cd /Users/youdi/go/pkg</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="err">├──</span> <span class="nt">darwin_amd64</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="nt">github</span><span class="p">.</span><span class="nc">com</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="nt">go</span><span class="p">.</span><span class="nc">etcd</span><span class="p">.</span><span class="nc">io</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="nt">golang</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="nt">golang</span><span class="p">.</span><span class="nc">org</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="nt">gopkg</span><span class="p">.</span><span class="nc">in</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="nt">quickstart</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">└──</span> <span class="nt">uc</span><span class="p">.</span><span class="nc">a</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="nt">mod</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="nt">cache</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="nt">github</span><span class="p">.</span><span class="nc">com</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="nt">golang</span><span class="p">.</span><span class="nc">org</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="nt">google</span><span class="p">.</span><span class="nc">golang</span><span class="p">.</span><span class="nc">org</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">└──</span> <span class="nt">gopkg</span><span class="p">.</span><span class="nc">in</span>
+</span></span><span class="line"><span class="cl"><span class="err">└──</span> <span class="nt">sumdb</span>
+</span></span><span class="line"><span class="cl">    <span class="err">└──</span> <span class="nt">sum</span><span class="p">.</span><span class="nc">golang</span><span class="p">.</span><span class="nc">org</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="go-mod命令" class="heading-element">
+  <a href="#go-mod%e5%91%bd%e4%bb%a4" class="heading-mark"></a>2 go mod命令</h2><ul>
+<li>
+<p>golang 提供了 <code>go mod</code>命令来管理包。</p>
+</li>
+<li>
+<p>go help mod</p>
+</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Go mod provides access to operations on modules.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Note that support <span class="k">for</span> modules is built into all the go commands,
+</span></span><span class="line"><span class="cl">not just <span class="s1">&#39;go mod&#39;</span>. For example, day-to-day adding, removing, upgrading,
+</span></span><span class="line"><span class="cl">and downgrading of dependencies should be <span class="k">done</span> using <span class="s1">&#39;go get&#39;</span>.
+</span></span><span class="line"><span class="cl">See <span class="s1">&#39;go help modules&#39;</span> <span class="k">for</span> an overview of module functionality.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Usage:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    go mod &lt;command&gt; <span class="o">[</span>arguments<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">The commands are:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    download    download modules to <span class="nb">local</span> cache
+</span></span><span class="line"><span class="cl">    edit        edit go.mod from tools or scripts
+</span></span><span class="line"><span class="cl">    graph       print module requirement graph
+</span></span><span class="line"><span class="cl">    init        initialize new module in current directory
+</span></span><span class="line"><span class="cl">    tidy        add missing and remove unused modules
+</span></span><span class="line"><span class="cl">    vendor      make vendored copy of dependencies
+</span></span><span class="line"><span class="cl">    verify      verify dependencies have expected content
+</span></span><span class="line"><span class="cl">    why         explain why packages or modules are needed
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Use <span class="s2">&#34;go help mod &lt;command&gt;&#34;</span> <span class="k">for</span> more information about a command.</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>go mod 有以下命令：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>download</td>
+<td>download modules to local cache(下载依赖包)</td>
+</tr>
+<tr>
+<td>edit</td>
+<td>edit go.mod from tools or scripts（编辑go.mod)</td>
+</tr>
+<tr>
+<td>graph</td>
+<td>print module requirement graph (打印模块依赖图)</td>
+</tr>
+<tr>
+<td>verify</td>
+<td>initialize new module in current directory（在当前目录初始化mod）</td>
+</tr>
+<tr>
+<td>tidy</td>
+<td>add missing and remove unused modules(拉取缺少的模块，移除不用的模块)</td>
+</tr>
+<tr>
+<td>vendor</td>
+<td>make vendored copy of dependencies(将依赖复制到vendor下)</td>
+</tr>
+<tr>
+<td>verify</td>
+<td>verify dependencies have expected content (验证依赖是否正确）</td>
+</tr>
+<tr>
+<td>why</td>
+<td>explain why packages or modules are needed(解释为什么需要依赖)</td>
+</tr>
+</tbody>
+</table>
+<p>比较常用的是 <code>init</code>,<code>tidy</code>, <code>edit</code></p>
+<h2 id="使用go-mod管理一个新项目" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8go-mod%e7%ae%a1%e7%90%86%e4%b8%80%e4%b8%aa%e6%96%b0%e9%a1%b9%e7%9b%ae" class="heading-mark"></a>3 使用go mod管理一个新项目</h2><h3 id="1-初始化项目" class="heading-element">
+  <a href="#1-%e5%88%9d%e5%a7%8b%e5%8c%96%e9%a1%b9%e7%9b%ae" class="heading-mark"></a>3.1 1. 初始化项目</h3><p>可以随便找一个目录创建项目，我使用习惯用IDEA进行创建</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir Gone
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> Gone
+</span></span><span class="line"><span class="cl">go mod init Gone</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看一下 go.mod文件</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">module</span> <span class="nx">Gone</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">go</span> <span class="mf">1.14</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>go.mod文件一旦创建后，它的内容将会被go toolchain全面掌控。go toolchain会在各类命令执行时，比如go get、go build、go mod等修改和维护go.mod文件。</p>
+<p>go.mod 提供了module, require、replace和exclude 四个命令</p>
+<ul>
+<li><code>module</code> 语句指定包的名字（路径）</li>
+<li><code>require</code> 语句指定的依赖项模块</li>
+<li><code>replace</code> 语句可以替换依赖项模块</li>
+<li><code>exclude</code> 语句可以忽略依赖项模块</li>
+</ul>
+<h3 id="2-添加依赖" class="heading-element">
+  <a href="#2-%e6%b7%bb%e5%8a%a0%e4%be%9d%e8%b5%96" class="heading-mark"></a>3.2 2. 添加依赖</h3><ul>
+<li>创建 main.go文件</li>
+</ul>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">r</span> <span class="o">:=</span> <span class="nx">gin</span><span class="p">.</span><span class="nf">Default</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">r</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/ping&#34;</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">c</span><span class="p">.</span><span class="nf">JSON</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;message&#34;</span><span class="p">:</span> <span class="s">&#34;pong&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">r</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span> <span class="c1">// listen and serve on 0.0.0.0:8080 (for windows &#34;localhost:8080&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>执行 go run main.go 运行代码会发现 go mod 会自动查找依赖自动下载, 再查看 <code>go.mod</code></li>
+</ul>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">module Gone
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">go 1.14
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">require github.com/gin-gonic/gin v1.6.3</span></span></code></pre></td></tr></table>
+</div>
+</div><p>go module 安装 package 的原則是先拉最新的 release tag，若无tag则拉最新的commit</p>
+<p>go 会自动生成一个 go.sum 文件来记录 dependency tree</p>
+<p>再次执行脚本 go run main.go发现跳过了检查并安装依赖的步骤。</p>
+<p>可以使用命令 go list -m -u all 来检查可以升级的package，使用go get -u need-upgrade-package 升级后会将新的依赖版本更新到go.mod * 也可以使用 go get -u 升级所有依赖</p>
+<p>去mod包缓存下看看</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/youdi/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="go-get升级" class="heading-element">
+  <a href="#go-get%e5%8d%87%e7%ba%a7" class="heading-mark"></a>4 go get升级</h2><ul>
+<li>
+<p>运行 go get -u 将会升级到最新的次要版本或者修订版本(x.y.z, z是修订版本号， y是次要版本号)</p>
+</li>
+<li>
+<p>运行 go get -u=patch 将会升级到最新的修订版本</p>
+</li>
+<li>
+<p>运行 go get package@version 将会升级到指定的版本号version</p>
+</li>
+<li>
+<p>运行go get如果有版本的更改，那么go.mod文件也会更改</p>
+</li>
+<li>
+<p><strong>使用replace替换无法直接获取的package</strong></p>
+<ul>
+<li>
+<p>由于某些已知的原因，并不是所有的package都能成功下载，比如：golang.org下的包。</p>
+</li>
+<li>
+<p>modules 可以通过在 go.mod 文件中使用 replace 指令替换成github上对应的库，比如：</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nf">replace</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">golang</span><span class="p">.</span><span class="nx">org</span><span class="o">/</span><span class="nx">x</span><span class="o">/</span><span class="nx">crypto</span> <span class="nx">v0</span><span class="mf">.0.0</span><span class="o">-</span><span class="mi">20190313024323</span><span class="o">-</span><span class="nx">a1f597ede03a</span> <span class="p">=&gt;</span> <span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">golang</span><span class="o">/</span><span class="nx">crypto</span> <span class="nx">v0</span><span class="mf">.0.0</span><span class="o">-</span><span class="mi">20190313024323</span><span class="o">-</span><span class="nx">a1f597ede03a</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="go-mod发布和使用" class="heading-element">
+  <a href="#go-mod%e5%8f%91%e5%b8%83%e5%92%8c%e4%bd%bf%e7%94%a8" class="heading-mark"></a>5 go mod发布和使用</h2><h3 id="creating-a-module" class="heading-element">
+  <a href="#creating-a-module" class="heading-mark"></a>5.1 Creating a Module</h3><p>如果你设置好go mod了，那你就可以在任何目录下随便创建</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">$mkdir</span> gomodone
+</span></span><span class="line"><span class="cl"><span class="nv">$cd</span> gomodone</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在这个目录下创建一个文件<code>say.go</code></p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">gomodone</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// say Hi to someone
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">SayHi</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;Hi, %s&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>初始化一个 <code>go.mod</code>文件</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ go mod init github.com/jacksonyoudi/gomodone
+</span></span><span class="line"><span class="cl">go: creating new go.mod: module github.com/jacksonyoudi/gomodone</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看 go.mod内容如下：</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">jacksonyoudi</span><span class="o">/</span><span class="nx">gomodone</span>
+</span></span><span class="line"><span class="cl"><span class="k">go</span> <span class="mf">1.14</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面我们要将这个module发布到github上，然后在另外一个程序使用</p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">$git</span> init
+</span></span><span class="line"><span class="cl"><span class="nv">$vim</span> .gitiiignore
+</span></span><span class="line"><span class="cl"><span class="nv">$git</span> commit -am <span class="s2">&#34;init&#34;</span>
+</span></span><span class="line"><span class="cl">// github创建对应的repo
+</span></span><span class="line"><span class="cl"><span class="nv">$git</span> remote add origin git@github.com:jacksonyoudi/gomodone.git
+</span></span><span class="line"><span class="cl"><span class="nv">$git</span> push -u origin master</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行完，上面我们就相当于发布完了。</p>
+<p>如果有人需要使用，就可以使用</p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go get github.com/jacksonyoudi/gomodone</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个时候没有加tag，所以，没有版本的控制。默认是v0.0.0后面接上时间和commitid。如下：</p>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gomodone@v0.0.0-20200517004046-ee882713fd1e</span></span></code></pre></td></tr></table>
+</div>
+</div><p>官方不建议这样做，没有进行版本控制管理。</p>
+<h3 id="module-versioning" class="heading-element">
+  <a href="#module-versioning" class="heading-mark"></a>5.2 module versioning</h3><p>使用tag，进行版本控制</p>
+<h4 id="making-a-release" class="heading-element">
+  <a href="#making-a-release" class="heading-mark"></a>5.2.1 making a release</h4><div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git tag v1.0.0
+</span></span><span class="line"><span class="cl">git push --tags</span></span></code></pre></td></tr></table>
+</div>
+</div><p>操作完，我们的module就发布了一个v1.0.0的版本了。</p>
+<p>推荐在这个状态下，再切出一个分支，用于后续v1.0.0的修复推送,不要直接在master分支修复</p>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">$git</span> checkout -b v1
+</span></span><span class="line"><span class="cl"><span class="nv">$git</span> push -u origin v1</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="use-our-module" class="heading-element">
+  <a href="#use-our-module" class="heading-mark"></a>5.3 use our module</h3><p>上面已经发布了一个v1.0.0的版本，我们可以在另一个项目中使用，创建一个go的项目</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">$mkdir</span> Gone
+</span></span><span class="line"><span class="cl"><span class="nv">$cd</span> Gone
+</span></span><span class="line"><span class="cl"><span class="nv">$vim</span> main.go</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/jacksonyoudi/gomodone&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">gomodone</span><span class="p">.</span><span class="nf">SayHi</span><span class="p">(</span><span class="s">&#34;Roberto&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>代码写好了，我们生成 go mod文件</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go mod init Gone</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面命令执行完，会生成 go mod文件
+看下mod文件：</p>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">module Gone
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">go 1.14
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">require <span class="o">(</span>
+</span></span><span class="line"><span class="cl">    github.com/jacksonyoudi/gomodone v1.0.0
+</span></span><span class="line"><span class="cl"><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">$go</span> mod tidy
+</span></span><span class="line"><span class="cl">go: finding module <span class="k">for</span> package github.com/jacksonyoudi/gomodone
+</span></span><span class="line"><span class="cl">go: found github.com/jacksonyoudi/gomodone in github.com/jacksonyoudi/gomodone v1.0.0</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时还生成了go.sum, 其中包含软件包的哈希值，以确保我们具有正确的版本和文件。</p>
+<div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">github.com/jacksonyoudi/gomodone v1.0.1 h1:jFd+qZlAB0R3zqrC9kwO8IgPrAdayMUS0rSHMDc/uG8<span class="o">=</span>
+</span></span><span class="line"><span class="cl">github.com/jacksonyoudi/gomodone v1.0.1/go.mod h1:XWi+BLbuiuC2YM8Qz4yQzTSPtHt3T3hrlNN2pNlyA94<span class="o">=</span>
+</span></span><span class="line"><span class="cl">github.com/jacksonyoudi/gomodone/v2 v2.0.0 h1:GpzGeXCx/Xv2ueiZJ8hEhFwLu7xjxLBjkOYSmg8Ya/w<span class="o">=</span>
+</span></span><span class="line"><span class="cl">github.com/jacksonyoudi/gomodone/v2 v2.0.0/go.mod h1:L8uFPSZNHoAhpaePWUfKmGinjufYdw9c2i70xtBorSw<span class="o">=</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个内容是下面的，需要操作执行的结果</p>
+<p>go run main.go就可以运行了</p>
+<h3 id="making-a-bugfix-release" class="heading-element">
+  <a href="#making-a-bugfix-release" class="heading-mark"></a>5.4 Making a bugfix release</h3><p>假如fix一个bug,我们在v1版本上进行修复</p>
+<p>修改代码如下：</p>
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// say Hi to someone
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">SayHi</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">-</span>       <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;Hi, %s&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">+</span>       <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;Hi, %s!&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>修复好，我们开始push</p>
+<div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git commit -m <span class="s2">&#34;Emphasize our friendliness&#34;</span> say.go
+</span></span><span class="line"><span class="cl">$ git tag v1.0.1
+</span></span><span class="line"><span class="cl">$ git push --tags origin v1</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="updating-modules" class="heading-element">
+  <a href="#updating-modules" class="heading-mark"></a>5.4.1 Updating modules</h4><p>刚才fix bug，所以要在我们使用项目中更新</p>
+<p>这个需要我们手动执行更新module操作</p>
+<p>我们通过使用我们的好朋友来做到这一点go get：</p>
+<ul>
+<li>运行  <code>go get -u</code> 以使用最新的  minor  版本或修补程序版本（即它将从1.0.0更新到例如1.0.1，或者，如果可用，则更新为1.1.0）</li>
+<li>运行  go get -u=patch 以使用最新的  修补程序  版本（即，将更新为1.0.1但不更新  为1.1.0）</li>
+<li>运行go get package@version 以更新到特定版本（例如<a href="https://links.jianshu.com/go?to=http%3A%2F%2Fgithub.com%2Fjacksonyoudi%2Fgomodone%40v1.0.1"target="_blank" rel="external nofollow noopener noreferrer">github.com/jacksonyoudi/gomodone@v1.0.1<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a>）</li>
+</ul>
+<p>目前module最新的也是v1.0.1</p>
+<div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">// 更新最新
+</span></span><span class="line"><span class="cl"><span class="nv">$go</span> get -u
+</span></span><span class="line"><span class="cl"><span class="nv">$go</span> get -u<span class="o">=</span>patch
+</span></span><span class="line"><span class="cl">//指定包，指定版本
+</span></span><span class="line"><span class="cl"><span class="nv">$go</span> get github.com/jacksonyoudi/gomodone@v1.0.1</span></span></code></pre></td></tr></table>
+</div>
+</div><p>操作完，go.mod文件会修改如下:</p>
+<div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">module</span> <span class="nx">Gone</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">go</span> <span class="mf">1.14</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">require</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">jacksonyoudi</span><span class="o">/</span><span class="nx">gomodone</span> <span class="nx">v1</span><span class="mf">.0.1</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="major-versions" class="heading-element">
+  <a href="#major-versions" class="heading-mark"></a>5.4.2 Major versions</h4><p>根据语义版本语义，主要版本与次要版本  不同。主要版本可能会破坏向后兼容性。从Go模块的角度来看，主要版本是  完全不同的软件包。乍一看这听起来很奇怪，但这是有道理的：两个不兼容的库版本是两个不同的库。
+比如下面修改，完全破坏了兼容性。</p>
+<div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">gomodone</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;errors&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Hi returns a friendly greeting
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Hi returns a friendly greeting in language lang
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">SayHi</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">lang</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="nx">lang</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s">&#34;en&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;Hi, %s!&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">),</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s">&#34;pt&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;Oi, %s!&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">),</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s">&#34;es&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;¡Hola, %s!&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">),</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s">&#34;fr&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;Bonjour, %s!&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">),</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;unknown language&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如上，我们需要不同的大版本，这种情况下</p>
+<p>修改 go.mod如下</p>
+<div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">module</span> <span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">jacksonyoudi</span><span class="o">/</span><span class="nx">gomodone</span><span class="o">/</span><span class="nx">v2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">go</span> <span class="mf">1.14</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后，重新tag，push</p>
+<div class="highlight" id="id-34"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git commit say.go -m <span class="s2">&#34;Change Hi to allow multilang&#34;</span>
+</span></span><span class="line"><span class="cl">$ git checkout -b v2 <span class="c1"># 用于v2版本，后续修复v2</span>
+</span></span><span class="line"><span class="cl">$ git commit go.mod -m <span class="s2">&#34;Bump version to v2&#34;</span>
+</span></span><span class="line"><span class="cl">$ git tag v2.0.0
+</span></span><span class="line"><span class="cl">$ git push --tags origin v2 </span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="updating-to-a-major-version" class="heading-element">
+  <a href="#updating-to-a-major-version" class="heading-mark"></a>5.5 Updating to a major version</h3><p>即使发布了库的新不兼容版本，现有软件 也不会中断，因为它将继续使用现有版本1.0.1。go get -u 将不会获得版本2.0.0。
+如果想使用v2.0.0,代码改成如下：</p>
+<div class="highlight" id="id-35"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/jacksonyoudi/gomodone/v2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">g</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">gomodone</span><span class="p">.</span><span class="nf">SayHi</span><span class="p">(</span><span class="s">&#34;Roberto&#34;</span><span class="p">,</span> <span class="s">&#34;pt&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">g</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行 go mod tidy</p>
+<div class="highlight" id="id-36"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go: finding module <span class="k">for</span> package github.com/jacksonyoudi/gomodone/v2
+</span></span><span class="line"><span class="cl">go: downloading github.com/jacksonyoudi/gomodone/v2 v2.0.0
+</span></span><span class="line"><span class="cl">go: found github.com/jacksonyoudi/gomodone/v2 in github.com/jacksonyoudi/gomodone/v2 v2.0.0</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然，两个版本都可以同时使用, 使用别名
+如下：</p>
+<div class="highlight" id="id-37"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/jacksonyoudi/gomodone&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">mv2</span> <span class="s">&#34;github.com/jacksonyoudi/gomodone/v2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">g</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">mv2</span><span class="p">.</span><span class="nf">SayHi</span><span class="p">(</span><span class="s">&#34;Roberto&#34;</span><span class="p">,</span> <span class="s">&#34;pt&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">g</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">gomodone</span><span class="p">.</span><span class="nf">SayHi</span><span class="p">(</span><span class="s">&#34;Roberto&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行一下 <code>go mod tidy</code></p>
+<h3 id="vendoring" class="heading-element">
+  <a href="#vendoring" class="heading-mark"></a>5.6 Vendoring</h3><p>默认是忽略vendor的，如果想在项目目录下有vendor可以执行下面命令</p>
+<div class="highlight" id="id-38"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">$go</span> vendor</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然，如果构建程序的时候，希望使用vendor中的依赖，</p>
+<div class="highlight" id="id-39"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="err">$</span> <span class="k">go</span> <span class="nx">build</span> <span class="o">-</span><span class="nx">mod</span> <span class="nx">vendor</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="idea下开发go" class="heading-element">
+  <a href="#idea%e4%b8%8b%e5%bc%80%e5%8f%91go" class="heading-mark"></a>5.7 IDEA下开发GO</h3><ol>
+<li>
+<p>创建go项目</p>
+</li>
+<li>
+<p>创建完项目，会自动生成go mod文件
+如果需要修改，可以手动修改，加入git等操作</p>
+</li>
+<li>
+<p>写业务逻辑代码</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221837.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221837.png?size=small" data-sub-html="<h2>image-20220706221837753</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221837.png" alt="image-20220706221837753" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221837.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221837.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220706221837.png?size=large 2x" data-title="image-20220706221837753" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p>解决依赖，更新go.mod</p>
+</li>
+</ol>
+</div><div class="post-reward">
+    <div class="comment">Buy me a coffee~</div>
+    <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
+    <label class="reward-button" for="fi-reward">赞赏</label>
+    <div class="reward-ways" data-mode="fixed"><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 支付宝" data-title="Fred 支付宝" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>支付宝</span>
+          </div><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 微信" data-title="Fred 微信" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>微信</span>
+          </div></div>
+  </div><div class="collection-card">
+      <div class="collection-title text-secondary">收录于 <a href="/collections/go%E5%9F%BA%E7%A1%80/"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> <span>合集・go基础</span></span></a> 26</div>
+      <div class="collection-nav"><a href="/lang/go/go_base/20250515174347/" class="collection-nav-item" rel="prev" title="1-0. 环境配置"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i><span>1-0. 环境配置</span>
+          </a><a href="/lang/go/go_base/20250515174450/" class="collection-nav-item" rel="next" title="2-1. 变量">
+            <span>2-1. 变量</span><i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-05-15 18:12:16">更新于 2025-05-15&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/lang/go/go_base/20250515174437/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span><span><a href="https://github.com/ipfred/ipfred.github.io/blob/main/content/lang%5cgo%5cgo_base%5c1-1.%20GoPath%e5%92%8cGoMod.md?plain=1" title="查看源码"target="_blank" rel="external nofollow noopener noreferrer" class="link-to-source">查看源码</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://ipfred.github.io/lang/go/go_base/20250515174437/" data-title="1-1. GoPath和GoMod"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 百度" data-sharer="baidu" data-url="https://ipfred.github.io/lang/go/go_base/20250515174437/" data-title="1-1. GoPath和GoMod"><i data-svg-src="https://unpkg.com/simple-icons@9.19.0/icons/baidu.svg" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/lang/go/go_base/20250515174347/" class="post-nav-item" rel="prev" title="1-0. 环境配置"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>1-0. 环境配置</a>
+      <a href="/lang/go/go_base/20250515174450/" class="post-nav-item" rel="next" title="2-1. 变量">2-1. 变量<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="ipfred/blog_talk"
+            data-repo-id="R_kgDOLxCpPA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDOLxCpPM4Ce1Az"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright order-1" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/ipfred"target="_blank" rel="external nofollow noopener noreferrer">Fred</a></span></div><div class="footer-line statistics order-first"></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><a href="https://github.com/ipfred" title="View source on GitHub"target="_blank" rel="external nofollow" class="github-corner right d-none-mobile"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="https://unpkg.com/lightgallery@2.7.2/css/lightgallery-bundle.min.css"><link rel="preload" href="https://unpkg.com/katex@0.16.9/dist/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/katex@0.16.9/dist/katex.min.css"></noscript><link rel="stylesheet" href="https://unpkg.com/pace-js@1.2.4/themes/green/pace-theme-minimal.css"><script src="https://unpkg.com/autocomplete.js@0.38.1/dist/autocomplete.min.js" defer></script><script src="https://unpkg.com/algoliasearch@4.20.0/dist/algoliasearch-lite.umd.js" defer></script><script src="https://unpkg.com/instant.page@5.2.0/instantpage.js" async defer type="module"></script><script src="https://unpkg.com/lightgallery@2.7.2/lightgallery.min.js" defer></script><script src="https://unpkg.com/lightgallery@2.7.2/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="https://unpkg.com/lightgallery@2.7.2/plugins/zoom/lg-zoom.min.js" defer></script><script src="https://unpkg.com/sharer.js@0.5.1/sharer.min.js" async defer></script><script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/katex.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/auto-render.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/copy-tex.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/mhchem.min.js" defer></script><script src="https://unpkg.com/pangu@4.0.7/dist/browser/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script src="https://unpkg.com/pace-js@1.2.4/pace.min.js" async defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":30},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark_dimmed","lightTheme":"light"}},"data":{"typeit-header-subtitle-desktop":"一个只记录精华知识的平台","typeit-header-subtitle-mobile":"一个只记录精华知识的平台"},"enablePWA":true,"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"algoliaAppID":"TZCN6HKD92","algoliaIndex":"index","algoliaSearchKey":"663832297fb162d0169b237d56275fe2","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-subtitle-desktop":["typeit-header-subtitle-desktop"],"typeit-header-subtitle-mobile":["typeit-header-subtitle-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

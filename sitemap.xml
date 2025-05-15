@@ -2,11 +2,80 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
   ><url>
-      <loc>https://ipfred.github.io/categories/</loc><lastmod>2025-05-10T16:13:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-      <loc>https://ipfred.github.io/</loc><lastmod>2025-05-10T16:13:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-      <loc>https://ipfred.github.io/categories/go/</loc><lastmod>2025-05-10T16:13:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-      <loc>https://ipfred.github.io/lang/go/20250510143746/</loc><lastmod>2025-05-10T16:13:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-      <loc>https://ipfred.github.io/lang/</loc><lastmod>2025-05-10T16:13:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180343/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/collections/</loc><lastmod>2025-05-15T18:12:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/</loc><lastmod>2025-05-15T18:12:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/collections/go%E9%AB%98%E7%BA%A7/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/</loc><lastmod>2025-05-15T18:12:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180323/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180316/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180311/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180308/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180306/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180303/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180259/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180255/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180251/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180247/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180244/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180240/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180234/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180231/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180223/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180217/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180215/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180211/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180208/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180204/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180200/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180156/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180153/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180148/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180144/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180140/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180130/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180123/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180119/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180114/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180101/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180055/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180051/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515180045/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515175219/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515175216/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515175213/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515175210/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515175207/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515175202/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_advanced/20250515175156/</loc><lastmod>2025-05-15T18:12:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175146/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/collections/go%E5%9F%BA%E7%A1%80/</loc><lastmod>2025-05-15T18:12:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175142/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175139/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175137/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175134/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175131/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175128/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175124/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175119/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175114/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175110/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175106/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175100/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175056/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515175051/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515174546/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515174541/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515174536/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515174529/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515174522/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515174514/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515174507/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515174450/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515174437/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/go_base/20250515174347/</loc><lastmod>2025-05-15T18:12:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/lang/go/20250510143746/</loc><lastmod>2025-05-15T18:12:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+      <loc>https://ipfred.github.io/categories/</loc><lastmod>2025-04-25T15:25:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
       <loc>https://ipfred.github.io/categories/github/</loc><lastmod>2025-04-25T15:25:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
       <loc>https://ipfred.github.io/lang/git/20250425152252/</loc><lastmod>2025-04-25T15:25:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
       <loc>https://ipfred.github.io/tags/sqoop/</loc><lastmod>2025-01-07T15:35:22&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -23,7 +92,6 @@
       <loc>https://ipfred.github.io/lang/java/20240426133928/</loc><lastmod>2024-04-30T09:00:37&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/lang/java/20240426111354/</loc><lastmod>2024-04-30T09:00:38&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/web/</loc><lastmod>2024-05-13T15:15:56&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-      <loc>https://ipfred.github.io/collections/</loc><lastmod>2024-04-30T16:53:13&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/collections/hive/</loc><lastmod>2024-04-24T18:02:04&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/bigdata/hive/20240424162208/</loc><lastmod>2024-04-24T18:02:04&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
       <loc>https://ipfred.github.io/tags/hadoop/</loc><lastmod>2024-04-26T09:57:44&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>

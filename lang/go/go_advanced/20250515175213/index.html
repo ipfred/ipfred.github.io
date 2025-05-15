@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>1-5.Go中逃逸现象, 变量&#43;堆栈 | Fred的知识库</title><meta name="author" content="Fred">
+<meta name="author-link" content="https://github.com/ipfred">
+<meta name="description" content="一. 栈和堆 栈内存: 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为局" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
+  <meta itemprop="name" content="1-5.Go中逃逸现象, 变量&#43;堆栈">
+  <meta itemprop="description" content="一. 栈和堆 栈内存: 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为局">
+  <meta itemprop="datePublished" content="2025-05-15T17:52:13+08:00">
+  <meta itemprop="dateModified" content="2025-05-15T18:12:34+08:00">
+  <meta itemprop="wordCount" content="5330">
+  <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
+  <meta itemprop="keywords" content="go高级"><meta property="og:url" content="https://ipfred.github.io/lang/go/go_advanced/20250515175213/">
+  <meta property="og:site_name" content="Fred的知识库">
+  <meta property="og:title" content="1-5.Go中逃逸现象, 变量&#43;堆栈">
+  <meta property="og:description" content="一. 栈和堆 栈内存: 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为局">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="lang">
+    <meta property="article:published_time" content="2025-05-15T17:52:13+08:00">
+    <meta property="article:modified_time" content="2025-05-15T18:12:34+08:00">
+    <meta property="og:image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta name="twitter:title" content="1-5.Go中逃逸现象, 变量&#43;堆栈">
+<meta name="twitter:description" content="一. 栈和堆 栈内存: 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为局">
+<meta name="application-name" content="FredKnow">
+<meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://ipfred.github.io/lang/go/go_advanced/20250515175213/" /><link rel="prev" href="https://ipfred.github.io/lang/go/go_advanced/20250515175210/" /><link rel="next" href="https://ipfred.github.io/lang/go/go_advanced/20250515175216/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css"></noscript><link rel="preload" href="https://unpkg.com/animate.css@4.1.1/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "1-5.Go中逃逸现象, 变量+堆栈",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515175213\/"
+    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  5330 ,
+    "url": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515175213\/","datePublished": "2025-05-15T17:52:13+08:00","dateModified": "2025-05-15T18:12:34+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+      "@type": "Organization",
+      "name": "ipFred","logo": "https:\/\/ipfred.github.io\/images\/avatar.jpg"},"author": {
+        "@type": "Person",
+        "name": "Fred"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper" data-github-corner="right">
+    <div class="header-title">
+      <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="Fred的知识库" data-title="Fred的知识库" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-desktop" class="typeit header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li class="menu-item has-children">
+              <a
+                class="menu-link"
+                href="/lang/"
+                
+                
+              ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/web/"
+                
+                
+              ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="https://files.catbox.moe/mtzx1g.png" data-title="https://files.catbox.moe/mtzx1g.png" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-mobile" class="typeit header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li
+              class="menu-item"
+            ><span class="nested-item">
+                  <a
+                    class="menu-link"
+                    href="/lang/"
+                    
+                    
+                  ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/web/"
+                  
+                  
+                ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><nav aria-label="breadcrumb" class="breadcrumb-container sticky">
+    <ol class="breadcrumb"><li class="breadcrumb-item"><a href="/lang/" title="langs">langs</a></li><li class="breadcrumb-item active" aria-current="page">1-5.Go中逃逸现象, 变量&#43;堆栈</li>
+    </ol>
+  </nav><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"><div class="details collection-details open">
+      <div class="details-summary collection-summary">
+        <i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i>
+        <span class="collection-name" data-collections="合集">go高级</span>
+        <span class="collection-count">42</span><i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></div>
+      <div class="details-content collection-content">
+        <nav>
+          <ul class="collection-list">
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175156/" title="1-1.Go内存管理">1-1.Go内存管理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175202/" title="1-2.Go垃圾回收机制">1-2.Go垃圾回收机制</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175207/" title="1-3.Go语言中的并发编程">1-3.Go语言中的并发编程</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175210/" title="1-4.Go协程调度原理及GPM模型">1-4.Go协程调度原理及GPM模型</a></li><li class="collection-item"><span class="active" title="1-5.Go中逃逸现象, 变量&#43;堆栈">1-5.Go中逃逸现象, 变量&#43;堆栈</span></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175216/" title="1-6.Go面向对象的思维理解interface">1-6.Go面向对象的思维理解interface</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175219/" title="1-7.Go中的Defer">1-7.Go中的Defer</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180045/" title="1-8.Go和Python中的深浅拷贝">1-8.Go和Python中的深浅拷贝</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180051/" title="1-9.Go语言内存对齐">1-9.Go语言内存对齐</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180055/" title="1-10. 内联优化">1-10. 内联优化</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180101/" title="1-11. go条件编译">1-11. go条件编译</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180114/" title="1-12. go链接参数 ldflags">1-12. go链接参数 ldflags</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180119/" title="2-1.流和IO多路复用">2-1.流和IO多路复用</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180123/" title="3.分布式从ACID、CAP、BASE的理论推进">3.分布式从ACID、CAP、BASE的理论推进</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180130/" title="4-1.单点Server的N种并发模型汇总">4-1.单点Server的N种并发模型汇总</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180140/" title="4-2控制goroutine的数量">4-2控制goroutine的数量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180144/" title="5.TCP网络连接以及TIME_WAIT的意义">5.TCP网络连接以及TIME_WAIT的意义</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180148/" title="6-1.配置管理库—Viper">6-1.配置管理库—Viper</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180153/" title="6-2.高性能日志库zap">6-2.高性能日志库zap</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180156/" title="7.Go异常处理">7.Go异常处理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180200/" title="8-1.Go中的Mutex和RWMutex">8-1.Go中的Mutex和RWMutex</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180204/" title="8-2.sqlx的使用">8-2.sqlx的使用</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180208/" title="8-3.分布式id 库snowflake和sonyflake">8-3.分布式id 库snowflake和sonyflake</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180211/" title="8-4. sync.Pool 复用对象">8-4. sync.Pool 复用对象</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180215/" title="8-5. sync.Once 单例模式">8-5. sync.Once 单例模式</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180217/" title="8-6. sync.Cond 条件变量">8-6. sync.Cond 条件变量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180223/" title="9.Go性能调优 pprof">9.Go性能调优 pprof</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180231/" title="11.Go语言设计模式">11.Go语言设计模式</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180234/" title="12-1. unsafe.Pointer和 uintptr">12-1. unsafe.Pointer和 uintptr</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180240/" title="12-2. go 信号量">12-2. go 信号量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180244/" title="13-1.go语言代码优化技巧">13-1.go语言代码优化技巧</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180247/" title="13-2. go 接口型函数">13-2. go 接口型函数</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180251/" title="14.位运算">14.位运算</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180255/" title="15. Go 切片的截取">15. Go 切片的截取</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180259/" title="16. Go runtime详解">16. Go runtime详解</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180303/" title="17. go执行外部命令">17. go执行外部命令</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180306/" title="18. 标准库container三剑客：head、list、ring">18. 标准库container三剑客：head、list、ring</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180308/" title="19.cgo教程">19.cgo教程</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180311/" title="20.go调用lib和so动态库">20.go调用lib和so动态库</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180316/" title="21.go编译参数netgo">21.go编译参数netgo</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180323/" title="22.go与http代理">22.go与http代理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180343/" title="100.习题练习">100.习题练习</a></li></ul>
+          <div class="collection-nav-simple"><a href="/lang/go/go_advanced/20250515175210/" class="collection-nav-item" rel="prev" title="1-4.Go协程调度原理及GPM模型"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i></a><span class="text-secondary">5/42</span><a href="/lang/go/go_advanced/20250515175216/" class="collection-nav-item" rel="next" title="1-6.Go面向对象的思维理解interface"><i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+        </nav>
+      </div>
+    </div></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>1-5.Go中逃逸现象, 变量&#43;堆栈</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/" class="post-collection" title="合集 - go高级"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go高级</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 17:52:13"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:34"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="5330 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 11 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="1-5.Go中逃逸现象, 变量&#43;堆栈">
+              <i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+            </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#1原理">1.原理</a></li>
+    <li><a href="#2区别">2.区别</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#1-new">1. new</a></li>
+    <li><a href="#2-make">2. make</a></li>
+    <li><a href="#3-make与new的异同">3. make与new的异同</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#1-golang编译器得逃逸分析">1. Golang编译器得逃逸分析</a></li>
+    <li><a href="#2-逃逸规则">2. 逃逸规则</a>
+      <ol>
+        <li><a href="#21-逃逸场景1-interface-逃逸">2.1 逃逸场景1 (interface{} 逃逸)</a></li>
+        <li><a href="#22-逃逸场景2-interface-逃逸">2.2 逃逸场景2 (interface{} 逃逸)</a></li>
+        <li><a href="#23-逃逸场景3-interface-逃逸">2.3 逃逸场景3 (interface{} 逃逸)</a></li>
+        <li><a href="#24-逃逸场景4">2.4 逃逸场景4</a></li>
+        <li><a href="#25-逃逸场景5">2.5 逃逸场景5</a></li>
+        <li><a href="#26-逃逸场景6">2.6 逃逸场景6</a></li>
+        <li><a href="#27-逃逸场景7">2.7 逃逸场景7</a></li>
+        <li><a href="#28-逃逸场景8">2.8 逃逸场景8</a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ol>
+    <li><a href="#1-什么情况下内存会泄露">1. 什么情况下内存会泄露</a></li>
+    <li><a href="#2-怎么定位排查内存泄漏问题">2. 怎么定位排查内存泄漏问题</a></li>
+  </ol>
+</nav></div>
+      </div><div class="content" id="content" data-end-flag="（本文完）"><h1 id="一-栈和堆" class="heading-element">
+  <a href="#%e4%b8%80-%e6%a0%88%e5%92%8c%e5%a0%86" class="heading-mark"></a>一. 栈和堆</h1><blockquote>
+<ul>
+<li>
+<p><strong>栈内存:</strong> 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为局部变量的生命周期都很短。但是可分配的内存有限</p>
+</li>
+<li>
+<p>Go语言中的引用类型有func（函数类型），interface（接口类型），slice（切片类型），map（字典类型），channel（管道类型），*（指针类型）等。</p>
+</li>
+<li>
+<p><strong>堆内存:</strong> 存储的是数组和对象（其实数组就是对象），凡是new建立的都是在堆中，堆中存放的都是实体（对象），实体用于封装数据，而且是封装多个（实体的多个属性），如果一个数据消失，这个实体也没有消失，还可以用，所以堆是不会随时释放的，但是栈不一样，栈里存放的都是单个变量，变量被释放了，那就没有了。堆里的实体虽然不会被释放，但是会被当成垃圾通过GC回收.</p>
+</li>
+</ul>
+</blockquote>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202100041939.png" alt="image-20211202100041939" style="zoom:33%;" />
+<h2 id="1原理" class="heading-element">
+  <a href="#1%e5%8e%9f%e7%90%86" class="heading-mark"></a>1 1.原理</h2><ul>
+<li>
+<p>在main函数中<code> var arr = make([]int,9)</code>的定义流程:</p>
+<ol>
+<li>
+<p>主函数先进栈，在栈中定义一个变量arr,接下来为arr赋值，但是右边不是一个具体值，是一个实体。实体创建在堆里，在堆里首先通过new关键字开辟一个空间，内存在存储数据的时候都是通过地址来体现的，地址是一块连续的二进制，然后给这个实体分配一个内存地址。数组都是有一个索引，数组这个实体在堆内存中产生之后每一个空间都会进行默认的初始化（<strong>这是堆内存的特点，未初始化的数据是不能用的</strong>），不同的类型初始化的值不一样。所以堆和栈里就创建了变量和实体：</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png?size=small" data-sub-html="<h2>image-20211202095343255</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png" alt="image-20211202095343255" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png?size=large 2x" data-title="image-20211202095343255" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p>给堆分配了一个地址，把堆的地址赋给arr，arr就通过地址指向了数组。所以arr想操纵数组时，就通过地址，而不是直接把实体都赋给它。这种我们不再叫他基本数据类型，而叫引用数据类型。称为arr引用了堆内存当中的实体。(指针)</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png?size=small" data-sub-html="<h2>image-20211202095324746</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png" alt="image-20211202095324746" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png?size=large 2x" data-title="image-20211202095324746" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+</ol>
+</li>
+<li>
+<p>如果当int [] arr=null;arr不做任何指向，null的作用就是取消引用数据类型的指向。</p>
+</li>
+</ul>
+<h2 id="2区别" class="heading-element">
+  <a href="#2%e5%8c%ba%e5%88%ab" class="heading-mark"></a>2 2.区别</h2><ol>
+<li>
+<p>栈内存存储的是局部变量而堆内存存储的是实体；</p>
+</li>
+<li>
+<p>栈内存的更新速度要快于堆内存，因为局部变量的生命周期很短；</p>
+</li>
+<li>
+<p>栈内存存放的变量生命周期一旦结束就会被释放，而堆内存存放的实体会被垃圾回收机制不定时的回收。</p>
+</li>
+</ol>
+<h1 id="二-make和new的区别" class="heading-element">
+  <a href="#%e4%ba%8c-make%e5%92%8cnew%e7%9a%84%e5%8c%ba%e5%88%ab" class="heading-mark"></a>二. make和new的区别</h1><ul>
+<li>变量的声明我们可以通过var关键字，然后就可以在程序中使用。当我们不指定变量的默认值时，这些变量的默认值是他们的零值，比如int类型的零值是0,string类型的零值是<code>&quot;&quot;</code>，引用类型的零值是<code>nil</code>。</li>
+<li>引用类型的变量，我们不光要声明它，还要为它分配内容空间</li>
+</ul>
+<h2 id="1-new" class="heading-element">
+  <a href="#1-new" class="heading-mark"></a>1 1. new</h2><ul>
+<li>new分配内存。</li>
+<li><code>new</code>只接受一个参数，这个参数是一个类型，分配好内存后，返回一个指向该类型内存地址的指针。同时请注意它同时把分配的内存置为零，也就是类型的零值。</li>
+<li><code>new</code>返回的永远是类型的指针，指向分配类型的内存地址。</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 示例一
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">   <span class="kd">var</span> <span class="nx">i</span> <span class="o">*</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">i</span><span class="p">=</span><span class="nb">new</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="o">*</span><span class="nx">i</span><span class="p">=</span><span class="mi">10</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="o">*</span><span class="nx">i</span><span class="p">)</span>  <span class="c1">//打印10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 示例2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;sync&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">user</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">lock</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">age</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">u</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="c1">//默认给u分配到内存全部为0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="nx">u</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>  <span class="c1">//可以直接使用，因为lock为0,是开锁状态
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">u</span><span class="p">.</span><span class="nx">name</span> <span class="p">=</span> <span class="s">&#34;张三&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">u</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">u</span><span class="p">)</span>  <span class="c1">//&amp;{{0 0} 张三 0}
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="2-make" class="heading-element">
+  <a href="#2-make" class="heading-mark"></a>2 2. make</h2><ul>
+<li>
+<p>make也是用于内存分配的，但是和new不同。</p>
+</li>
+<li>
+<p>只用于chan, map, slice 的内存创建，而且它<strong>返回的类型就是这三个类型本身</strong>，而不是他们的指针类型，因为这三种类型就是引用类型，所以就没有必要返回他们的指针了。</p>
+</li>
+</ul>
+<blockquote>
+<p>注意，因为这三种类型是引用类型，所以必须得初始化，但是不是置为零值，这个和new是不一样的。</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nb">make</span><span class="p">(</span><span class="nx">t</span> <span class="nx">Type</span><span class="p">,</span> <span class="nx">size</span> <span class="o">...</span><span class="nx">IntegerType</span><span class="p">)</span> <span class="nx">Type</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>从函数声明中可以看到，返回的还是该类型。</p>
+</blockquote>
+<h2 id="3-make与new的异同" class="heading-element">
+  <a href="#3-make%e4%b8%8enew%e7%9a%84%e5%bc%82%e5%90%8c" class="heading-mark"></a>3 3. make与new的异同</h2><ul>
+<li>
+<p>相同</p>
+<ul>
+<li>堆空间分配</li>
+</ul>
+</li>
+<li>
+<p>不同</p>
+<ul>
+<li>make: 只用于slice、map以及channel的初始化， 无可替代</li>
+<li>new: 用于类型内存分配(初始化值为0)， 不常用</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>new不常用</p>
+<p>所以有new这个内置函数，可以给我们分配一块内存让我们使用，但是现实的编码中，它是不常用的。我们通常都是采用短语句声明以及结构体的字面量达到我们的目的，比如：</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">i : =0
+</span></span><span class="line"><span class="cl">u := user{}</span></span></code></pre></td></tr></table>
+</div>
+</div></blockquote>
+<blockquote>
+<p>make 无可替代</p>
+<p>我们在使用slice、map以及channel的时候，还是要使用make进行初始化，然后才才可以对他们进行操作。</p>
+</blockquote>
+<h1 id="三-golang中逃逸现象" class="heading-element">
+  <a href="#%e4%b8%89-golang%e4%b8%ad%e9%80%83%e9%80%b8%e7%8e%b0%e8%b1%a1" class="heading-mark"></a>三. Golang中逃逸现象</h1><blockquote>
+<p><strong>栈(Stack)内存:</strong> 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量）</p>
+<p><strong>堆(heap)内存:</strong> 存储的是数组和对象（其实数组就是对象），凡是new建立的都是在堆中，堆中存放的都是实体（对象），实体用于封装数据，而且是封装多个（实体的多个属性），如果一个数据消失，这个实体也没有消失，还可以用，所以堆是不会随时释放的，但是栈不一样，栈里存放的都是单个变量，变量被释放了，那就没有了。堆里的实体虽然不会被释放，但是会被当成垃圾通过GC回收.</p>
+</blockquote>
+<ul>
+<li>
+<p>示例代码</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">foo</span><span class="p">(</span><span class="nx">arg_val</span> <span class="kt">int</span><span class="p">)(</span><span class="o">*</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">foo_val</span> <span class="kt">int</span> <span class="p">=</span> <span class="mi">11</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">foo_val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">main_val</span> <span class="o">:=</span> <span class="nf">foo</span><span class="p">(</span><span class="mi">666</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">println</span><span class="p">(</span><span class="o">*</span><span class="nx">main_val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>函数foo 返回了一个函数内部变量, 在c++中直接报错, 在C/C++中,  外部函数使用了子函数的局部变量, 理论来说,子函数的<code>foo_val</code> 的声明周期早就销毁了才对</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-golang编译器得逃逸分析" class="heading-element">
+  <a href="#1-golang%e7%bc%96%e8%af%91%e5%99%a8%e5%be%97%e9%80%83%e9%80%b8%e5%88%86%e6%9e%90" class="heading-mark"></a>1 1. Golang编译器得逃逸分析</h2><blockquote>
+<ul>
+<li>go语言编译器会自动决定把一个变量放在栈还是放在堆，编译器会做<strong>逃逸分析(escape analysis)</strong>，<strong>当发现变量的作用域没有跑出函数范围，就可以在栈上，反之则必须分配在堆</strong>。</li>
+<li>go语言声称这样可以释放程序员关于内存的使用限制，更多的让程序员关注于程序功能逻辑本身。</li>
+</ul>
+</blockquote>
+<ul>
+<li>
+<p>示例代码</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">foo</span><span class="p">(</span><span class="nx">arg_val</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">foo_val1</span> <span class="kt">int</span> <span class="p">=</span> <span class="mi">11</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">foo_val2</span> <span class="kt">int</span> <span class="p">=</span> <span class="mi">12</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">foo_val3</span> <span class="kt">int</span> <span class="p">=</span> <span class="mi">13</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">foo_val4</span> <span class="kt">int</span> <span class="p">=</span> <span class="mi">14</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">foo_val5</span> <span class="kt">int</span> <span class="p">=</span> <span class="mi">15</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//此处循环是防止go编译器将foo优化成inline(内联函数)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//如果是内联函数，main调用foo将是原地展开，所以foo_val1-5相当于main作用域的变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//即使foo_val3发生逃逸，地址与其他也是连续的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">println</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">arg_val</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">foo_val1</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">foo_val2</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">foo_val3</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">foo_val4</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">foo_val5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//返回foo_val3给main函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">foo_val3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">main_val</span> <span class="o">:=</span> <span class="nf">foo</span><span class="p">(</span><span class="mi">666</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">println</span><span class="p">(</span><span class="o">*</span><span class="nx">main_val</span><span class="p">,</span> <span class="nx">main_val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* 输出结果
+</span></span></span><span class="line"><span class="cl"><span class="cm">$ go run pro_2.go 
+</span></span></span><span class="line"><span class="cl"><span class="cm">0xc000030758 0xc000030738 0xc000030730 0xc000082000 0xc000030728 0xc000030720
+</span></span></span><span class="line"><span class="cl"><span class="cm">0xc000030758 0xc000030738 0xc000030730 0xc000082000 0xc000030728 0xc000030720
+</span></span></span><span class="line"><span class="cl"><span class="cm">0xc000030758 0xc000030738 0xc000030730 0xc000082000 0xc000030728 0xc000030720
+</span></span></span><span class="line"><span class="cl"><span class="cm">0xc000030758 0xc000030738 0xc000030730 0xc000082000 0xc000030728 0xc000030720
+</span></span></span><span class="line"><span class="cl"><span class="cm">0xc000030758 0xc000030738 0xc000030730 0xc000082000 0xc000030728 0xc000030720
+</span></span></span><span class="line"><span class="cl"><span class="cm">13 0xc000082000
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>我们能看到<code>foo_val3</code>是返回给main的局部变量, 其中他的地址应该是<code>0xc000082000</code>,很明显与其他的foo_val1、2、3、4不是连续的.</p>
+</li>
+<li>
+<p>foo_val3是被runtime.newobject()在堆空间开辟的, 而不是像其他几个是基于地址偏移的开辟的栈空间.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-逃逸规则" class="heading-element">
+  <a href="#2-%e9%80%83%e9%80%b8%e8%a7%84%e5%88%99" class="heading-mark"></a>2 2. 逃逸规则</h2><blockquote>
+<ul>
+<li>
+<p>我们其实都知道一个普遍的规则，就是如果变量需要使用堆空间，那么他就应该进行逃逸。但是实际上Golang并不仅仅把逃逸的规则如此泛泛。Golang会有很多场景具备出现逃逸的现象。</p>
+</li>
+<li>
+<p>**一般我们给一个引用类对象中的引用类成员进行赋值，可能出现逃逸现象。**可以理解为访问一个引用对象实际上底层就是通过一个指针来间接的访问了，但如果再访问里面的引用成员就会有第二次间接访问，这样操作这部分对象的话，极大可能会出现逃逸的现象。</p>
+</li>
+<li>
+<p>Go语言中的引用类型有func（函数类型），interface（接口类型），slice（切片类型），map（字典类型），channel（管道类型），*（指针类型）等。</p>
+</li>
+</ul>
+</blockquote>
+<ol>
+<li><strong>指针逃逸:</strong> 指针逃逸应该是最容易理解的一种情况了，即在函数中创建了一个对象，返回了这个对象的指针。这种情况下，函数虽然退出了，但是因为指针的存在，对象的内存不能随着函数结束而回收，因此只能分配在堆上。</li>
+<li>**interface{} 动态类型逃逸:**空接口即 <code>interface{}</code> 可以表示任意的类型，如果函数参数为 <code>interface{}</code>，编译期间很难确定其参数的具体类型，也会发生逃逸。</li>
+<li><strong>栈空间不足:</strong> 操作系统对内核线程使用的栈空间是有大小限制的，64 位系统上通常是 8 MB。可以使用 <code>ulimit -a</code> 命令查看机器上栈允许占用的内存的大小。对于 Go 语言来说，运行时(runtime) 尝试在 goroutine 需要的时候动态地分配栈空间，goroutine 的初始栈大小为 2 KB。当 goroutine 被调度时，会绑定内核线程执行，栈空间大小也不会超过操作系统的限制。</li>
+<li>**闭包:**闭包让你可以在一个内层函数中访问到其外层函数的作用域。变量 n 占用的内存不能随着函数的退出而回收，因此将会逃逸到堆上。</li>
+<li>发送指针的指针或值包含了指针到channel 中，由于在编译阶段无法确定其作用域与传递的路径，所以一般都会逃逸到堆上分配。</li>
+<li>slice 由于 append 操作超出其容量，因此会导致 slice 重新分配。这种情况下，由于在编译时 slice 的初始大小的已知情况下，将会在栈上分配。如果 slice 的底层存储必须基于仅在运行时数据进行扩展，则它将分配在堆上。</li>
+</ol>
+<h3 id="21-逃逸场景1-interface-逃逸" class="heading-element">
+  <a href="#21-%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af1-interface-%e9%80%83%e9%80%b8" class="heading-mark"></a>2.1 2.1 逃逸场景1 (interface{} 逃逸)</h3><p><code>[]interface{}</code>数据类型，通过<code>[]</code>赋值必定会出现逃逸。</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span> <span class="o">:=</span> <span class="p">[]</span><span class="kd">interface</span><span class="p">{}{</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">100</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们通过编译看看逃逸结果</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">aceld:test ldb$ go tool compile -m 1.go
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">1.go:3:6: can inline main
+</span></span><span class="line"><span class="cl">1.go:4:23: <span class="o">[]</span>interface <span class="o">{}{</span>...<span class="o">}</span> does not escape
+</span></span><span class="line"><span class="cl">1.go:4:24: <span class="m">100</span> does not escape
+</span></span><span class="line"><span class="cl">1.go:4:29: <span class="m">200</span> does not escape
+</span></span><span class="line"><span class="cl">1.go:6:10: <span class="m">100</span> escapes to heap</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们能看到，<code>data[0] = 100</code> 发生了逃逸现象。</p>
+<h3 id="22-逃逸场景2-interface-逃逸" class="heading-element">
+  <a href="#22-%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af2-interface-%e9%80%83%e9%80%b8" class="heading-mark"></a>2.2 2.2 逃逸场景2 (interface{} 逃逸)</h3><p><code>map[string]interface{}</code>类型尝试通过赋值，必定会出现逃逸。</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{})</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="p">[</span><span class="s">&#34;key&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="mi">200</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们通过编译看看逃逸结果</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">aceld:test ldb$ go tool compile -m 2.go
+</span></span><span class="line"><span class="cl">2.go:3:6: can inline main
+</span></span><span class="line"><span class="cl">2.go:4:14: make<span class="o">(</span>map<span class="o">[</span>string<span class="o">]</span>interface <span class="o">{})</span> does not escape
+</span></span><span class="line"><span class="cl">2.go:6:14: <span class="m">200</span> escapes to heap</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们能看到，<code>data[&quot;key&quot;] = 200</code> 发生了逃逸。</p>
+<h3 id="23-逃逸场景3-interface-逃逸" class="heading-element">
+  <a href="#23-%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af3-interface-%e9%80%83%e9%80%b8" class="heading-mark"></a>2.3 2.3 逃逸场景3 (interface{} 逃逸)</h3><p><code>map[interface{}]interface{}</code>类型尝试通过赋值，会导致key和value的赋值，出现逃逸。</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kd">interface</span><span class="p">{}]</span><span class="kd">interface</span><span class="p">{})</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span> <span class="p">=</span> <span class="mi">200</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们通过编译看看逃逸结果</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">aceld:test ldb$ go tool compile -m 3.go
+</span></span><span class="line"><span class="cl">3.go:3:6: can inline main
+</span></span><span class="line"><span class="cl">3.go:4:14: make<span class="o">(</span>map<span class="o">[</span>interface <span class="o">{}]</span>interface <span class="o">{})</span> does not escape
+</span></span><span class="line"><span class="cl">3.go:6:6: <span class="m">100</span> escapes to heap
+</span></span><span class="line"><span class="cl">3.go:6:12: <span class="m">200</span> escapes to heap</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们能看到，<code>data[100] = 200</code> 中，100和200均发生了逃逸。</p>
+<h3 id="24-逃逸场景4" class="heading-element">
+  <a href="#24-%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af4" class="heading-mark"></a>2.4 2.4 逃逸场景4</h3><p><code>map[string][]string</code>数据类型，赋值会发生<code>[]string</code>发生逃逸。</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="p">[</span><span class="s">&#34;key&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;value&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们通过编译看看逃逸结果</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">aceld:test ldb$ go tool compile -m 4.go
+</span></span><span class="line"><span class="cl">4.go:3:6: can inline main
+</span></span><span class="line"><span class="cl">4.go:4:14: make<span class="o">(</span>map<span class="o">[</span>string<span class="o">][]</span>string<span class="o">)</span> does not escape
+</span></span><span class="line"><span class="cl">4.go:6:24: <span class="o">[]</span>string<span class="o">{</span>...<span class="o">}</span> escapes to heap</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们能看到，<code>[]string{...}</code>切片发生了逃逸。</p>
+<h3 id="25-逃逸场景5" class="heading-element">
+  <a href="#25-%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af5" class="heading-mark"></a>2.5 2.5 逃逸场景5</h3><p><code>[]*int</code>数据类型，赋值的右值会发生逃逸现象。</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">a</span> <span class="o">:=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span> <span class="o">:=</span> <span class="p">[]</span><span class="o">*</span><span class="kt">int</span><span class="p">{</span><span class="kc">nil</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">a</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们通过编译看看逃逸结果</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"> aceld:test ldb$ go tool compile -m 5.go
+</span></span><span class="line"><span class="cl">5.go:3:6: can inline main
+</span></span><span class="line"><span class="cl">5.go:4:2: moved to heap: ash
+</span></span><span class="line"><span class="cl">5.go:6:16: <span class="o">[]</span>*int<span class="o">{</span>...<span class="o">}</span> does not escape</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中 <code>moved to heap: a</code>，最终将变量a 移动到了堆上。</p>
+<h3 id="26-逃逸场景6" class="heading-element">
+  <a href="#26-%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af6" class="heading-mark"></a>2.6 2.6 逃逸场景6</h3><p><code>func(*int)</code>函数类型，进行函数赋值，会使传递的形参出现逃逸现象。</p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">foo</span><span class="p">(</span><span class="nx">a</span> <span class="o">*</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span> <span class="o">:=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">f</span> <span class="o">:=</span> <span class="nx">foo</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">f</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们通过编译看看逃逸结果</p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">aceld:test ldb$ go tool compile -m 6.go
+</span></span><span class="line"><span class="cl">6.go:5:6: can inline foo
+</span></span><span class="line"><span class="cl">6.go:12:3: inlining call to foo
+</span></span><span class="line"><span class="cl">6.go:14:13: inlining call to fmt.Println
+</span></span><span class="line"><span class="cl">6.go:5:10: a does not escape
+</span></span><span class="line"><span class="cl">6.go:14:13: data escapes to heap
+</span></span><span class="line"><span class="cl">6.go:14:13: <span class="o">[]</span>interface <span class="o">{}{</span>...<span class="o">}</span> does not escape
+</span></span><span class="line"><span class="cl">:1: .this does not escape</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们会看到data已经被逃逸到堆上。</p>
+<h3 id="27-逃逸场景7" class="heading-element">
+  <a href="#27-%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af7" class="heading-mark"></a>2.7 2.7 逃逸场景7</h3><ul>
+<li><code>func([]string)</code>: 函数类型，进行<code>[]string{&quot;value&quot;}</code>赋值，会使传递的参数出现逃逸现象。</li>
+</ul>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">foo</span><span class="p">(</span><span class="nx">a</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">s</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;aceld&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">foo</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们通过编译看看逃逸结果</p>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">aceld:test ldb$ go tool compile -m 7.go
+</span></span><span class="line"><span class="cl">7.go:5:6: can inline foo
+</span></span><span class="line"><span class="cl">7.go:11:5: inlining call to foo
+</span></span><span class="line"><span class="cl">7.go:13:13: inlining call to fmt.Println
+</span></span><span class="line"><span class="cl">7.go:5:10: a does not escape
+</span></span><span class="line"><span class="cl">7.go:10:15: <span class="o">[]</span>string<span class="o">{</span>...<span class="o">}</span> escapes to heap
+</span></span><span class="line"><span class="cl">7.go:13:13: s escapes to heap
+</span></span><span class="line"><span class="cl">7.go:13:13: <span class="o">[]</span>interface <span class="o">{}{</span>...<span class="o">}</span> does not escape
+</span></span><span class="line"><span class="cl"> :1: .this does not escape</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们看到 <code>s escapes to heap</code>，s被逃逸到堆上。</p>
+<h3 id="28-逃逸场景8" class="heading-element">
+  <a href="#28-%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af8" class="heading-mark"></a>2.8 2.8 逃逸场景8</h3><ul>
+<li><code>chan []string</code>数据类型，想当前channel中传输<code>[]string{&quot;value&quot;}</code>会发生逃逸现象。</li>
+</ul>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">ch</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">s</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;aceld&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">ch</span> <span class="o">&lt;-</span> <span class="nx">s</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们通过编译看看逃逸结果</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">aceld:test ldb$ go tool compile -m 8.go
+</span></span><span class="line"><span class="cl">8.go:8:5: can inline main.func1
+</span></span><span class="line"><span class="cl">8.go:6:15: <span class="o">[]</span>string<span class="o">{</span>...<span class="o">}</span> escapes to heap
+</span></span><span class="line"><span class="cl">8.go:8:5: func literal escapes to heap</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们看到<code>[]string{...} escapes to heap</code>, s被逃逸到堆上。</p>
+<h1 id="四-内存溢出" class="heading-element">
+  <a href="#%e5%9b%9b-%e5%86%85%e5%ad%98%e6%ba%a2%e5%87%ba" class="heading-mark"></a>四. 内存溢出</h1><h2 id="1-什么情况下内存会泄露" class="heading-element">
+  <a href="#1-%e4%bb%80%e4%b9%88%e6%83%85%e5%86%b5%e4%b8%8b%e5%86%85%e5%ad%98%e4%bc%9a%e6%b3%84%e9%9c%b2" class="heading-mark"></a>1 1. 什么情况下内存会泄露</h2><ul>
+<li>go 中的内存泄漏一般都是 goroutine 泄漏，就是 goroutine 没有被关闭，或者没有添加超时控制，让 goroutine 一直处于阻塞状态，不能被 GC。</li>
+</ul>
+<ol>
+<li>
+<p>如果 goroutine 在执行时被阻塞而无法退出，就会导致 goroutine 的内存泄漏，一个 goroutine 的最低栈大小为 2KB，在高并发的场景下，对内存的消耗也是非常恐怖的。</p>
+</li>
+<li>
+<p>互斥锁未释放或者造成死锁会造成内存泄漏</p>
+</li>
+<li>
+<p>time.Ticker 是每隔指定的时间就会向通道内写数据。作为循环触发器，必须调用 stop 方法才会停止，从而被 GC 掉，否则会一直占用内存空间。</p>
+</li>
+<li>
+<p>字符串的截取引发临时性的内存泄漏</p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">str0</span> <span class="p">=</span> <span class="s">&#34;12345678901234567890&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">str1</span> <span class="o">:=</span> <span class="nx">str0</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>切片截取引起子切片内存泄漏</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="kd">var</span> <span class="nx">s0</span> <span class="p">=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">s1</span> <span class="o">:=</span> <span class="nx">s0</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>函数数组传参引发内存泄漏</p>
+<ul>
+<li>【如果我们在函数传参的时候用到了数组传参，且这个数组够大（我们假设数组大小为 100 万，64 位机上消耗的内存约为 800w 字节，即 8MB 内存），或者该函数短时间内被调用 N 次，那么可想而知，会消耗大量内存，对性能产生极大的影响，如果短时间内分配大量内存，而又来不及 GC，那么就会产生临时性的内存泄漏，对于高并发场景相当可怕。】</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-怎么定位排查内存泄漏问题" class="heading-element">
+  <a href="#2-%e6%80%8e%e4%b9%88%e5%ae%9a%e4%bd%8d%e6%8e%92%e6%9f%a5%e5%86%85%e5%ad%98%e6%b3%84%e6%bc%8f%e9%97%ae%e9%a2%98" class="heading-mark"></a>2 2. 怎么定位排查内存泄漏问题</h2><ul>
+<li>一般通过 pprof 是 Go 的性能分析工具，在程序运行过程中，可以记录程序的运行信息，可以是 CPU 使用情况、内存使用情况、goroutine 运行情况等，当需要性能调优或者定位 Bug 时候，这些记录的信息是相当重要。</li>
+</ul>
+<h1 id="五-结论" class="heading-element">
+  <a href="#%e4%ba%94-%e7%bb%93%e8%ae%ba" class="heading-mark"></a>五. 结论</h1><ul>
+<li>Golang中一个函数内局部变量，不管是不是动态new出来的，它会被分配在堆还是栈，是由编译器做逃逸分析之后做出的决定。</li>
+<li>go语言不希望程序员关心这些事!</li>
+</ul>
+</div><h2 id="see-also">相关内容</h2>
+    <ul><li>
+          <a href="/lang/go/go_advanced/20250515175202/" title="1-2.Go垃圾回收机制">1-2.Go垃圾回收机制</a></li></ul><div class="post-reward">
+    <div class="comment">Buy me a coffee~</div>
+    <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
+    <label class="reward-button" for="fi-reward">赞赏</label>
+    <div class="reward-ways" data-mode="fixed"><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 支付宝" data-title="Fred 支付宝" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>支付宝</span>
+          </div><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 微信" data-title="Fred 微信" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>微信</span>
+          </div></div>
+  </div><div class="collection-card">
+      <div class="collection-title text-secondary">收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> <span>合集・go高级</span></span></a> 42</div>
+      <div class="collection-nav"><a href="/lang/go/go_advanced/20250515175210/" class="collection-nav-item" rel="prev" title="1-4.Go协程调度原理及GPM模型"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i><span>1-4.Go协程调度原理及GPM模型</span>
+          </a><a href="/lang/go/go_advanced/20250515175216/" class="collection-nav-item" rel="next" title="1-6.Go面向对象的思维理解interface">
+            <span>1-6.Go面向对象的思维理解interface</span><i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-05-15 18:12:34">更新于 2025-05-15&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/lang/go/go_advanced/20250515175213/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span><span><a href="https://github.com/ipfred/ipfred.github.io/blob/main/content/lang%5cgo%5cgo_advanced%5c1-5.Go%e4%b8%ad%e9%80%83%e9%80%b8%e7%8e%b0%e8%b1%a1,%20%e5%8f%98%e9%87%8f&#43;%e5%a0%86%e6%a0%88.md?plain=1" title="查看源码"target="_blank" rel="external nofollow noopener noreferrer" class="link-to-source">查看源码</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://ipfred.github.io/lang/go/go_advanced/20250515175213/" data-title="1-5.Go中逃逸现象, 变量&#43;堆栈"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 百度" data-sharer="baidu" data-url="https://ipfred.github.io/lang/go/go_advanced/20250515175213/" data-title="1-5.Go中逃逸现象, 变量&#43;堆栈"><i data-svg-src="https://unpkg.com/simple-icons@9.19.0/icons/baidu.svg" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/lang/go/go_advanced/20250515175210/" class="post-nav-item" rel="prev" title="1-4.Go协程调度原理及GPM模型"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>1-4.Go协程调度原理及GPM模型</a>
+      <a href="/lang/go/go_advanced/20250515175216/" class="post-nav-item" rel="next" title="1-6.Go面向对象的思维理解interface">1-6.Go面向对象的思维理解interface<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="ipfred/blog_talk"
+            data-repo-id="R_kgDOLxCpPA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDOLxCpPM4Ce1Az"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright order-1" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/ipfred"target="_blank" rel="external nofollow noopener noreferrer">Fred</a></span></div><div class="footer-line statistics order-first"></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><a href="https://github.com/ipfred" title="View source on GitHub"target="_blank" rel="external nofollow" class="github-corner right d-none-mobile"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="https://unpkg.com/lightgallery@2.7.2/css/lightgallery-bundle.min.css"><link rel="preload" href="https://unpkg.com/katex@0.16.9/dist/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/katex@0.16.9/dist/katex.min.css"></noscript><link rel="stylesheet" href="https://unpkg.com/pace-js@1.2.4/themes/green/pace-theme-minimal.css"><script src="https://unpkg.com/autocomplete.js@0.38.1/dist/autocomplete.min.js" defer></script><script src="https://unpkg.com/algoliasearch@4.20.0/dist/algoliasearch-lite.umd.js" defer></script><script src="https://unpkg.com/instant.page@5.2.0/instantpage.js" async defer type="module"></script><script src="https://unpkg.com/lightgallery@2.7.2/lightgallery.min.js" defer></script><script src="https://unpkg.com/lightgallery@2.7.2/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="https://unpkg.com/lightgallery@2.7.2/plugins/zoom/lg-zoom.min.js" defer></script><script src="https://unpkg.com/sharer.js@0.5.1/sharer.min.js" async defer></script><script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/katex.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/auto-render.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/copy-tex.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/mhchem.min.js" defer></script><script src="https://unpkg.com/pangu@4.0.7/dist/browser/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script src="https://unpkg.com/pace-js@1.2.4/pace.min.js" async defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":30},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark_dimmed","lightTheme":"light"}},"data":{"typeit-header-subtitle-desktop":"一个只记录精华知识的平台","typeit-header-subtitle-mobile":"一个只记录精华知识的平台"},"enablePWA":true,"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"algoliaAppID":"TZCN6HKD92","algoliaIndex":"index","algoliaSearchKey":"663832297fb162d0169b237d56275fe2","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-subtitle-desktop":["typeit-header-subtitle-desktop"],"typeit-header-subtitle-mobile":["typeit-header-subtitle-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

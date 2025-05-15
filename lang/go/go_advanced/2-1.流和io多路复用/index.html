@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title> | Fred的知识库</title><meta name="author" content="Fred">
+<meta name="author-link" content="https://github.com/ipfred">
+<meta name="description" content="一. 流, I/O操作, 阻塞 1 1. 流 可以进行I/O操作的内核对象 文件、管道、套接字…… 流的入口：文件描述符(fd) 2 2. I/O操作 所有对流的读写操作，我们都可以称之为IO操作。 当一个流中， 在没有数据read的时候，或者说在流中已经写满了数据，再write，我们的IO操作就会出现一种现象，就是阻塞现象，如下图" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
+  <meta itemprop="name" content="Fred的知识库">
+  <meta itemprop="description" content="一. 流, I/O操作, 阻塞 1 1. 流 可以进行I/O操作的内核对象 文件、管道、套接字…… 流的入口：文件描述符(fd) 2 2. I/O操作 所有对流的读写操作，我们都可以称之为IO操作。 当一个流中， 在没有数据read的时候，或者说在流中已经写满了数据，再write，我们的IO操作就会出现一种现象，就是阻塞现象，如下图">
+  <meta itemprop="dateModified" content="2024-04-23T12:05:08+08:00">
+  <meta itemprop="wordCount" content="4907">
+  <meta itemprop="image" content="http://localhost:1313/images/apple-devices-preview.webp"><meta property="og:url" content="http://localhost:1313/lang/go/go_advanced/2-1.%E6%B5%81%E5%92%8Cio%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/">
+  <meta property="og:site_name" content="Fred的知识库">
+  <meta property="og:title" content="Fred的知识库">
+  <meta property="og:description" content="一. 流, I/O操作, 阻塞 1 1. 流 可以进行I/O操作的内核对象 文件、管道、套接字…… 流的入口：文件描述符(fd) 2 2. I/O操作 所有对流的读写操作，我们都可以称之为IO操作。 当一个流中， 在没有数据read的时候，或者说在流中已经写满了数据，再write，我们的IO操作就会出现一种现象，就是阻塞现象，如下图">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="lang">
+    <meta property="article:modified_time" content="2024-04-23T12:05:08+08:00">
+    <meta property="og:image" content="http://localhost:1313/images/apple-devices-preview.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:1313/images/apple-devices-preview.webp"><meta name="twitter:title" content="">
+<meta name="twitter:description" content="一. 流, I/O操作, 阻塞 1 1. 流 可以进行I/O操作的内核对象 文件、管道、套接字…… 流的入口：文件描述符(fd) 2 2. I/O操作 所有对流的读写操作，我们都可以称之为IO操作。 当一个流中， 在没有数据read的时候，或者说在流中已经写满了数据，再write，我们的IO操作就会出现一种现象，就是阻塞现象，如下图">
+<meta name="application-name" content="FredKnow">
+<meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/lang/go/go_advanced/2-1.%E6%B5%81%E5%92%8Cio%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/" /><link rel="prev" href="http://localhost:1313/lang/go/go_advanced/20.go%E8%B0%83%E7%94%A8lib%E5%92%8Cso%E5%8A%A8%E6%80%81%E5%BA%93/" /><link rel="next" href="http://localhost:1313/lang/go/go_advanced/19.cgo%E6%95%99%E7%A8%8B/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/lang\/go\/go_advanced\/2-1.%E6%B5%81%E5%92%8Cio%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8\/"
+    },"image": ["http:\/\/localhost:1313\/apple-touch-icon.png"],"genre": "lang","wordcount":  4907 ,
+    "url": "http:\/\/localhost:1313\/lang\/go\/go_advanced\/2-1.%E6%B5%81%E5%92%8Cio%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8\/","dateModified": "2024-04-23T12:05:08+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+      "@type": "Organization",
+      "name": "ipFred","logo": "http:\/\/localhost:1313\/images\/avatar.jpg"},"author": {
+        "@type": "Person",
+        "name": "Fred"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper" data-github-corner="right">
+    <div class="header-title">
+      <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="Fred的知识库" data-title="Fred的知识库" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-desktop" class="typeit header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li class="menu-item has-children">
+              <a
+                class="menu-link"
+                href="/lang/"
+                
+                
+              ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/web/"
+                
+                
+              ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="https://files.catbox.moe/mtzx1g.png" data-title="https://files.catbox.moe/mtzx1g.png" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-mobile" class="typeit header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li
+              class="menu-item"
+            ><span class="nested-item">
+                  <a
+                    class="menu-link"
+                    href="/lang/"
+                    
+                    
+                  ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/web/"
+                  
+                  
+                ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><nav aria-label="breadcrumb" class="breadcrumb-container sticky">
+    <ol class="breadcrumb"><li class="breadcrumb-item"><a href="/lang/" title="langs">langs</a></li><li class="breadcrumb-item active" aria-current="page"></li>
+    </ol>
+  </nav><main class="container"><article class="page single special">
+    <div class="header"><h1 class="single-title animate__animated animate__pulse animate__faster"></h1></div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="一-流-io操作-阻塞" class="heading-element">
+  <a href="#%e4%b8%80-%e6%b5%81-io%e6%93%8d%e4%bd%9c-%e9%98%bb%e5%a1%9e" class="heading-mark"></a>一. 流, I/O操作, 阻塞</h1><h2 id="1-流" class="heading-element">
+  <a href="#1-%e6%b5%81" class="heading-mark"></a>1 1. 流</h2><ul>
+<li>可以进行I/O操作的内核对象</li>
+<li>文件、管道、套接字……</li>
+<li>流的入口：文件描述符(fd)</li>
+</ul>
+<h2 id="2-io操作" class="heading-element">
+  <a href="#2-io%e6%93%8d%e4%bd%9c" class="heading-mark"></a>2 2. I/O操作</h2><ul>
+<li>
+<p>所有对流的读写操作，我们都可以称之为IO操作。</p>
+</li>
+<li>
+<p>当一个流中， 在没有数据read的时候，或者说在流中已经写满了数据，再write，我们的IO操作就会出现一种现象，就是阻塞现象，如下图。</p>
+</li>
+</ul>
+<img src="https://img.kancloud.cn/18/de/18de4271dbfbd3c5cf0193fb60e8c5b7_832x210.png" alt="img" style="zoom:50%;" />
+<img src="https://img.kancloud.cn/a5/58/a558f826d4c1e0872aaa888306cf05f0_854x244.png" alt="img" style="zoom:50%;" />
+<h2 id="3-阻塞" class="heading-element">
+  <a href="#3-%e9%98%bb%e5%a1%9e" class="heading-mark"></a>3 3. 阻塞</h2><img src="https://img.kancloud.cn/8b/74/8b74ba71a1e5cdae8a994712b8a85e99_755x564.png" alt="img" style="zoom:33%;" />
+<p><strong>阻塞场景</strong>: 你有一份快递，家里有个座机，快递到了主动给你打电话，期间你可以休息。
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/af25125ccf72dc6a288c6cb5e06f240c_757x562-20211203110017276.png" alt="img" style="zoom:33%;" /></p>
+<p><strong>非阻塞，忙轮询场景</strong>: 你性子比较急躁， 每分钟就要打电话询问快递小哥一次， 到底有没有到，快递员接你电话要停止运输，这样很耽误快递小哥的运输速度。</p>
+<ul>
+<li>阻塞等待</li>
+</ul>
+<p>空出大脑可以安心睡觉, 不影响快递员工作（不占用CPU宝贵的时间片）。</p>
+<ul>
+<li>非阻塞，忙轮询</li>
+</ul>
+<p>浪费时间，浪费电话费，占用快递员时间（占用CPU，系统资源）。</p>
+<p>很明显，阻塞等待这种方式，对于通信上是有明显优势的， 那么它有哪些弊端呢？</p>
+<h1 id="二-io多路复用" class="heading-element">
+  <a href="#%e4%ba%8c-io%e5%a4%9a%e8%b7%af%e5%a4%8d%e7%94%a8" class="heading-mark"></a>二. IO多路复用</h1><h2 id="1-阻塞io" class="heading-element">
+  <a href="#1-%e9%98%bb%e5%a1%9eio" class="heading-mark"></a>1 1. 阻塞IO</h2><ul>
+<li>
+<p>就像 socket 通信一样, 连接的客户端一直不发数据，那么服务端线程将会一直阻塞在 read 函数上不返回，也无法接受其他客户端连接。就会发生IO阻塞</p>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/1638502588418.gif" alt="1638502588418" style="zoom: 67%;" />
+</li>
+</ul>
+<h2 id="2-非阻塞-io" class="heading-element">
+  <a href="#2-%e9%9d%9e%e9%98%bb%e5%a1%9e-io" class="heading-mark"></a>2 2. 非阻塞 IO</h2><ul>
+<li>
+<p><strong>恳请操作系统为我们提供一个非阻塞的 read 函数</strong>。通过轮询或者回调的方法实现</p>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/1638502577323.gif" alt="1638502577323" style="zoom: 67%;" />
+</li>
+</ul>
+<h2 id="3-io多路复用" class="heading-element">
+  <a href="#3-io%e5%a4%9a%e8%b7%af%e5%a4%8d%e7%94%a8" class="heading-mark"></a>3 3. IO多路复用</h2><blockquote>
+<p>doc: <a href="https://mp.weixin.qq.com/s/kebjG5UosHmXa7AKCatSrA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/kebjG5UosHmXa7AKCatSrA<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+</blockquote>
+<ul>
+<li>实现IO多路复用的方法:
+<ul>
+<li>select : 通过遍历(系统遍历)的方式实现, select 只能监听 1024 个文件描述符. windows,linux</li>
+<li>poll: 通过遍历(系统遍历)的方式实现, 不再有文件描述符数量限制. linux</li>
+<li>epoll: 通过回调的方式实现IO多路复用, 没有文件描述符限制, 效率最高. linux</li>
+</ul>
+</li>
+</ul>
+<h3 id="31-select" class="heading-element">
+  <a href="#31-select" class="heading-mark"></a>3.1 3.1 select</h3><blockquote>
+<ol>
+<li>
+<p>系统遍历</p>
+</li>
+<li>
+<p>select 调用需要传入 fd 数组，需要拷贝一份到内核，高并发场景下这样的拷贝消耗的资源是惊人的。（可优化为不复制）</p>
+</li>
+<li>
+<p>select 在内核层仍然是通过遍历的方式检查文件描述符的就绪状态，是个同步过程，只不过无系统调用切换上下文的开销。（内核层可优化为异步事件通知）</p>
+</li>
+<li>
+<p>select 仅仅返回可读文件描述符的个数，具体哪个可读还是要用户自己遍历。（可优化为只返回给用户就绪的文件描述符，无需用户做无效的遍历）</p>
+</li>
+</ol>
+</blockquote>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/1638502585301.gif" alt="1638502585301" style="zoom:50%;" />
+<img src="https://img.kancloud.cn/ee/43/ee430296183245bb677144388a458f5e_675x410.png" alt="img" style="zoom: 50%;" />
+<ul>
+<li>我们可以开设一个代收网点，让快递员全部送到代收点。这个网店管理员叫select。这样我们就可以在家休息了，麻烦的事交给select就好了。当有快递的时候，select负责给我们打电话，期间在家休息睡觉就好了。</li>
+<li>但select 代收员比较懒，她记不住快递员的单号，还有快递货物的数量。她只会告诉你快递到了，但是是谁到的，你需要挨个快递员问一遍。</li>
+</ul>
+<h3 id="32-poll" class="heading-element">
+  <a href="#32-poll" class="heading-mark"></a>3.2 3.2 poll</h3><blockquote>
+<ul>
+<li>
+<p>系统遍历</p>
+</li>
+<li>
+<p>poll 也是操作系统提供的系统调用函数。</p>
+</li>
+<li>
+<p>它和 select 的主要区别就是，去掉了 select 只能监听 1024 个文件描述符的限制。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="32-epoll" class="heading-element">
+  <a href="#32-epoll" class="heading-mark"></a>3.3 3.2 epoll</h3><blockquote>
+<ol>
+<li>
+<p>回调(异步 IO 事件唤醒)</p>
+</li>
+<li>
+<p>内核中保存一份文件描述符集合，无需用户每次都重新传入，只需告诉内核修改的部分即可。</p>
+</li>
+<li>
+<p>内核不再通过轮询的方式找到就绪的文件描述符，而是通过异步 IO 事件唤醒。</p>
+</li>
+<li>
+<p>内核仅会将有 IO 事件的文件描述符返回给用户，用户也无需遍历整个文件描述符集合。</p>
+</li>
+</ol>
+</blockquote>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/1638502586963.gif" alt="1638502586963" style="zoom:67%;" />
+<h1 id="三底层原理" class="heading-element">
+  <a href="#%e4%b8%89%e5%ba%95%e5%b1%82%e5%8e%9f%e7%90%86" class="heading-mark"></a>三.底层原理</h1><h2 id="1-单进程单socket的弊端" class="heading-element">
+  <a href="#1-%e5%8d%95%e8%bf%9b%e7%a8%8b%e5%8d%95socket%e7%9a%84%e5%bc%8a%e7%ab%af" class="heading-mark"></a>1 1 单进程单socket的弊端</h2><ul>
+<li>服务端需要管理多个客户端连接，而 <code>recv()</code> 系统调用只能监视单个socket。</li>
+<li>这种情况下，如果要管理多个客户端连接，就需要多开进程或线程，每个进程维护一个socket套接字，没有网络数据时进程阻塞在recv()系统调用上，当网络数据到达时，操作系统环境对应socket等待队列上的进程。
+此时面临的问题是维护进程或线程带来的系统开销（每个线程的栈空间8M，由于系统的内存资源有限，1K个线程就已经需要消耗8G内存，不可能无限制的多开线程，且进程、线程间的频繁切换也会带来较大的开销）。</li>
+</ul>
+<h2 id="2-select的设计思想" class="heading-element">
+  <a href="#2-select%e7%9a%84%e8%ae%be%e8%ae%a1%e6%80%9d%e6%83%b3" class="heading-mark"></a>2 2 select的设计思想</h2><ul>
+<li>最先想到的办法是使用一个进程监视多个socket，预先传入一个socket列表，如果列表中的socket都没有数据，则进程继续挂起；直到有一个或以上的socket接收到网络数据，再唤醒进程。这种方法很直接，这也是select的设计思想。</li>
+</ul>
+<h3 id="21-select的执行流程" class="heading-element">
+  <a href="#21-select%e7%9a%84%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b" class="heading-mark"></a>2.1 2.1 select的执行流程</h3><ul>
+<li>如下图，假设进程A同时监听 sock1、sock2、sock3（通过fd_set传入），那么，在调用select之后，操作系统会把进程A分别加入到这三个socket的等待队列中：</li>
+</ul>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200711.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200711.jpeg?size=small" data-sub-html="<h2>请添加图片描述</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200711.jpeg" alt="请添加图片描述" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200711.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200711.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200711.jpeg?size=large 2x" data-title="请添加图片描述" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<ul>
+<li>
+<p>当任何一个socket上收到数据时，中断程序将唤起进程。所谓唤起进程，就是将其从所有的socket对象的等待队列中移除，并插入到就绪队列中。</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200747.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200747.jpeg?size=small" data-sub-html="<h2>请添加图片描述</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200747.jpeg" alt="请添加图片描述" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200747.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200747.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200747.jpeg?size=large 2x" data-title="请添加图片描述" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200753.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200753.jpeg?size=small" data-sub-html="<h2>请添加图片描述</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200753.jpeg" alt="请添加图片描述" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200753.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200753.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200753.jpeg?size=large 2x" data-title="请添加图片描述" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+</ul>
+<h3 id="22-select的缺点" class="heading-element">
+  <a href="#22-select%e7%9a%84%e7%bc%ba%e7%82%b9" class="heading-mark"></a>2.2 2.2 select的缺点</h3><ol>
+<li>每次调用select都需要将进程加入到所有socket对象的等待队列中，每次唤醒进程又要将进程从所有socket对象的等待队列中移除。这里涉及到对socket列表的两次遍历，而且每次都要将整个fds列表传递给内核，有一定的开销。正因为遍历操作开销大，出于效率的考量，才会规定select的最大监视数量，默认只能监视1024个socket（强行修改也是可以的）；</li>
+<li>进程被唤醒后，程序并不知道socket列表中的那些socket上收到数据，因此在用户空间内需要对socket列表再做一次遍历。</li>
+</ol>
+<h2 id="3-epoll的设计思想" class="heading-element">
+  <a href="#3-epoll%e7%9a%84%e8%ae%be%e8%ae%a1%e6%80%9d%e6%83%b3" class="heading-mark"></a>3 3 epoll的设计思想</h2><h3 id="31-epoll的实现原理和流程" class="heading-element">
+  <a href="#31-epoll%e7%9a%84%e5%ae%9e%e7%8e%b0%e5%8e%9f%e7%90%86%e5%92%8c%e6%b5%81%e7%a8%8b" class="heading-mark"></a>3.1 3.1 epoll的实现原理和流程</h3><ol>
+<li>
+<p><strong>创建epoll对象：</strong></p>
+<ul>
+<li>当进程调用 <code>epoll_create</code> 方法时，内核会创建一个 <code>eventpoll</code> 对象，也就是应用程序中的 epfd 所代表的对象。<code>eventpoll</code> 对象也是文件系统中的一员（Linux中一切设备皆文件），和socket一样也拥有一个“等待队列”。</li>
+</ul>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200953.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200953.jpeg?size=small" data-sub-html="<h2>请添加图片描述</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200953.jpeg" alt="请添加图片描述" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200953.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200953.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200953.jpeg?size=large 2x" data-title="请添加图片描述" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p><strong>维护监视列表：</strong></p>
+<ul>
+<li>
+<p>创建epoll对象 <code>eventpoll</code> 之后，可以使用 <code>epoll_ctl</code> 添加或者删除所要监听的socket。以添加socket为例，如果要对sock1、sock2、sock3进行监视，内核会将<code>eventpoll</code>添加到这三个socket的等待队列中。</p>
+</li>
+<li>
+<p>当socket收到数据后，中断回调程序会操作eventpoll对象，而不是直接操作进程。</p>
+</li>
+</ul>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200946.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200946.jpeg?size=small" data-sub-html="<h2>请添加图片描述</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200946.jpeg" alt="请添加图片描述" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200946.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200946.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728200946.jpeg?size=large 2x" data-title="请添加图片描述" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p><strong>接收数据：</strong></p>
+<ul>
+<li>
+<p>select的低效原因之一在于应用程序不知道哪些socket收到数据，只能一个个的遍历。如果内核维护一个“就绪列表”，在就绪列表中引用收到数据的socket，就能避免遍历。</p>
+</li>
+<li>
+<p>在 <code>eventpoll</code> 对象中就实现了这样的一个“就绪列表” &mdash;- <code>rdlist</code>。</p>
+</li>
+<li>
+<p>当socket收到数据，中断回调程序会给<code>eventpoll</code>的“就绪列表”添加socket的引用，如下图所示：</p>
+</li>
+</ul>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201026.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201026.jpeg?size=small" data-sub-html="<h2>请添加图片描述</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201026.jpeg" alt="请添加图片描述" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201026.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201026.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201026.jpeg?size=large 2x" data-title="请添加图片描述" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<ul>
+<li>
+<p>eventpoll对象相当于是socket和进程之间的中介，socket的数据接收并不直接影响进程，而是通过改变eventpoll的就绪列表来改变进程状态。</p>
+</li>
+<li>
+<p>epoll_wait的返回条件也是根据rdlist的状态进行判断：</p>
+<ol>
+<li>如果rdlist已经引用了socket，那么epoll_wait直接返回；</li>
+<li>如果rdlist为空，阻塞进程。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>阻塞和唤醒进程：</p>
+<ul>
+<li>
+<p>如下图，假设当进程A运行到epoll_wait()时，操作系统会将进程A放入到eventpoll对象的等待队列中，阻塞进程。（对于epoll，操作系统只需要将进程A放入eventpoll这一个对象的等待队列中；而对于select，操作系统则需要将进程A放入到socket列表中的所有socket对象的等待队列中。）</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201646.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201646.jpeg?size=small" data-sub-html="<h2>请添加图片描述</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201646.jpeg" alt="请添加图片描述" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201646.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201646.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201646.jpeg?size=large 2x" data-title="请添加图片描述" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p>当socket接收到数据时，中断回调程序一方面修改rdlist“就绪列表”，另一方面唤醒eventpoll等待队列中的进程A。
+也因为rdlist就绪列表的存在，进程A可以在重新进入运行态后准确知道哪些socket上发生了变化。</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201755.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201755.jpeg?size=small" data-sub-html="<h2>请添加图片描述</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201755.jpeg" alt="请添加图片描述" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201755.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201755.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728201755.jpeg?size=large 2x" data-title="请添加图片描述" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="32-epoll高效的原因" class="heading-element">
+  <a href="#32-epoll%e9%ab%98%e6%95%88%e7%9a%84%e5%8e%9f%e5%9b%a0" class="heading-mark"></a>3.2 3.2 epoll高效的原因</h3><ul>
+<li>
+<p>相较于select，epoll实现高效主要基于以下两点：</p>
+<ol>
+<li>功能分离；</li>
+<li>就绪列表。</li>
+</ol>
+</li>
+<li>
+<p>select低效的原因之一是将“维护等待队列”和“阻塞进程”两个步骤合二为一。</p>
+<ul>
+<li>每次调用select都需要这两步操作，然而大多数应用场景中，需要监视的socket相对固定，并不需要每次修改。</li>
+</ul>
+</li>
+<li>
+<p>epoll将这两个操作分开，先用 <code>epoll_ctl</code> 维护等待队列，再调用 <code>epoll_wait</code> 阻塞进程，以此来提高效率。</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728202010.jpeg" alt="请添加图片描述" style="zoom:33%;" />
+<ul>
+<li>
+<p>select低效的另一个原因在于程序不知道哪些socket收到数据，只能一个一个的遍历。如果内核维护一个“就绪列表”，引用收到的数据的socket，就能避免遍历。</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728202139.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728202139.jpeg?size=small" data-sub-html="<h2>请添加图片描述</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728202139.jpeg" alt="请添加图片描述" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728202139.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728202139.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728202139.jpeg?size=large 2x" data-title="请添加图片描述" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+</ul>
+<h3 id="33-epoll的实现细节" class="heading-element">
+  <a href="#33-epoll%e7%9a%84%e5%ae%9e%e7%8e%b0%e7%bb%86%e8%8a%82" class="heading-mark"></a>3.3 3.3 epoll的实现细节</h3><h4 id="a-eventpoll对象的数据结构" class="heading-element">
+  <a href="#a-eventpoll%e5%af%b9%e8%b1%a1%e7%9a%84%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="heading-mark"></a>3.3.1 a. eventpoll对象的数据结构</h4><ul>
+<li>eventpoll对象包含了：lock、mtx、wq（等待队列）、rdlist 等成员。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220728202225.jpeg" alt="请添加图片描述" style="zoom: 67%;" />
+<h4 id="b-rdlist就绪队列的数据结构" class="heading-element">
+  <a href="#b-rdlist%e5%b0%b1%e7%bb%aa%e9%98%9f%e5%88%97%e7%9a%84%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="heading-mark"></a>3.3.2 b. rdlist就绪队列的数据结构：</h4><ul>
+<li>epoll使用双向链表来实现就绪队列rdlist。</li>
+</ul>
+<h4 id="c-索引结构" class="heading-element">
+  <a href="#c-%e7%b4%a2%e5%bc%95%e7%bb%93%e6%9e%84" class="heading-mark"></a>3.3.3 c. 索引结构：</h4><ul>
+<li>epoll使用红黑树作为索引结构，以便于快速的插入和删除要监视的socket套接字。</li>
+<li>红黑树时一种自平衡的二叉查找树，搜索、插入、删除的时间复杂度都是O(logN)。</li>
+</ul>
+<h1 id="四-cpu密集型和io密集型" class="heading-element">
+  <a href="#%e5%9b%9b-cpu%e5%af%86%e9%9b%86%e5%9e%8b%e5%92%8cio%e5%af%86%e9%9b%86%e5%9e%8b" class="heading-mark"></a>四. CPU密集型和IO密集型</h1><h2 id="cpu密集型" class="heading-element">
+  <a href="#cpu%e5%af%86%e9%9b%86%e5%9e%8b" class="heading-mark"></a>1 <strong>CPU密集型</strong></h2><p>CPU密集型也叫计算密集型，指的是系统的硬盘、内存性能相对CPU要好很多，此时，系统运作CPU读写IO(硬盘/内存)时，IO可以在很短的时间内完成，而CPU还有许多运算要处理，因此，CPU负载很高。</p>
+<p>CPU密集表示该任务需要大量的运算，而没有阻塞，CPU一直全速运行。CPU密集任务只有在真正的多核CPU上才可能得到加速（通过多线程），而在单核CPU上，无论你开几个模拟的多线程该任务都不可能得到加速，因为CPU总的运算能力就只有这么多。</p>
+<p>CPU使用率较高（例如:计算圆周率、对视频进行高清解码、矩阵运算等情况）的情况下，通常，线程数只需要设置为CPU核心数的线程个数就可以了。 这一情况多出现在一些业务复杂的计算和逻辑处理过程中。比如说，现在的一些机器学习和深度学习的模型训练和推理任务，包含了大量的矩阵运算。</p>
+<h2 id="io密集型" class="heading-element">
+  <a href="#io%e5%af%86%e9%9b%86%e5%9e%8b" class="heading-mark"></a>2 <strong>IO密集型</strong></h2><p>IO密集型指的是系统的CPU性能相对硬盘、内存要好很多，此时，系统运作，大部分的状况是CPU在等IO (硬盘/内存) 的读写操作，因此，CPU负载并不高。</p>
+<p>密集型的程序一般在达到性能极限时，CPU占用率仍然较低。这可能是因为任务本身需要大量I/O操作，而程序的逻辑做得不是很好，没有充分利用处理器能力。</p>
+<p>CPU 使用率较低，程序中会存在大量的 I/O 操作占用时间，导致线程空余时间很多，通常就需要开CPU核心数数倍的线程。</p>
+<p>其计算公式为：<strong>IO密集型核心线程数 = CPU核数 / （1-阻塞系数）</strong>。</p>
+<p>当线程进行 I/O 操作 CPU 空闲时，启用其他线程继续使用 CPU，以提高 CPU 的使用率。例如：数据库交互，文件上传下载，网络传输等。</p>
+<h2 id="cpu密集型与io密集型任务的使用说明" class="heading-element">
+  <a href="#cpu%e5%af%86%e9%9b%86%e5%9e%8b%e4%b8%8eio%e5%af%86%e9%9b%86%e5%9e%8b%e4%bb%bb%e5%8a%a1%e7%9a%84%e4%bd%bf%e7%94%a8%e8%af%b4%e6%98%8e" class="heading-mark"></a>3 <strong>CPU密集型与IO密集型任务的使用说明</strong></h2><ul>
+<li>当线程等待时间所占比例越高，需要越多线程，启用其他线程继续使用CPU，以此提高CPU的利用率；</li>
+<li>当线程CPU时间所占比例越高，需要越少的线程，通常线程数和CPU核数一致即可，这一类型在开发中主要出现在一些计算业务频繁的逻辑中。</li>
+</ul>
+<h2 id="cpu密集型任务与io密集型任务的区别" class="heading-element">
+  <a href="#cpu%e5%af%86%e9%9b%86%e5%9e%8b%e4%bb%bb%e5%8a%a1%e4%b8%8eio%e5%af%86%e9%9b%86%e5%9e%8b%e4%bb%bb%e5%8a%a1%e7%9a%84%e5%8c%ba%e5%88%ab" class="heading-mark"></a>4 <strong>CPU密集型任务与IO密集型任务的区别</strong></h2><p>计算密集型任务的特点是要进行大量的计算，消耗CPU资源，全靠CPU的运算能力。这种计算密集型任务虽然也可以用多任务完成，但是任务越多，花在任务切换的时间就越多，CPU执行任务的效率就越低，所以，要最高效地利用CPU，计算密集型任务同时进行的数量应当等于CPU的核心数，避免线程或进程的切换。</p>
+<blockquote>
+<p>计算密集型任务由于主要消耗CPU资源，因此，代码运行效率至关重要。Python这样的脚本语言运行效率很低，完全不适合计算密集型任务。对于计算密集型任务，最好用C语言编写。</p>
+</blockquote>
+<p>IO密集型任务的特点是CPU消耗很少，任务的大部分时间都在等待IO操作完成（因为IO的速度远远低于CPU和内存的速度）。涉及到网络、磁盘IO的任务都是IO密集型任务，</p>
+<p>对于IO密集型任务，线程数越多，CPU效率越高，但也有一个限度。</p>
+<h2 id="go适合的io密集型" class="heading-element">
+  <a href="#go%e9%80%82%e5%90%88%e7%9a%84io%e5%af%86%e9%9b%86%e5%9e%8b" class="heading-mark"></a>5 go适合的IO密集型</h2><ul>
+<li>推荐博文：https://mp.weixin.qq.com/s/eSlv61fR61SQTt3iTgzbPQ</li>
+</ul>
+<h2 id="总结" class="heading-element">
+  <a href="#%e6%80%bb%e7%bb%93" class="heading-mark"></a>6  <strong>总结</strong></h2><ol>
+<li>一个计算为主的应用程序（CPU密集型程序），多线程或多进程跑的时候，可以充分利用起所有的 CPU 核心数，比如说16核的CPU ，开16个线程的时候，可以同时跑16个线程的运算任务，此时是最大效率。但是如果线程数/进程数远远超出 CPU 核心数量，反而会使得任务效率下降，因为<strong>频繁的切换线程或进程</strong>也是要消耗时间的。因此对于 CPU 密集型的任务来说，线程数/进程数等于 CPU 数是最好的了。</li>
+<li>如果是一个磁盘或网络为主的应用程序（IO密集型程序），一个线程处在 IO 等待的时候，另一个线程还可以在 CPU 里面跑，有时候 CPU 闲着没事干，所有的线程都在等着 IO，这时候他们就是同时的了，而单线程的话，此时还是在一个一个等待的。我们都知道IO的速度比起 CPU 来是很慢的。此时线程数可以是CPU核心数的数倍（视情况而定）。</li>
+</ol>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright order-1" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/ipfred"target="_blank" rel="external nofollow noopener noreferrer">Fred</a></span></div><div class="footer-line statistics order-first"></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><a href="https://github.com/ipfred" title="View source on GitHub"target="_blank" rel="external nofollow" class="github-corner right d-none-mobile"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/pace/themes/green/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script src="/lib/instant-page/instantpage.min.js" async defer type="module"></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/typeit/index.umd.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":30},"comment":{"enable":false},"data":{"typeit-header-subtitle-desktop":"一个只记录精华知识的平台","typeit-header-subtitle-mobile":"一个只记录精华知识的平台"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"algoliaAppID":"TZCN6HKD92","algoliaIndex":"index","algoliaSearchKey":"663832297fb162d0169b237d56275fe2","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-subtitle-desktop":["typeit-header-subtitle-desktop"],"typeit-header-subtitle-mobile":["typeit-header-subtitle-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

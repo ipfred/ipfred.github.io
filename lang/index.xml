@@ -9,35 +9,504 @@
     <managingEditor>330446875@qq.com (Fred)</managingEditor>
     <webMaster>330446875@qq.com (Fred)</webMaster>
     <copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright>
-    <lastBuildDate>Sat, 10 May 2025 16:13:25 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 15 May 2025 18:12:47 +0800</lastBuildDate>
     <atom:link href="https://ipfred.github.io/lang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>100.习题练习</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180343/</link>
+      <pubDate>Thu, 15 May 2025 18:03:43 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180343/</guid>
+      <description>O、内存相关 下列程序为什么会卡死(测试不会被卡死) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) func main() { var i byte go func() { for i = 0; i &amp;lt;= 255; i++ {} }() fmt.Println(&amp;#34;Dropping mic&amp;#34;) // Yield execution to force executing other goroutines runtime.Gosched() runtime.GC() fmt.Println(&amp;#34;Done&amp;#34;) } 解析： Golang 中，byte 其实被 alias 到 uint8 上了。所以上⾯的 for 循环会始终成⽴，因为 i++ 到 i=255 的时候会溢出，i &amp;lt;= 255 ⼀定成⽴。 也即是， for 循环永远⽆法退出，所以上</description>
+    </item>
+    <item>
+      <title>22.go与http代理</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180323/</link>
+      <pubDate>Thu, 15 May 2025 18:03:23 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180323/</guid>
+      <description>网络代理 1. 网络代理&amp;amp;网络转发 网络代理 用户通过代理请求信息 请求通过网络代理完成转发到达目标服务器 目标服务器相应后再通过网络代理回传给用户 用户不直接连接服务器，网络代理去连接。获取数据后返回给用户 网络转发 客户端访问公网服务器，数据包在网络上传输时会经过至少一个路由器，对于多个/多层路由，会进行网</description>
+    </item>
+    <item>
+      <title>21.go编译参数netgo</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180316/</link>
+      <pubDate>Thu, 15 May 2025 18:03:16 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180316/</guid>
+      <description>什么是netgo Go语言的网络库是基于操作系统提供的系统调用(syscall)实现的。在大多数现代操作系统上，这些系统调用都是由C语言实现的，经过高度优化，性能非常好。但在某些特殊的架构或操作系统上，系统网络调用可能无法正常工作，或者效率较低。 为了解决这个可移植性问题，Go语言还提供了一个纯Go实现</description>
+    </item>
+    <item>
+      <title>20.go调用lib和so动态库</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180311/</link>
+      <pubDate>Thu, 15 May 2025 18:03:11 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180311/</guid>
+      <description>go 调用dll 1. sysCall.LoadDll(推荐使用) 系统调用是程序向操作系统内核请求服务的过程，通常包含硬件相关的服务(例如访问硬盘),创建新进程等。系统调用提供了一个进程和操作系统之间的接口 fmt中的syscall 1 2 3 4 5 func Println(a ...interface{}) (n int, err error) { return Fprintln(os.Stdout, a...) } Stdout = NewFile(uintptr(syscall.Stdout), &amp;#34;/dev/stdout&amp;#34;) 调用dll 示例 1 2 3 4 dll, err := syscall.LoadDLL(&amp;#34;scan.dll&amp;#34;) //根据</description>
+    </item>
+    <item>
+      <title>19.cgo教程</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180308/</link>
+      <pubDate>Thu, 15 May 2025 18:03:08 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180308/</guid>
+      <description>官方文档： https://pkg.go.dev/cmd/cgo 参考：https://zhuanlan.zhihu.com/p/349197066、https://juejin.cn/post/7047405294107754533、https://pkg.go.dev/cmd/cgo 初识 cgo Cgo是Go语言中的一个工具，它允许在Go代码中直接调用C语</description>
+    </item>
+    <item>
+      <title>18. 标准库container三剑客：head、list、ring</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180306/</link>
+      <pubDate>Thu, 15 May 2025 18:03:06 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180306/</guid>
+      <description>Heap - 堆 1. Heap - 堆 堆分为两种：最大堆和最小堆，两者的差别在于节点的排序方式 堆是一棵完全树（complete tree）：即除了最底层，其他层的节点都被元素填满，且最底层尽可能地从左到右填入 在最大堆中，父节点的值比每一个子节点的值都要大。在最小堆中，父节点的值比每一个子节点的值都要小。这就是所谓的“堆属性”</description>
+    </item>
+    <item>
+      <title>17. go执行外部命令</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180303/</link>
+      <pubDate>Thu, 15 May 2025 18:03:03 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180303/</guid>
+      <description>1 执行外部命令 1.1 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&amp;#34;ls&amp;#34;, &amp;#34;-l&amp;#34;, &amp;#34;/var/log/&amp;#34;) err := cmd.Run() if err != nil { log.Fatalf(&amp;#34;cmd.Run() failed with %s\n&amp;#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取</description>
+    </item>
+    <item>
+      <title>16. Go runtime详解</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180259/</link>
+      <pubDate>Thu, 15 May 2025 18:02:59 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180259/</guid>
+      <description>runtime 包 提供了运行时与系统的交互，比如控制协程函数，触发垃圾立即回收等等底层操作; 1 runtime.GOARCH 获取 GOARCH 信息 1 fmt.Println(runtime.GOARCH) // arm64 2 runtime.GOOS 获取 GOOS 信息 1 fmt.Println(runtime.GOOS) // darwin 3 runtime.GOROOT() 获取goroot环境变量 func GOROOT() string 1 2 3 4 5 6 7 8 9 10 11 12 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) func main() { fmt.Println(runtime.GOROOT()) // /Users/liusaisai/.g/go fmt.Println(runtime.GOARCH) // arm64 fmt.Println(runtime.GOOS) // darwin } 4 runtime.Version() 获取go版本 1 2 3 4 5 6 7 8 9 10 11 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) func main() { fmt.Println(runtime.Version()) //go1.18 } 5 runtime.NumCPU() 获取机器cp</description>
+    </item>
+    <item>
+      <title>15. Go 切片的截取</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180255/</link>
+      <pubDate>Thu, 15 May 2025 18:02:55 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180255/</guid>
+      <description>1 截取容量问题 切片截取子切片时，会造成临时内存泄露， 主要原因有两个 切片截取时，新旧切片会共用一个底层数组 切片的底层结构体指向数组的指针只是一个头指针 demo 1 2 3 4 5 6 7 8 9 package main import &amp;#34;fmt&amp;#34; func main() { a := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9} c := a[1:2] fmt.Println(len(c), cap(c)) // 1,9 c的数组头指针执行索引1，所以容量为9 } 解决办法 使用copy，不过要注意copy</description>
+    </item>
+    <item>
+      <title>14.位运算</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180251/</link>
+      <pubDate>Thu, 15 May 2025 18:02:51 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180251/</guid>
+      <description>1 itoa 位运算 code-1 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 package main import &amp;#34;fmt&amp;#34; const ( i=1&amp;lt;&amp;lt;iota j=3&amp;lt;&amp;lt;iota k l ) func main() { fmt.Println(&amp;#34;i=&amp;#34;,i) fmt.Println(&amp;#34;j=&amp;#34;,j) fmt.Println(&amp;#34;k=&amp;#34;,k) fmt.Println(&amp;#34;l=&amp;#34;,l) } /* i= 1 j= 6 k= 12 l= 24 */ const 声明第一个常量必须指定一个表达式，后续的常量如果没有表达式，则继承上面的表达式。 iota 表示从 0 开始自动加 1，所以 i=1&amp;laquo;0, j=3&amp;laquo;1（&amp;laquo; 表示左移的意思），即：i=1, j=6</description>
+    </item>
+    <item>
+      <title>13-2. go 接口型函数</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180247/</link>
+      <pubDate>Thu, 15 May 2025 18:02:47 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180247/</guid>
+      <description>1 什么是接口型函数？ 某一函数类型实现了接口，该函数类型调用接口实现方法时再调用该函数类型本体，这种函数叫做接口型函数。 示例代码 1 2 3 4 5 6 7 8 9 10 11 12 // 调用器接口 type Invoker interface { Call(interface{}) error } // 定义函数为类型 type FuncCaller func(interface{}) error // 接口实现 func (f FuncCaller) Call(i interface{}) error { return f(i) // 调用函数f本体 } 2 优点 可以完美使用接口优点，不必将某个接口函数附在某个</description>
+    </item>
+    <item>
+      <title>13-1.go语言代码优化技巧</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180244/</link>
+      <pubDate>Thu, 15 May 2025 18:02:44 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180244/</guid>
+      <description>1 1. sync.Pool sync.Pool 除了最常见的池化提升性能的思路，最重要的是减少 GC 。 常用于一些对象实例创建昂贵的场景。注意，Pool 是 Goroutine 并发安全的。 可以作为保存临时取还对象的一个“池子”。 特点 Goroutine 并发安全的 存储的都是临时对象 自动移除, 清理完全是由runtime控制的, 随时都可能被无通知清除 当这个对象的引用只有sync.Pool</description>
+    </item>
+    <item>
+      <title>12-2. go 信号量</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180240/</link>
+      <pubDate>Thu, 15 May 2025 18:02:40 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180240/</guid>
+      <description>1 什么是信号量 信号量是并发编程中常见的一种同步机制，在需要控制访问资源的线程数量时就会用到信号量 维基百科 信号量的概念是计算机科学家 Dijkstra （Dijkstra算法的发明者）提出来的，广泛应用在不同的操作系统中。系统中，会给每一个进程一个信号量，代表每个进程当前的状态，未得到控制权的进程，会在特定的地方被迫停</description>
+    </item>
+    <item>
+      <title>12-1. unsafe.Pointer和 uintptr</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180234/</link>
+      <pubDate>Thu, 15 May 2025 18:02:34 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180234/</guid>
+      <description>1 区别 unsafe.Pointer只是单纯的通用指针类型，用于转换不同类型指针，它不可以参与指针运算； 而uintptr是用于指针运算的，GC 不把 uintptr 当指针，也就是说 uintptr 无法持有对象， uintptr 类型的目标会被回收； unsafe.Pointer 可以和 普通指针 进行相互转换； unsafe.Pointer 可以和 uintptr 进行相互转换。 2 示例 通过一个例子加深理解，接下来尝试用指针的</description>
+    </item>
+    <item>
+      <title>11.Go语言设计模式</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180231/</link>
+      <pubDate>Thu, 15 May 2025 18:02:31 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180231/</guid>
+      <description>1 设计原则 单一职责原则：一个方法只完成一件事，实现高内聚低耦合。 开闭原则：对扩展开发，对修改关闭（常见做法：多态、基于接口实现、依赖注入）。 里氏替换原则：子类可以扩展父类的功能，但不能改变父类原有的功能。也就是说：子类继承父类时，除添加新的方法完成新增功能外，尽量不要重写父类的方法。 接口隔离原则：尽</description>
+    </item>
+    <item>
+      <title>9.Go性能调优 pprof</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180223/</link>
+      <pubDate>Thu, 15 May 2025 18:02:23 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180223/</guid>
+      <description>Go语言项目中的性能优化主要有以下几个方面： CPU profile：报告程序的 CPU 使用情况，按照一定频率去采集应用程序在 CPU 和寄存器上面的数据 Memory Profile（Heap Profile）：报告程序的内存使用情况 Block Profiling：报告 goroutines 不在运行状态的情况，可以用来分析和查找死锁等性能瓶颈 Goroutine Profiling：</description>
+    </item>
+    <item>
+      <title>8-6. sync.Cond 条件变量</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180217/</link>
+      <pubDate>Thu, 15 May 2025 18:02:17 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180217/</guid>
+      <description>sync.Cond 的使用场景 一句话总结：sync.Cond 条件变量用来协调想要访问共享资源的那些 goroutine，当共享资源的状态发生变化的时候，它可以用来通知被互斥锁阻塞的 goroutine。 sync.Cond 基于互斥锁/读写锁，它和互斥锁的区别是什么呢？ 互斥锁 sync.Mutex 通常用来保护临界区和共享资源，条件变量 sync.Cond 用来协调想要访问共享资源</description>
+    </item>
+    <item>
+      <title>8-5. sync.Once 单例模式</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180215/</link>
+      <pubDate>Thu, 15 May 2025 18:02:15 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180215/</guid>
+      <description>使用场景 sync.Once 是 Go 标准库提供的使函数只执行一次的实现，常应用于单例模式，例如初始化配置、保持数据库连接等。作用与 init 函数类似，但有区别。 init 函数是当所在的 package 首次被加载时执行，若迟迟未被使用，则既浪费了内存，又延长了程序加载时间。 sync.Once 可以在代码的任意位置初始化和调用，因此可以延迟到使用时再执行，并发场景下是线程</description>
+    </item>
+    <item>
+      <title>8-4. sync.Pool 复用对象</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180211/</link>
+      <pubDate>Thu, 15 May 2025 18:02:11 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180211/</guid>
+      <description>sync.Pool sync.Pool 除了最常见的池化提升性能的思路，最重要的是减少 GC 。 常用于一些对象实例创建昂贵的场景。注意，Pool 是 Goroutine 并发安全的。 可以作为保存临时取还对象的一个“池子”。 特点 Goroutine 并发安全的 存储的都是临时对象 自动移除, 清理完全是由runtime控制的, 随时都可能被无通知清除 当这个对象的引用只有sync.Pool持有</description>
+    </item>
+    <item>
+      <title>8-3.分布式id 库snowflake和sonyflake</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180208/</link>
+      <pubDate>Thu, 15 May 2025 18:02:08 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180208/</guid>
+      <description>分布式ID的特点 全局唯一性：不能出现有重复的ID标识，这是基本要求。 递增性：确保生成ID对于用户或业务是递增的。 高可用性：确保任何时候都能生成正确的D。 高性能性：在高并发的环境下依然表现良好。 不仅仅是用于用户ID，实际互联网中有很多场景需要能够生成类似MySQL自增ID这样不断增大，同时又不会重复的</description>
+    </item>
+    <item>
+      <title>8-2.sqlx的使用</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180204/</link>
+      <pubDate>Thu, 15 May 2025 18:02:04 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180204/</guid>
+      <description>在项目中我们通常可能会使用database/sql连接MySQL数据库。本文借助使用sqlx实现批量插入数据的例子，介绍了sqlx中可能被你忽视了的sqlx.In和DB.NamedExec方法。 一. 基本操作 1. sqlx介绍 在项目中我们通常可能会使用database/sql连接MySQL数据库。sqlx</description>
+    </item>
+    <item>
+      <title>8-1.Go中的Mutex和RWMutex</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180200/</link>
+      <pubDate>Thu, 15 May 2025 18:02:00 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180200/</guid>
+      <description>互斥锁（Mutex）: 当一个goroutine获得互斥锁后，其他goroutine无法在使用被上锁的资源，只能等待资源释放 读写锁 (RWMutex): RWMutex是单写多读锁，该锁可以加多个读锁或者一个写锁 1 Mutex: 互斥锁 结构 1 2 3 4 type Mutex struct { state int32 // 表示互斥锁的状态，比如是否被锁定等。 sema uint32 // sema表示信号量，协程阻塞等待该</description>
+    </item>
+    <item>
+      <title>7.Go异常处理</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180156/</link>
+      <pubDate>Thu, 15 May 2025 18:01:56 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180156/</guid>
+      <description>1 panic和recover使用场景 1.1 1. panic 程序报错退出,返回码是os.exit(0) 对于真正意外的情况，那些表示不可恢复的程序错误，例如索引越界、不可恢复的环境问题、栈溢出，我们才使用 panic。对于其他的错误情况，我们应该是期望使用 error 来进行判定。 速错推荐panic 1.2 2. recover 从 panic 恢复 tip场景: 别人写的</description>
+    </item>
+    <item>
+      <title>6-2.高性能日志库zap</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180153/</link>
+      <pubDate>Thu, 15 May 2025 18:01:53 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180153/</guid>
+      <description>1 高性能日志库zap doc: https://github.com/uber-go/zap 安装和基本使用 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 // go get -u go.uber.org/zap package main import ( &amp;#34;go.uber.org/zap&amp;#34; ) func main() { logger, _ := zap.NewProduction() defer logger.Sync() // flushes buffer, if any url := &amp;#34;https://imooc.com&amp;#34; sugar := logger.Sugar() sugar.Infow(&amp;#34;failed to fetch URL&amp;#34;, // Structured context as loosely typed key-value pairs. &amp;#34;url&amp;#34;, url, &amp;#34;attempt&amp;#34;, 3, ) sugar.Infof(&amp;#34;Failed to fetch URL: %s&amp;#34;, url) } Zap提供了两种类型的日志记录器—Sugared Logger和Logger。 在性能很好但不是很关键的上下文中，使用</description>
+    </item>
+    <item>
+      <title>6-1.配置管理库—Viper</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180148/</link>
+      <pubDate>Thu, 15 May 2025 18:01:48 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180148/</guid>
+      <description>线上线下配置隔离 在自己本地创建一个环境变量 ENV_DEBUG=1 Go配置管理—Viper 安装go get github.com/spf13/viper 1 什么是Viper？Viper是适用于Go应用程序（包括Twelve-Factor App）的完整配置解决方案。它被设计用于在应用程序中工作，并且可以处理所有类型的配置需求和格式。它支持以下特性： 设置默认值 从JSON、TO</description>
+    </item>
+    <item>
+      <title>5.TCP网络连接以及TIME_WAIT的意义</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180144/</link>
+      <pubDate>Thu, 15 May 2025 18:01:44 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180144/</guid>
+      <description>1 一. 三次握手 1.0.1 tcp在建立连接时需要三次握手:1.accept接受过程中等待客户端的连接,当客户端发起连接时,会发起一个syn连接请求, 2.服务端收到该连接请求之后会立即响应一个ack的响应,与此同时还会向客户端发送一个syn连接请求 3.当客户端收到服务端的ack响应请求和syn连接请求之后,再向</description>
+    </item>
+    <item>
+      <title>4-2控制goroutine的数量</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180140/</link>
+      <pubDate>Thu, 15 May 2025 18:01:40 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180140/</guid>
+      <description>一. 不控制goroutine数量 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;math&amp;#34; &amp;#34;runtime&amp;#34; ) func main() { //模拟用户需求业务的数量 task_cnt := math.MaxInt64 for i := 0; i &amp;lt; task_cnt; i++ { go func(i int) { //... do some busi... fmt.Println(&amp;#34;go func &amp;#34;, i, &amp;#34; goroutine count = &amp;#34;, runtime.NumGoroutine()) }(i) } } // panic: too many concurrent operations on a single file or socket (max 1048575) 我们迅速的开辟goroutine(不控制并发的 goroutine 数量 )会在短时间内占据操作系统的资</description>
+    </item>
+    <item>
+      <title>4-1.单点Server的N种并发模型汇总</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180130/</link>
+      <pubDate>Thu, 15 May 2025 18:01:30 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180130/</guid>
+      <description>主要介绍常见的Server的并发模型，这些模型与编程语言本身无关，有的编程语言可能在语法上直接透明了模型本质，所以开发者没必要一定要基于模型去编写，只是需要知道和了解并发模型的构成和特点即可。 1 模型一、单线程Accept（无IO复用） 1.0.1 (1) 模型结构图 1.0.2 (2) 模型分析① 主线程main thread执行阻塞Ac</description>
+    </item>
+    <item>
+      <title>3.分布式从ACID、CAP、BASE的理论推进</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180123/</link>
+      <pubDate>Thu, 15 May 2025 18:01:23 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180123/</guid>
+      <description>分布式实际上就是单一的本地一体解决方案，在硬件或者资源上不够业务需求，而采取的一种分散式多节点，可以扩容资源的一种解决思路。它研究如何把一个需要非常巨大的计算能力才能解决的问题分成许多小的部分，然后把这些部分分配给多个计算机进行处理，最后把这些计算结果综合起来得到最终的结果。 一. 从本地事务到分布式理</description>
+    </item>
+    <item>
+      <title>2-1.流和IO多路复用</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180119/</link>
+      <pubDate>Thu, 15 May 2025 18:01:19 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180119/</guid>
+      <description>一. 流, I/O操作, 阻塞 1 1. 流 可以进行I/O操作的内核对象 文件、管道、套接字…… 流的入口：文件描述符(fd) 2 2. I/O操作 所有对流的读写操作，我们都可以称之为IO操作。 当一个流中， 在没有数据read的时候，或者说在流中已经写满了数据，再write，我们的IO操作就会出现一种现象，就是阻塞现象，如下图</description>
+    </item>
+    <item>
+      <title>1-12. go链接参数 ldflags</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180114/</link>
+      <pubDate>Thu, 15 May 2025 18:01:14 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180114/</guid>
+      <description>1 前戏：”链接“基础概念 参考文章：http://blog.champbay.com/2019/11/25/%e9%9d%99%e6%80%81%e9%93%be%e6%8e%a5%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5%e9%9d%99%e6%80%81%e5%ba%</description>
+    </item>
+    <item>
+      <title>1-11. go条件编译</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180101/</link>
+      <pubDate>Thu, 15 May 2025 18:01:01 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180101/</guid>
+      <description>go支持两种条件编译的实现方式 编译标签（build tags） //go:build !windows 和 // +build !windows 文件后缀 条件编译的应用场景 平台适配：不同平台的操作系统和 CPU 架构可能有不同的特性和限制，需要针对不同平台编写不同的代码。通过条件编译，可以根据不同平台选择不同的代码进行编译，从而提高程序的性能和稳定性。 调试信息：在开发和调试过程中</description>
+    </item>
+    <item>
+      <title>1-10. 内联优化</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180055/</link>
+      <pubDate>Thu, 15 May 2025 18:00:55 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180055/</guid>
+      <description>1 什么是内联？ 内联是将较小的函数合并到它们各自的调用者中的行为。其在不同的计算历史时期的做法不一样，如下： 早期：这种优化通常是由手工完成的。 现在：内联是在编译过程中自动进行的一类基本优化之一。 2 为什么内联很重要？ 内联是很重要的，每一门语言都必然会有。具体的原因如下： 它消除了函数调用本身的开销。 它允许</description>
+    </item>
+    <item>
+      <title>1-9.Go语言内存对齐</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180051/</link>
+      <pubDate>Thu, 15 May 2025 18:00:51 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180051/</guid>
+      <description>1 基础知识 在Go语言中，我们可以通过 unsafe.Sizeof(x) 来确定一个变量占用的内存字节数（不包含 x 所指向的内容的大小）。 例如对于字符串数组，在64位机器上，unsafe.Sizeof() 返回的任意字符串数组大小为 24 字节，和其底层数据无关： 1 2 3 4 5 6 func main() { s := []string{&amp;#34;1&amp;#34;, &amp;#34;2&amp;#34;, &amp;#34;3&amp;#34;} s2 := []string{&amp;#34;1&amp;#34;} fmt.Println(unsafe.Sizeof(s)) // 24 fmt.Println(unsafe.Sizeof(s2)) // 24 } 对于Go语言的内置类型，占用内存大</description>
+    </item>
+    <item>
+      <title>1-8.Go和Python中的深浅拷贝</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515180045/</link>
+      <pubDate>Thu, 15 May 2025 18:00:45 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180045/</guid>
+      <description>1 1. Golang go 深拷贝， 就是拷贝值 go 浅拷贝， 拷贝引用 go中赋值就能实现拷贝，针对引用类型（slice，map，channel）是浅拷贝，对值类型是深拷贝 1、深拷贝（Deep Copy）： 拷贝的是数据本身，创造一个样的新对象，新创建的对象与原对象不共享内存，新创建的对象在内存中开辟一个新的内存地址，新对象值修改</description>
+    </item>
+    <item>
+      <title>1-7.Go中的Defer</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515175219/</link>
+      <pubDate>Thu, 15 May 2025 17:52:19 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515175219/</guid>
+      <description>Defer知识点 Defer 是在函数结束之前,return之前 执行一些逻辑, return之后的语句先执行，defer后的语句后执行 1 1. defer的执行顺序 多个defer出现的时候，它是一个“栈”的关系，也就是先进后出。 2 2. defer与return谁先谁后 Defer 是在函数结束之前,return之前 执行一些逻辑 retu</description>
+    </item>
+    <item>
+      <title>1-6.Go面向对象的思维理解interface</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515175216/</link>
+      <pubDate>Thu, 15 May 2025 17:52:16 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515175216/</guid>
+      <description>一. interface interface 是方法声明的集合 任何类型的对象实现了在interface 接口中声明的全部方法，则表明该类型实现了该接口。 interface 可以作为一种数据类型，实现了该接口的任何对象都可以给对应的接口类型变量赋值。 interface 可以被任意对象实现，一个类型/对象也可以实现多个 interface 方法不能重载，如 eat(), eat(s string) 不能同时存在 接口（interface</description>
+    </item>
+    <item>
+      <title>1-5.Go中逃逸现象, 变量&#43;堆栈</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515175213/</link>
+      <pubDate>Thu, 15 May 2025 17:52:13 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515175213/</guid>
+      <description>一. 栈和堆 栈内存: 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为局</description>
+    </item>
+    <item>
+      <title>1-4.Go协程调度原理及GPM模型</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515175210/</link>
+      <pubDate>Thu, 15 May 2025 17:52:10 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515175210/</guid>
+      <description>1 一. 提高cpu利用率 最早的并发能力：多进程并发，当一个进程阻塞的时候，切换到另外等待执行的进程，这样就能尽量把CPU利用起来，CPU就不浪费了。 多进程、多线程已经提高了系统的并发能力，但是在当今互联网高并发场景下，为每个任务都创建一个线程是不现实的，因为会消耗大量的内存(进程虚拟内存会占用4GB[</description>
+    </item>
+    <item>
+      <title>1-3.Go语言中的并发编程</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515175207/</link>
+      <pubDate>Thu, 15 May 2025 17:52:07 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515175207/</guid>
+      <description>Go语言中的并发编程 1 1. 并发与并行 并发：同一时间段内执行多个任务（你在用微信和两个女朋友聊天）。 并行：同一时刻执行多个任务（你和你朋友都在用微信和女朋友聊天）。 Go语言的并发通过goroutine实现, 协程。goroutine类似于线程，属于用户态的线程，我们可以根据需要创建成千上万个gorouti</description>
+    </item>
+    <item>
+      <title>1-2.Go垃圾回收机制</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515175202/</link>
+      <pubDate>Thu, 15 May 2025 17:52:02 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515175202/</guid>
+      <description>[TOC] 一. 栈和堆 栈内存: 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为</description>
+    </item>
+    <item>
+      <title>1-1.Go内存管理</title>
+      <link>https://ipfred.github.io/lang/go/go_advanced/20250515175156/</link>
+      <pubDate>Thu, 15 May 2025 17:51:56 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_advanced/20250515175156/</guid>
+      <description>一. 内存为什么需要管理？ 我们将大部分程序逻辑临时用的数据，全部都存在内存之中，比如，变量、全局变量、函数跳转地址、静态库、执行代码、临时开辟的内存结构体(对象)等。 当我们希望存储的东西越来越多，也就发现物理内存的容量依然是不够用，那么对物理内存的利用率和合理的分配，管理就变得非常的重要。 1、首先操作</description>
+    </item>
+    <item>
+      <title>13.go 泛型</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175146/</link>
+      <pubDate>Thu, 15 May 2025 17:51:46 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175146/</guid>
+      <description>在go语言里，对泛型的争议从未停止过，go也在1.18支持了泛型 原文参考：https://www.jb51.net/article/277511.htm 泛型初识 在强类型语言中（java，go），因为存在类型的强制约束，导致了数据类型在应用时没有弱类型语言（go、python）灵活 问题假如一个求和函数</description>
+    </item>
+    <item>
+      <title>12. 正则表达式</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175142/</link>
+      <pubDate>Thu, 15 May 2025 17:51:42 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175142/</guid>
+      <description>编译函数 Compile函数或MustCompile函数是将正则表达式进行编译，返回优化的 Regexp 结构体 Compile: 返回两个参数*Regexp,error类型 MustCompile: 只返回*Regexp类型 正则匹配 1. MatchString 返回的第一个参数是bool类型即匹配结果，第二个参数是error类型 demo 1 2 3 sourceStr := `my email is gerrylon@163.com` matched, _ := regexp.MatchString(`[\w-]+@[\w]+(?:\.[\w]+)+`, sourceStr) fmt.Printf(&amp;#34;%v&amp;#34;, matched) // true 2. FindString 返回一个字符</description>
+    </item>
+    <item>
+      <title>11. Context</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175139/</link>
+      <pubDate>Thu, 15 May 2025 17:51:39 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175139/</guid>
+      <description>Context 在 Go http包的Server中，每一个请求在都有一个对应的 goroutine 去处理。请求处理函数通常会启动额外的 goroutine 用来访问后端服务，比如数据库和RPC服务。用来处理一个请求的 goroutine 通常需要访问一些与请求特定的数据，比如终端用户的身份认证信息、验证相关的token、请求的截止时间。 当一个请求被取消或超时时，所有用来处理</description>
+    </item>
+    <item>
+      <title>10. 内置函数&amp;库</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175137/</link>
+      <pubDate>Thu, 15 May 2025 17:51:37 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175137/</guid>
+      <description>内置函数 1 closeclose 用于 channel 通讯。使用它来关闭 channel 2 deletedelete 用于在 map 中删除实例。 3 len 和 caplen 和 cap 可用于不同的类型，len 用于返回字符串、slice 和数组的长度。 4 newnew 用于各种类型的内存分配, new 返回一个指针类型,但是不会初始化变量, 会将值全部置为零值 5 makemake 用于内建类型（map、slice 和 channel）的内存分配。返回这三个</description>
+    </item>
+    <item>
+      <title>9. Socket编程</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175134/</link>
+      <pubDate>Thu, 15 May 2025 17:51:34 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175134/</guid>
+      <description>计算机网络基础 常见的两种架构: C/S 微信,qq,迅雷等需要安装客户端的应用. client 客户端 serve 服务端 B/S 百度,知乎,博客园登不需要客户端,通过一个浏览器即可实现相关服务 browser 浏览器 server 服务端 协议 server和client得到的内容都是二进制,所以每一位代表什么就需要事先规定好,再按照约定进行发送和解析,这个约定就是协议</description>
+    </item>
+    <item>
+      <title>8. nethttp模块</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175131/</link>
+      <pubDate>Thu, 15 May 2025 17:51:31 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175131/</guid>
+      <description>Go语言内置的net/http包十分的优秀， 压力测试数据 1 2 3 4 5 6 7 8 9 10 # mac 配置 8核 16G内存 # goland 多核模式 16 threads and 200 connections Thread Stats Avg Stdev Max +/- Stdev Latency 5.75ms 14.07ms 224.91ms 90.89% Req/Sec 9.46k 6.90k 100.80k 80.15% 4403567 requests in 30.09s, 596.34MB read Socket errors: connect 0, read 56, write 0, timeout 0 Requests/sec: 146360.93 # 每秒并发数高达 14.6w 是sanic 10进程的3倍 Transfer/sec: 19.82MB HTTP客户端有两个非常重要的类型client和request</description>
+    </item>
+    <item>
+      <title>7. 反射</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175128/</link>
+      <pubDate>Thu, 15 May 2025 17:51:28 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175128/</guid>
+      <description>反射定义 Python 反射 python一切皆对象,所以想要通过字符串的形式操作内部成员都可以通过反射去完成操作. py文件 包 类 对象&amp;hellip;(导入包操作类调用方法) 反射:根据字符串的形式去某个对象操作对象的成员. getattr(对象名,&amp;ldquo;方法名&amp;rdquo;) 根据字符串的形式去某个对象中获取对象</description>
+    </item>
+    <item>
+      <title>6-2. channel 原理和坑</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175124/</link>
+      <pubDate>Thu, 15 May 2025 17:51:24 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175124/</guid>
+      <description>1. 前言 channel是Golang在语言层面提供的goroutine间的通信方式，比Unix管道更易用也更轻便。channel主要用于进程内各goroutine间通信，如果需要跨进程通信，建议使用分布式系统的方法来解决。 channel存在3种状态： nil，未初始化的状态，只进行了声明，或者手动赋值为</description>
+    </item>
+    <item>
+      <title>6-1. 并发与通道</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175119/</link>
+      <pubDate>Thu, 15 May 2025 17:51:19 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175119/</guid>
+      <description>并发基础 1 1.并发,并行并发和并行都可以处理“多任务”，二者的主要区别在于是否是“同时进行”多个的任务。 并发:交替做不同事情的能力,不同的代码块交替执行 并行:同时做不同事情的能力,不同的代码块同时执行 1 2 3 #帮助理解 并发：老师甲先给学生A去讲思路，A听懂了自己书写过程并且检查，而甲老师在这期间直接去</description>
+    </item>
+    <item>
+      <title>5-1. go 操作csv</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175114/</link>
+      <pubDate>Thu, 15 May 2025 17:51:14 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175114/</guid>
+      <description>1 读 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 //csv文件读取 func ReadCsv(filepath string) { //打开文件(只读模式)，创建io.read接口实例 opencast,err:=os.Open(filepath) if err!=nil{ log.Println(&amp;#34;csv文件打开失败！&amp;#34;) } defer opencast.Close() //创建csv读取接口实例 ReadCsv:=csv.NewReader(opencast) //获取一行内容，一般为第一行内容 read,_:=ReadCsv.Read() //返回切片类型：</description>
+    </item>
+    <item>
+      <title>5-0. 文件操作</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175110/</link>
+      <pubDate>Thu, 15 May 2025 17:51:10 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175110/</guid>
+      <description>文件操作设计的I/O操作库 io &amp;ndash; 提供基本的接口 io/ioutil &amp;ndash; 封装了一些常用的接口 fmt &amp;ndash; 实现格式化IO. 类似c语言中的printf和scanf bufio &amp;ndash; 实现缓存I/O io/ioutil 读取文件目录 ReadDir(), 返回一个列表[]os.FileInfo, 列表中包含指定目录的目录信息 1 2 3 4 5 6 7 8 type FileInfo interface{ Name() string // 文件名称 Size() int64 // 文件大小 Mode() FileMode //打开模式 ModTime() time.Time /</description>
+    </item>
+    <item>
+      <title>4-3. 空结构体</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175106/</link>
+      <pubDate>Thu, 15 May 2025 17:51:06 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175106/</guid>
+      <description>1 空结构体 空结构体不包含任何字段struct{}{} 空结构体不占内存空间 1 2 3 4 5 6 7 8 9 10 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;unsafe&amp;#34; ) func main() { fmt.Println(unsafe.Sizeof(struct{}{})) // 0 } 2 空结构的作用 2.1 1. 与map结合实现set Go 语言标准库没有提供 Set 的实现，通常使用 map 来代替。事实上，对于集合来说，只需要 map 的键，而不需要值。即使是将值设置为 bool 类型，也会多占据 1 个字节，</description>
+    </item>
+    <item>
+      <title>4-2. 接口</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175100/</link>
+      <pubDate>Thu, 15 May 2025 17:51:00 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175100/</guid>
+      <description>接口 接口（interface）定义了一个对象的行为规范，只定义规范不实现，由具体的对象来实现规范的细节。 牢记接口（interface）是一种类型。 接口类型是一种抽象的类型, 不会暴露出他所代表的内部属性的结构, 只会展示出他自己的方法,因此接口不能被实例化; **Golang中的接口没有数据字段, 只有定义</description>
+    </item>
+    <item>
+      <title>4-1. 结构体</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175056/</link>
+      <pubDate>Thu, 15 May 2025 17:50:56 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175056/</guid>
+      <description>结构体 Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。 Go语言中的基础数据类型可以表示一些事物的基本属性，但是当我们想表达一个事物的全部或部分属性时，这时候再用单一的基本数据类型明显就无法满足需求了，Go语言提</description>
+    </item>
+    <item>
+      <title>3-3. 数组和切片</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515175051/</link>
+      <pubDate>Thu, 15 May 2025 17:50:51 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515175051/</guid>
+      <description>数组 数组是具有相同唯一类型的一组已编号且长度固定的数据项序列，这种类型可以是任意的原始类型例如整型、字符串或者自定义类型。 声明数组的时候必须声明长度或者用[&amp;hellip;], 不然就是切片. 初始化数组: 1 var balance = [5]float32{1000.0, 2.0, 3.4, 7.0, 50.0} 如果数组长度不确定，可以使用 &amp;hellip; 代替数组的长度，编译器会根据元素个数自行推断数组的</description>
+    </item>
+    <item>
+      <title>3-2. 函数</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515174546/</link>
+      <pubDate>Thu, 15 May 2025 17:45:46 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515174546/</guid>
+      <description>3.Go中的指针要搞明白Go语言中的指针需要先知道三个概念 指针地址 指针类型 指针取值 Go语言中的指针操作非常简单，我们只需要记住两个符号：&amp;amp;：取地址，*：根据地址取值 0.1 关于指针 我们知道变量是用来存储数据的，变量的本质是给存储数据的内存地址起了一个好记的别名。比如我们定义了一个变量a:=10，这</description>
+    </item>
+    <item>
+      <title>3-1. go指针</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515174541/</link>
+      <pubDate>Thu, 15 May 2025 17:45:41 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515174541/</guid>
+      <description>1 Go中的指针要搞明白Go语言中的指针需要先知道三个概念 指针地址 指针类型 指针取值 Go语言中的指针操作非常简单，我们只需要记住两个符号：&amp;amp;：取地址，*：根据地址取值 1.1 关于指针 我们知道变量是用来存储数据的，变量的本质是给存储数据的内存地址起了一个好记的别名。比如我们定义了一个变量a:=10，这个</description>
+    </item>
+    <item>
+      <title>3-0. 函数&amp;复合类型</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515174536/</link>
+      <pubDate>Thu, 15 May 2025 17:45:36 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515174536/</guid>
+      <description>Go中的指针要搞明白Go语言中的指针需要先知道三个概念 指针地址 指针类型 指针取值 Go语言中的指针操作非常简单，我们只需要记住两个符号：&amp;amp;：取地址，*：根据地址取值 0.1 关于指针 我们知道变量是用来存储数据的，变量的本质是给存储数据的内存地址起了一个好记的别名。比如我们定义了一个变量a:=10，这个时</description>
+    </item>
+    <item>
+      <title>2-5. 基础语法</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515174529/</link>
+      <pubDate>Thu, 15 May 2025 17:45:29 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515174529/</guid>
+      <description>1 位-字节-字符-编码 1 2 3 4 5 6 7 8 9 10 11 12 1、位：数据存储的最小单位。每个二进制数字0或者1就是1个位； 2、字节：8个位构成一个字节；即：1 byte (字节)= 8 bit(位)； 1 KB = 1024 B(字节)； 1 MB = 1024 KB; (2^10 B) 1 GB = 1024 MB; (2^20 B) 1 TB = 1024 GB; (2^30 B) 3、字符：a、A、中、+、*、の......均表示一个字符 ； unioncode 一个</description>
+    </item>
+    <item>
+      <title>2-4. 数据类型相关操作</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515174522/</link>
+      <pubDate>Thu, 15 May 2025 17:45:22 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515174522/</guid>
+      <description>一. 数据互相转换 int 转string string := strconv.Itoa(int) string到int int,err := strconv.Atoi(string) string到int64 int64, err := strconv.ParseInt(string, 10, 64) int64到string string := strconv.FormatInt(int64,10) map 到json字符串 1 2 3 m := map[string]string{} mjson,_ :=json.Marshal(m) mString :=string(mjson) json到struct 如果是单层可以直接用interface转为map 1 2 3 jsonStr = `{}` var jsonStruct interface{} JSON.Unmarshal([]byte(jsonStr), &amp;amp;jsonStruct) 有嵌套，把需要解析的字段一一列出，这里注</description>
+    </item>
+    <item>
+      <title>2-3. 运算符</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515174514/</link>
+      <pubDate>Thu, 15 May 2025 17:45:14 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515174514/</guid>
+      <description>1 运算符Go 语言内置的运算符有： 算术运算符 关系运算符 逻辑运算符 位运算符 赋值运算符 其他运算符 1.1 算术运算符下表列出了所有Go语言的算术运算符。假定 A 值为 10，B 值为 20。 运算符 描述 实例 + 相加 A + B 输出结果 30 - 相减 A - B 输出结果 -10 * 相乘 A * B 输出结果 200 / 相除 B / A 输出结果 2 % 求余 B % A 输出结果 0 ++ 自增 A++ 输</description>
+    </item>
+    <item>
+      <title>2-2. 数据类型</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515174507/</link>
+      <pubDate>Thu, 15 May 2025 17:45:07 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515174507/</guid>
+      <description>1 数据类型Go 语言按类别有以下几种数据类型： 序号 类型和描述 1 布尔型布尔型的值只可以是常量 true 或者 false。一个简单的例子：var b bool = true。 2 数字类型整型 int 和浮点型 float32、float64，Go 语言支持整型和浮点型数字，并且支持复数，其中位的运算采用补码。 3 **字符串类型:**字符串就是一</description>
+    </item>
+    <item>
+      <title>2-1. 变量</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515174450/</link>
+      <pubDate>Thu, 15 May 2025 17:44:50 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515174450/</guid>
+      <description>1 位-字节-字符-编码 1 2 3 4 5 6 7 8 9 10 11 12 1、位：数据存储的最小单位。每个二进制数字0或者1就是1个位； 2、字节：8个位构成一个字节；即：1 byte (字节)= 8 bit(位)； 1 KB = 1024 B(字节)； 1 MB = 1024 KB; (2^10 B) 1 GB = 1024 MB; (2^20 B) 1 TB = 1024 GB; (2^30 B) 3、字符：a、A、中、+、*、の......均表示一个字符 ； unioncode 一个</description>
+    </item>
+    <item>
+      <title>1-1. GoPath和GoMod</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515174437/</link>
+      <pubDate>Thu, 15 May 2025 17:44:37 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515174437/</guid>
+      <description>GOPATH1、为什么要配置GOPATH 配置GOPATH的用意是为了方便项目的部署和构建，以及可以直接使用go get 命令下载第三方的包到自己的项目的src下和相关的执行文件bin目录，和中间文件pkg src ：项目的源代码 pkg ：编译后的生成文件 bin ： 编译后的可执行文件 如果你只是想单独的写个go代码可以不设置GOP</description>
+    </item>
+    <item>
+      <title>1-0. 环境配置</title>
+      <link>https://ipfred.github.io/lang/go/go_base/20250515174347/</link>
+      <pubDate>Thu, 15 May 2025 17:43:47 +0800</pubDate><author>330446875@qq.com (Fred)</author>
+      <guid>https://ipfred.github.io/lang/go/go_base/20250515174347/</guid>
+      <description>Golang - 环境配置 1 认识go语言 go语言（或 Golang）是Google开发的开源编程语言，诞生于2006年1月2日下午15点4分5秒，于2009年11月开源，2012年发布go稳定版 go是非常年轻的一门语言，它的主要目标是“兼具Python 等动态语言的开发速度和C/C++等编译型语言的性能与安全性 可以粗</description>
+    </item>
     <item>
       <title>go开发环境配置</title>
       <link>https://ipfred.github.io/lang/go/20250510143746/</link>
       <pubDate>Sat, 10 May 2025 14:37:46 +0800</pubDate><author>330446875@qq.com (Fred)</author>
       <guid>https://ipfred.github.io/lang/go/20250510143746/</guid>
-      <description>配置了这么多次go开发环境，每次都踩坑，记录下使用windows系统开发go语言的环境配置，了解go语言的开发环境特点 开发环境： VSCode go 1.24 多版本管理 下载安装 官方下载安装 建议安装到 默认路径下面 C:\Program Files\Go 安装完成后，会发现多了些东西 GOPATH : %USERPROFILE%\go 在用户根目录下 bin 下面是go的一些插件 用vscode开发的时候 会依赖这些插件 pkg</description>
+      <description>配置了这么多次go开发环境，每次都踩坑，记录下使用windows系统开发go语言的环境配置，了解go语言的开发环境特点 开发环境： VSCode go 1.24 多版本管理 1 下载安装 官方下载安装 建议安装到 默认路径下面 C:\Program Files\Go 安装完成后，会发现多了些东西 GOPATH : %USERPROFILE%\go 在用户根目录下 bin 下面是go的一些插件 用vscode开发的时候 会依赖这些插件</description>
     </item>
     <item>
       <title>多平台GitHub配置代理</title>
       <link>https://ipfred.github.io/lang/git/20250425152252/</link>
       <pubDate>Fri, 25 Apr 2025 15:22:44 +0800</pubDate><author>330446875@qq.com (Fred)</author>
       <guid>https://ipfred.github.io/lang/git/20250425152252/</guid>
-      <description>本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 前言：本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 git 配置代理 windows 设置代理 http || https协议 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 //设置全局代理 git config --global https.proxy http://127.0.0.1:7897 git config --global https.proxy https://127.0.0.1:7897 // socks git config --global http.proxy socks5://127.0.0.1:7897 git config --global https.proxy</description>
+      <description>本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 前言：本地拉取github老是失败，可通过全局配置代理，或只给github.com配置代理 git 配置代理 1 windows 设置代理 1.1 http || https协议 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 //设置全局代理 git config --global https.proxy http://127.0.0.1:7897 git config --global https.proxy https://127.0.0.1:7897 // socks git config --global http.proxy socks5://127.0.0.1:7897 git config</description>
     </item>
     <item>
       <title>一文搞懂Kerberos</title>
       <link>https://ipfred.github.io/lang/docker/20240511160713/</link>
       <pubDate>Sat, 11 May 2024 16:07:13 +0800</pubDate><author>330446875@qq.com (Fred)</author>
       <guid>https://ipfred.github.io/lang/docker/20240511160713/</guid>
-      <description>Kerberos 是一种身份认证协议，被广泛运用在大数据生态中，甚至可以说是大数据身份认证的事实标准。本文将详细说明 Kerberos 原理。 二、Kerberos 是什么？Kerberos 一词来源于古希腊神话中的 Cerberus —— 守护地狱之门的三头犬。 一句话来说，Kerberos是一种基于加密Ticket的身份认证协议。 主要有三部分组成： Key Distribution Center (</description>
+      <description>Kerberos 是一种身份认证协议，被广泛运用在大数据生态中，甚至可以说是大数据身份认证的事实标准。本文将详细说明 Kerberos 原理。 1 二、Kerberos 是什么？Kerberos 一词来源于古希腊神话中的 Cerberus —— 守护地狱之门的三头犬。 一句话来说，Kerberos是一种基于加密Ticket的身份认证协议。 主要有三部分组成： Key Distribution Center</description>
     </item>
     <item>
       <title>docker使用常用命令</title>
       <link>https://ipfred.github.io/lang/docker/20240510103849/</link>
       <pubDate>Fri, 10 May 2024 10:38:49 +0800</pubDate><author>330446875@qq.com (Fred)</author>
       <guid>https://ipfred.github.io/lang/docker/20240510103849/</guid>
-      <description>docker命令官方文档docker | Docker Docs 代理配置/etc/docker/daemon.json 文件写入下面内容(文件不存在新建) 1 2 3 4 5 6 { &amp;#34;registry-mirrors&amp;#34;: [ &amp;#34;https://hub-mirror.c.163.com&amp;#34;, &amp;#34;https://mirror.baidubce.com&amp;#34; ] } 重启docker服务 1 2 3 4 sudo systemctl daemon-reload sudo systemctl restart docker sudo service docker stop sudo service docker start docker基础命令 增 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 docker pull 镜像文件名 #下载</description>
+      <description>0.1 docker命令官方文档docker | Docker Docs 0.2 代理配置/etc/docker/daemon.json 文件写入下面内容(文件不存在新建) 1 2 3 4 5 6 { &amp;#34;registry-mirrors&amp;#34;: [ &amp;#34;https://hub-mirror.c.163.com&amp;#34;, &amp;#34;https://mirror.baidubce.com&amp;#34; ] } 重启docker服务 1 2 3 4 sudo systemctl daemon-reload sudo systemctl restart docker sudo service docker stop sudo service docker start 1 docker基础命令 1.1 增 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 docker pull 镜像文件</description>
     </item>
   </channel>
 </rss>

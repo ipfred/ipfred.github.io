@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>16. Go runtime详解 | Fred的知识库</title><meta name="author" content="Fred">
+<meta name="author-link" content="https://github.com/ipfred">
+<meta name="description" content="runtime 包 提供了运行时与系统的交互，比如控制协程函数，触发垃圾立即回收等等底层操作; 1 runtime.GOARCH 获取 GOARCH 信息 1 fmt.Println(runtime.GOARCH) // arm64 2 runtime.GOOS 获取 GOOS 信息 1 fmt.Println(runtime.GOOS) // darwin 3 runtime.GOROOT() 获取goroot环境变量 func GOROOT() string 1 2 3 4 5 6 7 8 9 10 11 12 package main import ( &#34;fmt&#34; &#34;runtime&#34; ) func main() { fmt.Println(runtime.GOROOT()) // /Users/liusaisai/.g/go fmt.Println(runtime.GOARCH) // arm64 fmt.Println(runtime.GOOS) // darwin } 4 runtime.Version() 获取go版本 1 2 3 4 5 6 7 8 9 10 11 package main import ( &#34;fmt&#34; &#34;runtime&#34; ) func main() { fmt.Println(runtime.Version()) //go1.18 } 5 runtime.NumCPU() 获取机器cp" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
+  <meta itemprop="name" content="16. Go runtime详解">
+  <meta itemprop="description" content="runtime 包 提供了运行时与系统的交互，比如控制协程函数，触发垃圾立即回收等等底层操作; 1 runtime.GOARCH 获取 GOARCH 信息 1 fmt.Println(runtime.GOARCH) // arm64 2 runtime.GOOS 获取 GOOS 信息 1 fmt.Println(runtime.GOOS) // darwin 3 runtime.GOROOT() 获取goroot环境变量 func GOROOT() string 1 2 3 4 5 6 7 8 9 10 11 12 package main import ( &#34;fmt&#34; &#34;runtime&#34; ) func main() { fmt.Println(runtime.GOROOT()) // /Users/liusaisai/.g/go fmt.Println(runtime.GOARCH) // arm64 fmt.Println(runtime.GOOS) // darwin } 4 runtime.Version() 获取go版本 1 2 3 4 5 6 7 8 9 10 11 package main import ( &#34;fmt&#34; &#34;runtime&#34; ) func main() { fmt.Println(runtime.Version()) //go1.18 } 5 runtime.NumCPU() 获取机器cp">
+  <meta itemprop="datePublished" content="2025-05-15T18:02:59+08:00">
+  <meta itemprop="dateModified" content="2025-05-15T18:12:34+08:00">
+  <meta itemprop="wordCount" content="4075">
+  <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
+  <meta itemprop="keywords" content="go高级"><meta property="og:url" content="https://ipfred.github.io/lang/go/go_advanced/20250515180259/">
+  <meta property="og:site_name" content="Fred的知识库">
+  <meta property="og:title" content="16. Go runtime详解">
+  <meta property="og:description" content="runtime 包 提供了运行时与系统的交互，比如控制协程函数，触发垃圾立即回收等等底层操作; 1 runtime.GOARCH 获取 GOARCH 信息 1 fmt.Println(runtime.GOARCH) // arm64 2 runtime.GOOS 获取 GOOS 信息 1 fmt.Println(runtime.GOOS) // darwin 3 runtime.GOROOT() 获取goroot环境变量 func GOROOT() string 1 2 3 4 5 6 7 8 9 10 11 12 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) func main() { fmt.Println(runtime.GOROOT()) // /Users/liusaisai/.g/go fmt.Println(runtime.GOARCH) // arm64 fmt.Println(runtime.GOOS) // darwin } 4 runtime.Version() 获取go版本 1 2 3 4 5 6 7 8 9 10 11 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) func main() { fmt.Println(runtime.Version()) //go1.18 } 5 runtime.NumCPU() 获取机器cp">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="lang">
+    <meta property="article:published_time" content="2025-05-15T18:02:59+08:00">
+    <meta property="article:modified_time" content="2025-05-15T18:12:34+08:00">
+    <meta property="og:image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta name="twitter:title" content="16. Go runtime详解">
+<meta name="twitter:description" content="runtime 包 提供了运行时与系统的交互，比如控制协程函数，触发垃圾立即回收等等底层操作; 1 runtime.GOARCH 获取 GOARCH 信息 1 fmt.Println(runtime.GOARCH) // arm64 2 runtime.GOOS 获取 GOOS 信息 1 fmt.Println(runtime.GOOS) // darwin 3 runtime.GOROOT() 获取goroot环境变量 func GOROOT() string 1 2 3 4 5 6 7 8 9 10 11 12 package main import ( &#34;fmt&#34; &#34;runtime&#34; ) func main() { fmt.Println(runtime.GOROOT()) // /Users/liusaisai/.g/go fmt.Println(runtime.GOARCH) // arm64 fmt.Println(runtime.GOOS) // darwin } 4 runtime.Version() 获取go版本 1 2 3 4 5 6 7 8 9 10 11 package main import ( &#34;fmt&#34; &#34;runtime&#34; ) func main() { fmt.Println(runtime.Version()) //go1.18 } 5 runtime.NumCPU() 获取机器cp">
+<meta name="application-name" content="FredKnow">
+<meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://ipfred.github.io/lang/go/go_advanced/20250515180259/" /><link rel="prev" href="https://ipfred.github.io/lang/go/go_advanced/20250515180255/" /><link rel="next" href="https://ipfred.github.io/lang/go/go_advanced/20250515180303/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css"></noscript><link rel="preload" href="https://unpkg.com/animate.css@4.1.1/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "16. Go runtime详解",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515180259\/"
+    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  4075 ,
+    "url": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515180259\/","datePublished": "2025-05-15T18:02:59+08:00","dateModified": "2025-05-15T18:12:34+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+      "@type": "Organization",
+      "name": "ipFred","logo": "https:\/\/ipfred.github.io\/images\/avatar.jpg"},"author": {
+        "@type": "Person",
+        "name": "Fred"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper" data-github-corner="right">
+    <div class="header-title">
+      <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="Fred的知识库" data-title="Fred的知识库" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-desktop" class="typeit header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li class="menu-item has-children">
+              <a
+                class="menu-link"
+                href="/lang/"
+                
+                
+              ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/web/"
+                
+                
+              ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="https://files.catbox.moe/mtzx1g.png" data-title="https://files.catbox.moe/mtzx1g.png" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-mobile" class="typeit header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li
+              class="menu-item"
+            ><span class="nested-item">
+                  <a
+                    class="menu-link"
+                    href="/lang/"
+                    
+                    
+                  ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/web/"
+                  
+                  
+                ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><nav aria-label="breadcrumb" class="breadcrumb-container sticky">
+    <ol class="breadcrumb"><li class="breadcrumb-item"><a href="/lang/" title="langs">langs</a></li><li class="breadcrumb-item active" aria-current="page">16. Go runtime详解</li>
+    </ol>
+  </nav><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"><div class="details collection-details open">
+      <div class="details-summary collection-summary">
+        <i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i>
+        <span class="collection-name" data-collections="合集">go高级</span>
+        <span class="collection-count">42</span><i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></div>
+      <div class="details-content collection-content">
+        <nav>
+          <ul class="collection-list">
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175156/" title="1-1.Go内存管理">1-1.Go内存管理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175202/" title="1-2.Go垃圾回收机制">1-2.Go垃圾回收机制</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175207/" title="1-3.Go语言中的并发编程">1-3.Go语言中的并发编程</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175210/" title="1-4.Go协程调度原理及GPM模型">1-4.Go协程调度原理及GPM模型</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175213/" title="1-5.Go中逃逸现象, 变量&#43;堆栈">1-5.Go中逃逸现象, 变量&#43;堆栈</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175216/" title="1-6.Go面向对象的思维理解interface">1-6.Go面向对象的思维理解interface</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175219/" title="1-7.Go中的Defer">1-7.Go中的Defer</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180045/" title="1-8.Go和Python中的深浅拷贝">1-8.Go和Python中的深浅拷贝</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180051/" title="1-9.Go语言内存对齐">1-9.Go语言内存对齐</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180055/" title="1-10. 内联优化">1-10. 内联优化</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180101/" title="1-11. go条件编译">1-11. go条件编译</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180114/" title="1-12. go链接参数 ldflags">1-12. go链接参数 ldflags</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180119/" title="2-1.流和IO多路复用">2-1.流和IO多路复用</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180123/" title="3.分布式从ACID、CAP、BASE的理论推进">3.分布式从ACID、CAP、BASE的理论推进</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180130/" title="4-1.单点Server的N种并发模型汇总">4-1.单点Server的N种并发模型汇总</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180140/" title="4-2控制goroutine的数量">4-2控制goroutine的数量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180144/" title="5.TCP网络连接以及TIME_WAIT的意义">5.TCP网络连接以及TIME_WAIT的意义</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180148/" title="6-1.配置管理库—Viper">6-1.配置管理库—Viper</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180153/" title="6-2.高性能日志库zap">6-2.高性能日志库zap</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180156/" title="7.Go异常处理">7.Go异常处理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180200/" title="8-1.Go中的Mutex和RWMutex">8-1.Go中的Mutex和RWMutex</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180204/" title="8-2.sqlx的使用">8-2.sqlx的使用</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180208/" title="8-3.分布式id 库snowflake和sonyflake">8-3.分布式id 库snowflake和sonyflake</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180211/" title="8-4. sync.Pool 复用对象">8-4. sync.Pool 复用对象</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180215/" title="8-5. sync.Once 单例模式">8-5. sync.Once 单例模式</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180217/" title="8-6. sync.Cond 条件变量">8-6. sync.Cond 条件变量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180223/" title="9.Go性能调优 pprof">9.Go性能调优 pprof</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180231/" title="11.Go语言设计模式">11.Go语言设计模式</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180234/" title="12-1. unsafe.Pointer和 uintptr">12-1. unsafe.Pointer和 uintptr</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180240/" title="12-2. go 信号量">12-2. go 信号量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180244/" title="13-1.go语言代码优化技巧">13-1.go语言代码优化技巧</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180247/" title="13-2. go 接口型函数">13-2. go 接口型函数</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180251/" title="14.位运算">14.位运算</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180255/" title="15. Go 切片的截取">15. Go 切片的截取</a></li><li class="collection-item"><span class="active" title="16. Go runtime详解">16. Go runtime详解</span></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180303/" title="17. go执行外部命令">17. go执行外部命令</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180306/" title="18. 标准库container三剑客：head、list、ring">18. 标准库container三剑客：head、list、ring</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180308/" title="19.cgo教程">19.cgo教程</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180311/" title="20.go调用lib和so动态库">20.go调用lib和so动态库</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180316/" title="21.go编译参数netgo">21.go编译参数netgo</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180323/" title="22.go与http代理">22.go与http代理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180343/" title="100.习题练习">100.习题练习</a></li></ul>
+          <div class="collection-nav-simple"><a href="/lang/go/go_advanced/20250515180255/" class="collection-nav-item" rel="prev" title="15. Go 切片的截取"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i></a><span class="text-secondary">35/42</span><a href="/lang/go/go_advanced/20250515180303/" class="collection-nav-item" rel="next" title="17. go执行外部命令"><i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+        </nav>
+      </div>
+    </div></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>16. Go runtime详解</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/" class="post-collection" title="合集 - go高级"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go高级</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 18:02:59"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:34"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="4075 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="16. Go runtime详解">
+              <i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+            </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#runtimegoarch">runtime.GOARCH</a></li>
+    <li><a href="#runtimegoos">runtime.GOOS</a></li>
+    <li><a href="#runtimegoroot">runtime.GOROOT()</a></li>
+    <li><a href="#runtimeversion">runtime.Version()</a></li>
+    <li><a href="#runtimenumcpu">runtime.NumCPU()</a></li>
+    <li><a href="#runtimegomaxprocsn-int">runtime.GOMAXPROCS(n int)</a></li>
+    <li><a href="#runtimesetfinalizer">runtime.SetFinalizer()</a></li>
+    <li><a href="#runtimegc">runtime.GC()</a></li>
+    <li><a href="#runtimereadmemstats">runtime.ReadMemStats()</a></li>
+    <li><a href="#runtimeinusebytes">runtime.InUseBytes()</a></li>
+    <li><a href="#runtimeinuseobjects">runtime.InUseObjects()</a></li>
+    <li><a href="#runtimestack">runtime.Stack()</a></li>
+    <li><a href="#runtimememprofile">runtime.MemProfile()</a></li>
+    <li><a href="#runtimebreakpoint">runtime.Breakpoint()</a></li>
+    <li><a href="#runtimestack-1">runtime.Stack()</a></li>
+    <li><a href="#runtimecaller">runtime.Caller()</a></li>
+    <li><a href="#runtimecallers">runtime.Callers()</a></li>
+    <li><a href="#runtimefuncforpc">runtime.FuncForPC()</a></li>
+    <li><a href="#runtimenumcgocall">runtime.NumCgoCall()</a></li>
+    <li><a href="#runtimenumgoroutine">runtime.NumGoroutine()</a></li>
+    <li><a href="#runtimegoexit">runtime.Goexit()</a></li>
+    <li><a href="#runtimegosched">runtime.Gosched()</a></li>
+    <li><a href="#runtimegoroutineprofile">runtime.GoroutineProfile()</a></li>
+    <li><a href="#runtimelockosthread">runtime.LockOSThread()</a></li>
+    <li><a href="#runitmeunlockosthread">runitme.UnlockOSThread()</a></li>
+    <li><a href="#runtimethreadcreateprofile">runtime.ThreadCreateProfile()</a></li>
+    <li><a href="#runtimesetcpuprofileratehz-int">runtime.SetCPUProfileRate(hz int)</a></li>
+    <li><a href="#runtimesetblockprofileraterate-int">runtime.SetBlockProfileRate(rate int)</a></li>
+    <li><a href="#runtimeblockprofile">runtime.BlockProfile()</a></li>
+  </ol>
+</nav></div>
+      </div><div class="content" id="content" data-end-flag="（本文完）"><blockquote>
+<p>runtime 包 提供了运行时与系统的交互，比如控制协程函数，触发垃圾立即回收等等底层操作;</p>
+</blockquote>
+<h2 id="runtimegoarch" class="heading-element">
+  <a href="#runtimegoarch" class="heading-mark"></a>1 runtime.GOARCH</h2><blockquote>
+<p>获取 GOARCH 信息</p>
+</blockquote>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">GOARCH</span><span class="p">)</span>   <span class="c1">// arm64
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimegoos" class="heading-element">
+  <a href="#runtimegoos" class="heading-mark"></a>2 runtime.GOOS</h2><blockquote>
+<p>获取 GOOS 信息</p>
+</blockquote>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">GOOS</span><span class="p">)</span>     <span class="c1">// darwin
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimegoroot" class="heading-element">
+  <a href="#runtimegoroot" class="heading-mark"></a>3 runtime.GOROOT()</h2><blockquote>
+<p>获取goroot环境变量  <code>func GOROOT() string</code></p>
+</blockquote>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nf">GOROOT</span><span class="p">())</span> <span class="c1">// /Users/liusaisai/.g/go
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">GOARCH</span><span class="p">)</span>   <span class="c1">// arm64
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">GOOS</span><span class="p">)</span>     <span class="c1">// darwin
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimeversion" class="heading-element">
+  <a href="#runtimeversion" class="heading-mark"></a>4 runtime.Version()</h2><blockquote>
+<p>获取go版本</p>
+</blockquote>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">Version</span><span class="p">())</span>  <span class="c1">//go1.18
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimenumcpu" class="heading-element">
+  <a href="#runtimenumcpu" class="heading-mark"></a>5 runtime.NumCPU()</h2><blockquote>
+<p>获取机器cpu数量</p>
+</blockquote>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nf">NumCPU</span><span class="p">())</span>  <span class="c1">// 16
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimegomaxprocsn-int" class="heading-element">
+  <a href="#runtimegomaxprocsn-int" class="heading-mark"></a>6 runtime.GOMAXPROCS(n int)</h2><blockquote>
+<p>GOMAXPROCS设置可同时执行的最大CPU数，并返回先前的设置。 若 n &lt; 1，它就不会更改当前设置。</p>
+</blockquote>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nf">GOMAXPROCS</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimesetfinalizer" class="heading-element">
+  <a href="#runtimesetfinalizer" class="heading-mark"></a>7 runtime.SetFinalizer()</h2><blockquote>
+<p>给变量绑定方法,当垃圾回收的时候进行监听 <code> SetFinalizer(x, f interface{})</code></p>
+</blockquote>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Student</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">name</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">i</span> <span class="o">*</span><span class="nx">Student</span> <span class="p">=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">Student</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">runtime</span><span class="p">.</span><span class="nf">SetFinalizer</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">println</span><span class="p">(</span><span class="s">&#34;垃圾回收了哦&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">runtime</span><span class="p">.</span><span class="nf">GC</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimegc" class="heading-element">
+  <a href="#runtimegc" class="heading-mark"></a>8 runtime.GC()</h2><blockquote>
+<p>进行垃圾回收</p>
+</blockquote>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Student</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">name</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">i</span> <span class="o">*</span><span class="nx">Student</span> <span class="p">=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">Student</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">runtime</span><span class="p">.</span><span class="nf">SetFinalizer</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">println</span><span class="p">(</span><span class="s">&#34;垃圾回收了哦&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">runtime</span><span class="p">.</span><span class="nf">GC</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimereadmemstats" class="heading-element">
+  <a href="#runtimereadmemstats" class="heading-mark"></a>9 runtime.ReadMemStats()</h2><blockquote>
+<p>查看内存申请和分配统计信息,</p>
+</blockquote>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Student</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">name</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">list</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="o">*</span><span class="nx">Student</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">100000</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="kd">var</span> <span class="nx">s</span> <span class="o">*</span><span class="nx">Student</span> <span class="p">=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">Student</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">list</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">memStatus</span> <span class="o">:=</span> <span class="nx">runtime</span><span class="p">.</span><span class="nx">MemStats</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">runtime</span><span class="p">.</span><span class="nf">ReadMemStats</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">memStatus</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;申请的内存:%d\n&#34;</span><span class="p">,</span> <span class="nx">memStatus</span><span class="p">.</span><span class="nx">Mallocs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;释放的内存次数:%d\n&#34;</span><span class="p">,</span> <span class="nx">memStatus</span><span class="p">.</span><span class="nx">Frees</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>memStatus中可以查看到的信息</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">MemStats</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 一般统计
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">Alloc</span>      <span class="kt">uint64</span> <span class="c1">// 已申请且仍在使用的字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">TotalAlloc</span> <span class="kt">uint64</span> <span class="c1">// 已申请的总字节数（已释放的部分也算在内）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">Sys</span>        <span class="kt">uint64</span> <span class="c1">// 从系统中获取的字节数（下面XxxSys之和）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">Lookups</span>    <span class="kt">uint64</span> <span class="c1">// 指针查找的次数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">Mallocs</span>    <span class="kt">uint64</span> <span class="c1">// 申请内存的次数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">Frees</span>      <span class="kt">uint64</span> <span class="c1">// 释放内存的次数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 主分配堆统计
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">HeapAlloc</span>    <span class="kt">uint64</span> <span class="c1">// 已申请且仍在使用的字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">HeapSys</span>      <span class="kt">uint64</span> <span class="c1">// 从系统中获取的字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">HeapIdle</span>     <span class="kt">uint64</span> <span class="c1">// 闲置span中的字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">HeapInuse</span>    <span class="kt">uint64</span> <span class="c1">// 非闲置span中的字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">HeapReleased</span> <span class="kt">uint64</span> <span class="c1">// 释放到系统的字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">HeapObjects</span>  <span class="kt">uint64</span> <span class="c1">// 已分配对象的总个数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// L低层次、大小固定的结构体分配器统计，Inuse为正在使用的字节数，Sys为从系统获取的字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">StackInuse</span>  <span class="kt">uint64</span> <span class="c1">// 引导程序的堆栈
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">StackSys</span>    <span class="kt">uint64</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">MSpanInuse</span>  <span class="kt">uint64</span> <span class="c1">// mspan结构体
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">MSpanSys</span>    <span class="kt">uint64</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">MCacheInuse</span> <span class="kt">uint64</span> <span class="c1">// mcache结构体
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">MCacheSys</span>   <span class="kt">uint64</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">BuckHashSys</span> <span class="kt">uint64</span> <span class="c1">// profile桶散列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">GCSys</span>       <span class="kt">uint64</span> <span class="c1">// GC元数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">OtherSys</span>    <span class="kt">uint64</span> <span class="c1">// 其他系统申请
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 垃圾收集器统计
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">NextGC</span>       <span class="kt">uint64</span> <span class="c1">// 会在HeapAlloc字段到达该值（字节数）时运行下次GC
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">LastGC</span>       <span class="kt">uint64</span> <span class="c1">// 上次运行的绝对时间（纳秒）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">PauseTotalNs</span> <span class="kt">uint64</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">PauseNs</span>      <span class="p">[</span><span class="mi">256</span><span class="p">]</span><span class="kt">uint64</span> <span class="c1">// 近期GC暂停时间的循环缓冲，最近一次在[(NumGC+255)%256]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">NumGC</span>        <span class="kt">uint32</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">EnableGC</span>     <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">DebugGC</span>      <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 每次申请的字节数的统计，61是C代码中的尺寸分级数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">BySize</span> <span class="p">[</span><span class="mi">61</span><span class="p">]</span><span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Size</span>    <span class="kt">uint32</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Mallocs</span> <span class="kt">uint64</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Frees</span>   <span class="kt">uint64</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="runtimeinusebytes" class="heading-element">
+  <a href="#runtimeinusebytes" class="heading-mark"></a>10 runtime.InUseBytes()</h2><blockquote>
+<p>InUseBytes返回正在使用的字节数（AllocBytes – FreeBytes）</p>
+</blockquote>
+<h2 id="runtimeinuseobjects" class="heading-element">
+  <a href="#runtimeinuseobjects" class="heading-mark"></a>11 runtime.InUseObjects()</h2><blockquote>
+<p>InUseObjects返回正在使用的对象数（AllocObjects - FreeObjects）</p>
+</blockquote>
+<h2 id="runtimestack" class="heading-element">
+  <a href="#runtimestack" class="heading-mark"></a>12 runtime.Stack()</h2><blockquote>
+<p>Stack返回关联至此记录的调用栈踪迹，即r.Stack0的前缀。</p>
+</blockquote>
+<h2 id="runtimememprofile" class="heading-element">
+  <a href="#runtimememprofile" class="heading-mark"></a>13 runtime.MemProfile()</h2><blockquote>
+<p>MemProfile返回当前内存profile中的记录数n。若len(p)&gt;=n，MemProfile会将此分析报告复制到p中并返回(n, true)；如果len(p)&lt;n，MemProfile则不会更改p，而只返回(n, false)。</p>
+<p>如果inuseZero为真，该profile就会包含无效分配记录（其中r.AllocBytes&gt;0，而r.AllocBytes==r.FreeBytes。这些内存都是被申请后又释放回运行时环境的）。</p>
+<p>大多数调用者应当使用runtime/pprof包或testing包的-test.memprofile标记，而非直接调用MemProfile</p>
+</blockquote>
+<h2 id="runtimebreakpoint" class="heading-element">
+  <a href="#runtimebreakpoint" class="heading-mark"></a>14 runtime.Breakpoint()</h2><blockquote>
+<p>执行一个断点</p>
+</blockquote>
+<h2 id="runtimestack-1" class="heading-element">
+  <a href="#runtimestack-1" class="heading-mark"></a>15 runtime.Stack()</h2><blockquote>
+<p>Stack将调用其的go程的调用栈踪迹格式化后写入到buf中并返回写入的字节数。若all为true，函数会在写入当前go程的踪迹信息后，将其它所有go程的调用栈踪迹都格式化写入到buf中。</p>
+<p>在调用<code>Stack</code>方法后,首先格式化当前go协程的信息，然后把其他正在运行的go协程也格式化后写入buf中</p>
+</blockquote>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">go</span> <span class="nf">showRecord</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">buf</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">runtime</span><span class="p">.</span><span class="nf">Stack</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">showRecord</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">tiker</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Tick</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">t</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">tiker</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20221229160859.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20221229160859.png?size=small" data-sub-html="<h2>image-20221229160859663</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20221229160859.png" alt="image-20221229160859663" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20221229160859.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20221229160859.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20221229160859.png?size=large 2x" data-title="image-20221229160859663" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="runtimecaller" class="heading-element">
+  <a href="#runtimecaller" class="heading-mark"></a>16 runtime.Caller()</h2><blockquote>
+<p>获取当前函数或者上层函数的标识号、文件名、调用方法在当前文件中的行号</p>
+</blockquote>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">pc</span><span class="p">,</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">runtime</span><span class="p">.</span><span class="nf">Caller</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">pc</span><span class="p">)</span>   <span class="c1">// 4308282211
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span> <span class="c1">// /Users/liusaisai/workspace/goProject/src/picturePro/main.go
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span> <span class="c1">// 9
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ok</span><span class="p">)</span>   <span class="c1">// ok
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimecallers" class="heading-element">
+  <a href="#runtimecallers" class="heading-mark"></a>17 runtime.Callers()</h2><blockquote>
+<p><code>func Callers(skip int, pc []uintptr) int</code></p>
+<p>函数把当前go程序调用栈上的调用栈标识符填入切片pc中，返回写入到pc中的项数。</p>
+<p>实参skip为开始在pc中记录之前所要跳过的栈帧数，0表示Callers自身的调用栈，1表示Callers所在的调用栈。返回写入p的项数</p>
+</blockquote>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">pcs</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">uintptr</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">i</span> <span class="o">:=</span> <span class="nx">runtime</span><span class="p">.</span><span class="nf">Callers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">pcs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">pcs</span><span class="p">[:</span><span class="nx">i</span><span class="p">])</span>   <span class="c1">// [4371884917 4371531008 4371698004]   三个pc 其中有一个是main方法自身的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimefuncforpc" class="heading-element">
+  <a href="#runtimefuncforpc" class="heading-mark"></a>18 runtime.FuncForPC()</h2><blockquote>
+<p><code>func FuncForPC(pc uintptr) *Func</code></p>
+<p>获取一个标识调用栈标识符pc对应的调用栈</p>
+</blockquote>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">pcs</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">uintptr</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">i</span> <span class="o">:=</span> <span class="nx">runtime</span><span class="p">.</span><span class="nf">Callers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">pcs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">pcs</span><span class="p">[:</span><span class="nx">i</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">pc</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">pcs</span><span class="p">[:</span><span class="nx">i</span><span class="p">]</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">p</span> <span class="o">:=</span> <span class="nx">runtime</span><span class="p">.</span><span class="nf">FuncForPC</span><span class="p">(</span><span class="nx">pc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">file</span><span class="p">,</span> <span class="nx">line</span> <span class="o">:=</span> <span class="nx">p</span><span class="p">.</span><span class="nf">FileLine</span><span class="p">(</span><span class="nx">pc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">println</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;调用栈:%v &#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;调用函数名称:%v &#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nf">Name</span><span class="p">()),</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;文件名:%v 行号:%v &#34;</span><span class="p">,</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">line</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;调用栈标识符:%v &#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nf">Entry</span><span class="p">()),</span>
+</span></span><span class="line"><span class="cl">		<span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="s">```
+</span></span></span><span class="line"><span class="cl"><span class="s">[4305863597 4305503488 4305670692]
+</span></span></span><span class="line"><span class="cl"><span class="s">调用栈:&amp;</span><span class="cp">{{}}</span><span class="s">  调用函数名称:main.main  文件名:/Users/liusaisai/workspace/goProject/src/picturePro/main.go 行号:10  调用栈标识符:4305863536 
+</span></span></span><span class="line"><span class="cl"><span class="s">调用栈:&amp;</span><span class="cp">{{}}</span><span class="s">  调用函数名称:runtime.main  文件名:/Users/liusaisai/.g/go/src/runtime/proc.go 行号:259  调用栈标识符:4305502896 
+</span></span></span><span class="line"><span class="cl"><span class="s">调用栈:&amp;</span><span class="cp">{{}}</span><span class="s">  调用函数名称:runtime.goexit  文件名:/Users/liusaisai/.g/go/src/runtime/asm_arm64.s 行号:1260  调用栈标识符:4305670688 
+</span></span></span><span class="line"><span class="cl"><span class="s">```</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimenumcgocall" class="heading-element">
+  <a href="#runtimenumcgocall" class="heading-mark"></a>19 runtime.NumCgoCall()</h2><blockquote>
+<p>获取当前进程调用c方法的次数</p>
+</blockquote>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">#include &lt;stdio.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;C&#34;</span>   <span class="c1">// import c   调用了c包中的init方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">println</span><span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nf">NumCgoCall</span><span class="p">())</span>  <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimenumgoroutine" class="heading-element">
+  <a href="#runtimenumgoroutine" class="heading-mark"></a>20 runtime.NumGoroutine()</h2><blockquote>
+<p>获取当前存在的go协程数</p>
+</blockquote>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">go</span> <span class="nb">print</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">print</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">println</span><span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nf">NumGoroutine</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nb">print</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runtimegoexit" class="heading-element">
+  <a href="#runtimegoexit" class="heading-mark"></a>21 runtime.Goexit()</h2><blockquote>
+<p>终止掉当前的go协程</p>
+</blockquote>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">print</span><span class="p">()</span>  <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;继续执行&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nb">print</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;准备结束go协程&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">runtime</span><span class="p">.</span><span class="nf">Goexit</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">defer</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;结束了&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>Goexit</code>终止调用它的go协程,其他协程不受影响,<code>Goexit</code>会在终止该go协程前执行所有的defer函数，前提是defer必须在它前面定义,如果在main go协程调用本方法,会终止该go协程,但不会让main返回,因为main函数没有返回,程序会继续执行其他go协程,当其他go协程执行完毕后,程序就会崩溃</li>
+</ul>
+<h2 id="runtimegosched" class="heading-element">
+  <a href="#runtimegosched" class="heading-mark"></a>22 runtime.Gosched()</h2><blockquote>
+<p>让出调度执行权限，让其他go协程优先执行, 等其他协程执行完后,在执行当前的协程</p>
+</blockquote>
+<h2 id="runtimegoroutineprofile" class="heading-element">
+  <a href="#runtimegoroutineprofile" class="heading-mark"></a>23 runtime.GoroutineProfile()</h2><blockquote>
+<p>获取活跃的go协程的堆栈profile以及记录个数</p>
+</blockquote>
+<h2 id="runtimelockosthread" class="heading-element">
+  <a href="#runtimelockosthread" class="heading-mark"></a>24 runtime.LockOSThread()</h2><blockquote>
+<ul>
+<li>将调用的go程绑定到它当前所在的操作系统线程。除非调用的go程退出或调用UnlockOSThread，否则它将总是在该线程中执行，而其它go程则不能进入该线程</li>
+<li>如果有需要协程,但是有一项重要的功能需要占一个线程，就需要它</li>
+</ul>
+</blockquote>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">go</span> <span class="nf">calcSum1</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">go</span> <span class="nf">calcSum2</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">calcSum1</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">runtime</span><span class="p">.</span><span class="nf">LockOSThread</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">start</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">count</span> <span class="o">:=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10000000000</span> <span class="p">;</span> <span class="nx">i</span><span class="o">++</span>  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">count</span> <span class="o">+=</span> <span class="nx">i</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">end</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;calcSum1耗时&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">end</span><span class="p">.</span><span class="nf">Sub</span><span class="p">(</span><span class="nx">start</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">defer</span> <span class="nx">runtime</span><span class="p">.</span><span class="nf">UnlockOSThread</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">calcSum2</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">start</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">count</span> <span class="o">:=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10000000000</span> <span class="p">;</span> <span class="nx">i</span><span class="o">++</span>  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">count</span> <span class="o">+=</span> <span class="nx">i</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">end</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;calcSum2耗时&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">end</span><span class="p">.</span><span class="nf">Sub</span><span class="p">(</span><span class="nx">start</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="runitmeunlockosthread" class="heading-element">
+  <a href="#runitmeunlockosthread" class="heading-mark"></a>25 runitme.UnlockOSThread()</h2><blockquote>
+<p>解除go协程与操作系统线程的绑定关系，将调用的go程解除和它绑定的操作系统线程。若调用的go程未调用LockOSThread，UnlockOSThread不做操作</p>
+</blockquote>
+<h2 id="runtimethreadcreateprofile" class="heading-element">
+  <a href="#runtimethreadcreateprofile" class="heading-mark"></a>26 runtime.ThreadCreateProfile()</h2><blockquote>
+<p>获取线程创建profile中的记录个数， 返回线程创建profile中的记录个数。如果len(p)&gt;=n，本函数就会将profile中的记录复制到p中并返回(n, true)。若len(p)&lt;n，则不会更改p，而只返回(n, false)。</p>
+<p>绝大多数使用者应当使用runtime/pprof包，而非直接调用ThreadCreateProfile。</p>
+</blockquote>
+<h2 id="runtimesetcpuprofileratehz-int" class="heading-element">
+  <a href="#runtimesetcpuprofileratehz-int" class="heading-mark"></a>27 runtime.SetCPUProfileRate(hz int)</h2><blockquote>
+<p>官方注释：</p>
+<ul>
+<li>SetCPUProfileRate设置CPU profile记录的速率为平均每秒hz次。如果hz&lt;=0，SetCPUProfileRate会关闭profile的记录。如果记录器在执行，该速率必须在关闭之后才能修改。</li>
+<li>绝大多数使用者应使用runtime/pprof包或testing包的-test.cpuprofile选项而非直接使用SetCPUProfileRate</li>
+</ul>
+</blockquote>
+<h2 id="runtimesetblockprofileraterate-int" class="heading-element">
+  <a href="#runtimesetblockprofileraterate-int" class="heading-mark"></a>28 runtime.SetBlockProfileRate(rate int)</h2><blockquote>
+<p>官方解释：</p>
+<ul>
+<li>SetBlockProfileRate控制阻塞profile记录go程阻塞事件的采样频率。对于一个阻塞事件，平均每阻塞rate纳秒，阻塞profile记录器就采集一份样本。</li>
+<li>要在profile中包括每一个阻塞事件，需传入rate=1；要完全关闭阻塞profile的记录，需传入rate&lt;=0。</li>
+</ul>
+</blockquote>
+<h2 id="runtimeblockprofile" class="heading-element">
+  <a href="#runtimeblockprofile" class="heading-mark"></a>29 runtime.BlockProfile()</h2><blockquote>
+<p>返回当前阻塞profile中的记录个数</p>
+<p>BlockProfile返回当前阻塞profile中的记录个数。如果len(p)&gt;=n，本函数就会将此profile中的记录复制到p中并返回(n, true)。如果len(p)&lt;n，本函数则不会修改p，而只返回(n, false)。</p>
+<p>绝大多数使用者应当使用runtime/pprof包或testing包的-test.blockprofile标记， 而非直接调用 BlockProfile</p>
+</blockquote>
+</div><div class="post-reward">
+    <div class="comment">Buy me a coffee~</div>
+    <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
+    <label class="reward-button" for="fi-reward">赞赏</label>
+    <div class="reward-ways" data-mode="fixed"><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 支付宝" data-title="Fred 支付宝" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>支付宝</span>
+          </div><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 微信" data-title="Fred 微信" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>微信</span>
+          </div></div>
+  </div><div class="collection-card">
+      <div class="collection-title text-secondary">收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> <span>合集・go高级</span></span></a> 42</div>
+      <div class="collection-nav"><a href="/lang/go/go_advanced/20250515180255/" class="collection-nav-item" rel="prev" title="15. Go 切片的截取"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i><span>15. Go 切片的截取</span>
+          </a><a href="/lang/go/go_advanced/20250515180303/" class="collection-nav-item" rel="next" title="17. go执行外部命令">
+            <span>17. go执行外部命令</span><i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-05-15 18:12:34">更新于 2025-05-15&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/lang/go/go_advanced/20250515180259/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span><span><a href="https://github.com/ipfred/ipfred.github.io/blob/main/content/lang%5cgo%5cgo_advanced%5c16.%20Go%20runtime%e8%af%a6%e8%a7%a3.md?plain=1" title="查看源码"target="_blank" rel="external nofollow noopener noreferrer" class="link-to-source">查看源码</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://ipfred.github.io/lang/go/go_advanced/20250515180259/" data-title="16. Go runtime详解"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 百度" data-sharer="baidu" data-url="https://ipfred.github.io/lang/go/go_advanced/20250515180259/" data-title="16. Go runtime详解"><i data-svg-src="https://unpkg.com/simple-icons@9.19.0/icons/baidu.svg" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/lang/go/go_advanced/20250515180255/" class="post-nav-item" rel="prev" title="15. Go 切片的截取"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>15. Go 切片的截取</a>
+      <a href="/lang/go/go_advanced/20250515180303/" class="post-nav-item" rel="next" title="17. go执行外部命令">17. go执行外部命令<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="ipfred/blog_talk"
+            data-repo-id="R_kgDOLxCpPA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDOLxCpPM4Ce1Az"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright order-1" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/ipfred"target="_blank" rel="external nofollow noopener noreferrer">Fred</a></span></div><div class="footer-line statistics order-first"></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><a href="https://github.com/ipfred" title="View source on GitHub"target="_blank" rel="external nofollow" class="github-corner right d-none-mobile"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="https://unpkg.com/lightgallery@2.7.2/css/lightgallery-bundle.min.css"><link rel="preload" href="https://unpkg.com/katex@0.16.9/dist/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/katex@0.16.9/dist/katex.min.css"></noscript><link rel="stylesheet" href="https://unpkg.com/pace-js@1.2.4/themes/green/pace-theme-minimal.css"><script src="https://unpkg.com/autocomplete.js@0.38.1/dist/autocomplete.min.js" defer></script><script src="https://unpkg.com/algoliasearch@4.20.0/dist/algoliasearch-lite.umd.js" defer></script><script src="https://unpkg.com/instant.page@5.2.0/instantpage.js" async defer type="module"></script><script src="https://unpkg.com/lightgallery@2.7.2/lightgallery.min.js" defer></script><script src="https://unpkg.com/lightgallery@2.7.2/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="https://unpkg.com/lightgallery@2.7.2/plugins/zoom/lg-zoom.min.js" defer></script><script src="https://unpkg.com/sharer.js@0.5.1/sharer.min.js" async defer></script><script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/katex.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/auto-render.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/copy-tex.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/mhchem.min.js" defer></script><script src="https://unpkg.com/pangu@4.0.7/dist/browser/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script src="https://unpkg.com/pace-js@1.2.4/pace.min.js" async defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":30},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark_dimmed","lightTheme":"light"}},"data":{"typeit-header-subtitle-desktop":"一个只记录精华知识的平台","typeit-header-subtitle-mobile":"一个只记录精华知识的平台"},"enablePWA":true,"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"algoliaAppID":"TZCN6HKD92","algoliaIndex":"index","algoliaSearchKey":"663832297fb162d0169b237d56275fe2","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-subtitle-desktop":["typeit-header-subtitle-desktop"],"typeit-header-subtitle-mobile":["typeit-header-subtitle-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

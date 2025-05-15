@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>9.Go性能调优 pprof | Fred的知识库</title><meta name="author" content="Fred">
+<meta name="author-link" content="https://github.com/ipfred">
+<meta name="description" content="Go语言项目中的性能优化主要有以下几个方面： CPU profile：报告程序的 CPU 使用情况，按照一定频率去采集应用程序在 CPU 和寄存器上面的数据 Memory Profile（Heap Profile）：报告程序的内存使用情况 Block Profiling：报告 goroutines 不在运行状态的情况，可以用来分析和查找死锁等性能瓶颈 Goroutine Profiling：" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
+  <meta itemprop="name" content="9.Go性能调优 pprof">
+  <meta itemprop="description" content="Go语言项目中的性能优化主要有以下几个方面： CPU profile：报告程序的 CPU 使用情况，按照一定频率去采集应用程序在 CPU 和寄存器上面的数据 Memory Profile（Heap Profile）：报告程序的内存使用情况 Block Profiling：报告 goroutines 不在运行状态的情况，可以用来分析和查找死锁等性能瓶颈 Goroutine Profiling：">
+  <meta itemprop="datePublished" content="2025-05-15T18:02:23+08:00">
+  <meta itemprop="dateModified" content="2025-05-15T18:12:34+08:00">
+  <meta itemprop="wordCount" content="4166">
+  <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
+  <meta itemprop="keywords" content="go高级"><meta property="og:url" content="https://ipfred.github.io/lang/go/go_advanced/20250515180223/">
+  <meta property="og:site_name" content="Fred的知识库">
+  <meta property="og:title" content="9.Go性能调优 pprof">
+  <meta property="og:description" content="Go语言项目中的性能优化主要有以下几个方面： CPU profile：报告程序的 CPU 使用情况，按照一定频率去采集应用程序在 CPU 和寄存器上面的数据 Memory Profile（Heap Profile）：报告程序的内存使用情况 Block Profiling：报告 goroutines 不在运行状态的情况，可以用来分析和查找死锁等性能瓶颈 Goroutine Profiling：">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="lang">
+    <meta property="article:published_time" content="2025-05-15T18:02:23+08:00">
+    <meta property="article:modified_time" content="2025-05-15T18:12:34+08:00">
+    <meta property="og:image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta name="twitter:title" content="9.Go性能调优 pprof">
+<meta name="twitter:description" content="Go语言项目中的性能优化主要有以下几个方面： CPU profile：报告程序的 CPU 使用情况，按照一定频率去采集应用程序在 CPU 和寄存器上面的数据 Memory Profile（Heap Profile）：报告程序的内存使用情况 Block Profiling：报告 goroutines 不在运行状态的情况，可以用来分析和查找死锁等性能瓶颈 Goroutine Profiling：">
+<meta name="application-name" content="FredKnow">
+<meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://ipfred.github.io/lang/go/go_advanced/20250515180223/" /><link rel="prev" href="https://ipfred.github.io/lang/go/go_advanced/20250515180217/" /><link rel="next" href="https://ipfred.github.io/lang/go/go_advanced/20250515180231/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css"></noscript><link rel="preload" href="https://unpkg.com/animate.css@4.1.1/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "9.Go性能调优 pprof",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515180223\/"
+    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  4166 ,
+    "url": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515180223\/","datePublished": "2025-05-15T18:02:23+08:00","dateModified": "2025-05-15T18:12:34+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+      "@type": "Organization",
+      "name": "ipFred","logo": "https:\/\/ipfred.github.io\/images\/avatar.jpg"},"author": {
+        "@type": "Person",
+        "name": "Fred"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper" data-github-corner="right">
+    <div class="header-title">
+      <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="Fred的知识库" data-title="Fred的知识库" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-desktop" class="typeit header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li class="menu-item has-children">
+              <a
+                class="menu-link"
+                href="/lang/"
+                
+                
+              ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/web/"
+                
+                
+              ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="https://files.catbox.moe/mtzx1g.png" data-title="https://files.catbox.moe/mtzx1g.png" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-mobile" class="typeit header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li
+              class="menu-item"
+            ><span class="nested-item">
+                  <a
+                    class="menu-link"
+                    href="/lang/"
+                    
+                    
+                  ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/web/"
+                  
+                  
+                ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><nav aria-label="breadcrumb" class="breadcrumb-container sticky">
+    <ol class="breadcrumb"><li class="breadcrumb-item"><a href="/lang/" title="langs">langs</a></li><li class="breadcrumb-item active" aria-current="page">9.Go性能调优 pprof</li>
+    </ol>
+  </nav><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"><div class="details collection-details open">
+      <div class="details-summary collection-summary">
+        <i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i>
+        <span class="collection-name" data-collections="合集">go高级</span>
+        <span class="collection-count">42</span><i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></div>
+      <div class="details-content collection-content">
+        <nav>
+          <ul class="collection-list">
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175156/" title="1-1.Go内存管理">1-1.Go内存管理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175202/" title="1-2.Go垃圾回收机制">1-2.Go垃圾回收机制</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175207/" title="1-3.Go语言中的并发编程">1-3.Go语言中的并发编程</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175210/" title="1-4.Go协程调度原理及GPM模型">1-4.Go协程调度原理及GPM模型</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175213/" title="1-5.Go中逃逸现象, 变量&#43;堆栈">1-5.Go中逃逸现象, 变量&#43;堆栈</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175216/" title="1-6.Go面向对象的思维理解interface">1-6.Go面向对象的思维理解interface</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175219/" title="1-7.Go中的Defer">1-7.Go中的Defer</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180045/" title="1-8.Go和Python中的深浅拷贝">1-8.Go和Python中的深浅拷贝</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180051/" title="1-9.Go语言内存对齐">1-9.Go语言内存对齐</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180055/" title="1-10. 内联优化">1-10. 内联优化</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180101/" title="1-11. go条件编译">1-11. go条件编译</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180114/" title="1-12. go链接参数 ldflags">1-12. go链接参数 ldflags</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180119/" title="2-1.流和IO多路复用">2-1.流和IO多路复用</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180123/" title="3.分布式从ACID、CAP、BASE的理论推进">3.分布式从ACID、CAP、BASE的理论推进</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180130/" title="4-1.单点Server的N种并发模型汇总">4-1.单点Server的N种并发模型汇总</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180140/" title="4-2控制goroutine的数量">4-2控制goroutine的数量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180144/" title="5.TCP网络连接以及TIME_WAIT的意义">5.TCP网络连接以及TIME_WAIT的意义</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180148/" title="6-1.配置管理库—Viper">6-1.配置管理库—Viper</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180153/" title="6-2.高性能日志库zap">6-2.高性能日志库zap</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180156/" title="7.Go异常处理">7.Go异常处理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180200/" title="8-1.Go中的Mutex和RWMutex">8-1.Go中的Mutex和RWMutex</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180204/" title="8-2.sqlx的使用">8-2.sqlx的使用</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180208/" title="8-3.分布式id 库snowflake和sonyflake">8-3.分布式id 库snowflake和sonyflake</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180211/" title="8-4. sync.Pool 复用对象">8-4. sync.Pool 复用对象</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180215/" title="8-5. sync.Once 单例模式">8-5. sync.Once 单例模式</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180217/" title="8-6. sync.Cond 条件变量">8-6. sync.Cond 条件变量</a></li><li class="collection-item"><span class="active" title="9.Go性能调优 pprof">9.Go性能调优 pprof</span></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180231/" title="11.Go语言设计模式">11.Go语言设计模式</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180234/" title="12-1. unsafe.Pointer和 uintptr">12-1. unsafe.Pointer和 uintptr</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180240/" title="12-2. go 信号量">12-2. go 信号量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180244/" title="13-1.go语言代码优化技巧">13-1.go语言代码优化技巧</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180247/" title="13-2. go 接口型函数">13-2. go 接口型函数</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180251/" title="14.位运算">14.位运算</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180255/" title="15. Go 切片的截取">15. Go 切片的截取</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180259/" title="16. Go runtime详解">16. Go runtime详解</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180303/" title="17. go执行外部命令">17. go执行外部命令</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180306/" title="18. 标准库container三剑客：head、list、ring">18. 标准库container三剑客：head、list、ring</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180308/" title="19.cgo教程">19.cgo教程</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180311/" title="20.go调用lib和so动态库">20.go调用lib和so动态库</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180316/" title="21.go编译参数netgo">21.go编译参数netgo</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180323/" title="22.go与http代理">22.go与http代理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180343/" title="100.习题练习">100.习题练习</a></li></ul>
+          <div class="collection-nav-simple"><a href="/lang/go/go_advanced/20250515180217/" class="collection-nav-item" rel="prev" title="8-6. sync.Cond 条件变量"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i></a><span class="text-secondary">27/42</span><a href="/lang/go/go_advanced/20250515180231/" class="collection-nav-item" rel="next" title="11.Go语言设计模式"><i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+        </nav>
+      </div>
+    </div></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>9.Go性能调优 pprof</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/" class="post-collection" title="合集 - go高级"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go高级</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 18:02:23"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:34"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="4166 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="9.Go性能调优 pprof">
+              <i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+            </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#采集性能数据">采集性能数据</a></li>
+    <li><a href="#工具型应用">工具型应用</a>
+      <ol>
+        <li><a href="#1-cpu性能分析">1. CPU性能分析</a></li>
+        <li><a href="#2-内存性能优化">2. 内存性能优化</a></li>
+      </ol>
+    </li>
+    <li><a href="#服务型应用">服务型应用</a></li>
+    <li><a href="#go-tool-pprof命令">go tool pprof命令</a></li>
+    <li><a href="#具体示例">具体示例</a>
+      <ol>
+        <li><a href="#1-命令行交互界面">1. 命令行交互界面</a></li>
+        <li><a href="#2-图形化">2. 图形化</a></li>
+      </ol>
+    </li>
+    <li><a href="#go-torch和火焰图">go-torch和火焰图</a>
+      <ol>
+        <li><a href="#1-安装go-torch">1. 安装go-torch</a></li>
+        <li><a href="#2-安装-flamegraph">2. 安装 FlameGraph</a></li>
+        <li><a href="#3-压测工具wrk">3. 压测工具wrk</a></li>
+        <li><a href="#4-使用go-torch">4. 使用go-torch</a></li>
+      </ol>
+    </li>
+    <li><a href="#pprof与性能测试结合">pprof与性能测试结合</a></li>
+  </ol>
+</nav></div>
+      </div><div class="content" id="content" data-end-flag="（本文完）"><ul>
+<li>
+<p>Go语言项目中的性能优化主要有以下几个方面：</p>
+<ul>
+<li>
+<p>CPU profile：报告程序的 CPU 使用情况，按照一定频率去采集应用程序在 CPU 和寄存器上面的数据</p>
+</li>
+<li>
+<p>Memory Profile（Heap Profile）：报告程序的内存使用情况</p>
+</li>
+<li>
+<p>Block Profiling：报告 goroutines 不在运行状态的情况，可以用来分析和查找死锁等性能瓶颈</p>
+</li>
+<li>
+<p>Goroutine Profiling：报告 goroutines 的使用情况，有哪些 goroutine，它们的调用关系是怎样的</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="采集性能数据" class="heading-element">
+  <a href="#%e9%87%87%e9%9b%86%e6%80%a7%e8%83%bd%e6%95%b0%e6%8d%ae" class="heading-mark"></a>采集性能数据</h2><p>Go语言内置了获取程序的运行数据的工具，包括以下两个标准库：</p>
+<ul>
+<li><code>runtime/pprof</code>：采集工具型应用运行数据进行分析</li>
+<li><code>net/http/pprof</code>：采集服务型应用运行时数据进行分析</li>
+</ul>
+<p>pprof开启后，每隔一段时间（10ms）就会收集下当前的堆栈信息，获取各个函数占用的CPU以及内存资源；最后通过对这些采样数据进行分析，形成一个性能分析报告。</p>
+<p>注意，我们只应该在性能测试的时候才在代码中引入pprof。</p>
+<h2 id="工具型应用" class="heading-element">
+  <a href="#%e5%b7%a5%e5%85%b7%e5%9e%8b%e5%ba%94%e7%94%a8" class="heading-mark"></a>工具型应用</h2><p>如果你的应用程序是运行一段时间就结束退出类型。那么最好的办法是在应用退出的时候把 profiling 的报告保存到文件中，进行分析。对于这种情况，可以使用<code>runtime/pprof</code>库。 首先在代码中导入<code>runtime/pprof</code>工具：</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;runtime/pprof&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="1-cpu性能分析" class="heading-element">
+  <a href="#1-cpu%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90" class="heading-mark"></a>1. CPU性能分析</h3><p>开启CPU性能分析：</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">pprof</span><span class="p">.</span><span class="nf">StartCPUProfile</span><span class="p">(</span><span class="nx">w</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>停止CPU性能分析：</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">pprof</span><span class="p">.</span><span class="nf">StopCPUProfile</span><span class="p">()</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>应用执行结束后，就会生成一个文件，保存了我们的 CPU profiling 数据。得到采样数据之后，使用<code>go tool pprof</code>工具进行CPU性能分析。</p>
+<h3 id="2-内存性能优化" class="heading-element">
+  <a href="#2-%e5%86%85%e5%ad%98%e6%80%a7%e8%83%bd%e4%bc%98%e5%8c%96" class="heading-mark"></a>2. 内存性能优化</h3><p>记录程序的堆栈信息</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">pprof</span><span class="p">.</span><span class="nf">WriteHeapProfile</span><span class="p">(</span><span class="nx">w</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>得到采样数据之后，使用<code>go tool pprof</code>工具进行内存性能分析。</p>
+<p><code>go tool pprof</code>默认是使用<code>-inuse_space</code>进行统计，还可以使用<code>-inuse-objects</code>查看分配对象的数量。</p>
+<h2 id="服务型应用" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e5%9e%8b%e5%ba%94%e7%94%a8" class="heading-mark"></a>服务型应用</h2><p>如果你的应用程序是一直运行的，比如 web 应用，那么可以使用<code>net/http/pprof</code>库，它能够在提供 HTTP 服务进行分析。</p>
+<p>如果使用了默认的<code>http.DefaultServeMux</code>（通常是代码直接使用 http.ListenAndServe(“0.0.0.0:8000”, nil)），只需要在你的web server端代码中按如下方式导入<code>net/http/pprof</code></p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nx">_</span> <span class="s">&#34;net/http/pprof&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果你使用自定义的 Mux，则需要手动注册一些路由规则：</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">r</span><span class="p">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s">&#34;/debug/pprof/&#34;</span><span class="p">,</span> <span class="nx">pprof</span><span class="p">.</span><span class="nx">Index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">r</span><span class="p">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s">&#34;/debug/pprof/cmdline&#34;</span><span class="p">,</span> <span class="nx">pprof</span><span class="p">.</span><span class="nx">Cmdline</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">r</span><span class="p">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s">&#34;/debug/pprof/profile&#34;</span><span class="p">,</span> <span class="nx">pprof</span><span class="p">.</span><span class="nx">Profile</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">r</span><span class="p">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s">&#34;/debug/pprof/symbol&#34;</span><span class="p">,</span> <span class="nx">pprof</span><span class="p">.</span><span class="nx">Symbol</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">r</span><span class="p">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s">&#34;/debug/pprof/trace&#34;</span><span class="p">,</span> <span class="nx">pprof</span><span class="p">.</span><span class="nx">Trace</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果你使用的是gin框架，那么推荐使用<a href="https://github.com/gin-contrib/pprof"target="_blank" rel="external nofollow noopener noreferrer">github.com/gin-contrib/pprof<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a>，在代码中通过以下命令注册pprof相关路由。</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">pprof</span><span class="p">.</span><span class="nf">Register</span><span class="p">(</span><span class="nx">router</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>不管哪种方式，你的 HTTP 服务都会多出<code>/debug/pprof</code> endpoint，访问它会得到类似下面的内容：</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png" alt="debug/pprof" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png?size=large 2x" data-title="debug/pprof" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>这个路径下还有几个子页面：</p>
+<ul>
+<li>/debug/pprof/profile：访问这个链接会自动进行 CPU profiling，持续 30s，并生成一个文件供下载</li>
+<li>/debug/pprof/heap： Memory Profiling 的路径，访问这个链接会得到一个内存 Profiling 结果的文件</li>
+<li>/debug/pprof/block：block Profiling 的路径</li>
+<li>/debug/pprof/goroutines：运行的 goroutines 列表，以及调用关系</li>
+</ul>
+<h2 id="go-tool-pprof命令" class="heading-element">
+  <a href="#go-tool-pprof%e5%91%bd%e4%bb%a4" class="heading-mark"></a>go tool pprof命令</h2><p>不管是工具型应用还是服务型应用，我们使用相应的pprof库获取数据之后，下一步的都要对这些数据进行分析，我们可以使用<code>go tool pprof</code>命令行工具。</p>
+<p><code>go tool pprof</code>最简单的使用方式为:</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go tool pprof <span class="o">[</span>binary<span class="o">]</span> <span class="o">[</span>source<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中：</p>
+<ul>
+<li>binary 是应用的二进制文件，用来解析各种符号；</li>
+<li>source 表示 profile 数据的来源，可以是本地的文件，也可以是 http 地址。</li>
+</ul>
+<p><strong>注意事项：</strong> 获取的 Profiling 数据是动态的，要想获得有效的数据，请保证应用处于较大的负载（比如正在生成中运行的服务，或者通过其他工具模拟访问压力）。否则如果应用处于空闲状态，得到的结果可能没有任何意义。</p>
+<h2 id="具体示例" class="heading-element">
+  <a href="#%e5%85%b7%e4%bd%93%e7%a4%ba%e4%be%8b" class="heading-mark"></a>具体示例</h2><p>首先我们来写一段有问题的代码：</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// runtime_pprof/main.go
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;flag&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime/pprof&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 一段有问题的代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">logicCode</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">c</span> <span class="kd">chan</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">select</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">case</span> <span class="nx">v</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">c</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;recv from chan, value:%v\n&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">isCPUPprof</span> <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">isMemPprof</span> <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">flag</span><span class="p">.</span><span class="nf">BoolVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">isCPUPprof</span><span class="p">,</span> <span class="s">&#34;cpu&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;turn cpu pprof on&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">flag</span><span class="p">.</span><span class="nf">BoolVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">isMemPprof</span><span class="p">,</span> <span class="s">&#34;mem&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;turn mem pprof on&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">isCPUPprof</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="s">&#34;./cpu.pprof&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;create cpu pprof failed, err:%v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">pprof</span><span class="p">.</span><span class="nf">StartCPUProfile</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">defer</span> <span class="nx">pprof</span><span class="p">.</span><span class="nf">StopCPUProfile</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">8</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="nf">logicCode</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">isMemPprof</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="s">&#34;./mem.pprof&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;create mem pprof failed, err:%v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">pprof</span><span class="p">.</span><span class="nf">WriteHeapProfile</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">file</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过flag我们可以在命令行控制是否开启CPU和Mem的性能分析。 将上面的代码保存并编译成<code>runtime_pprof</code>可执行文件，执行时加上<code>-cpu</code>命令行参数如下：</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./runtime_pprof -cpu</span></span></code></pre></td></tr></table>
+</div>
+</div><p>等待30秒后会在当前目录下生成一个<code>cpu.pprof</code>文件。</p>
+<h3 id="1-命令行交互界面" class="heading-element">
+  <a href="#1-%e5%91%bd%e4%bb%a4%e8%a1%8c%e4%ba%a4%e4%ba%92%e7%95%8c%e9%9d%a2" class="heading-mark"></a>1. 命令行交互界面</h3><p>我们使用go工具链里的<code>pprof</code>来分析一下。</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go tool pprof cpu.pprof</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行上面的代码会进入交互界面如下：</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">runtime_pprof $ go tool pprof cpu.pprof
+</span></span><span class="line"><span class="cl">Type: cpu
+</span></span><span class="line"><span class="cl">Time: Jun 28, <span class="m">2019</span> at 11:28am <span class="o">(</span>CST<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Duration: 20.13s, Total <span class="nv">samples</span> <span class="o">=</span> 1.91mins <span class="o">(</span>568.60%<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Entering interactive mode <span class="o">(</span><span class="nb">type</span> <span class="s2">&#34;help&#34;</span> <span class="k">for</span> commands, <span class="s2">&#34;o&#34;</span> <span class="k">for</span> options<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span>  </span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们可以在交互界面输入<code>top3</code>来查看程序中占用CPU前3位的函数：</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span> top3
+</span></span><span class="line"><span class="cl">Showing nodes accounting <span class="k">for</span> 100.37s, 87.68% of 114.47s total
+</span></span><span class="line"><span class="cl">Dropped <span class="m">17</span> nodes <span class="o">(</span>cum &lt;<span class="o">=</span> 0.57s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Showing top <span class="m">3</span> nodes out of <span class="m">4</span>
+</span></span><span class="line"><span class="cl">      flat  flat%   sum%        cum   cum%
+</span></span><span class="line"><span class="cl">    42.52s 37.15% 37.15%     91.73s 80.13%  runtime.selectnbrecv
+</span></span><span class="line"><span class="cl">    35.21s 30.76% 67.90%     39.49s 34.50%  runtime.chanrecv
+</span></span><span class="line"><span class="cl">    22.64s 19.78% 87.68%    114.37s 99.91%  main.logicCode</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中：</p>
+<ul>
+<li>flat：当前函数占用CPU的耗时</li>
+<li>flat：:当前函数占用CPU的耗时百分比</li>
+<li>sun%：函数占用CPU的耗时累计百分比</li>
+<li>cum：当前函数加上调用当前函数的函数占用CPU的总耗时</li>
+<li>cum%：当前函数加上调用当前函数的函数占用CPU的总耗时百分比</li>
+<li>最后一列：函数名称</li>
+</ul>
+<p>在大多数的情况下，我们可以通过分析这五列得出一个应用程序的运行情况，并对程序进行优化。</p>
+<p>我们还可以使用<code>list 函数名</code>命令查看具体的函数分析，例如执行<code>list logicCode</code>查看我们编写的函数的详细分析。</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>pprof<span class="o">)</span> list logicCode
+</span></span><span class="line"><span class="cl">Total: 1.91mins
+</span></span><span class="line"><span class="cl"><span class="nv">ROUTINE</span> <span class="o">================</span> main.logicCode in .../runtime_pprof/main.go
+</span></span><span class="line"><span class="cl">    22.64s   1.91mins <span class="o">(</span>flat, cum<span class="o">)</span> 99.91% of Total
+</span></span><span class="line"><span class="cl">         .          .     12:func logicCode<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">         .          .     13:   var c chan int
+</span></span><span class="line"><span class="cl">         .          .     14:   <span class="k">for</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">         .          .     15:           <span class="k">select</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">         .          .     16:           <span class="k">case</span> v :<span class="o">=</span> &lt;-c:
+</span></span><span class="line"><span class="cl">    22.64s   1.91mins     17:                   fmt.Printf<span class="o">(</span><span class="s2">&#34;recv from chan, value:%v\n&#34;</span>, v<span class="o">)</span>
+</span></span><span class="line"><span class="cl">         .          .     18:           default:
+</span></span><span class="line"><span class="cl">         .          .     19:
+</span></span><span class="line"><span class="cl">         .          .     20:           <span class="o">}</span>
+</span></span><span class="line"><span class="cl">         .          .     21:   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">         .          .     22:<span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过分析发现大部分CPU资源被17行占用，我们分析出select语句中的default没有内容会导致上面的<code>case v:=&lt;-c:</code>一直执行。我们在default分支添加一行<code>time.Sleep(time.Second)</code>即可。</p>
+<h3 id="2-图形化" class="heading-element">
+  <a href="#2-%e5%9b%be%e5%bd%a2%e5%8c%96" class="heading-mark"></a>2. 图形化</h3><p>或者可以直接输入web，通过svg图的方式查看程序中详细的CPU占用情况。 想要查看图形化的界面首先需要安装<a href="https://graphviz.gitlab.io/"target="_blank" rel="external nofollow noopener noreferrer">graphviz<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a>图形化工具。</p>
+<p>Mac：</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install graphviz</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Windows: 下载<a href="https://graphviz.gitlab.io/_pages/Download/Download_windows.html"target="_blank" rel="external nofollow noopener noreferrer">graphviz<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a> 将<code>graphviz</code>安装目录下的bin文件夹添加到Path环境变量中。 在终端输入<code>dot -version</code>查看是否安装成功。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png" alt="CPU占比图" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png?size=large 2x" data-title="CPU占比图" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>关于图形的说明： 每个框代表一个函数，理论上框的越大表示占用的CPU资源越多。 方框之间的线条代表函数之间的调用关系。 线条上的数字表示函数调用的次数。 方框中的第一行数字表示当前函数占用CPU的百分比，第二行数字表示当前函数累计占用CPU的百分比。</p>
+<p>除了分析CPU性能数据，pprof也支持分析内存性能数据。比如，使用下面的命令分析http服务的heap性能数据，查看当前程序的内存占用以及热点内存对象使用的情况。</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看内存占用数据</span>
+</span></span><span class="line"><span class="cl">go tool pprof -inuse_space http://127.0.0.1:8080/debug/pprof/heap
+</span></span><span class="line"><span class="cl">go tool pprof -inuse_objects http://127.0.0.1:8080/debug/pprof/heap
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看临时内存分配数据</span>
+</span></span><span class="line"><span class="cl">go tool pprof -alloc_space http://127.0.0.1:8080/debug/pprof/heap
+</span></span><span class="line"><span class="cl">go tool pprof -alloc_objects http://127.0.0.1:8080/debug/pprof/heap</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="go-torch和火焰图" class="heading-element">
+  <a href="#go-torch%e5%92%8c%e7%81%ab%e7%84%b0%e5%9b%be" class="heading-mark"></a>go-torch和火焰图</h2><p>火焰图（Flame Graph）是 Bredan Gregg 创建的一种性能分析图表，因为它的样子近似 🔥而得名。上面的 profiling 结果也转换成火焰图，如果对火焰图比较了解可以手动来操作，不过这里我们要介绍一个工具：<code>go-torch</code>。这是 uber 开源的一个工具，可以直接读取 golang profiling 数据，并生成一个火焰图的 svg 文件。</p>
+<h3 id="1-安装go-torch" class="heading-element">
+  <a href="#1-%e5%ae%89%e8%a3%85go-torch" class="heading-mark"></a>1. 安装go-torch</h3><div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">   go get -v github.com/uber/go-torch</span></span></code></pre></td></tr></table>
+</div>
+</div><p>火焰图 svg 文件可以通过浏览器打开，它对于调用图的最优点是它是动态的：可以通过点击每个方块来 zoom in 分析它上面的内容。</p>
+<p>火焰图的调用顺序从下到上，每个方块代表一个函数，它上面一层表示这个函数会调用哪些函数，方块的大小代表了占用 CPU 使用的长短。火焰图的配色并没有特殊的意义，默认的红、黄配色是为了更像火焰而已。</p>
+<p>go-torch 工具的使用非常简单，没有任何参数的话，它会尝试从<code>http://localhost:8080/debug/pprof/profile</code>获取 profiling 数据。它有三个常用的参数可以调整：</p>
+<ul>
+<li>-u –url：要访问的 URL，这里只是主机和端口部分</li>
+<li>-s –suffix：pprof profile 的路径，默认为 /debug/pprof/profile</li>
+<li>–seconds：要执行 profiling 的时间长度，默认为 30s</li>
+</ul>
+<h3 id="2-安装-flamegraph" class="heading-element">
+  <a href="#2-%e5%ae%89%e8%a3%85-flamegraph" class="heading-mark"></a>2. 安装 FlameGraph</h3><p>要生成火焰图，需要事先安装 FlameGraph工具，这个工具的安装很简单（需要perl环境支持），只要把对应的可执行文件加入到环境变量中即可。</p>
+<ol>
+<li>下载安装perl：https://www.perl.org/get.html</li>
+<li>下载FlameGraph：<code>git clone https://github.com/brendangregg/FlameGraph.git</code></li>
+<li>将<code>FlameGraph</code>目录加入到操作系统的环境变量中。</li>
+<li>Windows平台的同学，需要把<code>go-torch/render/flamegraph.go</code>文件中的<code>GenerateFlameGraph</code>按如下方式修改，然后在<code>go-torch</code>目录下执行<code>go install</code>即可。</li>
+</ol>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// GenerateFlameGraph runs the flamegraph script to generate a flame graph SVG. func GenerateFlameGraph(graphInput []byte, args ...string) ([]byte, error) {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">flameGraph</span> <span class="o">:=</span> <span class="nf">findInPath</span><span class="p">(</span><span class="nx">flameGraphScripts</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="nx">flameGraph</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errNoPerlScript</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="nx">runtime</span><span class="p">.</span><span class="nx">GOOS</span> <span class="o">==</span> <span class="s">&#34;windows&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nf">runScript</span><span class="p">(</span><span class="s">&#34;perl&#34;</span><span class="p">,</span> <span class="nb">append</span><span class="p">([]</span><span class="kt">string</span><span class="p">{</span><span class="nx">flameGraph</span><span class="p">},</span> <span class="nx">args</span><span class="o">...</span><span class="p">),</span> <span class="nx">graphInput</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nf">runScript</span><span class="p">(</span><span class="nx">flameGraph</span><span class="p">,</span> <span class="nx">args</span><span class="p">,</span> <span class="nx">graphInput</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-压测工具wrk" class="heading-element">
+  <a href="#3-%e5%8e%8b%e6%b5%8b%e5%b7%a5%e5%85%b7wrk" class="heading-mark"></a>3. 压测工具wrk</h3><p>推荐使用https://github.com/wg/wrk 或 <a href="https://github.com/adjust/go-wrk"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/adjust/go-wrk<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<h3 id="4-使用go-torch" class="heading-element">
+  <a href="#4-%e4%bd%bf%e7%94%a8go-torch" class="heading-mark"></a>4. 使用go-torch</h3><p>使用wrk进行压测:</p>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go-wrk -n <span class="m">50000</span> http://127.0.0.1:8080/book/list</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在上面压测进行的同时，打开另一个终端执行:</p>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go-torch -u http://127.0.0.1:8080 -t <span class="m">30</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>30秒之后终端会初夏如下提示：<code>Writing svg to torch.svg</code></p>
+<p>然后我们使用浏览器打开<code>torch.svg</code>就能看到如下火焰图了。<img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png" alt="火焰图" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/cpu_pprof.png?size=large 2x" data-title="火焰图" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>火焰图的y轴表示cpu调用方法的先后，x轴表示在每个采样调用时间内，方法所占的时间百分比，越宽代表占据cpu时间越多。通过火焰图我们就可以更清楚的找出耗时长的函数调用，然后不断的修正代码，重新采样，不断优化。</p>
+<p>此外还可以借助火焰图分析内存性能数据：</p>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go-torch -inuse_space http://127.0.0.1:8080/debug/pprof/heap
+</span></span><span class="line"><span class="cl">go-torch -inuse_objects http://127.0.0.1:8080/debug/pprof/heap
+</span></span><span class="line"><span class="cl">go-torch -alloc_space http://127.0.0.1:8080/debug/pprof/heap
+</span></span><span class="line"><span class="cl">go-torch -alloc_objects http://127.0.0.1:8080/debug/pprof/heap</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="pprof与性能测试结合" class="heading-element">
+  <a href="#pprof%e4%b8%8e%e6%80%a7%e8%83%bd%e6%b5%8b%e8%af%95%e7%bb%93%e5%90%88" class="heading-mark"></a>pprof与性能测试结合</h2><p><code>go test</code>命令有两个参数和 pprof 相关，它们分别指定生成的 CPU 和 Memory profiling 保存的文件：</p>
+<ul>
+<li>-cpuprofile：cpu profiling 数据要保存的文件地址</li>
+<li>-memprofile：memory profiling 数据要报文的文件地址</li>
+</ul>
+<p>我们还可以选择将pprof与性能测试相结合，比如：</p>
+<p>比如下面执行测试的同时，也会执行 CPU profiling，并把结果保存在 cpu.prof 文件中：</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go <span class="nb">test</span> -bench . -cpuprofile<span class="o">=</span>cpu.prof</span></span></code></pre></td></tr></table>
+</div>
+</div><p>比如下面执行测试的同时，也会执行 Mem profiling，并把结果保存在 cpu.prof 文件中：</p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">go <span class="nb">test</span> -bench . -memprofile<span class="o">=</span>./mem.prof</span></span></code></pre></td></tr></table>
+</div>
+</div><p>需要注意的是，Profiling 一般和性能测试一起使用，这个原因在前文也提到过，只有应用在负载高的情况下 Profiling 才有意义。</p>
+</div><div class="post-reward">
+    <div class="comment">Buy me a coffee~</div>
+    <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
+    <label class="reward-button" for="fi-reward">赞赏</label>
+    <div class="reward-ways" data-mode="fixed"><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 支付宝" data-title="Fred 支付宝" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>支付宝</span>
+          </div><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 微信" data-title="Fred 微信" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>微信</span>
+          </div></div>
+  </div><div class="collection-card">
+      <div class="collection-title text-secondary">收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> <span>合集・go高级</span></span></a> 42</div>
+      <div class="collection-nav"><a href="/lang/go/go_advanced/20250515180217/" class="collection-nav-item" rel="prev" title="8-6. sync.Cond 条件变量"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i><span>8-6. sync.Cond 条件变量</span>
+          </a><a href="/lang/go/go_advanced/20250515180231/" class="collection-nav-item" rel="next" title="11.Go语言设计模式">
+            <span>11.Go语言设计模式</span><i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-05-15 18:12:34">更新于 2025-05-15&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/lang/go/go_advanced/20250515180223/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span><span><a href="https://github.com/ipfred/ipfred.github.io/blob/main/content/lang%5cgo%5cgo_advanced%5c9.Go%e6%80%a7%e8%83%bd%e8%b0%83%e4%bc%98%20pprof.md?plain=1" title="查看源码"target="_blank" rel="external nofollow noopener noreferrer" class="link-to-source">查看源码</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://ipfred.github.io/lang/go/go_advanced/20250515180223/" data-title="9.Go性能调优 pprof"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 百度" data-sharer="baidu" data-url="https://ipfred.github.io/lang/go/go_advanced/20250515180223/" data-title="9.Go性能调优 pprof"><i data-svg-src="https://unpkg.com/simple-icons@9.19.0/icons/baidu.svg" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/lang/go/go_advanced/20250515180217/" class="post-nav-item" rel="prev" title="8-6. sync.Cond 条件变量"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>8-6. sync.Cond 条件变量</a>
+      <a href="/lang/go/go_advanced/20250515180231/" class="post-nav-item" rel="next" title="11.Go语言设计模式">11.Go语言设计模式<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="ipfred/blog_talk"
+            data-repo-id="R_kgDOLxCpPA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDOLxCpPM4Ce1Az"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright order-1" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/ipfred"target="_blank" rel="external nofollow noopener noreferrer">Fred</a></span></div><div class="footer-line statistics order-first"></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><a href="https://github.com/ipfred" title="View source on GitHub"target="_blank" rel="external nofollow" class="github-corner right d-none-mobile"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="https://unpkg.com/lightgallery@2.7.2/css/lightgallery-bundle.min.css"><link rel="preload" href="https://unpkg.com/katex@0.16.9/dist/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/katex@0.16.9/dist/katex.min.css"></noscript><link rel="stylesheet" href="https://unpkg.com/pace-js@1.2.4/themes/green/pace-theme-minimal.css"><script src="https://unpkg.com/autocomplete.js@0.38.1/dist/autocomplete.min.js" defer></script><script src="https://unpkg.com/algoliasearch@4.20.0/dist/algoliasearch-lite.umd.js" defer></script><script src="https://unpkg.com/instant.page@5.2.0/instantpage.js" async defer type="module"></script><script src="https://unpkg.com/lightgallery@2.7.2/lightgallery.min.js" defer></script><script src="https://unpkg.com/lightgallery@2.7.2/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="https://unpkg.com/lightgallery@2.7.2/plugins/zoom/lg-zoom.min.js" defer></script><script src="https://unpkg.com/sharer.js@0.5.1/sharer.min.js" async defer></script><script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/katex.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/auto-render.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/copy-tex.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/mhchem.min.js" defer></script><script src="https://unpkg.com/pangu@4.0.7/dist/browser/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script src="https://unpkg.com/pace-js@1.2.4/pace.min.js" async defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":30},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark_dimmed","lightTheme":"light"}},"data":{"typeit-header-subtitle-desktop":"一个只记录精华知识的平台","typeit-header-subtitle-mobile":"一个只记录精华知识的平台"},"enablePWA":true,"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"algoliaAppID":"TZCN6HKD92","algoliaIndex":"index","algoliaSearchKey":"663832297fb162d0169b237d56275fe2","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-subtitle-desktop":["typeit-header-subtitle-desktop"],"typeit-header-subtitle-mobile":["typeit-header-subtitle-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

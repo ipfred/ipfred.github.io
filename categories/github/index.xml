@@ -16,8 +16,8 @@
 </blockquote>
 <h1 id="git-配置代理" class="heading-element">
   <a href="#git-%e9%85%8d%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>git 配置代理</h1><h2 id="windows-设置代理" class="heading-element">
-  <a href="#windows-%e8%ae%be%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>windows 设置代理</h2><h3 id="http--https协议" class="heading-element">
-  <a href="#http--https%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>http || https协议</h3><div class="highlight" id="id-1"><div class="chroma">
+  <a href="#windows-%e8%ae%be%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>1 windows 设置代理</h2><h3 id="http--https协议" class="heading-element">
+  <a href="#http--https%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>1.1 http || https协议</h3><div class="highlight" id="id-1"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -53,7 +53,7 @@
 </span></span><span class="line"><span class="cl">git config --global --unset https.proxy</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="ssh协议" class="heading-element">
-  <a href="#ssh%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>SSH协议</h3><div class="highlight" id="id-2"><div class="chroma">
+  <a href="#ssh%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>1.2 SSH协议</h3><div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -79,7 +79,7 @@
 </span></span><span class="line"><span class="cl">ProxyCommand connect -H 127.0.0.1:7897 %h %p</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="wsl2设置代理" class="heading-element">
-  <a href="#wsl2%e8%ae%be%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>WSL2设置代理</h2><p>在 Ubuntu 子系统中，通过 <strong>cat /etc/resolv.conf</strong> 查看 DNS 服务器 IP</p>
+  <a href="#wsl2%e8%ae%be%e7%bd%ae%e4%bb%a3%e7%90%86" class="heading-mark"></a>2 WSL2设置代理</h2><p>在 Ubuntu 子系统中，通过 <strong>cat /etc/resolv.conf</strong> 查看 DNS 服务器 IP</p>
 <div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -182,7 +182,7 @@
 <p><strong>控制面板\系统和安全\Windows Defender 防火墙</strong></p>
 <p>放行clash*</p>
 <h2 id="git-push失败或者卡住不动问题" class="heading-element">
-  <a href="#git-push%e5%a4%b1%e8%b4%a5%e6%88%96%e8%80%85%e5%8d%a1%e4%bd%8f%e4%b8%8d%e5%8a%a8%e9%97%ae%e9%a2%98" class="heading-mark"></a>git push失败或者卡住不动问题</h2><p>原因是有的节点22端口被服务端封锁了，要么改服务端端口要么改自己本地更换443端口（~/.ssh/config)</p>
+  <a href="#git-push%e5%a4%b1%e8%b4%a5%e6%88%96%e8%80%85%e5%8d%a1%e4%bd%8f%e4%b8%8d%e5%8a%a8%e9%97%ae%e9%a2%98" class="heading-mark"></a>3 git push失败或者卡住不动问题</h2><p>原因是有的节点22端口被服务端封锁了，要么改服务端端口要么改自己本地更换443端口（~/.ssh/config)</p>
 <div class="highlight" id="id-7"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -215,7 +215,7 @@
 </span></span><span class="line"><span class="cl">    ProxyCommand nc -v -x 172.23.64.1:7897 %h %p</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="修改配置文件的方式" class="heading-element">
-  <a href="#%e4%bf%ae%e6%94%b9%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e7%9a%84%e6%96%b9%e5%bc%8f" class="heading-mark"></a>修改配置文件的方式</h2><ul>
+  <a href="#%e4%bf%ae%e6%94%b9%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e7%9a%84%e6%96%b9%e5%bc%8f" class="heading-mark"></a>4 修改配置文件的方式</h2><ul>
 <li>windows系统的配置 文件在 <code>C:\Users\admin\.gitconfig</code>
 配置文件如下</li>
 </ul>

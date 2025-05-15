@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>1-2.Go垃圾回收机制 | Fred的知识库</title><meta name="author" content="Fred">
+<meta name="author-link" content="https://github.com/ipfred">
+<meta name="description" content="[TOC] 一. 栈和堆 栈内存: 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
+  <meta itemprop="name" content="1-2.Go垃圾回收机制">
+  <meta itemprop="description" content="[TOC] 一. 栈和堆 栈内存: 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为">
+  <meta itemprop="datePublished" content="2025-05-15T17:52:02+08:00">
+  <meta itemprop="dateModified" content="2025-05-15T18:12:34+08:00">
+  <meta itemprop="wordCount" content="5062">
+  <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
+  <meta itemprop="keywords" content="go高级"><meta property="og:url" content="https://ipfred.github.io/lang/go/go_advanced/20250515175202/">
+  <meta property="og:site_name" content="Fred的知识库">
+  <meta property="og:title" content="1-2.Go垃圾回收机制">
+  <meta property="og:description" content="[TOC] 一. 栈和堆 栈内存: 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="lang">
+    <meta property="article:published_time" content="2025-05-15T17:52:02+08:00">
+    <meta property="article:modified_time" content="2025-05-15T18:12:34+08:00">
+    <meta property="og:image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta name="twitter:title" content="1-2.Go垃圾回收机制">
+<meta name="twitter:description" content="[TOC] 一. 栈和堆 栈内存: 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为">
+<meta name="application-name" content="FredKnow">
+<meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://ipfred.github.io/lang/go/go_advanced/20250515175202/" /><link rel="prev" href="https://ipfred.github.io/lang/go/go_advanced/20250515175156/" /><link rel="next" href="https://ipfred.github.io/lang/go/go_advanced/20250515175207/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.2/css/all.min.css"></noscript><link rel="preload" href="https://unpkg.com/animate.css@4.1.1/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "1-2.Go垃圾回收机制",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515175202\/"
+    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  5062 ,
+    "url": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515175202\/","datePublished": "2025-05-15T17:52:02+08:00","dateModified": "2025-05-15T18:12:34+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+      "@type": "Organization",
+      "name": "ipFred","logo": "https:\/\/ipfred.github.io\/images\/avatar.jpg"},"author": {
+        "@type": "Person",
+        "name": "Fred"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper" data-github-corner="right">
+    <div class="header-title">
+      <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="Fred的知识库" data-title="Fred的知识库" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-desktop" class="typeit header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li class="menu-item has-children">
+              <a
+                class="menu-link"
+                href="/lang/"
+                
+                
+              ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/web/"
+                
+                
+              ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="https://files.catbox.moe/mtzx1g.png" data-title="https://files.catbox.moe/mtzx1g.png" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-mobile" class="typeit header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li
+              class="menu-item"
+            ><span class="nested-item">
+                  <a
+                    class="menu-link"
+                    href="/lang/"
+                    
+                    
+                  ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/web/"
+                  
+                  
+                ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><nav aria-label="breadcrumb" class="breadcrumb-container sticky">
+    <ol class="breadcrumb"><li class="breadcrumb-item"><a href="/lang/" title="langs">langs</a></li><li class="breadcrumb-item active" aria-current="page">1-2.Go垃圾回收机制</li>
+    </ol>
+  </nav><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"><div class="details collection-details open">
+      <div class="details-summary collection-summary">
+        <i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i>
+        <span class="collection-name" data-collections="合集">go高级</span>
+        <span class="collection-count">42</span><i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></div>
+      <div class="details-content collection-content">
+        <nav>
+          <ul class="collection-list">
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175156/" title="1-1.Go内存管理">1-1.Go内存管理</a></li><li class="collection-item"><span class="active" title="1-2.Go垃圾回收机制">1-2.Go垃圾回收机制</span></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175207/" title="1-3.Go语言中的并发编程">1-3.Go语言中的并发编程</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175210/" title="1-4.Go协程调度原理及GPM模型">1-4.Go协程调度原理及GPM模型</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175213/" title="1-5.Go中逃逸现象, 变量&#43;堆栈">1-5.Go中逃逸现象, 变量&#43;堆栈</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175216/" title="1-6.Go面向对象的思维理解interface">1-6.Go面向对象的思维理解interface</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515175219/" title="1-7.Go中的Defer">1-7.Go中的Defer</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180045/" title="1-8.Go和Python中的深浅拷贝">1-8.Go和Python中的深浅拷贝</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180051/" title="1-9.Go语言内存对齐">1-9.Go语言内存对齐</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180055/" title="1-10. 内联优化">1-10. 内联优化</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180101/" title="1-11. go条件编译">1-11. go条件编译</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180114/" title="1-12. go链接参数 ldflags">1-12. go链接参数 ldflags</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180119/" title="2-1.流和IO多路复用">2-1.流和IO多路复用</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180123/" title="3.分布式从ACID、CAP、BASE的理论推进">3.分布式从ACID、CAP、BASE的理论推进</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180130/" title="4-1.单点Server的N种并发模型汇总">4-1.单点Server的N种并发模型汇总</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180140/" title="4-2控制goroutine的数量">4-2控制goroutine的数量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180144/" title="5.TCP网络连接以及TIME_WAIT的意义">5.TCP网络连接以及TIME_WAIT的意义</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180148/" title="6-1.配置管理库—Viper">6-1.配置管理库—Viper</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180153/" title="6-2.高性能日志库zap">6-2.高性能日志库zap</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180156/" title="7.Go异常处理">7.Go异常处理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180200/" title="8-1.Go中的Mutex和RWMutex">8-1.Go中的Mutex和RWMutex</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180204/" title="8-2.sqlx的使用">8-2.sqlx的使用</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180208/" title="8-3.分布式id 库snowflake和sonyflake">8-3.分布式id 库snowflake和sonyflake</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180211/" title="8-4. sync.Pool 复用对象">8-4. sync.Pool 复用对象</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180215/" title="8-5. sync.Once 单例模式">8-5. sync.Once 单例模式</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180217/" title="8-6. sync.Cond 条件变量">8-6. sync.Cond 条件变量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180223/" title="9.Go性能调优 pprof">9.Go性能调优 pprof</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180231/" title="11.Go语言设计模式">11.Go语言设计模式</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180234/" title="12-1. unsafe.Pointer和 uintptr">12-1. unsafe.Pointer和 uintptr</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180240/" title="12-2. go 信号量">12-2. go 信号量</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180244/" title="13-1.go语言代码优化技巧">13-1.go语言代码优化技巧</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180247/" title="13-2. go 接口型函数">13-2. go 接口型函数</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180251/" title="14.位运算">14.位运算</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180255/" title="15. Go 切片的截取">15. Go 切片的截取</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180259/" title="16. Go runtime详解">16. Go runtime详解</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180303/" title="17. go执行外部命令">17. go执行外部命令</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180306/" title="18. 标准库container三剑客：head、list、ring">18. 标准库container三剑客：head、list、ring</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180308/" title="19.cgo教程">19.cgo教程</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180311/" title="20.go调用lib和so动态库">20.go调用lib和so动态库</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180316/" title="21.go编译参数netgo">21.go编译参数netgo</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180323/" title="22.go与http代理">22.go与http代理</a></li>
+                <li class="collection-item"><a href="/lang/go/go_advanced/20250515180343/" title="100.习题练习">100.习题练习</a></li></ul>
+          <div class="collection-nav-simple"><a href="/lang/go/go_advanced/20250515175156/" class="collection-nav-item" rel="prev" title="1-1.Go内存管理"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i></a><span class="text-secondary">2/42</span><a href="/lang/go/go_advanced/20250515175207/" class="collection-nav-item" rel="next" title="1-3.Go语言中的并发编程"><i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+        </nav>
+      </div>
+    </div></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>1-2.Go垃圾回收机制</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/" class="post-collection" title="合集 - go高级"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go高级</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 17:52:02"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:34"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="5062 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 11 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="1-2.Go垃圾回收机制">
+              <i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+            </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#1原理">1.原理</a></li>
+    <li><a href="#2区别">2.区别</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#1-python内存管理">1. python内存管理</a></li>
+    <li><a href="#2-python-垃圾回收">2. python 垃圾回收</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#1-go-v13-标记清除">1. Go-v1.3 标记清除</a>
+      <ol>
+        <li><a href="#11-缺点">1.1 缺点</a></li>
+      </ol>
+    </li>
+    <li><a href="#2-go-v15-三色标记屏障机制">2. Go-v1.5 三色标记+屏障机制</a>
+      <ol>
+        <li><a href="#21-三色标记">2.1 三色标记</a>
+          <ol>
+            <li>
+              <ol>
+                <li><a href="#211-原理">2.1.1 原理</a></li>
+                <li><a href="#212-缺点">2.1.2 缺点</a></li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li><a href="#22-屏障机制">2.2 屏障机制</a>
+          <ol>
+            <li>
+              <ol>
+                <li><a href="#221-强弱三色不变式">2.2.1 强弱三色不变式</a></li>
+                <li><a href="#222-屏障机制">2.2.2 屏障机制</a></li>
+                <li><a href="#223-缺点">2.2.3 缺点</a></li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#3-go-v18-三色标记--混合写屏障">3. Go-v1.8+ 三色标记 + 混合写屏障</a>
+      <ol>
+        <li><a href="#31-混合写屏障原理">3.1 混合写屏障原理</a></li>
+        <li><a href="#32-混合写屏障的具体场景">3.2 混合写屏障的具体场景</a>
+          <ol>
+            <li>
+              <ol>
+                <li><a href="#321-场景一">3.2.1 场景一</a></li>
+                <li><a href="#322-场景二">3.2.2 场景二</a></li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+      </div><div class="content" id="content" data-end-flag="（本文完）"><p>[TOC]</p>
+<h1 id="一-栈和堆" class="heading-element">
+  <a href="#%e4%b8%80-%e6%a0%88%e5%92%8c%e5%a0%86" class="heading-mark"></a>一. 栈和堆</h1><blockquote>
+<ul>
+<li>
+<p><strong>栈内存:</strong> 栈内存首先是一片内存区域，存储的都是局部变量，凡是定义在方法中的都是局部变量（方法外的是全局变量），for循环内部定义的也是局部变量，是先加载函数才能进行局部变量的定义，所以方法先进栈，然后再定义变量，变量有自己的作用域，一旦离开作用域，变量就会被释放。栈内存的更新速度很快，因为局部变量的生命周期都很短。但是可分配的内存有限</p>
+</li>
+<li>
+<p><strong>堆内存:</strong> 存储的是数组和对象（其实数组就是对象），凡是new建立的都是在堆中，堆中存放的都是实体（对象），实体用于封装数据，而且是封装多个（实体的多个属性），如果一个数据消失，这个实体也没有消失，还可以用，所以堆是不会随时释放的，但是栈不一样，栈里存放的都是单个变量，变量被释放了，那就没有了。堆里的实体虽然不会被释放，但是会被当成垃圾通过GC回收.</p>
+</li>
+</ul>
+</blockquote>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202100041939.png" alt="image-20211202100041939" style="zoom:33%;" />
+<h2 id="1原理" class="heading-element">
+  <a href="#1%e5%8e%9f%e7%90%86" class="heading-mark"></a>1 1.原理</h2><ul>
+<li>
+<p>在main函数中<code> var arr = make([]int,9)</code>的定义流程:</p>
+<ol>
+<li>
+<p>主函数先进栈，在栈中定义一个变量arr,接下来为arr赋值，但是右边不是一个具体值，是一个实体。实体创建在堆里，在堆里首先通过new关键字开辟一个空间，内存在存储数据的时候都是通过地址来体现的，地址是一块连续的二进制，然后给这个实体分配一个内存地址。数组都是有一个索引，数组这个实体在堆内存中产生之后每一个空间都会进行默认的初始化（<strong>这是堆内存的特点，未初始化的数据是不能用的</strong>），不同的类型初始化的值不一样。所以堆和栈里就创建了变量和实体：</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png?size=small" data-sub-html="<h2>image-20211202095343255</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png" alt="image-20211202095343255" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095343255.png?size=large 2x" data-title="image-20211202095343255" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p>给堆分配了一个地址，把堆的地址赋给arr，arr就通过地址指向了数组。所以arr想操纵数组时，就通过地址，而不是直接把实体都赋给它。这种我们不再叫他基本数据类型，而叫引用数据类型。称为arr引用了堆内存当中的实体。(指针)</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png?size=small" data-sub-html="<h2>image-20211202095324746</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png" alt="image-20211202095324746" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202095324746.png?size=large 2x" data-title="image-20211202095324746" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+</ol>
+</li>
+<li>
+<p>如果当int [] arr=null;arr不做任何指向，null的作用就是取消引用数据类型的指向。</p>
+</li>
+</ul>
+<h2 id="2区别" class="heading-element">
+  <a href="#2%e5%8c%ba%e5%88%ab" class="heading-mark"></a>2 2.区别</h2><ol>
+<li>
+<p>栈内存存储的是局部变量而堆内存存储的是实体；</p>
+</li>
+<li>
+<p>栈内存的更新速度要快于堆内存，因为局部变量的生命周期很短；</p>
+</li>
+<li>
+<p>栈内存存放的变量生命周期一旦结束就会被释放，而堆内存存放的实体会被垃圾回收机制不定时的回收。</p>
+</li>
+</ol>
+<h1 id="二-python-垃圾回收" class="heading-element">
+  <a href="#%e4%ba%8c-python-%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6" class="heading-mark"></a>二. python 垃圾回收</h1><blockquote>
+<p>书籍: 《python源码剖析》</p>
+</blockquote>
+<h2 id="1-python内存管理" class="heading-element">
+  <a href="#1-python%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86" class="heading-mark"></a>1 1. python内存管理</h2><ul>
+<li>python中将所有的数据类型分为了两种；分别是:由多个元素组成的和单个元素组成的；以利用不同的结构体去区分，
+分别是：pyobject结构体（_ PyObject_HEAD_EXTRA 双向链表;ob_refcnt;引用计数器；_typeobject *ob_type 表示对象类型），
+一个是pyvarobject结构体(PyObject ob_base 内部包含pyobject结构体； obsize；此对象有多少元素组成 )</li>
+<li>在pytho代码中，如果创建对象或者是对对象赋值，内存中会对对象做两种操作：将对象加入双向链表，引用计数加1；</li>
+<li>如果执行对象删除操作，也会进行两步操作：引用计数器减一；如果引用计数为0，就将对象从链表中剔除；</li>
+</ul>
+<h2 id="2-python-垃圾回收" class="heading-element">
+  <a href="#2-python-%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6" class="heading-mark"></a>2 2. python 垃圾回收</h2><ul>
+<li>
+<p>垃圾回收机制是以引用计数为主，以分代回收和标记清楚为辅；</p>
+<ul>
+<li>
+<p>引用计数</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">在pytho代码中</span><span class="err">，</span><span class="n">如果创建对象或者是对对象赋值</span><span class="err">，</span><span class="n">内存中会对对象做两种操作</span><span class="err">：</span><span class="n">将对象加入双向链表</span><span class="err">，</span><span class="n">引用计数加1</span><span class="err">；</span><span class="n">如果执行对象删除操作</span><span class="err">，</span><span class="n">也会进行两步操作</span><span class="err">：</span><span class="n">引用计数器减一</span><span class="err">；</span><span class="n">如果引用计数为0</span><span class="err">，</span><span class="n">就将对象从链表中剔除</span><span class="err">；</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>**标记清除：引用计数可以满足基本的内存管理和垃圾回收，但是无法解决&quot;循环引用&quot;的问题,所以存在标记清除;**只有多个元素组成的才会产生循环引用；</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 循环引用</span>
+</span></span><span class="line"><span class="cl"><span class="n">v1</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">v2</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">v1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">v2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 在python内部维护了两个双向链表，一个单个元素组成，一个是多个元素组成的；在垃圾回收机制（GC）中会定期扫描由多个元素组成的链表，如果发现有循环引用存在，那么引用计数分别减一；</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>分代回收：</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">分代回收</span><span class="err">：</span><span class="n">在python中为由多个元素的组成的类型</span><span class="err">（</span><span class="n">可能存在循环引用</span><span class="err">），</span><span class="n">为这些元素维护了三个双向链表</span><span class="err">，</span><span class="n">分别称为0代1代2代</span><span class="err">；</span><span class="n">python中为这三个链表设置了一个阈值</span><span class="err">，</span><span class="n">分别是700</span><span class="err">，</span><span class="mi">10</span><span class="err">，</span><span class="mi">10</span><span class="err">；（</span><span class="n">参数说明</span><span class="err">：</span><span class="n">如果第0代的链表中有700个对象时</span><span class="err">，</span><span class="n">进行一次扫描</span><span class="err">；</span><span class="mi">0</span><span class="n">代扫描十次</span><span class="err">，</span><span class="n">一代扫描一次</span><span class="err">；</span><span class="n">一代扫描十次</span><span class="err">，</span><span class="n">二代扫描一次</span><span class="err">；</span><span class="n">极大的减少了扫描元素的个数</span><span class="err">）</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="n">代链表中item的个数达到700时进行十次扫描</span><span class="err">，</span><span class="n">标记清除</span><span class="err">，</span><span class="n">引用计数为0的从双向链表中删除</span><span class="err">；</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+<h1 id="三-golang-垃圾回收" class="heading-element">
+  <a href="#%e4%b8%89-golang-%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6" class="heading-mark"></a>三. Golang 垃圾回收</h1><h2 id="1-go-v13-标记清除" class="heading-element">
+  <a href="#1-go-v13-%e6%a0%87%e8%ae%b0%e6%b8%85%e9%99%a4" class="heading-mark"></a>1 1. Go-v1.3 标记清除</h2><ul>
+<li>
+<p>标记-清除(mark and sweep)算法</p>
+<ol>
+<li>
+<p><strong>第一步</strong>, 标记</p>
+<p>暂停程序业务逻辑, 分类出可达和不可达的对象，然后做上标记。如下如, 目前程序可达对象仅1,2,3,4,7五个对象, 对这五个对象进行标记(mark)</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220630100709.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220630100709.png?size=small" data-sub-html="<h2>image-20220630100704197</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220630100709.png" alt="image-20220630100704197" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220630100709.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220630100709.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/20220630100709.png?size=large 2x" data-title="image-20220630100704197" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p><strong>第二步</strong>,需要程序暂停, 然后清除<code>对象5</code>和<code>对象6</code>, 程序会暂定停止任何工作，卡在那等待回收执行完毕。</p>
+</li>
+<li>
+<p><strong>第三部</strong>, 停止暂停，让程序继续跑。然后循环重复这个过程，直到process程序生命周期结束。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="11-缺点" class="heading-element">
+  <a href="#11-%e7%bc%ba%e7%82%b9" class="heading-mark"></a>1.1 1.1 缺点</h3><ul>
+<li>STW，stop the world；让程序暂停，程序出现卡顿 <strong>(重要问题)</strong>；</li>
+<li>标记需要扫描整个heap；</li>
+<li>清除数据会产生heap碎片。</li>
+</ul>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201171747329.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201171747329.png?size=small" data-sub-html="<h2>image-20211201171747329</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201171747329.png" alt="image-20211201171747329" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201171747329.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201171747329.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201171747329.png?size=large 2x" data-title="image-20211201171747329" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="2-go-v15-三色标记屏障机制" class="heading-element">
+  <a href="#2-go-v15-%e4%b8%89%e8%89%b2%e6%a0%87%e8%ae%b0%e5%b1%8f%e9%9a%9c%e6%9c%ba%e5%88%b6" class="heading-mark"></a>2 2. Go-v1.5 三色标记+屏障机制</h2><ul>
+<li>标记清除最大的缺点就是存在 STW需要程序暂停才能进行垃圾回收, 造成性能问题. v1.5使用三色标记+屏障机制 解决STW问题</li>
+</ul>
+<h3 id="21-三色标记" class="heading-element">
+  <a href="#21-%e4%b8%89%e8%89%b2%e6%a0%87%e8%ae%b0" class="heading-mark"></a>2.1 2.1 三色标记</h3><h5 id="211-原理" class="heading-element">
+  <a href="#211-%e5%8e%9f%e7%90%86" class="heading-mark"></a>2.1.0.1 2.1.1 原理</h5><ol>
+<li>
+<p><strong>第一步</strong> , 每次新创建的对象，默认的颜色都是标记为“白色”，如图所示。</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173055909.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173055909.png?size=small" data-sub-html="<h2>image-20211201173055909</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173055909.png" alt="image-20211201173055909" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173055909.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173055909.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173055909.png?size=large 2x" data-title="image-20211201173055909" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p><strong>第二步</strong>, 每次GC回收开始, 会从根节点开始遍历所有对象，把遍历到的对象从白色集合放入“灰色”集合如图所示。</p>
+<blockquote>
+<p>要注意的是，本次遍历是一次遍历，非递归形式，是从程序抽次可抵达的对象遍历一层，如上图所示，当前可抵达的对象是对象1和对象4，那么自然本轮遍历结束，对象1和对象4就会被标记为灰色，灰色标记表就会多出这两个对象。</p>
+</blockquote>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173158570.png" alt="image-20211201173158570" style="zoom:50%;" />
+</li>
+<li>
+<p><strong>第三步</strong>, 遍历灰色集合，将灰色对象引用的对象从白色集合放入灰色集合，之后将此灰色对象放入黑色集合，如图所示。</p>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173250172.png" alt="image-20211201173250172" style="zoom:45%;" />
+</li>
+<li>
+<p><strong>第四步</strong>, 重复<strong>第三步</strong>, 直到灰色中无任何对象，如图所示。</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173355805.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173355805.png?size=small" data-sub-html="<h2>image-20211201173355805</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173355805.png" alt="image-20211201173355805" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173355805.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173355805.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173355805.png?size=large 2x" data-title="image-20211201173355805" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<blockquote>
+<p>当我们全部的可达对象都遍历完后，灰色标记表将不再存在灰色对象，目前全部内存的数据只有两种颜色，黑色和白色。那么黑色对象就是我们程序逻辑可达（需要的）对象，这些数据是目前支撑程序正常业务运行的，是合法的有用数据，不可删除，白色的对象是全部不可达对象，目前程序逻辑并不依赖他们，那么白色对象就是内存中目前的垃圾数据，需要被清除。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>第五步</strong>: 回收所有的白色标记表的对象. 也就是回收垃圾，如图所示。将全部的白色对象进行删除回收，剩下的就是全部依赖的黑色对象。</p>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201173458193.png" alt="image-20211201173458193" style="zoom:50%;" />
+</li>
+</ol>
+<h5 id="212-缺点" class="heading-element">
+  <a href="#212-%e7%bc%ba%e7%82%b9" class="heading-mark"></a>2.1.0.2 2.1.2 缺点</h5><ul>
+<li>为了保证数据安全, 仍然存在 STW 缺陷</li>
+</ul>
+<blockquote>
+<p>如果没有STW的三色标记法</p>
+</blockquote>
+<ol>
+<li>
+<p>第一轮扫描，目前黑色的有对象1和对象4， 灰色的有对象2和对象7，其他的为白色对象，且对象2是通过指针p指向对象3的，如图所示。</p>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174103798.png" alt="image-20211201174103798" style="zoom:33%;" />
+</li>
+<li>
+<p>现在如何三色标记过程不启动STW，那么在GC扫描过程中，任意的对象均可能发生读写操作，如图所示，在还没有扫描到对象2的时候，已经标记为黑色的对象4，此时创建指针q，并且指向白色的对象3。</p>
+<img src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174127576.png" alt="image-20211201174127576" style="zoom:33%;" />
+</li>
+<li>
+<p>与此同时灰色的对象2将指针p移除，那么白色的对象3实则就是被挂在了已经扫描完成的黑色的对象4下，如图所示。</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174209570.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174209570.png?size=small" data-sub-html="<h2>image-20211201174209570</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174209570.png" alt="image-20211201174209570" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174209570.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174209570.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174209570.png?size=large 2x" data-title="image-20211201174209570" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p>然后我们正常指向三色标记的算法逻辑，将所有灰色的对象标记为黑色，那么对象2和对象7就被标记成了黑色，如图所示。<code>对象3</code>只能等待被清除, 产生错误! 最后本来是对象4合法引用的对象3，却被GC给“误杀”回收掉了。</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174230117.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174230117.png?size=small" data-sub-html="<h2>image-20211201174230117</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174230117.png" alt="image-20211201174230117" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174230117.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174230117.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174230117.png?size=large 2x" data-title="image-20211201174230117" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+</ol>
+<h3 id="22-屏障机制" class="heading-element">
+  <a href="#22-%e5%b1%8f%e9%9a%9c%e6%9c%ba%e5%88%b6" class="heading-mark"></a>2.2 2.2 屏障机制</h3><h5 id="221-强弱三色不变式" class="heading-element">
+  <a href="#221-%e5%bc%ba%e5%bc%b1%e4%b8%89%e8%89%b2%e4%b8%8d%e5%8f%98%e5%bc%8f" class="heading-mark"></a>2.2.0.3 2.2.1 强弱三色不变式</h5><ul>
+<li>
+<p>强三色不变式: 不存在黑色对象引用到白色对象的指针。</p>
+<blockquote>
+<p>强三色不变式实际上是强制性的不允许黑色对象引用白色对象，这样就不会出现有白色对象被误删的情况。</p>
+</blockquote>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174718596.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174718596.png?size=small" data-sub-html="<h2>image-20211201174718596</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174718596.png" alt="image-20211201174718596" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174718596.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174718596.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174718596.png?size=large 2x" data-title="image-20211201174718596" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p>若三色不变式:  所有被黑色对象引用的白色对象都处于灰色保护状态。</p>
+<blockquote>
+<p>弱三色不变式强调，黑色对象可以引用白色对象，但是这个白色对象必须存在其他灰色对象对它的引用，或者可达它的链路上游存在灰色对象。 这样实则是黑色对象引用白色对象，白色对象处于一个危险被删除的状态，但是上游灰色对象的引用，可以保护该白色对象，使其安全。</p>
+</blockquote>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174930624.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174930624.png?size=small" data-sub-html="<h2>image-20211201174930624</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174930624.png" alt="image-20211201174930624" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174930624.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174930624.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211201174930624.png?size=large 2x" data-title="image-20211201174930624" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+</ul>
+<h5 id="222-屏障机制" class="heading-element">
+  <a href="#222-%e5%b1%8f%e9%9a%9c%e6%9c%ba%e5%88%b6" class="heading-mark"></a>2.2.0.4 2.2.2 屏障机制</h5><blockquote>
+<p>为了遵循上述的强弱三色不变式，GC算法演进到两种屏障方式，他们“插入屏障”, “删除屏障”。GC算法演进到两种屏障方式，他们“插入屏障”, “删除屏障”。</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>插入屏障</strong></p>
+<p><code>具体操作</code>: 在<code>黑色A对象</code>引用<code>白色B对象</code>的时候，B对象被标记为灰色。(将B挂在A下游，B必须被标记为灰色)</p>
+<p><code>满足</code>: <strong>强三色不变式</strong>. (不存在黑色对象引用白色对象的情况了， 因为白色会强制变成灰色)</p>
+</li>
+<li>
+<p><strong>删除屏障</strong></p>
+<p><code>具体操作</code>: 被破坏的对象，如果自身为灰色或者白色，那么被标记为灰色。</p>
+<p><code>满足</code>: <strong>弱三色不变式</strong>. (保护灰色对象到白色对象的路径不会断)</p>
+</li>
+</ul>
+<h5 id="223-缺点" class="heading-element">
+  <a href="#223-%e7%bc%ba%e7%82%b9" class="heading-mark"></a>2.2.0.5 2.2.3 缺点</h5><ul>
+<li>插入写屏障：结束时需要STW来重新扫描栈，标记栈上引用的白色对象的存活；</li>
+<li>删除写屏障：回收精度低，GC开始时STW扫描堆栈来记录初始快照，这个过程会保护开始时刻的所有存活对象。</li>
+</ul>
+<h2 id="3-go-v18-三色标记--混合写屏障" class="heading-element">
+  <a href="#3-go-v18-%e4%b8%89%e8%89%b2%e6%a0%87%e8%ae%b0--%e6%b7%b7%e5%90%88%e5%86%99%e5%b1%8f%e9%9a%9c" class="heading-mark"></a>3 3. Go-v1.8+ 三色标记 + 混合写屏障</h2><blockquote>
+<p>Go V1.8版本引入了混合写屏障机制（hybrid write barrier），避免了对栈re-scan的过程，极大的减少了STW的时间。结合了两者的优点。</p>
+<p>注意混合写屏障是Gc的一种屏障机制，所以只是当程序执行GC的时候，才会触发这种机制。</p>
+</blockquote>
+<h3 id="31-混合写屏障原理" class="heading-element">
+  <a href="#31-%e6%b7%b7%e5%90%88%e5%86%99%e5%b1%8f%e9%9a%9c%e5%8e%9f%e7%90%86" class="heading-mark"></a>3.1 3.1 混合写屏障原理</h3><blockquote>
+<p>注意: 混合写屏障是Gc的一种屏障机制，所以只是当程序执行GC的时候，才会触发这种机制。</p>
+</blockquote>
+<ol>
+<li>
+<p>GC开始将<code>栈上的可达对象</code>全部扫描并标记为黑色(之后不再进行第二次重复扫描，无需STW)，栈上不再启用屏障, 只有堆启用屏障.</p>
+</li>
+<li>
+<p>GC期间，任何在栈上创建的新对象，均为黑色。</p>
+</li>
+<li>
+<p>栈上被删除的对象标记为灰色。</p>
+</li>
+<li>
+<p>栈上被添加的对象标记为灰色。</p>
+</li>
+</ol>
+<p><code>满足</code>: 变形的<strong>强弱三色不变式</strong>.结合了<code>插入/删除屏障</code>的优点</p>
+<h3 id="32-混合写屏障的具体场景" class="heading-element">
+  <a href="#32-%e6%b7%b7%e5%90%88%e5%86%99%e5%b1%8f%e9%9a%9c%e7%9a%84%e5%85%b7%e4%bd%93%e5%9c%ba%e6%99%af" class="heading-mark"></a>3.2 3.2 混合写屏障的具体场景</h3><ul>
+<li>
+<p>GC开始：扫描栈区，将可达对象全部标记为黑</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202100713544.png?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202100713544.png?size=small" data-sub-html="<h2>image-20211202100713544</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202100713544.png" alt="image-20211202100713544" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202100713544.png?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202100713544.png?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/image-20211202100713544.png?size=large 2x" data-title="image-20211202100713544" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+</ul>
+<h5 id="321-场景一" class="heading-element">
+  <a href="#321-%e5%9c%ba%e6%99%af%e4%b8%80" class="heading-mark"></a>3.2.0.6 3.2.1 场景一</h5><blockquote>
+<p>对象被一个堆对象删除引用，成为栈对象的下游(A引用B, A就是B的下游)</p>
+</blockquote>
+<ul>
+<li>
+<p>前提：</p>
+<p>堆对象4-&gt;对象7 = 对象7；  //对象7 被 对象4引用
+栈对象1-&gt;对象7 = 堆对象7；  //将堆对象7 挂在 栈对象1 下游
+堆对象4-&gt;对象7 = null；    //对象4 删除引用 对象7</p>
+</li>
+</ul>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/64c76eea3706c37f160b8345b7b3742c_1920x1080.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/64c76eea3706c37f160b8345b7b3742c_1920x1080.jpeg?size=small" data-sub-html="<h2>img</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/64c76eea3706c37f160b8345b7b3742c_1920x1080.jpeg" alt="img" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/64c76eea3706c37f160b8345b7b3742c_1920x1080.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/64c76eea3706c37f160b8345b7b3742c_1920x1080.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/64c76eea3706c37f160b8345b7b3742c_1920x1080.jpeg?size=large 2x" data-title="img" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/4d6728d276d2786017cde37b824333aa_1920x1080.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/4d6728d276d2786017cde37b824333aa_1920x1080.jpeg?size=small" data-sub-html="<h2>img</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/4d6728d276d2786017cde37b824333aa_1920x1080.jpeg" alt="img" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/4d6728d276d2786017cde37b824333aa_1920x1080.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/4d6728d276d2786017cde37b824333aa_1920x1080.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/4d6728d276d2786017cde37b824333aa_1920x1080.jpeg?size=large 2x" data-title="img" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h5 id="322-场景二" class="heading-element">
+  <a href="#322-%e5%9c%ba%e6%99%af%e4%ba%8c" class="heading-mark"></a>3.2.0.7 3.2.2 场景二</h5><blockquote>
+<p>对象被一个栈对象删除引用，成为另一个栈对象的下游</p>
+</blockquote>
+<ul>
+<li>new 栈对象9；
+对象8-&gt;对象3 = 对象3；      //将栈对象3 挂在 栈对象9 下游
+对象2-&gt;对象3 = null；      //对象2 删除引用 对象3</li>
+</ul>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/beedb81ec3cd5a4813aaa5bce1341949_1920x1080.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/beedb81ec3cd5a4813aaa5bce1341949_1920x1080.jpeg?size=small" data-sub-html="<h2>img</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/beedb81ec3cd5a4813aaa5bce1341949_1920x1080.jpeg" alt="img" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/beedb81ec3cd5a4813aaa5bce1341949_1920x1080.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/beedb81ec3cd5a4813aaa5bce1341949_1920x1080.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/beedb81ec3cd5a4813aaa5bce1341949_1920x1080.jpeg?size=large 2x" data-title="img" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/48569d6dfb8ac6f1b0d6238a9d8150b3_1920x1080-20211202110233896.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/48569d6dfb8ac6f1b0d6238a9d8150b3_1920x1080-20211202110233896.jpeg?size=small" data-sub-html="<h2>img</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/48569d6dfb8ac6f1b0d6238a9d8150b3_1920x1080-20211202110233896.jpeg" alt="img" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/48569d6dfb8ac6f1b0d6238a9d8150b3_1920x1080-20211202110233896.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/48569d6dfb8ac6f1b0d6238a9d8150b3_1920x1080-20211202110233896.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/48569d6dfb8ac6f1b0d6238a9d8150b3_1920x1080-20211202110233896.jpeg?size=large 2x" data-title="img" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/46e6be62e880e0f5796bc1e6f050b512_1920x1080.jpeg?size=large" data-thumbnail="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/46e6be62e880e0f5796bc1e6f050b512_1920x1080.jpeg?size=small" data-sub-html="<h2>img</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/46e6be62e880e0f5796bc1e6f050b512_1920x1080.jpeg" alt="img" srcset="https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/46e6be62e880e0f5796bc1e6f050b512_1920x1080.jpeg?size=small, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/46e6be62e880e0f5796bc1e6f050b512_1920x1080.jpeg?size=medium 1.5x, https://raw.githubusercontent.com/hellolib/pictures/main/Typora/pic-00-gitee/46e6be62e880e0f5796bc1e6f050b512_1920x1080.jpeg?size=large 2x" data-title="img" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h1 id="四-gc触发时机" class="heading-element">
+  <a href="#%e5%9b%9b-gc%e8%a7%a6%e5%8f%91%e6%97%b6%e6%9c%ba" class="heading-mark"></a>四. GC触发时机</h1><ol>
+<li>
+<p>主动调用<code>runtime.GC</code></p>
+</li>
+<li>
+<p>当距离上一个 GC 周期的时间超过一定时间时，将会触发。时间周期以runtime.forcegcperiod 变量为准，默认 2 分钟</p>
+</li>
+<li>
+<p>当所分配的堆大小达到阈值（由控制器计算的触发堆的大小）时，将会触发。</p>
+<ul>
+<li>
+<p><strong>申请内存触发 runtime.mallocgc</strong></p>
+<p>Go运行时会将堆上的对象按大小分成微对象、小对象和大对象三类，这三类对象的创建都可能会触发新的GC</p>
+<ol>
+<li>当前线程的内存管理单元中不存在空闲空间时，创建微对象 <code>(noscan&amp;&amp;size&lt;maxTinySize)</code>和小对象需要调用 <code>runtime.mcache.nextFree</code>从中心缓存或者页堆中获取新的管理单元，这时如果span满了就会导致返回的 <code>shouldhelpgc=true</code>，就可能触发垃圾收集；</li>
+<li>当用户程序申请分配 32KB 以上的大对象时，一定会构建 <code>runtime.gcTrigger</code>结构体尝试触发垃圾收集；</li>
+</ol>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// src/runtime/mgc.go
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">func</span> <span class="p">(</span><span class="nx">t</span> <span class="nx">gcTrigger</span><span class="p">)</span> <span class="nx">test</span><span class="p">()</span> <span class="nx">bool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="o">!</span><span class="nx">memstats</span><span class="p">.</span><span class="nx">enablegc</span> <span class="o">||</span> <span class="nx">panicking</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">gcphase</span> <span class="o">!=</span> <span class="nx">_GCoff</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">switch</span> <span class="nx">t</span><span class="p">.</span><span class="nx">kind</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">case</span> <span class="nx">gcTriggerHeap</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// Non-atomic access to gcController.heapLive for performance. If
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// we are going to trigger on this, this thread just
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// atomically wrote gcController.heapLive anyway and we&#39;ll see our
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// own write.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="nx">gcController</span><span class="p">.</span><span class="nx">heapLive</span> <span class="o">&gt;=</span> <span class="nx">gcController</span><span class="p">.</span><span class="nx">trigger</span>  <span class="c1">// 是否触发gc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">case</span> <span class="nx">gcTriggerTime</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">gcController</span><span class="p">.</span><span class="nx">gcPercent</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">lastgc</span> <span class="o">:=</span> <span class="nx">int64</span><span class="p">(</span><span class="nx">atomic</span><span class="p">.</span><span class="nx">Load64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">memstats</span><span class="p">.</span><span class="nx">last_gc_nanotime</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">lastgc</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">now</span><span class="o">-</span><span class="nx">lastgc</span> <span class="o">&gt;</span> <span class="nx">forcegcperiod</span>
+</span></span><span class="line"><span class="cl">	<span class="k">case</span> <span class="nx">gcTriggerCycle</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// t.n &gt; work.cycles, but accounting for wraparound.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="nx">int32</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">n</span><span class="o">-</span><span class="nx">work</span><span class="p">.</span><span class="nx">cycles</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个时候调用 <code>t.test()</code>执行的是 <code>gcTriggerHeap</code>情况，只需要判断 <code>gcController.heapLive&gt;=gcController.trigger</code>的真假就可以了。<code>heapLive</code> 表示垃圾收集中存活对象字节数， <code>trigger</code>表示触发标记的堆内存大小的；当内存中存活的对象字节数大于触发垃圾收集的堆大小时，新一轮的垃圾收集就会开始。</p>
+<ol>
+<li><code>heapLive</code> — 为了减少锁竞争，运行时只会在中心缓存分配或者释放内存管理单元以及在堆上分配大对象时才会更新；</li>
+<li><code>trigger</code> — 在标记终止阶段调用 <code>runtime.gcSetTriggerRatio</code> 更新触发下一次垃圾收集的堆大小，它能够决定触发垃圾收集的时间以及用户程序和后台处理的标记任务的多少，利用反馈控制的算法根据堆的增长情况和垃圾收集 CPU 利用率确定触发垃圾收集的时机。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="五-golang-gc总结" class="heading-element">
+  <a href="#%e4%ba%94-golang-gc%e6%80%bb%e7%bb%93" class="heading-mark"></a>五. Golang GC总结</h1><ul>
+<li>v1.3 使用标记清除, 存在STW(stop the word)机制, 垃圾回收时程序暂停, 效率低下</li>
+<li>v1.5 三色标记法 + 删除/插入屏障  : 栈空间不动, 堆空间全部重新扫描,存在STW(stop the word)机制, 效率低下.</li>
+<li>vGoV1.8-三色标记法，混合写屏障机制， 栈空间不启动，堆空间启动。整个过程几乎不需要STW，效率较高。</li>
+</ul>
+</div><div class="post-reward">
+    <div class="comment">Buy me a coffee~</div>
+    <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
+    <label class="reward-button" for="fi-reward">赞赏</label>
+    <div class="reward-ways" data-mode="fixed"><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 支付宝" data-title="Fred 支付宝" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>支付宝</span>
+          </div><div><img loading="lazy" src="/images/wechatpay.jpg" alt="Fred 微信" data-title="Fred 微信" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span data-animation>微信</span>
+          </div></div>
+  </div><div class="collection-card">
+      <div class="collection-title text-secondary">收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> <span>合集・go高级</span></span></a> 42</div>
+      <div class="collection-nav"><a href="/lang/go/go_advanced/20250515175156/" class="collection-nav-item" rel="prev" title="1-1.Go内存管理"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i><span>1-1.Go内存管理</span>
+          </a><a href="/lang/go/go_advanced/20250515175207/" class="collection-nav-item" rel="next" title="1-3.Go语言中的并发编程">
+            <span>1-3.Go语言中的并发编程</span><i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-05-15 18:12:34">更新于 2025-05-15&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/lang/go/go_advanced/20250515175202/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span><span><a href="https://github.com/ipfred/ipfred.github.io/blob/main/content/lang%5cgo%5cgo_advanced%5c1-2.Go%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e6%9c%ba%e5%88%b6.md?plain=1" title="查看源码"target="_blank" rel="external nofollow noopener noreferrer" class="link-to-source">查看源码</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://ipfred.github.io/lang/go/go_advanced/20250515175202/" data-title="1-2.Go垃圾回收机制"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 百度" data-sharer="baidu" data-url="https://ipfred.github.io/lang/go/go_advanced/20250515175202/" data-title="1-2.Go垃圾回收机制"><i data-svg-src="https://unpkg.com/simple-icons@9.19.0/icons/baidu.svg" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/lang/go/go_advanced/20250515175156/" class="post-nav-item" rel="prev" title="1-1.Go内存管理"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>1-1.Go内存管理</a>
+      <a href="/lang/go/go_advanced/20250515175207/" class="post-nav-item" rel="next" title="1-3.Go语言中的并发编程">1-3.Go语言中的并发编程<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="ipfred/blog_talk"
+            data-repo-id="R_kgDOLxCpPA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDOLxCpPM4Ce1Az"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright order-1" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/ipfred"target="_blank" rel="external nofollow noopener noreferrer">Fred</a></span></div><div class="footer-line statistics order-first"></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><a href="https://github.com/ipfred" title="View source on GitHub"target="_blank" rel="external nofollow" class="github-corner right d-none-mobile"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="https://unpkg.com/lightgallery@2.7.2/css/lightgallery-bundle.min.css"><link rel="preload" href="https://unpkg.com/katex@0.16.9/dist/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/katex@0.16.9/dist/katex.min.css"></noscript><link rel="stylesheet" href="https://unpkg.com/pace-js@1.2.4/themes/green/pace-theme-minimal.css"><script src="https://unpkg.com/autocomplete.js@0.38.1/dist/autocomplete.min.js" defer></script><script src="https://unpkg.com/algoliasearch@4.20.0/dist/algoliasearch-lite.umd.js" defer></script><script src="https://unpkg.com/instant.page@5.2.0/instantpage.js" async defer type="module"></script><script src="https://unpkg.com/lightgallery@2.7.2/lightgallery.min.js" defer></script><script src="https://unpkg.com/lightgallery@2.7.2/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="https://unpkg.com/lightgallery@2.7.2/plugins/zoom/lg-zoom.min.js" defer></script><script src="https://unpkg.com/sharer.js@0.5.1/sharer.min.js" async defer></script><script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/katex.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/auto-render.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/copy-tex.min.js" defer></script><script src="https://unpkg.com/katex@0.16.9/dist/contrib/mhchem.min.js" defer></script><script src="https://unpkg.com/pangu@4.0.7/dist/browser/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script src="https://unpkg.com/pace-js@1.2.4/pace.min.js" async defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":30},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark_dimmed","lightTheme":"light"}},"data":{"typeit-header-subtitle-desktop":"一个只记录精华知识的平台","typeit-header-subtitle-mobile":"一个只记录精华知识的平台"},"enablePWA":true,"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"algoliaAppID":"TZCN6HKD92","algoliaIndex":"index","algoliaSearchKey":"663832297fb162d0169b237d56275fe2","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-subtitle-desktop":["typeit-header-subtitle-desktop"],"typeit-header-subtitle-mobile":["typeit-header-subtitle-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

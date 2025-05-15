@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title> | Fred的知识库</title><meta name="author" content="Fred">
+<meta name="author-link" content="https://github.com/ipfred">
+<meta name="description" content="1 Heap - 堆 1.1 1. Heap - 堆 堆分为两种：最大堆和最小堆，两者的差别在于节点的排序方式 堆是一棵完全树（complete tree）：即除了最底层，其他层的节点都被元素填满，且最底层尽可能地从左到右填入 在最大堆中，父节点的值比每一个子节点的值都要大。在最小堆中，父节点的值比每一个子节点的值都要小。这就是所谓的“堆属" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
+  <meta itemprop="name" content="Fred的知识库">
+  <meta itemprop="description" content="1 Heap - 堆 1.1 1. Heap - 堆 堆分为两种：最大堆和最小堆，两者的差别在于节点的排序方式 堆是一棵完全树（complete tree）：即除了最底层，其他层的节点都被元素填满，且最底层尽可能地从左到右填入 在最大堆中，父节点的值比每一个子节点的值都要大。在最小堆中，父节点的值比每一个子节点的值都要小。这就是所谓的“堆属">
+  <meta itemprop="dateModified" content="2024-04-23T12:05:08+08:00">
+  <meta itemprop="wordCount" content="5954">
+  <meta itemprop="image" content="http://localhost:1313/images/apple-devices-preview.webp"><meta property="og:url" content="http://localhost:1313/lang/go/go_advanced/18.-%E6%A0%87%E5%87%86%E5%BA%93container%E4%B8%89%E5%89%91%E5%AE%A2headlistring/">
+  <meta property="og:site_name" content="Fred的知识库">
+  <meta property="og:title" content="Fred的知识库">
+  <meta property="og:description" content="1 Heap - 堆 1.1 1. Heap - 堆 堆分为两种：最大堆和最小堆，两者的差别在于节点的排序方式 堆是一棵完全树（complete tree）：即除了最底层，其他层的节点都被元素填满，且最底层尽可能地从左到右填入 在最大堆中，父节点的值比每一个子节点的值都要大。在最小堆中，父节点的值比每一个子节点的值都要小。这就是所谓的“堆属">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="lang">
+    <meta property="article:modified_time" content="2024-04-23T12:05:08+08:00">
+    <meta property="og:image" content="http://localhost:1313/images/apple-devices-preview.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:1313/images/apple-devices-preview.webp"><meta name="twitter:title" content="">
+<meta name="twitter:description" content="1 Heap - 堆 1.1 1. Heap - 堆 堆分为两种：最大堆和最小堆，两者的差别在于节点的排序方式 堆是一棵完全树（complete tree）：即除了最底层，其他层的节点都被元素填满，且最底层尽可能地从左到右填入 在最大堆中，父节点的值比每一个子节点的值都要大。在最小堆中，父节点的值比每一个子节点的值都要小。这就是所谓的“堆属">
+<meta name="application-name" content="FredKnow">
+<meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/lang/go/go_advanced/18.-%E6%A0%87%E5%87%86%E5%BA%93container%E4%B8%89%E5%89%91%E5%AE%A2headlistring/" /><link rel="prev" href="http://localhost:1313/lang/go/go_advanced/19.cgo%E6%95%99%E7%A8%8B/" /><link rel="next" href="http://localhost:1313/lang/go/go_advanced/17.-go%E6%89%A7%E8%A1%8C%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/lang\/go\/go_advanced\/18.-%E6%A0%87%E5%87%86%E5%BA%93container%E4%B8%89%E5%89%91%E5%AE%A2headlistring\/"
+    },"image": ["http:\/\/localhost:1313\/apple-touch-icon.png"],"genre": "lang","wordcount":  5954 ,
+    "url": "http:\/\/localhost:1313\/lang\/go\/go_advanced\/18.-%E6%A0%87%E5%87%86%E5%BA%93container%E4%B8%89%E5%89%91%E5%AE%A2headlistring\/","dateModified": "2024-04-23T12:05:08+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
+      "@type": "Organization",
+      "name": "ipFred","logo": "http:\/\/localhost:1313\/images\/avatar.jpg"},"author": {
+        "@type": "Person",
+        "name": "Fred"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper" data-github-corner="right">
+    <div class="header-title">
+      <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="Fred的知识库" data-title="Fred的知识库" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-desktop" class="typeit header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li class="menu-item has-children">
+              <a
+                class="menu-link"
+                href="/lang/"
+                
+                
+              ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/web/"
+                
+                
+              ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Fred的知识库"><img loading="lazy" src="https://files.catbox.moe/mtzx1g.png" alt="https://files.catbox.moe/mtzx1g.png" data-title="https://files.catbox.moe/mtzx1g.png" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Fred的知识库</span></a><span id="typeit-header-subtitle-mobile" class="typeit header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group fa-fw fa-sm" aria-hidden="true"></i> 合集</a></li><li
+              class="menu-item"
+            ><span class="nested-item">
+                  <a
+                    class="menu-link"
+                    href="/lang/"
+                    
+                    
+                  ><i class="fa-solid fa-users-viewfinder fa-fw fa-sm" aria-hidden="true"></i> 编程语言</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu">
+                  <li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/java/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Java</a>
+                      </li><li
+                        class="menu-item"
+                      >
+                        <a
+                          class="menu-link"
+                          href="/lang/python/"
+                          
+                          
+                        ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Python</a>
+                      </li></ul></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/web/"
+                  
+                  
+                ><i class="fa-regular fa-id-card fa-fw fa-sm" aria-hidden="true"></i> 导航</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><nav aria-label="breadcrumb" class="breadcrumb-container sticky">
+    <ol class="breadcrumb"><li class="breadcrumb-item"><a href="/lang/" title="langs">langs</a></li><li class="breadcrumb-item active" aria-current="page"></li>
+    </ol>
+  </nav><main class="container"><article class="page single special">
+    <div class="header"><h1 class="single-title animate__animated animate__pulse animate__faster"></h1></div><div
+      class="content"
+      id="content"
+      
+      
+    ><h2 id="heap---堆" class="heading-element">
+  <a href="#heap---%e5%a0%86" class="heading-mark"></a>1 Heap - 堆</h2><h3 id="1-heap---堆" class="heading-element">
+  <a href="#1-heap---%e5%a0%86" class="heading-mark"></a>1.1 1. Heap - 堆</h3><ul>
+<li>
+<p>堆分为两种：<em>最大堆</em>和<em>最小堆</em>，两者的差别在于节点的排序方式</p>
+</li>
+<li>
+<p>堆是一棵完全树（complete tree）：即除了最底层，其他层的节点都被元素填满，且最底层尽可能地从左到右填入</p>
+</li>
+<li>
+<p>在最大堆中，父节点的值比每一个子节点的值都要大。在最小堆中，父节点的值比每一个子节点的值都要小。这就是所谓的“堆属性”，并且这个属性对堆中的每一个节点都成立</p>
+<p><a class="lightgallery" href="https://upload-images.jianshu.io/upload_images/4064751-14a6cde25bdff968.png?imageMogr2/auto-orient/strip%7cimageView2/2/w/190/format/webp&amp;size=large" data-thumbnail="https://upload-images.jianshu.io/upload_images/4064751-14a6cde25bdff968.png?imageMogr2/auto-orient/strip|imageView2/2/w/190/format/webp&amp;size=small" data-sub-html="<h2>img</h2>"><img loading="lazy" src="https://upload-images.jianshu.io/upload_images/4064751-14a6cde25bdff968.png?imageMogr2/auto-orient/strip%7cimageView2/2/w/190/format/webp" alt="img" srcset="https://upload-images.jianshu.io/upload_images/4064751-14a6cde25bdff968.png?imageMogr2/auto-orient/strip%7cimageView2/2/w/190/format/webp&amp;size=small, https://upload-images.jianshu.io/upload_images/4064751-14a6cde25bdff968.png?imageMogr2/auto-orient/strip%7cimageView2/2/w/190/format/webp&amp;size=medium 1.5x, https://upload-images.jianshu.io/upload_images/4064751-14a6cde25bdff968.png?imageMogr2/auto-orient/strip%7cimageView2/2/w/190/format/webp&amp;size=large 2x" data-title="img" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p>而对于最小堆，根节点中的元素总是树中的最小值。堆属性非常有用，因为堆常常被当做优先队列使用，因为可以快速地访问到“最重要”的元素</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-as-array.png?size=large" data-thumbnail="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-as-array.png?size=small" data-sub-html="<h2>heap-as-array</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-as-array.png" alt="heap-as-array" srcset="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-as-array.png?size=small, https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-as-array.png?size=medium 1.5x, https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-as-array.png?size=large 2x" data-title="heap-as-array" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort.png?size=large" data-thumbnail="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort.png?size=small" data-sub-html="<h2>heap-as-array2</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort.png" alt="heap-as-array2" srcset="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort.png?size=small, https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort.png?size=medium 1.5x, https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort.png?size=large 2x" data-title="heap-as-array2" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+<li>
+<p>**注意：**堆的根节点中存放的是最大或者最小元素，但是其他节点的排序顺序是未知的。例如，在一个最大堆中，最大的那一个元素总是位于 index 0 的位置，但是最小的元素则未必是最后一个元素。&ndash;唯一能够保证的是最小的元素是一个叶节点，但是不确定是哪一个</p>
+</li>
+</ul>
+<h3 id="2-堆与搜索二叉树的区别" class="heading-element">
+  <a href="#2-%e5%a0%86%e4%b8%8e%e6%90%9c%e7%b4%a2%e4%ba%8c%e5%8f%89%e6%a0%91%e7%9a%84%e5%8c%ba%e5%88%ab" class="heading-mark"></a>1.2 2. 堆与搜索二叉树的区别</h3><ul>
+<li>堆并不能取代二叉搜索树，它们之间有相似之处也有一些不同。我们来看一下两者的主要差别：
+<ol>
+<li>**节点的顺序：**在二叉搜索树中，左子节点必须比父节点小，右子节点必须必比父节点大。但是在堆中并非如此。在最大堆中两个子节点都必须比父节点小，而在最小堆中，它们都必须比父节点大。</li>
+<li>**内存占用：**普通树占用的内存空间比它们存储的数据要多。你必须为节点对象以及左/右子节点指针分配内存。堆仅仅使用一个数据来存储数组，且不使用指针。</li>
+<li><strong>平衡：<strong>二叉搜索树必须是“平衡”的情况下，其大部分操作的复杂度才能达到</strong>O(log n)</strong>。你可以按任意顺序位置插入/删除数据，或者使用 AVL 树或者红黑树，但是在堆中实际上不需要整棵树都是有序的。我们只需要满足堆属性即可，所以在堆中平衡不是问题。因为堆中数据的组织方式可以保证<strong>O(log n)</strong> 的性能</li>
+<li>**搜索:**在二叉树中搜索会很快，但是在堆中搜索会很慢。在堆中搜索不是第一优先级，因为使用堆的目的是将最大（或者最小）的节点放在最前面，从而快速的进行相关插入、删除操作</li>
+</ol>
+</li>
+</ul>
+<h3 id="3-containerheap" class="heading-element">
+  <a href="#3-containerheap" class="heading-mark"></a>1.3 3. container/heap</h3><ul>
+<li>
+<p>实现接口一共有五个（<code>sort.Interface</code> 3个 + <code>heap.Interface</code> 2个）</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// sort.Interface
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Interface</span> <span class="kd">interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Len is the number of elements in the collection.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">Len</span><span class="p">()</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Less reports whether the element with index i must sort before the element with index j.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">Less</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Swap swaps the elements with indexes i and j.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">Swap</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// heap.Interface
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Interface</span> <span class="kd">interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">sort</span><span class="p">.</span><span class="nx">Interface</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">Push</span><span class="p">(</span><span class="nx">x</span> <span class="nx">any</span><span class="p">)</span> <span class="c1">// add x as element Len()
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">Pop</span><span class="p">()</span> <span class="nx">any</span>   <span class="c1">// remove and return element Len() - 1.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>其中heap包单独暴露了一些方法：</p>
+<blockquote>
+<ul>
+<li>
+<p>接口都需要传入上述接口的实例化对象</p>
+</li>
+<li>
+<p>不要混淆<code>heap.Push</code>和自己slice实现的<code>Push</code>方法</p>
+<ul>
+<li>开发者实现的<code>Push</code>方法仅仅是对slice操作 <code>heap.Push</code>调用了slice的<code>Push</code>操作，还需要额外的调整用以维护heap性质</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 建堆， 对heap进行初始化，生成小根堆（或大根堆）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Init</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 插入元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Push</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">,</span> <span class="nx">x</span> <span class="kd">interface</span><span class="p">{})</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 弹出root元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Pop</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">)</span> <span class="kd">interface</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Update元素(包括优先级)，从i位置数据发生改变后，对堆再平衡，优先级队列的实现会使用此方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Fix</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">,</span> <span class="nx">i</span> <span class="kt">int</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 删除，从指定位置删除数据，并返回删除的数据，同时亦涉及到堆的再平衡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Remove</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">,</span> <span class="nx">i</span> <span class="kt">int</span><span class="p">)</span> <span class="kd">interface</span><span class="p">{}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h4 id="31-init" class="heading-element">
+  <a href="#31-init" class="heading-mark"></a>1.3.1 3.1 Init</h4><ul>
+<li>
+<p><code>Init</code> 为初始化建立 heap 的方法, 该方法调用了<code>heap.down</code> 方法</p>
+</li>
+<li>
+<p>在 <code>Init</code> 方法中，调整的位置，第 <code>1</code> 个的元素的位置是 <code>n/2-1</code> 个，符合最小堆的特性；最后一个位置是堆顶的位置 <code>0</code></p>
+</li>
+<li>
+<p><code>heap.down</code> 方法的作用是，任选一个元素 <code>i</code>，将与其子节点 <code>2i+1</code> 和 <code>2i+2</code> 比较，如果 <code>i</code> 比它的子节点小，则将 <code>i</code> 与两个子节点中较小的节点交换（代码中的 <code>j</code>）；子节点 <code>j</code> 再与它的子节点，继续比较、交换，直到数组末尾、或者待比较的元素比它的两个子节点都小，跳出当前的 <code>heap.down</code> 循环</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// A heap must be initialized before any of the heap operations
+</span></span></span><span class="line"><span class="cl"><span class="c1">// can be used. Init is idempotent with respect to the heap invariants
+</span></span></span><span class="line"><span class="cl"><span class="c1">// and may be called whenever the heap invariants may have been invalidated.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Its complexity is O(n) where n = h.Len().
+</span></span></span><span class="line"><span class="cl"><span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Init</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// heapify
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">n</span> <span class="o">:=</span> <span class="nx">h</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span>	<span class="c1">//堆长度，下标从0 ~ n-1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="nx">n</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// 从长度的一半开始，一直到第0个数据，每个位置都调用down方法，down方法实现的功能是保证从该位置往下保证形成堆
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nf">down</span><span class="p">(</span><span class="nx">h</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 给定类型，需要调整的元素在数组中的索引以及 heap 的长度
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 将该元素下沉到该元素对应的子树合适的位置，从而满足该子树为最小堆
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">down</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">,</span> <span class="nx">i0</span><span class="p">,</span> <span class="nx">n</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">i</span> <span class="o">:=</span> <span class="nx">i0</span>	<span class="c1">// 中间变量，初始化保存为：往下调整为heap所在的节点位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">j1</span> <span class="o">:=</span> <span class="mi">2</span><span class="o">*</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span>	<span class="c1">// i节点的左子孩子
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">if</span> <span class="nx">j1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">j1</span> <span class="p">&lt;</span> <span class="mi">0</span> <span class="p">{</span> <span class="c1">// j1 &lt; 0 after int overflow
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="c1">// 如果j1 越界了，说明已经调整完成了，可以退出循环
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="k">break</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">j</span> <span class="o">:=</span> <span class="nx">j1</span> <span class="c1">// left child
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//中间变量j先赋值为左子孩子，之后j将被赋值为左右子孩子中最小（大）的一个孩子的位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">if</span> <span class="nx">j2</span> <span class="o">:=</span> <span class="nx">j1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">j2</span> <span class="p">&lt;</span><span class="nx">n</span> <span class="o">&amp;&amp;</span> <span class="nx">h</span><span class="p">.</span><span class="nf">Less</span><span class="p">(</span><span class="nx">j2</span><span class="p">,</span> <span class="nx">j1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">j</span> <span class="p">=</span> <span class="nx">j2</span> <span class="c1">// = 2*i + 2 // right child
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//j被赋值为两个孩子中的最小（大）孩子的位置（由开发者实现的Less方法决定）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">if</span> <span class="p">!</span><span class="nx">h</span><span class="p">.</span><span class="nf">Less</span><span class="p">(</span><span class="nx">j</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      		<span class="c1">// 比较孩子和当前的父亲节点，如果满足堆的要求了，退出循环（注意：j在前，i在后，结果取非）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="k">break</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">h</span><span class="p">.</span><span class="nf">Swap</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">)</span> <span class="c1">// 否则交换i和j位置的值，继续比较
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">i</span> <span class="p">=</span> <span class="nx">j</span>		<span class="c1">// 保存j的位置，继续向下调整，保证j位置的子树是heap结构
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">//这个结果有点意思：如果i&gt;i0，说明调整了，返回true；否则，未调整返回false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="nx">i</span> <span class="p">&gt;</span> <span class="nx">i0</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a class="lightgallery" href="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort-adjust.png?size=large" data-thumbnail="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort-adjust.png?size=small" data-sub-html="<h2>adjust</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort-adjust.png" alt="adjust" srcset="https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort-adjust.png?size=small, https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort-adjust.png?size=medium 1.5x, https://raw.githubusercontent.com/pandaychen/pandaychen.github.io/master/blog_img/heap/heap-sort-adjust.png?size=large 2x" data-title="adjust" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</li>
+</ul>
+<h4 id="32-push" class="heading-element">
+  <a href="#32-push" class="heading-mark"></a>1.3.2 3.2 Push</h4><ul>
+<li>
+<p><code>Push</code> 方法保证插入新元素时，顺序数组 <code>h</code> 仍然是一个 heap；和上面的描述一致，将 <code>x</code> 元素插入到了数组的末尾位置，再调用 <code>up</code> 方法自下而上进行调整，使其满足 heap 的性质</p>
+</li>
+<li>
+<p><code>heap.up</code> 方法也较易理解：依此（<code>for loop</code>）查找元素 <code>j</code> 的父节点（<code>i</code>），如果 <code>j</code> 比父节点 <code>i</code> 要小，则交换这两个节点，并继续向再上一级的父节点比较，直到根节点，或者元素 <code>j</code> 大于 父节点 <code>i</code>（调整完毕，无需再继续进行）</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// Push pushes the element x onto the heap. The complexity is
+</span></span></span><span class="line"><span class="cl"><span class="c1">// O(log(n)) where n = h.Len().
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Push</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">,</span> <span class="nx">x</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 将新插入进来的节点放到最后（调用开发者封装的Push）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">h</span><span class="p">.</span><span class="nf">Push</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 自下而上调整
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">up</span><span class="p">(</span><span class="nx">h</span><span class="p">,</span> <span class="nx">h</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">up</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">i</span> <span class="o">:=</span> <span class="p">(</span><span class="nx">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c1">// parent（j节点的父节点）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">if</span> <span class="nx">i</span> <span class="o">==</span> <span class="nx">j</span> <span class="o">||</span> <span class="p">!</span><span class="nx">h</span><span class="p">.</span><span class="nf">Less</span><span class="p">(</span><span class="nx">j</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">// 如果越界，或者满足堆的条件（使用开发者实现的Less方法），则结束for循环
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="k">break</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// 否则将该节点和父节点交换，继续下一轮比较
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">h</span><span class="p">.</span><span class="nf">Swap</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">j</span> <span class="p">=</span> <span class="nx">i</span>	<span class="c1">// 交换当前位置，对父节点继续进行检查直到根节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h4 id="33-pop" class="heading-element">
+  <a href="#33-pop" class="heading-mark"></a>1.3.3 3.3 Pop</h4><ul>
+<li>
+<p><code>heap.Pop</code> 方法是取出堆顶位置的数据（minheap 为最小），取完数据之后，heap 肯定不平衡。所以通常的做法是：将根节点（<code>0</code> 位置）与末尾节点的元素交换，并将新的根节点的元素（先前的最后一个元素）down 自上而下调整到合适的位置，满足最小堆的要求</p>
+</li>
+<li>
+<p>最后再调用用户自定义的 Pop 函数获取最后一个元素即可; <strong>这里需要区分 heap 包的 Pop 方法和用户自定义实现的 Pop 方法的根本区别</strong>，用户的 <code>Pop</code> 方法只是用来获取数据的</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// Pop removes the minimum element (according to Less) from the heap
+</span></span></span><span class="line"><span class="cl"><span class="c1">// and returns it. The complexity is O(log(n)) where n = h.Len().
+</span></span></span><span class="line"><span class="cl"><span class="c1">// It is equivalent to Remove(h, 0).
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Pop</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">)</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 把最后一个节点和第一个节点进行交换，之后，从根节点开始重新保证堆结构，最后把最后那个节点数据丢出并返回
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">n</span> <span class="o">:=</span> <span class="nx">h</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">h</span><span class="p">.</span><span class="nf">Swap</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">down</span><span class="p">(</span><span class="nx">h</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">h</span><span class="p">.</span><span class="nf">Pop</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h4 id="34-remove" class="heading-element">
+  <a href="#34-remove" class="heading-mark"></a>1.3.4 3.4 Remove</h4><ul>
+<li>
+<p><code>Remove</code> 方法提供了删除指定位置 index 元素的实现，即先将要删除的节点 <code>i</code> 与末尾节点 <code>n</code> 交换，然后将新的节点 <code>i</code> 下沉或上浮到合适的位置（通俗的说，由于新数据调整，原先末尾的位置升到了它不该在的位置，需要调整这个元素，先一路 <code>down</code> 到底，然后再一路 <code>up</code> 到最终的位置）</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// Remove removes the element at index i from the heap.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// The complexity is O(log(n)) where n = h.Len().
+</span></span></span><span class="line"><span class="cl"><span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Remove</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">,</span> <span class="nx">i</span> <span class="kt">int</span><span class="p">)</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">n</span> <span class="o">:=</span> <span class="nx">h</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">n</span> <span class="o">!=</span> <span class="nx">i</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//Pop只是Remove的特例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">//Remove是把i位置的节点和最后一个节点进行交换，之后保证从i节点往下及往上都保证堆结构，最后把最后一个节点的数据返回
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">h</span><span class="p">.</span><span class="nf">Swap</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">!</span><span class="nf">down</span><span class="p">(</span><span class="nx">h</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nf">up</span><span class="p">(</span><span class="nx">h</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">h</span><span class="p">.</span><span class="nf">Pop</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h4 id="35-fix" class="heading-element">
+  <a href="#35-fix" class="heading-mark"></a>1.3.5 3.5 Fix</h4><ul>
+<li>
+<p><code>Fix</code> 方法的意义是在优先级队列的场景（从 <code>i</code> 位置数据发生改变后，对 heap 再平衡，优先级队列会使用本方法）。即当<code>i</code>节点的<strong>比较值</strong>发生改变后，需要保证heap的再平衡：<strong>先调用down保证该节点下面的堆结构，如果有位置交换，则需要保证该节点往上的堆结构，否则就不需要往上保证堆结构（没有调整影响另一侧的话，肯定是平衡的）</strong>。</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// Fix re-establishes the heap ordering after the element at index i has changed its value.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Changing the value of the element at index i and then calling Fix is equivalent to,
+</span></span></span><span class="line"><span class="cl"><span class="c1">// but less expensive than, calling Remove(h, i) followed by a Push of the new value.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// The complexity is O(log(n)) where n = h.Len().
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Fix</span><span class="p">(</span><span class="nx">h</span> <span class="nx">Interface</span><span class="p">,</span> <span class="nx">i</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">!</span><span class="nf">down</span><span class="p">(</span><span class="nx">h</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">h</span><span class="p">.</span><span class="nf">Len</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">up</span><span class="p">(</span><span class="nx">h</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h3 id="4-应用场景" class="heading-element">
+  <a href="#4-%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af" class="heading-mark"></a>1.4 4. 应用场景</h3><ul>
+<li>定时器</li>
+<li>优先级队列：比如kubernetes中的实现，<a href="https://github.com/kubernetes/kubernetes/blob/v1.13.2/pkg/scheduler/internal/queue/scheduling_queue.go"target="_blank" rel="external nofollow noopener noreferrer">FIFO-PriorityQueue<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></li>
+<li>heap排序</li>
+</ul>
+<h3 id="5-代码示例" class="heading-element">
+  <a href="#5-%e4%bb%a3%e7%a0%81%e7%a4%ba%e4%be%8b" class="heading-mark"></a>1.5 5. 代码示例</h3><h4 id="51-intheap" class="heading-element">
+  <a href="#51-intheap" class="heading-mark"></a>1.5.1 5.1 IntHeap</h4><ul>
+<li>
+<p>code</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// This example demonstrates an integer heap built using the heap interface.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kn">package</span> <span class="nx">heap_test</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;container/heap&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// An IntHeap is a min-heap of ints.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">IntHeap</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">h</span> <span class="nx">IntHeap</span><span class="p">)</span> <span class="nf">Len</span><span class="p">()</span> <span class="kt">int</span>           <span class="p">{</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">h</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">h</span> <span class="nx">IntHeap</span><span class="p">)</span> <span class="nf">Less</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">h</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">h</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">h</span> <span class="nx">IntHeap</span><span class="p">)</span> <span class="nf">Swap</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span>      <span class="p">{</span> <span class="nx">h</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">h</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">=</span> <span class="nx">h</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">h</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">h</span> <span class="o">*</span><span class="nx">IntHeap</span><span class="p">)</span> <span class="nf">Push</span><span class="p">(</span><span class="nx">x</span> <span class="nx">any</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Push and Pop use pointer receivers because they modify the slice&#39;s length,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// not just its contents.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="o">*</span><span class="nx">h</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="o">*</span><span class="nx">h</span><span class="p">,</span> <span class="nx">x</span><span class="p">.(</span><span class="kt">int</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">h</span> <span class="o">*</span><span class="nx">IntHeap</span><span class="p">)</span> <span class="nf">Pop</span><span class="p">()</span> <span class="nx">any</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">old</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">old</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">x</span> <span class="o">:=</span> <span class="nx">old</span><span class="p">[</span><span class="nx">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="o">*</span><span class="nx">h</span> <span class="p">=</span> <span class="nx">old</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="nx">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">x</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// This example inserts several ints into an IntHeap, checks the minimum,
+</span></span></span><span class="line"><span class="cl"><span class="c1">// and removes them in order of priority.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Example_intHeap</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">h</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">IntHeap</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">heap</span><span class="p">.</span><span class="nf">Init</span><span class="p">(</span><span class="nx">h</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">heap</span><span class="p">.</span><span class="nf">Push</span><span class="p">(</span><span class="nx">h</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;minimum: %d\n&#34;</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="nx">h</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">h</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%d &#34;</span><span class="p">,</span> <span class="nx">heap</span><span class="p">.</span><span class="nf">Pop</span><span class="p">(</span><span class="nx">h</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Output:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// minimum: 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// 1 2 3 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h4 id="52-priorityqueue-优先队列" class="heading-element">
+  <a href="#52-priorityqueue-%e4%bc%98%e5%85%88%e9%98%9f%e5%88%97" class="heading-mark"></a>1.5.2 5.2 PriorityQueue 优先队列</h4><ul>
+<li>
+<p>code</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// This example demonstrates a priority queue built using the heap interface.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kn">package</span> <span class="nx">heap_test</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;container/heap&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// An Item is something we manage in a priority queue.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Item</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">value</span>    <span class="kt">string</span> <span class="c1">// The value of the item; arbitrary.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">priority</span> <span class="kt">int</span>    <span class="c1">// The priority of the item in the queue.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// The index is needed by update and is maintained by the heap.Interface methods.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">index</span> <span class="kt">int</span> <span class="c1">// The index of the item in the heap.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// A PriorityQueue implements heap.Interface and holds Items.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">PriorityQueue</span> <span class="p">[]</span><span class="o">*</span><span class="nx">Item</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="nx">PriorityQueue</span><span class="p">)</span> <span class="nf">Len</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">pq</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="nx">PriorityQueue</span><span class="p">)</span> <span class="nf">Less</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// We want Pop to give us the highest, not lowest, priority so we use greater than here.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="nx">pq</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">priority</span> <span class="p">&gt;</span> <span class="nx">pq</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">priority</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="nx">PriorityQueue</span><span class="p">)</span> <span class="nf">Swap</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">pq</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">pq</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">=</span> <span class="nx">pq</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">pq</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">pq</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">index</span> <span class="p">=</span> <span class="nx">i</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">pq</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">index</span> <span class="p">=</span> <span class="nx">j</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="o">*</span><span class="nx">PriorityQueue</span><span class="p">)</span> <span class="nf">Push</span><span class="p">(</span><span class="nx">x</span> <span class="nx">any</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">pq</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">item</span> <span class="o">:=</span> <span class="nx">x</span><span class="p">.(</span><span class="o">*</span><span class="nx">Item</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">item</span><span class="p">.</span><span class="nx">index</span> <span class="p">=</span> <span class="nx">n</span>
+</span></span><span class="line"><span class="cl">	<span class="o">*</span><span class="nx">pq</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="o">*</span><span class="nx">pq</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="o">*</span><span class="nx">PriorityQueue</span><span class="p">)</span> <span class="nf">Pop</span><span class="p">()</span> <span class="nx">any</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">old</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">pq</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">old</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">item</span> <span class="o">:=</span> <span class="nx">old</span><span class="p">[</span><span class="nx">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">old</span><span class="p">[</span><span class="nx">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="kc">nil</span>  <span class="c1">// avoid memory leak
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">item</span><span class="p">.</span><span class="nx">index</span> <span class="p">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c1">// for safety
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="o">*</span><span class="nx">pq</span> <span class="p">=</span> <span class="nx">old</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="nx">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">item</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// update modifies the priority and value of an Item in the queue.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="o">*</span><span class="nx">PriorityQueue</span><span class="p">)</span> <span class="nf">update</span><span class="p">(</span><span class="nx">item</span> <span class="o">*</span><span class="nx">Item</span><span class="p">,</span> <span class="nx">value</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">priority</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">item</span><span class="p">.</span><span class="nx">value</span> <span class="p">=</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">item</span><span class="p">.</span><span class="nx">priority</span> <span class="p">=</span> <span class="nx">priority</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">heap</span><span class="p">.</span><span class="nf">Fix</span><span class="p">(</span><span class="nx">pq</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// This example creates a PriorityQueue with some items, adds and manipulates an item,
+</span></span></span><span class="line"><span class="cl"><span class="c1">// and then removes the items in priority order.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Example_priorityQueue</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Some items and their priorities.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">items</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="s">&#34;banana&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&#34;apple&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#34;pear&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Create a priority queue, put the items in it, and
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// establish the priority queue (heap) invariants.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">pq</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="nx">PriorityQueue</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">items</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">priority</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">items</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">pq</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">Item</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">value</span><span class="p">:</span>    <span class="nx">value</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">priority</span><span class="p">:</span> <span class="nx">priority</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">index</span><span class="p">:</span>    <span class="nx">i</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">i</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">heap</span><span class="p">.</span><span class="nf">Init</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">pq</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Insert a new item and then modify its priority.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">item</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Item</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">value</span><span class="p">:</span>    <span class="s">&#34;orange&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">priority</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">heap</span><span class="p">.</span><span class="nf">Push</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">pq</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">pq</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Take the items out; they arrive in decreasing priority order.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="nx">pq</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">item</span> <span class="o">:=</span> <span class="nx">heap</span><span class="p">.</span><span class="nf">Pop</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">pq</span><span class="p">).(</span><span class="o">*</span><span class="nx">Item</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%.2d:%s &#34;</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">priority</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Output:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// 05:orange 04:pear 03:banana 02:apple
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="list---双向链表" class="heading-element">
+  <a href="#list---%e5%8f%8c%e5%90%91%e9%93%be%e8%a1%a8" class="heading-mark"></a>2 List - 双向链表</h2><h3 id="0-结构" class="heading-element">
+  <a href="#0-%e7%bb%93%e6%9e%84" class="heading-mark"></a>2.1 0. 结构</h3><div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">List</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">root</span> <span class="nx">Element</span> <span class="c1">// sentinel list element, only &amp;root, root.prev, and root.next are used
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">len</span>  <span class="kt">int</span>     <span class="c1">// current list length excluding (this) sentinel element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Element</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">next</span><span class="p">,</span> <span class="nx">prev</span> <span class="o">*</span><span class="nx">Element</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">list</span> <span class="o">*</span><span class="nx">List</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Value</span> <span class="nx">any</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="1-代码示例" class="heading-element">
+  <a href="#1-%e4%bb%a3%e7%a0%81%e7%a4%ba%e4%be%8b" class="heading-mark"></a>2.2 1. 代码示例</h3><ul>
+<li>
+<p>code</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Example</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Create a new list and put some numbers in it.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">l</span> <span class="o">:=</span> <span class="nx">list</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">e4</span> <span class="o">:=</span> <span class="nx">l</span><span class="p">.</span><span class="nf">PushBack</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">e1</span> <span class="o">:=</span> <span class="nx">l</span><span class="p">.</span><span class="nf">PushFront</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">l</span><span class="p">.</span><span class="nf">InsertBefore</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nx">e4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">l</span><span class="p">.</span><span class="nf">InsertAfter</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nx">e1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Iterate through list and print its contents.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="nx">e</span> <span class="o">:=</span> <span class="nx">l</span><span class="p">.</span><span class="nf">Front</span><span class="p">();</span> <span class="nx">e</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">;</span> <span class="nx">e</span> <span class="p">=</span> <span class="nx">e</span><span class="p">.</span><span class="nf">Next</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">Value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Output:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h3 id="2-element的方法" class="heading-element">
+  <a href="#2-element%e7%9a%84%e6%96%b9%e6%b3%95" class="heading-mark"></a>2.3 2. Element的方法</h3><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="o">*</span><span class="nx">Element</span><span class="p">)</span> <span class="nf">Next</span><span class="p">()</span> <span class="o">*</span><span class="nx">Element</span> <span class="c1">// 返回该元素的下一个元素，如果没有下一个元素则返回 nil
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="o">*</span><span class="nx">Element</span><span class="p">)</span> <span class="nf">Prev</span><span class="p">()</span> <span class="o">*</span><span class="nx">Element</span> <span class="c1">// 返回该元素的前一个元素，如果没有前一个元素则返回 nil
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-list的方法" class="heading-element">
+  <a href="#3-list%e7%9a%84%e6%96%b9%e6%b3%95" class="heading-mark"></a>2.4 3. List的方法</h3><div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">New</span><span class="p">()</span> <span class="o">*</span><span class="nx">List</span>                                                    <span class="c1">// 构造一个初始化的list
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">Back</span><span class="p">()</span> <span class="o">*</span><span class="nx">Element</span>                                      <span class="c1">// 获取list l的最后一个元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">Front</span><span class="p">()</span> <span class="o">*</span><span class="nx">Element</span>                                     <span class="c1">// 获取list l的最后一个元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">Init</span><span class="p">()</span> <span class="o">*</span><span class="nx">List</span>                                         <span class="c1">// list l 初始化或者清除 list l
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">InsertAfter</span><span class="p">(</span><span class="nx">v</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">mark</span> <span class="o">*</span><span class="nx">Element</span><span class="p">)</span> <span class="o">*</span><span class="nx">Element</span>   <span class="c1">// 在 list l 中元素 mark 之后插入一个值为 v 的元素，并返回该元素，如果 mark 不是list中元素，则 list 不改变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">InsertBefore</span><span class="p">(</span><span class="nx">v</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">mark</span> <span class="o">*</span><span class="nx">Element</span><span class="p">)</span> <span class="o">*</span><span class="nx">Element</span>  <span class="c1">// 在 list l 中元素 mark 之前插入一个值为 v 的元素，并返回该元素，如果 mark 不是list中元素，则 list 不改变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">Len</span><span class="p">()</span> <span class="kt">int</span>                                            <span class="c1">// 获取 list l 的长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">MoveAfter</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">mark</span> <span class="o">*</span><span class="nx">Element</span><span class="p">)</span>                          <span class="c1">// 将元素 e 移动到元素 mark 之后，如果元素e 或者 mark 不属于 list l，或者 e==mark，则 list l 不改变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">MoveBefore</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">mark</span> <span class="o">*</span><span class="nx">Element</span><span class="p">)</span>                         <span class="c1">// 将元素 e 移动到元素 mark 之前，如果元素e 或者 mark 不属于 list l，或者 e==mark，则 list l 不改变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">MoveToBack</span><span class="p">(</span><span class="nx">e</span> <span class="o">*</span><span class="nx">Element</span><span class="p">)</span>                               <span class="c1">// 将元素 e 移动到 list l 的末尾，如果 e 不属于list l，则list不改变 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">MoveToFront</span><span class="p">(</span><span class="nx">e</span> <span class="o">*</span><span class="nx">Element</span><span class="p">)</span>                              <span class="c1">// 将元素 e 移动到 list l 的首部，如果 e 不属于list l，则list不改变 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">PushBack</span><span class="p">(</span><span class="nx">v</span> <span class="kd">interface</span><span class="p">{})</span> <span class="o">*</span><span class="nx">Element</span>                     <span class="c1">// 在 list l 的末尾插入值为 v 的元素，并返回该元素 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">PushBackList</span><span class="p">(</span><span class="nx">other</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span>                            <span class="c1">// 在 list l 的尾部插入另外一个 list，其中l 和 other 可以相等 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">PushFront</span><span class="p">(</span><span class="nx">v</span> <span class="kd">interface</span><span class="p">{})</span> <span class="o">*</span><span class="nx">Element</span>                    <span class="c1">// 在 list l 的首部插入值为 v 的元素，并返回该元素 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">PushFrontList</span><span class="p">(</span><span class="nx">other</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span>                           <span class="c1">// 在 list l 的首部插入另外一个 list，其中 l 和 other 可以相等 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">List</span><span class="p">)</span> <span class="nf">Remove</span><span class="p">(</span><span class="nx">e</span> <span class="o">*</span><span class="nx">Element</span><span class="p">)</span> <span class="kd">interface</span><span class="p">{}</span>                       <span class="c1">// 如果元素 e 属于list l，将其从 list 中删除，并返回元素 e 的值
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4-应用场景-1" class="heading-element">
+  <a href="#4-%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af-1" class="heading-mark"></a>2.5 4. 应用场景</h3><ul>
+<li>时间轮的<a href="https://pandaychen.github.io/2022/05/28/A-TIMEWHEEL-ANALYSIS/#0x02-go-zero-%e7%9a%84%e6%97%b6%e9%97%b4%e8%bd%ae"target="_blank" rel="external nofollow noopener noreferrer">任务链表定义<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></li>
+<li>Cache中实现LRU机制的<a href="https://pandaychen.github.io/2022/06/02/A-GOLANG-LRUCACHE-ANALYSIS-2/#keylru-%e7%9a%84%e5%ae%9e%e7%8e%b0"target="_blank" rel="external nofollow noopener noreferrer">链式结构<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></li>
+</ul>
+<h3 id="5-注意问题与坑" class="heading-element">
+  <a href="#5-%e6%b3%a8%e6%84%8f%e9%97%ae%e9%a2%98%e4%b8%8e%e5%9d%91" class="heading-mark"></a>2.6 5. 注意问题与坑</h3><h4 id="51-注意问题" class="heading-element">
+  <a href="#51-%e6%b3%a8%e6%84%8f%e9%97%ae%e9%a2%98" class="heading-mark"></a>2.6.1 5.1 注意问题</h4><ol>
+<li>不要使用自己构造的Element结构，作为参数传入List的方法</li>
+<li><code>Remove</code>方法是传入指定位置的元素（list的<code>Remove</code>实现），复杂度是<code>O(1)</code>，需要开发者保存对应的element的指针（地址）</li>
+<li>若在goroutine并发环境下使用<code>container/list</code>链表，那么需要<strong>加锁</strong></li>
+<li>List并未提供<code>Pop</code>类方法，需要自行组合实现，不过需要加锁</li>
+<li>List包中大部分对于<code>e *Element</code>进行操作的元素都可能会导致程序崩溃，其根本原因是<code>e</code>是一个<code>Element</code>类型的指针，当然其也可能为<code>nil</code>，但是go中list包中函数没有对其进行是否为<code>nil</code>的检查，变默认其非<code>nil</code>进行操作，所以这种情况下，便可能出现程序崩溃</li>
+</ol>
+<h4 id="52-坑" class="heading-element">
+  <a href="#52-%e5%9d%91" class="heading-mark"></a>2.6.2 5.2 坑</h4><ol>
+<li>
+<p>遍历删除List中的所有元素, 遍历删除不安全</p>
+<ul>
+<li>
+<p>问题code:注意到返回被删除的<code>Element</code>时，会将<code>e.next = nil</code></p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">l</span> <span class="o">:=</span> <span class="nx">list</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">l</span><span class="p">.</span><span class="nf">PushBack</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">l</span><span class="p">.</span><span class="nf">PushBack</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">l</span><span class="p">.</span><span class="nf">PushBack</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">l</span><span class="p">.</span><span class="nf">PushBack</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 遍历list，删除元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="nx">e</span> <span class="o">:=</span> <span class="nx">l</span><span class="p">.</span><span class="nf">Front</span><span class="p">();</span> <span class="nx">e</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">;</span> <span class="nx">e</span> <span class="p">=</span> <span class="nx">e</span><span class="p">.</span><span class="nf">Next</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;removing&#34;</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">Value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">l</span><span class="p">.</span><span class="nf">Remove</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;After Removing...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 遍历删除完元素后的list
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="nx">e</span> <span class="o">:=</span> <span class="nx">l</span><span class="p">.</span><span class="nf">Front</span><span class="p">();</span> <span class="nx">e</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">;</span> <span class="nx">e</span> <span class="p">=</span> <span class="nx">e</span><span class="p">.</span><span class="nf">Next</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">Value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+<li>
+<p>List大部分方法不检查传入参数为<code>nil</code></p>
+</li>
+<li>
+<p>并发不安全</p>
+</li>
+</ol>
+<h2 id="ring---环形链表" class="heading-element">
+  <a href="#ring---%e7%8e%af%e5%bd%a2%e9%93%be%e8%a1%a8" class="heading-mark"></a>3 Ring - 环形链表</h2><h3 id="0-结构-1" class="heading-element">
+  <a href="#0-%e7%bb%93%e6%9e%84-1" class="heading-mark"></a>3.1 0. 结构</h3><div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Ring</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">next</span> <span class="o">*</span><span class="nx">Ring</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">prev</span>  <span class="o">*</span><span class="nx">Ring</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Value</span>  <span class="kd">interface</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="1-代码示例-1" class="heading-element">
+  <a href="#1-%e4%bb%a3%e7%a0%81%e7%a4%ba%e4%be%8b-1" class="heading-mark"></a>3.2 1. 代码示例</h3><ul>
+<li>
+<p>code</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 创建一个环, 包含 3 个元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">r</span> <span class="o">:=</span> <span class="nx">ring</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;ring: %+v\n&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">r</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 初始化
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">r</span><span class="p">.</span><span class="nx">Value</span> <span class="p">=</span> <span class="nx">i</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">r</span> <span class="p">=</span> <span class="nx">r</span><span class="p">.</span><span class="nf">Next</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;init ring: %+v\n&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">r</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// sum
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">s</span> <span class="o">:=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">r</span><span class="p">.</span><span class="nf">Do</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">i</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">s</span> <span class="o">+=</span> <span class="nx">i</span><span class="p">.(</span><span class="kt">int</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;sum ring: %d\n&#34;</span><span class="p">,</span> <span class="nx">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h3 id="2-ring-方法" class="heading-element">
+  <a href="#2-ring-%e6%96%b9%e6%b3%95" class="heading-mark"></a>3.3 2. Ring 方法</h3><div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">New</span><span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">Ring</span>               <span class="c1">// 用于创建一个新的 Ring, 接收一个整形参数，用于初始化 Ring 的长度 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">Ring</span><span class="p">)</span> <span class="nf">Len</span><span class="p">()</span> <span class="kt">int</span>            <span class="c1">// 环长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">Ring</span><span class="p">)</span> <span class="nf">Next</span><span class="p">()</span> <span class="o">*</span><span class="nx">Ring</span>         <span class="c1">// 返回当前元素的下个元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">Ring</span><span class="p">)</span> <span class="nf">Prev</span><span class="p">()</span> <span class="o">*</span><span class="nx">Ring</span>         <span class="c1">// 返回当前元素的上个元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">Ring</span><span class="p">)</span> <span class="nf">Move</span><span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">Ring</span>    <span class="c1">// 指针从当前元素开始向后移动或者向前(n 可以为负数)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Link &amp; Unlink 组合起来可以对多个链表进行管理
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">Ring</span><span class="p">)</span> <span class="nf">Link</span><span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">Ring</span><span class="p">)</span> <span class="o">*</span><span class="nx">Ring</span>  <span class="c1">// 将两个 ring 连接到一起 (r 不能为空)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">Ring</span><span class="p">)</span> <span class="nf">Unlink</span><span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">Ring</span>  <span class="c1">// 从当前元素开始，删除 n 个元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">Ring</span><span class="p">)</span> <span class="nf">Do</span><span class="p">(</span><span class="nx">f</span> <span class="kd">func</span><span class="p">(</span><span class="kd">interface</span><span class="p">{}))</span>  <span class="c1">// Do 会依次将每个节点的 Value 当作参数调用这个函数 f, 实际上这是策略方法的引用，通过传递不同的函数以在同一个 ring 上实现多种不同的操作。
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-应用场景" class="heading-element">
+  <a href="#3-%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af" class="heading-mark"></a>3.4 3. 应用场景</h3><ol>
+<li>构造定长环回队列，如保存固定长度的数据等</li>
+<li>用作固定长度的对象缓冲区（参见goim的数据结构分析）</li>
+</ol>
+<h3 id="4-ring-和-list的区别" class="heading-element">
+  <a href="#4-ring-%e5%92%8c-list%e7%9a%84%e5%8c%ba%e5%88%ab" class="heading-mark"></a>3.5 4. ring 和 list的区别</h3><ul>
+<li>Ring 类型的数据结构仅由它自身即可代表，而 List 类型则需要由它以及 Element 类型联合表示</li>
+<li>一个 Ring 类型的值严格来讲，只代表了其所属的循环链表中的一个元素，而一个 List 类型的值则代表了一个完整的链表</li>
+<li>在创建并初始化一个 Ring 时，可以指定它包含的元素数量，但是对于一个 List 值来说却不需要。循环链表一旦被创建，其长度是不可变的</li>
+<li>通过 <code>var r ring.Ring</code> 声明的 <code>r</code> 将会是一个长度为 <code>1</code> 的循环链表，而 List 类型的零值则是一个长度为 <code>0</code> 的链表。)（List 中的根元素不会持有实际元素的值）</li>
+<li>Ring 的 <code>Len</code> 方法的算法复杂度是 <code>O(N)</code>，而 List 的 <code>Len</code> 算法复杂度是 <code>O(1)</code></li>
+</ul>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered order-2">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.125.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.2"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright order-1" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/ipfred"target="_blank" rel="external nofollow noopener noreferrer">Fred</a></span></div><div class="footer-line statistics order-first"></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><a href="https://github.com/ipfred" title="View source on GitHub"target="_blank" rel="external nofollow" class="github-corner right d-none-mobile"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/pace/themes/green/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script src="/lib/instant-page/instantpage.min.js" async defer type="module"></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/typeit/index.umd.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":30},"comment":{"enable":false},"data":{"typeit-header-subtitle-desktop":"一个只记录精华知识的平台","typeit-header-subtitle-mobile":"一个只记录精华知识的平台"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"algoliaAppID":"TZCN6HKD92","algoliaIndex":"index","algoliaSearchKey":"663832297fb162d0169b237d56275fe2","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-subtitle-desktop":["typeit-header-subtitle-desktop"],"typeit-header-subtitle-mobile":["typeit-header-subtitle-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

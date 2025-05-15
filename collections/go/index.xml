@@ -1,0 +1,189 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>go - 合集 | Fred的知识库</title>
+    <link>http://localhost:1313/collections/go/</link>
+    <description>go - 合集 | Fred的知识库</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>330446875@qq.com (Fred)</managingEditor>
+      <webMaster>330446875@qq.com (Fred)</webMaster><copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright><lastBuildDate>Sat, 10 May 2025 14:37:46 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/collections/go/" rel="self" type="application/rss+xml" /><item>
+  <title>go开发环境配置</title>
+  <link>http://localhost:1313/lang/go/20250510143746/</link>
+  <pubDate>Sat, 10 May 2025 14:37:46 &#43;0800</pubDate>
+  <author>Fred</author>
+  <guid>http://localhost:1313/lang/go/20250510143746/</guid>
+  <description><![CDATA[<blockquote>
+<p>配置了这么多次go开发环境，每次都踩坑，记录下使用windows系统开发go语言的环境配置，了解go语言的开发环境特点</p>
+</blockquote>
+<p>开发环境：</p>
+<ul>
+<li>VSCode</li>
+<li>go 1.24 多版本管理</li>
+</ul>
+<h2 id="下载安装" class="heading-element">
+  <a href="#%e4%b8%8b%e8%bd%bd%e5%ae%89%e8%a3%85" class="heading-mark"></a>下载安装</h2><ul>
+<li>
+<p>官方下载安装</p>
+</li>
+<li>
+<p>建议安装到 默认路径下面 <code>C:\Program Files\Go</code></p>
+</li>
+<li>
+<p>安装完成后，会发现多了些东西</p>
+</li>
+<li>
+<p>GOPATH : <code>%USERPROFILE%\go</code> 在用户根目录下</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142946.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>bin 下面是go的一些插件 用vscode开发的时候 会依赖这些插件
+pkg 下面是各个项目下载的第三方包，都会存到这个路径下</p>
+<ul>
+<li>PATH <code>%USERPROFILE%\go\bin</code></li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510143203.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ul>
+<li>系统环境变量 PATH <code>C:\Program Files\Go\bin</code>
+这个是下载的go程序的安装路径</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510142741.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="源配置" class="heading-element">
+  <a href="#%e6%ba%90%e9%85%8d%e7%bd%ae" class="heading-mark"></a>源配置</h2><p>go第三方包的源在国外，下载速度会比较慢，更换为国内源
+推荐使用 <strong>go env</strong> 命令</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 启用 Go Modules 模式</span>
+</span></span><span class="line"><span class="cl">go env -w <span class="nv">GO111MODULE</span><span class="o">=</span>on
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">go env -w <span class="nv">GOPROXY</span><span class="o">=</span>https://goproxy.cn,direct</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>扩展 go env 命令 配置写到哪个地方了</p>
+</blockquote>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$HOME</span>/.config/go/env   <span class="c1"># Linux/macOS</span>
+</span></span><span class="line"><span class="cl">%USERPROFILE%<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\g</span>o<span class="se">\e</span>nv  <span class="c1"># Windows</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510150238.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="使用vscode开发-go配置" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8vscode%e5%bc%80%e5%8f%91-go%e9%85%8d%e7%bd%ae" class="heading-mark"></a>使用vscode开发 go配置</h2><ol>
+<li>
+<p>插件市场 搜索 安装 go插件
+<img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144849.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>安装 工具 <code>ctrl + shift + p</code> 搜索 go install 安装 工具 gopls是必须的</p>
+</li>
+</ol>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145237.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+<img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145322.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>安装完后插件 也放到了 GOPATH下面</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510145441.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<blockquote>
+<p>扩展 介绍下这些插件的作用</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>工具名称</th>
+<th>版本信息</th>
+<th>作用描述</th>
+<th>主要用途/使用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gopls</code></td>
+<td><code>latest</code></td>
+<td>Go 语言服务器（Language Server Protocol）</td>
+<td>提供代码补全、跳转定义、重构等编辑器功能，提升编码效率</td>
+</tr>
+<tr>
+<td><code>gotests</code></td>
+<td><code>v1.6.0</code></td>
+<td>自动生成单元测试代码</td>
+<td>快速生成函数或方法的测试框架，提高测试覆盖率</td>
+</tr>
+<tr>
+<td><code>gomodifytags</code></td>
+<td><code>v1.7.0</code></td>
+<td>修改结构体字段标签（如 JSON、XML、SQL 等）</td>
+<td>自动添加、删除或修改结构体中的标签，方便序列化处理</td>
+</tr>
+<tr>
+<td><code>impl</code></td>
+<td><code>v1.4.0</code></td>
+<td>为接口生成实现模板</td>
+<td>快速生成接口的方法骨架，减少手动编写工作量</td>
+</tr>
+<tr>
+<td><code>goplay</code></td>
+<td><code>v1.0.0</code></td>
+<td>类似 Go Playground 的本地代码运行环境</td>
+<td>快速运行小段代码片段，验证逻辑无需创建完整项目</td>
+</tr>
+<tr>
+<td><code>dlv</code></td>
+<td><code>latest</code></td>
+<td>Go 调试工具（Delve）</td>
+<td>设置断点、查看变量、调试程序行为，适合复杂问题排查</td>
+</tr>
+<tr>
+<td><code>staticcheck</code></td>
+<td><code>latest</code></td>
+<td>静态代码分析工具（Linter）</td>
+<td>检查潜在错误、优化代码质量，遵循最佳实践</td>
+</tr>
+</tbody>
+</table>
+<h2 id="多版本管理" class="heading-element">
+  <a href="#%e5%a4%9a%e7%89%88%e6%9c%ac%e7%ae%a1%e7%90%86" class="heading-mark"></a>多版本管理</h2><p>经常会存在一些情况，不同的项目依赖不同的go版本，官方有自己的go 多版本管理方式，挺好用的</p>
+<p><a href="https://go.dev/doc/manage-install"target="_blank" rel="external nofollow noopener noreferrer">官方go多版本管理<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 先安装一个 go1.10.7 的命令</span>
+</span></span><span class="line"><span class="cl">go install golang.org/dl/go1.10.7@latest
+</span></span><span class="line"><span class="cl"><span class="c1"># 再使用这个命令下载 这个版本的go</span>
+</span></span><span class="line"><span class="cl">go1.10.7 download</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>第一步 下载 go1.10.7 命令 放在了 GOPATH bin下面</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144321.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ul>
+<li>第二步 使用 go1.10.7 命令下载这个版本的go 存放的位置  当前用户根目录 的 <code>C:\Users\admin\sdk</code> 路径下</li>
+</ul>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144421.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>多版本的go 放到哪个地方了呢？</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510144539.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>后续用VSCode开发的时候，就可以很好的切换到不同的go版本了</p>
+<p>也可以通过 <strong>go1.10.7 env GOROOT</strong> 命令查看安装到哪个地方了</p>
+<h3 id="vscode-中切换不同版本的go" class="heading-element">
+  <a href="#vscode-%e4%b8%ad%e5%88%87%e6%8d%a2%e4%b8%8d%e5%90%8c%e7%89%88%e6%9c%ac%e7%9a%84go" class="heading-mark"></a>0.1 vscode 中切换不同版本的go</h3><p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153554.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>选择切换成不同的go版本</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153646.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>在左侧项目文件夹 也有 go的一些快捷操作</p>
+<p><a class="lightgallery" href="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png?size=large" data-thumbnail="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png?size=small" data-sub-html="<h2>https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png</h2>"><img loading="lazy" src="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png" alt="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png" srcset="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png?size=small, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png?size=medium 1.5x, https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png?size=large 2x" data-title="https://raw.githubusercontent.com/ipfred/my_pics/main/picgo/2404/20250510153742.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="go常用的命令" class="heading-element">
+  <a href="#go%e5%b8%b8%e7%94%a8%e7%9a%84%e5%91%bd%e4%bb%a4" class="heading-mark"></a>1 go常用的命令</h2><p>别死记了！ 用的不熟练的时候， <strong>go help</strong>看下</p>
+<hr>
+<p>相信了解这些细节之后，安装 配置你都能很清楚了</p>
+]]></description>
+</item>
+</channel>
+</rss>
