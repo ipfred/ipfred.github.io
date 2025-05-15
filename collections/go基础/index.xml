@@ -1623,7 +1623,7 @@
 </div></li>
 <li>
 <p><strong>接口不能直接或间接地并入自己</strong></p>
-<div class="highlight" id="id-49"><div class="chroma">
+<div class="highlight" id="id-1"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1659,7 +1659,7 @@
 </div></li>
 <li>
 <p><strong>接口的并集成员个数大于一的时候不能直接或间接并入 comparable 接口</strong></p>
-<div class="highlight" id="id-50"><div class="chroma">
+<div class="highlight" id="id-2"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1701,7 +1701,7 @@
 </div></li>
 <li>
 <p><strong>带方法的接口(无论是基本接口还是一般接口)，都不能写入接口的并集中</strong></p>
-<div class="highlight" id="id-51"><div class="chroma">
+<div class="highlight" id="id-3"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -13434,10 +13434,6 @@
 </span><span class="lnt">28
 </span><span class="lnt">29
 </span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
@@ -13469,11 +13465,7 @@
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">bookBorrow</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">bookNotBorrow</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cm">/**
-</span></span></span><span class="line"><span class="cl"><span class="cm">&amp;{{   0 0} }
-</span></span></span><span class="line"><span class="cl"><span class="cm">&amp;{{   0 0} }
-</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span></span></span></code></pre></td></tr></table>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
@@ -13514,10 +13506,6 @@
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
@@ -13553,11 +13541,7 @@
 </span></span><span class="line"><span class="cl">	<span class="nx">bookBorrow</span><span class="p">.</span><span class="nx">author</span> <span class="p">=</span> <span class="s">&#34;Jerry&#34;</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">bookBorrow</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cm">/**
-</span></span></span><span class="line"><span class="cl"><span class="cm">&amp;{{go Tom 1 110} }
-</span></span></span><span class="line"><span class="cl"><span class="cm">&amp;{{go Jerry 1 110} }
-</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span></span></span></code></pre></td></tr></table>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -15368,10 +15352,6 @@
 </span><span class="lnt">28
 </span><span class="lnt">29
 </span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
@@ -15403,11 +15383,7 @@
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">bookBorrow</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">bookNotBorrow</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cm">/**
-</span></span></span><span class="line"><span class="cl"><span class="cm">&amp;{{   0 0} }
-</span></span></span><span class="line"><span class="cl"><span class="cm">&amp;{{   0 0} }
-</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span></span></span></code></pre></td></tr></table>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
@@ -15448,10 +15424,6 @@
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
@@ -15487,11 +15459,7 @@
 </span></span><span class="line"><span class="cl">	<span class="nx">bookBorrow</span><span class="p">.</span><span class="nx">author</span> <span class="p">=</span> <span class="s">&#34;Jerry&#34;</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">bookBorrow</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cm">/**
-</span></span></span><span class="line"><span class="cl"><span class="cm">&amp;{{go Tom 1 110} }
-</span></span></span><span class="line"><span class="cl"><span class="cm">&amp;{{go Jerry 1 110} }
-</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span></span></span></code></pre></td></tr></table>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>

@@ -9,7 +9,7 @@
     <managingEditor>330446875@qq.com (Fred)</managingEditor>
     <webMaster>330446875@qq.com (Fred)</webMaster>
     <copyright>本站内容采用 CC BY-NC-SA 4.0 国际许可协议。</copyright>
-    <lastBuildDate>Thu, 15 May 2025 18:39:25 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 15 May 2025 18:45:19 +0800</lastBuildDate>
     <atom:link href="https://ipfred.github.io/lang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>100.习题练习</title>
@@ -58,7 +58,7 @@
       <link>https://ipfred.github.io/lang/go/go_advanced/20250515180303/</link>
       <pubDate>Thu, 15 May 2025 18:03:03 +0800</pubDate><author>330446875@qq.com (Fred)</author>
       <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180303/</guid>
-      <description>执行外部命令 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&amp;#34;ls&amp;#34;, &amp;#34;-l&amp;#34;, &amp;#34;/var/log/&amp;#34;) err := cmd.Run() if err != nil { log.Fatalf(&amp;#34;cmd.Run() failed with %s\n&amp;#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取不到</description>
+      <description>1 执行外部命令 1.1 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&amp;#34;ls&amp;#34;, &amp;#34;-l&amp;#34;, &amp;#34;/var/log/&amp;#34;) err := cmd.Run() if err != nil { log.Fatalf(&amp;#34;cmd.Run() failed with %s\n&amp;#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取</description>
     </item>
     <item>
       <title>16. Go runtime详解</title>

@@ -16,7 +16,7 @@
       <link>https://ipfred.github.io/lang/java/20240426133928/</link>
       <pubDate>Fri, 26 Apr 2024 13:39:28 +0800</pubDate><author>330446875@qq.com (Fred)</author>
       <guid>https://ipfred.github.io/lang/java/20240426133928/</guid>
-      <description>2 Java核心基础 我想和自己说：学习是反复的过程，学习新知识的时候要仔仔细细阅读，错过一个关键词，可能对知识就会有偏差的理解。如果现在没有心情，收藏起来，后面用到的时候再仔细看。希望有帮助。 2.0 基本概念先了解 类 类是Java中的基本编程单元，用于描述对象的属性和行为。通过实例化类，可以创建对象 类是封装了</description>
+      <description>2 Java核心基础 我想和自己说：学习是反复的过程，学习新知识的时候要仔仔细细阅读，错过一个关键词，可能对知识就会有偏差的理解。如果现在没有心情，收藏起来，后面用到的时候再仔细看。希望有帮助。 1 2.0 基本概念先了解 1.1 类 类是Java中的基本编程单元，用于描述对象的属性和行为。通过实例化类，可以创建对象 类是封</description>
     </item>
     <item>
       <title>Java开发工具和前言</title>

@@ -869,10 +869,7 @@ struct_pointer.title
   	fmt.Println(bookBorrow)
   	fmt.Println(bookNotBorrow)
   }
-  /**
-  &amp;{{   0 0} }
-  &amp;{{   0 0} }
-  */
+
   ```
 
 - 内嵌结构体实例化
@@ -912,10 +909,6 @@ struct_pointer.title
   	fmt.Println(bookBorrow)
   
   }
-  /**
-  &amp;{{go Tom 1 110} }
-  &amp;{{go Jerry 1 110} }
-  */
   ```
 
   

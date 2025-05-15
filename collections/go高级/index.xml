@@ -7941,8 +7941,8 @@ unsigned* response_len);</p>
   <author>Fred</author>
   <guid>https://ipfred.github.io/lang/go/go_advanced/20250515180303/</guid>
   <description><![CDATA[<h2 id="执行外部命令" class="heading-element">
-  <a href="#%e6%89%a7%e8%a1%8c%e5%a4%96%e9%83%a8%e5%91%bd%e4%bb%a4" class="heading-mark"></a>执行外部命令</h2><h3 id="1-方式一run" class="heading-element">
-  <a href="#1-%e6%96%b9%e5%bc%8f%e4%b8%80run" class="heading-mark"></a>1. 方式一：run</h3><ul>
+  <a href="#%e6%89%a7%e8%a1%8c%e5%a4%96%e9%83%a8%e5%91%bd%e4%bb%a4" class="heading-mark"></a>1 执行外部命令</h2><h3 id="1-方式一run" class="heading-element">
+  <a href="#1-%e6%96%b9%e5%bc%8f%e4%b8%80run" class="heading-mark"></a>1.1 1. 方式一：run</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-1"><div class="chroma">
@@ -7971,7 +7971,7 @@ unsigned* response_len);</p>
 </li>
 </ul>
 <h3 id="2-方式二start--wait" class="heading-element">
-  <a href="#2-%e6%96%b9%e5%bc%8f%e4%ba%8cstart--wait" class="heading-mark"></a>2. 方式二：start &amp; wait</h3><ul>
+  <a href="#2-%e6%96%b9%e5%bc%8f%e4%ba%8cstart--wait" class="heading-mark"></a>1.2 2. 方式二：start &amp; wait</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-2"><div class="chroma">
@@ -8008,11 +8008,11 @@ unsigned* response_len);</p>
 </li>
 </ul>
 <h2 id="输出日志" class="heading-element">
-  <a href="#%e8%be%93%e5%87%ba%e6%97%a5%e5%bf%97" class="heading-mark"></a>输出日志</h2><blockquote>
+  <a href="#%e8%be%93%e5%87%ba%e6%97%a5%e5%bf%97" class="heading-mark"></a>2 输出日志</h2><blockquote>
 <p><a href="https://darjun.github.io/2022/11/01/godailylib/osexec/"target="_blank" rel="external nofollow noopener noreferrer">https://darjun.github.io/2022/11/01/godailylib/osexec/<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
 </blockquote>
 <h3 id="1-标准输出" class="heading-element">
-  <a href="#1-%e6%a0%87%e5%87%86%e8%be%93%e5%87%ba" class="heading-mark"></a>1. 标准输出</h3><ul>
+  <a href="#1-%e6%a0%87%e5%87%86%e8%be%93%e5%87%ba" class="heading-mark"></a>2.1 1. 标准输出</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-3"><div class="chroma">
@@ -8041,7 +8041,7 @@ unsigned* response_len);</p>
 </div></li>
 </ul>
 <h3 id="2-转存文件" class="heading-element">
-  <a href="#2-%e8%bd%ac%e5%ad%98%e6%96%87%e4%bb%b6" class="heading-mark"></a>2. 转存文件</h3><ul>
+  <a href="#2-%e8%bd%ac%e5%ad%98%e6%96%87%e4%bb%b6" class="heading-mark"></a>2.2 2. 转存文件</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-4"><div class="chroma">
@@ -8080,7 +8080,7 @@ unsigned* response_len);</p>
 </div></li>
 </ul>
 <h3 id="3-发送到网络" class="heading-element">
-  <a href="#3-%e5%8f%91%e9%80%81%e5%88%b0%e7%bd%91%e7%bb%9c" class="heading-mark"></a>3. 发送到网络</h3><ul>
+  <a href="#3-%e5%8f%91%e9%80%81%e5%88%b0%e7%bd%91%e7%bb%9c" class="heading-mark"></a>2.3 3. 发送到网络</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-5"><div class="chroma">
@@ -8127,7 +8127,7 @@ unsigned* response_len);</p>
 </div></li>
 </ul>
 <h3 id="4-手动捕获" class="heading-element">
-  <a href="#4-%e6%89%8b%e5%8a%a8%e6%8d%95%e8%8e%b7" class="heading-mark"></a>4. 手动捕获</h3><ul>
+  <a href="#4-%e6%89%8b%e5%8a%a8%e6%8d%95%e8%8e%b7" class="heading-mark"></a>2.4 4. 手动捕获</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-6"><div class="chroma">

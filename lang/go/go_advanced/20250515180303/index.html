@@ -7,17 +7,17 @@
     <meta name="robots" content="noodp" />
     <title>17. go执行外部命令 | Fred的知识库</title><meta name="author" content="Fred">
 <meta name="author-link" content="https://github.com/ipfred">
-<meta name="description" content="执行外部命令 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&#34;ls&#34;, &#34;-l&#34;, &#34;/var/log/&#34;) err := cmd.Run() if err != nil { log.Fatalf(&#34;cmd.Run() failed with %s\n&#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取不到" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
+<meta name="description" content="1 执行外部命令 1.1 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&#34;ls&#34;, &#34;-l&#34;, &#34;/var/log/&#34;) err := cmd.Run() if err != nil { log.Fatalf(&#34;cmd.Run() failed with %s\n&#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取" /><meta name="keywords" content='Fred, Python知识库, 大数据知识库, Hugo Blog' />
   <meta itemprop="name" content="17. go执行外部命令">
-  <meta itemprop="description" content="执行外部命令 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&#34;ls&#34;, &#34;-l&#34;, &#34;/var/log/&#34;) err := cmd.Run() if err != nil { log.Fatalf(&#34;cmd.Run() failed with %s\n&#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取不到">
+  <meta itemprop="description" content="1 执行外部命令 1.1 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&#34;ls&#34;, &#34;-l&#34;, &#34;/var/log/&#34;) err := cmd.Run() if err != nil { log.Fatalf(&#34;cmd.Run() failed with %s\n&#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取">
   <meta itemprop="datePublished" content="2025-05-15T18:03:03+08:00">
   <meta itemprop="dateModified" content="2025-05-15T18:12:34+08:00">
-  <meta itemprop="wordCount" content="877">
+  <meta itemprop="wordCount" content="885">
   <meta itemprop="image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
   <meta itemprop="keywords" content="go高级"><meta property="og:url" content="https://ipfred.github.io/lang/go/go_advanced/20250515180303/">
   <meta property="og:site_name" content="Fred的知识库">
   <meta property="og:title" content="17. go执行外部命令">
-  <meta property="og:description" content="执行外部命令 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&amp;#34;ls&amp;#34;, &amp;#34;-l&amp;#34;, &amp;#34;/var/log/&amp;#34;) err := cmd.Run() if err != nil { log.Fatalf(&amp;#34;cmd.Run() failed with %s\n&amp;#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取不到">
+  <meta property="og:description" content="1 执行外部命令 1.1 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&amp;#34;ls&amp;#34;, &amp;#34;-l&amp;#34;, &amp;#34;/var/log/&amp;#34;) err := cmd.Run() if err != nil { log.Fatalf(&amp;#34;cmd.Run() failed with %s\n&amp;#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取">
   <meta property="og:locale" content="zh-CN">
   <meta property="og:type" content="article">
   <meta property="article:section" content="lang">
@@ -26,7 +26,7 @@
     <meta property="og:image" content="https://ipfred.github.io/images/apple-devices-preview.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://ipfred.github.io/images/apple-devices-preview.webp"><meta name="twitter:title" content="17. go执行外部命令">
-<meta name="twitter:description" content="执行外部命令 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&#34;ls&#34;, &#34;-l&#34;, &#34;/var/log/&#34;) err := cmd.Run() if err != nil { log.Fatalf(&#34;cmd.Run() failed with %s\n&#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取不到">
+<meta name="twitter:description" content="1 执行外部命令 1.1 1. 方式一：run code 1 2 3 4 5 6 7 func main() { cmd := exec.Command(&#34;ls&#34;, &#34;-l&#34;, &#34;/var/log/&#34;) err := cmd.Run() if err != nil { log.Fatalf(&#34;cmd.Run() failed with %s\n&#34;, err) } } Run() 方法会启动命令并等待命令执行完毕。它会阻塞当前 goroutine 直到命令执行完毕，并返回一个 error 对象，该对象表示命令执行的错误信息。如果命令执行成功，Run() 方法会返回 nil 直接调用 Cmd 对象的 Run 函数，返回的只有成功和失败，获取">
 <meta name="application-name" content="FredKnow">
 <meta name="apple-mobile-web-app-title" content="FredKnow"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -41,7 +41,7 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515180303\/"
-    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  877 ,
+    },"image": ["https:\/\/ipfred.github.io\/apple-touch-icon.png"],"genre": "posts","wordcount":  885 ,
     "url": "https:\/\/ipfred.github.io\/lang\/go\/go_advanced\/20250515180303\/","datePublished": "2025-05-15T18:03:03+08:00","dateModified": "2025-05-15T18:12:34+08:00","license": "本站内容采用 CC BY-NC-SA 4.0 国际许可协议。","publisher": {
       "@type": "Organization",
       "name": "ipFred","logo": "https:\/\/ipfred.github.io\/images\/avatar.jpg"},"author": {
@@ -289,7 +289,7 @@
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>17. go执行外部命令</span>
       </h1></div><div class="post-meta">
       <div class="post-meta-line"><span class="post-author"><a href="https://github.com/ipfred" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
-    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/" class="post-collection" title="合集 - go高级"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go高级</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 18:03:03"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:34"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="877 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="17. go执行外部命令">
+    Fred</a></span><span class="post-included-in">&nbsp;收录于 <a href="/collections/go%E9%AB%98%E7%BA%A7/" class="post-collection" title="合集 - go高级"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> go高级</a></span></div><div class="post-meta-line"><span title="发布于 2025-05-15 18:03:03"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="更新于 2025-05-15 18:12:34"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="885 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="17. go执行外部命令">
               <i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
             </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
@@ -316,8 +316,8 @@
   </ol>
 </nav></div>
       </div><div class="content" id="content" data-end-flag="（本文完）"><h2 id="执行外部命令" class="heading-element">
-  <a href="#%e6%89%a7%e8%a1%8c%e5%a4%96%e9%83%a8%e5%91%bd%e4%bb%a4" class="heading-mark"></a>执行外部命令</h2><h3 id="1-方式一run" class="heading-element">
-  <a href="#1-%e6%96%b9%e5%bc%8f%e4%b8%80run" class="heading-mark"></a>1. 方式一：run</h3><ul>
+  <a href="#%e6%89%a7%e8%a1%8c%e5%a4%96%e9%83%a8%e5%91%bd%e4%bb%a4" class="heading-mark"></a>1 执行外部命令</h2><h3 id="1-方式一run" class="heading-element">
+  <a href="#1-%e6%96%b9%e5%bc%8f%e4%b8%80run" class="heading-mark"></a>1.1 1. 方式一：run</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-1"><div class="chroma">
@@ -346,7 +346,7 @@
 </li>
 </ul>
 <h3 id="2-方式二start--wait" class="heading-element">
-  <a href="#2-%e6%96%b9%e5%bc%8f%e4%ba%8cstart--wait" class="heading-mark"></a>2. 方式二：start &amp; wait</h3><ul>
+  <a href="#2-%e6%96%b9%e5%bc%8f%e4%ba%8cstart--wait" class="heading-mark"></a>1.2 2. 方式二：start &amp; wait</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-2"><div class="chroma">
@@ -383,11 +383,11 @@
 </li>
 </ul>
 <h2 id="输出日志" class="heading-element">
-  <a href="#%e8%be%93%e5%87%ba%e6%97%a5%e5%bf%97" class="heading-mark"></a>输出日志</h2><blockquote>
+  <a href="#%e8%be%93%e5%87%ba%e6%97%a5%e5%bf%97" class="heading-mark"></a>2 输出日志</h2><blockquote>
 <p><a href="https://darjun.github.io/2022/11/01/godailylib/osexec/"target="_blank" rel="external nofollow noopener noreferrer">https://darjun.github.io/2022/11/01/godailylib/osexec/<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
 </blockquote>
 <h3 id="1-标准输出" class="heading-element">
-  <a href="#1-%e6%a0%87%e5%87%86%e8%be%93%e5%87%ba" class="heading-mark"></a>1. 标准输出</h3><ul>
+  <a href="#1-%e6%a0%87%e5%87%86%e8%be%93%e5%87%ba" class="heading-mark"></a>2.1 1. 标准输出</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-3"><div class="chroma">
@@ -416,7 +416,7 @@
 </div></li>
 </ul>
 <h3 id="2-转存文件" class="heading-element">
-  <a href="#2-%e8%bd%ac%e5%ad%98%e6%96%87%e4%bb%b6" class="heading-mark"></a>2. 转存文件</h3><ul>
+  <a href="#2-%e8%bd%ac%e5%ad%98%e6%96%87%e4%bb%b6" class="heading-mark"></a>2.2 2. 转存文件</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-4"><div class="chroma">
@@ -455,7 +455,7 @@
 </div></li>
 </ul>
 <h3 id="3-发送到网络" class="heading-element">
-  <a href="#3-%e5%8f%91%e9%80%81%e5%88%b0%e7%bd%91%e7%bb%9c" class="heading-mark"></a>3. 发送到网络</h3><ul>
+  <a href="#3-%e5%8f%91%e9%80%81%e5%88%b0%e7%bd%91%e7%bb%9c" class="heading-mark"></a>2.3 3. 发送到网络</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-5"><div class="chroma">
@@ -502,7 +502,7 @@
 </div></li>
 </ul>
 <h3 id="4-手动捕获" class="heading-element">
-  <a href="#4-%e6%89%8b%e5%8a%a8%e6%8d%95%e8%8e%b7" class="heading-mark"></a>4. 手动捕获</h3><ul>
+  <a href="#4-%e6%89%8b%e5%8a%a8%e6%8d%95%e8%8e%b7" class="heading-mark"></a>2.4 4. 手动捕获</h3><ul>
 <li>
 <p>code</p>
 <div class="highlight" id="id-6"><div class="chroma">
